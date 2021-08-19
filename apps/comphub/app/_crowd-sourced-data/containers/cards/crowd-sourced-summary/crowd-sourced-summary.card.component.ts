@@ -8,12 +8,13 @@ import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
 import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
 import { Rates, RateType } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models';
+import { PricingForPayGraph } from 'libs/models/payfactors-api';
 
 import { ComphubPages } from '../../../../_shared/data';
 import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
-import { SummaryPageSalaryData } from '../../../models';
+import { SummaryPageSalaryData, PercentileRateDisplay } from '../../../models';
 import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
 import { DataCardHelper } from '../../../../_shared/helpers';
 import { CompensableFactorDataMapper } from '../../../helpers';
@@ -41,8 +42,11 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   jobResults$: Observable<JobGridData>;
   jobResultsSub: Subscription;
   summaryPage: boolean;
+  basePayGraph: PricingForPayGraph;
+  tccPayGraph: PricingForPayGraph;
   firstDayOfMonth: Date;
   selectedRate: RateType;
+  selectedDisplayRate: string;
   selectedRateSub: Subscription;
   marketDataScopeSub: Subscription;
   marketDataScope: MarketDataScope;
@@ -50,6 +54,9 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   selectedFactorsSub: Subscription;
   initJobInitialPricingSub: Subscription;
   rates: KendoDropDownItem[] = Rates;
+  displayRates: PercentileRateDisplay[];
+  selectedBaseValue: number;
+  selectedTccValue: number;
 
   constructor(
     private store: Store<fromComphubSharedReducer.State>,
@@ -64,6 +71,18 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       }
     });
     this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
+    // fill out the percentile rate data
+    this.displayRates = [
+      { Name: '10th percentile', Value: '10' },
+      { Name: '25th percentile', Value: '25' },
+      { Name: '50th percentile', Value: '50' },
+      { Name: '75th percentile', Value: '75' },
+      { Name: '90th percentile', Value: '90' },
+      { Name: 'Average', Value: 'Avg' }
+    ];
+    // default to 50
+    this.selectedDisplayRate = '50';
+
   }
 
   ngOnInit() {
@@ -88,6 +107,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       this.jobResults = jr;
       // update selected job data
       this.selectedJob = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
+      this.mapJobDataToPayGraphData(this.selectedJob);
     });
 
     this.selectedRateSub = this.store.select(fromComphubSharedReducer.getSelectedRate).subscribe(r => this.selectedRate = r);
@@ -137,6 +157,60 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   handleRateSelectionChange(type: KendoDropDownItem) {
     const selectedRateType = RateType[type.Value];
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
+    this.mapJobDataToPayGraphData(this.selectedJob);
+  }
+
+  mapJobDataToPayGraphData(selectedJob: JobData) {
+    if (!!selectedJob) {
+      this.basePayGraph = {
+        Pay10: this.getPricingDisplayValue(selectedJob.Base10),
+        Pay25: this.getPricingDisplayValue(selectedJob.Base25),
+        Pay50: this.getPricingDisplayValue(selectedJob.Base50),
+        Pay75: this.getPricingDisplayValue(selectedJob.Base75),
+        Pay90: this.getPricingDisplayValue(selectedJob.Base90),
+        PayAvg: this.getPricingDisplayValue(selectedJob.BaseAvg),
+        Currency: this.selectedPaymarket?.CurrencyCode,
+        Rate: this.selectedRate.toString(),
+        OverallMin: this.getPricingDisplayValue(selectedJob.Base10),
+        OverallMax: this.getPricingDisplayValue(selectedJob.Tcc90)
+      };
+
+
+      this.tccPayGraph = {
+        Pay10: this.getPricingDisplayValue(selectedJob.Tcc10),
+        Pay25: this.getPricingDisplayValue(selectedJob.Tcc25),
+        Pay50: this.getPricingDisplayValue(selectedJob.Tcc50),
+        Pay75: this.getPricingDisplayValue(selectedJob.Tcc75),
+        Pay90: this.getPricingDisplayValue(selectedJob.Tcc90),
+        PayAvg: this.getPricingDisplayValue(selectedJob.TccAvg),
+        Currency: this.selectedPaymarket?.CurrencyCode,
+        Rate: this.selectedRate.toString(),
+        OverallMin: this.getPricingDisplayValue(selectedJob.Base10),
+        OverallMax: this.getPricingDisplayValue(selectedJob.Tcc90)
+      };
+
+      this.setSelectedValues(this.selectedDisplayRate);
+    }
+  }
+
+  handleDisplayRateSelectionChange(type: KendoDropDownItem) {
+    this.setSelectedValues(type.Value);
+  }
+
+  setSelectedValues(selectedValue) {
+    const selectedPercentileRate = this.displayRates.find(x => x.Value === selectedValue);
+    const baseProperty = 'Base' + selectedPercentileRate.Value;
+    const tccProperty = 'Tcc' + selectedPercentileRate.Value;
+    this.selectedBaseValue = this.isHourly ? this.getPricingDisplayValue(this.selectedJob[baseProperty]) : this.selectedJob[baseProperty];
+    this.selectedTccValue = this.isHourly ? this.getPricingDisplayValue(this.selectedJob[tccProperty]) : this.selectedJob[tccProperty];
+  }
+
+  getPricingDisplayValue(value) {
+    const calculatedValue = this.calculateDataByRate(value);
+    if (!this.isHourly) {
+      return calculatedValue / 1000;
+    }
+    return calculatedValue;
   }
 
   ngOnDestroy(): void {

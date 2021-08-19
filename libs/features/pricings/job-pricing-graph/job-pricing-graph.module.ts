@@ -10,10 +10,12 @@ import { JobPricingGraphComponent } from './job-pricing-graph/job-pricing-graph.
 import { JobPricingGraphEffects } from './effects/job-pricing-graph.effects';
 import { reducers } from './reducers';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CsdPricingGraphComponent } from './csd-pricing-graph/csd-pricing-graph.component';
 
 @NgModule({
   declarations: [
-    JobPricingGraphComponent
+    JobPricingGraphComponent,
+    CsdPricingGraphComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     HighchartsChartModule
   ],
   exports: [
-    JobPricingGraphComponent
+    JobPricingGraphComponent,
+    CsdPricingGraphComponent
   ]
 })
 export class JobPricingGraphModule {}

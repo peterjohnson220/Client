@@ -1,10 +1,12 @@
-export interface PricingForBasePayGraph {
-  BaseAvg: number;
-  Base10: number;
-  Base25: number;
-  Base50: number;
-  Base75: number;
-  Base90: number;
+export interface PricingForPayGraph {
+  PayAvg: number;
+  Pay10: number;
+  Pay25: number;
+  Pay50: number;
+  Pay75: number;
+  Pay90: number;
+  OverallMin: number;
+  OverallMax: number;
   Currency: string;
   Rate: string;
 }

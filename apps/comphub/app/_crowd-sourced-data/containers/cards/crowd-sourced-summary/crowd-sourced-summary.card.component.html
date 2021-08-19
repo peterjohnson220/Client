@@ -53,116 +53,32 @@
       </div>
       <div class="col-9">
         <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
-
-        <pf-async-container [loading]="this.selectedJob?.Loading">
-          <table>
-            <thead>
-            <tr>
-              <th class="tempTypeHeader">Type</th>
-              <th>Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>
-                Base 10
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Base10) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Base 25
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Base25) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Base 50
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Base50) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Base 75
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Base75) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Base 90
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Base90) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Base Avg
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.BaseAvg) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc 10
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Tcc10) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc 25
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Tcc25) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc 50
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Tcc50) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc 75
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Tcc75) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc 90
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.Tcc90) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Tcc Avg
-              </td>
-              <td>
-                {{ calculateDataByRate(this.selectedJob?.TccAvg) | number : (isHourly ? '1.2-2' : '1.0-0') }}
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </pf-async-container>
-
+        <div class="row rate-value-row">
+          <div class="col-md-3"><h3 class="rate-value-label">{{selectedBaseValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> BASE PAY</div>
+          <div class="col-md-3"><h3 class="rate-value-label">{{selectedTccValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> TOTAL CASH</div>
+          <div class="col-md-6">
+            <div class="row rate-display">
+              <div class="h rate-display-label">Rates displayed at</div>
+              <kendo-dropdownlist class="rate-display-dropdown"
+                                  [attr.data-qa-id]="'ddm-rate-display'"
+                                  id="rateDisplay"
+                                  [data]="displayRates"
+                                  textField="Name"
+                                  valueField="Value"
+                                  [valuePrimitive]="true"
+                                  [(ngModel)]="selectedDisplayRate"
+                                  (selectionChange)="handleDisplayRateSelectionChange($event)">
+              </kendo-dropdownlist>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10"><h3>Market Data Details</h3></div>
+        </div>
+        <div>
+          <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph>
+          <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph>
+        </div>
         <ng-container *ngIf="summaryPage" #CompensableFactors>
           <pf-compensable-factors [selectedJobTitle]="selectedJob?.JobTitle"
                                   [selectedCountry]="this.workflowContext.activeCountryDataSet.CountryName"

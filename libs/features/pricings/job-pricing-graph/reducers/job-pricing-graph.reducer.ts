@@ -1,5 +1,5 @@
 import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
-import { PricingForBasePayGraph } from 'libs/models/payfactors-api';
+import { PricingForPayGraph } from 'libs/models/payfactors-api';
 import { EmployeesBasePayModel } from 'libs/models/payfactors-api/company/response/employees-base-pay-model.model';
 import { AsyncStateObjHelper } from 'libs/core/helpers';
 
@@ -7,12 +7,12 @@ import * as fromBasePayGraphActions from '../actions/job-pricing-graph.actions';
 
 export interface State {
   employeeBasePay: AsyncStateObj<EmployeesBasePayModel[]>;
-  pricingForBasePayGraph: AsyncStateObj<PricingForBasePayGraph>;
+  pricingForBasePayGraph: AsyncStateObj<PricingForPayGraph>;
 }
 
 export const initialState: State = {
   employeeBasePay: generateDefaultAsyncStateObj<EmployeesBasePayModel[]>([]),
-  pricingForBasePayGraph: generateDefaultAsyncStateObj<PricingForBasePayGraph>(null)
+  pricingForBasePayGraph: generateDefaultAsyncStateObj<PricingForPayGraph>(null)
 };
 
 export function reducer(state = initialState, action: fromBasePayGraphActions.Actions): State {
