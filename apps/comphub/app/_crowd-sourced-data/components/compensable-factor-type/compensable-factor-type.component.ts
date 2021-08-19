@@ -1,10 +1,11 @@
-import { AfterViewChecked, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnDestroy, OnInit, } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
 import { DropDownFilterSettings } from '@progress/kendo-angular-dropdowns';
+import { ofType } from '@ngrx/effects';
 
 import { CompensableFactorModel } from 'libs/models/comphub';
 
@@ -12,13 +13,12 @@ import { CompensableFactorTypes } from '../../constants';
 import * as fromComphubCsdReducer from '../../reducers';
 import * as fromCompensableFactorsActions from '../../actions/compensable-factors.actions';
 
-
 @Component({
   selector: 'pf-compensable-factor-type',
   templateUrl: './compensable-factor-type.component.html',
   styleUrls: ['./compensable-factor-type.component.scss']
 })
-export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterViewChecked, OnChanges {
+export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() compensableFactorName: string;
   @Input() selectedJobTitle: string;
   @Input() factorType: number;
@@ -36,6 +36,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   topFactors: CompensableFactorModel[];
   selectedFactors: CompensableFactorModel[];
   selectedFactorsSub: Subscription;
+  initJobInitialPricingSub: Subscription;
   _maxSelections: boolean;
   disabledCheckBox: number[];
   defaultDropDownValue: string;
@@ -43,7 +44,8 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   constructor(
     private formBuilder: FormBuilder,
     public store: Store<fromComphubCsdReducer.State>,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private actionsSubject: ActionsSubject
   ) {
     this.topFactorsForm = this.formBuilder.group({
       checkList: new FormArray([])
@@ -155,28 +157,13 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
       }
     });
 
-    if (this.compensableFactors != null && this.compensableFactors.length > 0) {
-      this.initializeData();
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes.selectedJobTitle) {
-      if (!changes.selectedJobTitle.firstChange) {
+    // We need to initialize data only when all compensable factors loaded
+    this.initJobInitialPricingSub = this.actionsSubject
+      .pipe(ofType(fromCompensableFactorsActions.INIT_JOB_INITIAL_PRICING))
+      .subscribe(() => {
         this.removeOldCheckBoxes();
         this.initializeData();
-      }
-    } else if (!!changes.selectedPaymarketId) {
-      if (!changes.selectedPaymarketId.firstChange) {
-        this.removeOldCheckBoxes();
-        this.initializeData();
-      }
-    } else if (!!changes.compensableFactors) {
-      if (!changes.compensableFactors.firstChange) {
-        this.removeOldCheckBoxes();
-        this.initializeData();
-      }
-    }
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -185,16 +172,15 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
 
   ngOnDestroy(): void {
     this.selectedFactorsSub.unsubscribe();
+    this.initJobInitialPricingSub.unsubscribe();
   }
 
   private initializeData() {
-    if (this.compensableFactors != null) {
-      this.maxSelections = false;
-      this.disabledCheckBox = [];
-      this.defaultDropDownValue = this.compensableFactors[0].Name;
-      this.topFactors = this.compensableFactors.slice(0, 5);
-      this.searchFactors = this.compensableFactors.slice(5);
-      this.addCheckBoxes();
-    }
+    this.maxSelections = false;
+    this.disabledCheckBox = [];
+    this.defaultDropDownValue = this.compensableFactors[0].Name;
+    this.topFactors = this.compensableFactors.slice(0, 5);
+    this.searchFactors = this.compensableFactors.slice(5);
+    this.addCheckBoxes();
   }
 }
