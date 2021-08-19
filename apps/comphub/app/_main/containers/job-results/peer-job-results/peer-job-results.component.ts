@@ -63,6 +63,6 @@ export class PeerJobResultsComponent extends AbstractJobGrid implements OnInit, 
       ExchangeId : this.selectedExchangeId,
       ExchangeJobIds : [ this.selectedExchangeJobId  ]
     };
-    this.exchangeExplorerStore.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo(request));
+    this.exchangeExplorerStore.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({request: request}));
   }
 }

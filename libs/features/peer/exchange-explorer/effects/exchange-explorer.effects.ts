@@ -25,7 +25,7 @@ export class ExchangeExplorerEffects {
     map((action: fromExchangeExplorerContextInfoActions.LoadContextInfo) => action.payload),
     filter((payload: any) => !payload.lockedExchangeJobId),
     switchMap((payload: any) =>
-      this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload).pipe(
+      this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload.request).pipe(
         mergeMap((response) => ExchangeExplorerEffects.mapResponseToContextInfoSuccessActions(response, payload)),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
       )
@@ -115,7 +115,8 @@ export class ExchangeExplorerEffects {
         payMarketGeoData: !!response.PayMarketContext ? response.PayMarketContext?.PayMarketGeoData : null,
         exchangeJobFilterOptions: response.AssociatedExchangeJobFilterOptions,
         searchFilterMappingDataObj: response.SearchFilterMappingData,
-        includeDisabledFilters: !!payload.includeDisabledFilters
+        includeDisabledFilters: !!payload.includeDisabledFilters,
+        includeCurrentCompany: !!payload.includeCurrentCompany
       }),
       new fromExchangeExplorerMapActions.SetPeerMapBounds(response.InitialMapGeoData),
       new fromExchangeFilterContextActions.SetFilterContext(response.FilterContext, payload.defaultScopeId)

@@ -94,7 +94,7 @@ export class PeerTrendGridComponent implements OnInit, OnDestroy, AfterViewInit 
       ActionsTemplate : this.gridRowActionsTemplate,
       Title: '',
       Position: PositionType.Right,
-      Width: 20
+      Width: 50
     };
   }
 
