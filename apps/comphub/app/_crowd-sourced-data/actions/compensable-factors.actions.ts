@@ -11,6 +11,7 @@ export const GET_EDUCATION_TYPES_SUCCESS = '[Comphub/Compensable Factors] Get Ed
 export const GET_EDUCATION_TYPES_ERROR = '[Comphub/Compensable Factors] Get Education Types Error';
 export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Toggle Selected Compensable Factors';
 export const ADD_DATA_TO_COMPENSABLE_FACTORS_LIST = '[Comphub/Compensable Factors] Add Data To Compensable Factors List';
+export const INIT_JOB_INITIAL_PRICING = '[Comphub/Compensable Factors] Init Job Initial Pricing';
 
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
@@ -58,6 +59,12 @@ export class AddDataToCompensableFactorsList implements Action {
   constructor(public payload: { compensableFactor: string, Data: CompensableFactorModel[] }) {}
 }
 
+export class InitJobInitialPricing implements Action {
+  readonly type = INIT_JOB_INITIAL_PRICING;
+
+  constructor() {}
+}
+
 export type Actions
   = GetAllCompensableFactors
   | GetAllCompensableFactorsSuccess
@@ -66,4 +73,5 @@ export type Actions
   | GetEducationTypesSuccess
   | GetEducationTypesError
   | ToggleSelectedCompensableFactor
-  | AddDataToCompensableFactorsList;
+  | AddDataToCompensableFactorsList
+  | InitJobInitialPricing;

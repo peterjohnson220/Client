@@ -48,7 +48,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   marketDataScope: MarketDataScope;
   selectedFactors: {};
   selectedFactorsSub: Subscription;
-  getAllCompensableFactorsSuccessSub: Subscription;
+  initJobInitialPricingSub: Subscription;
   rates: KendoDropDownItem[] = Rates;
 
   constructor(
@@ -100,9 +100,9 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromMarketsCardActions.GetMarketDataScope());
 
-    // We need to get initial pricing only when all compensable factors loaded because of some default values
-    this.getAllCompensableFactorsSuccessSub = this.actionsSubject
-      .pipe(ofType(fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS_SUCCESS))
+    // We need to get initial pricing only when all compensable factors loaded including default (Education, Years of experience, Supervisor)
+    this.initJobInitialPricingSub = this.actionsSubject
+      .pipe(ofType(fromCompensableFactorsActions.INIT_JOB_INITIAL_PRICING))
       .subscribe(() => {
         this.getInitialPricing();
       });
@@ -147,6 +147,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.selectedRateSub.unsubscribe();
     this.marketDataScopeSub.unsubscribe();
     this.selectedFactorsSub.unsubscribe();
-    this.getAllCompensableFactorsSuccessSub.unsubscribe();
+    this.initJobInitialPricingSub.unsubscribe();
   }
 }

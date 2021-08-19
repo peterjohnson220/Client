@@ -11,11 +11,11 @@ import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub'
 import * as fromComphubCrowdSourcedDataReducer from '../reducers';
 import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
-import { CompensableFactorDataMapper } from '../helpers';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
 import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
 import { generateDefaultEducationTypes, generateDefaultSupervisorRole, generateDefaultYearsExperience } from '../data';
 import * as fromComphubCsdReducer from '../reducers';
+import { CompensableFactorDataMapper } from '../helpers';
 
 @Injectable()
 export class CompensableFactorsEffect {
@@ -56,13 +56,6 @@ export class CompensableFactorsEffect {
     switchMap(() => {
       const actions = [];
 
-      // Default Years of experience
-      actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
-          compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE,
-          Data: generateDefaultYearsExperience()
-        }
-      ));
-
       // Default Education types
       actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
           compensableFactor: CompensableFactorsConstants.EDUCATION,
@@ -71,6 +64,13 @@ export class CompensableFactorsEffect {
       ));
       // Get Education types
       actions.push(new fromCompensableFactorsActions.GetEducationTypes());
+
+      // Default Years of experience
+      actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
+          compensableFactor: CompensableFactorsConstants.YEARS_EXPERIENCE,
+          Data: generateDefaultYearsExperience()
+        }
+      ));
 
       // Default Supervisory role
       actions.push(new fromCompensableFactorsActions.AddDataToCompensableFactorsList({
@@ -107,6 +107,7 @@ export class CompensableFactorsEffect {
               ));
 
               actions.push(new fromCompensableFactorsActions.GetEducationTypesSuccess());
+              actions.push(new fromCompensableFactorsActions.InitJobInitialPricing());
 
               return actions;
             }),
