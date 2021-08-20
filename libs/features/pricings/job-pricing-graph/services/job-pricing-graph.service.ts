@@ -9,11 +9,11 @@ export class JobPricingGraphService {
     require('highcharts/modules/bullet.js')(Highcharts);
   }
 
-  static getPricingGraphChartOptions(): Highcharts.Options {
+  static getPricingGraphChartOptions(marginLeft: number = 100): Highcharts.Options {
     return {
       chart: {
         inverted: true,
-        marginLeft: 100,
+        marginLeft: marginLeft,
         marginBottom: 30,
         marginRight: 20,
         type: 'bullet',
@@ -86,22 +86,23 @@ export class JobPricingGraphService {
     };
   }
 
-  static getYAxisPlotBandsOptionsArray(data: any): YAxisPlotBandsOptions[] {
+  static getYAxisPlotBandsOptionsArray(data: any, payType: string, forceChartAlignment: boolean = false,
+                                       forceToOneDecimal: boolean = false): YAxisPlotBandsOptions[] {
     return [{
-      from: (data.Base10),
-      to: (data.Base25),
-      color: '#193967',
+      from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
+      to: (data.Pay25),
+      color: payType === 'Base' ? '#193967' : '#41265c',
       label: {
-        text: (data.Base10).toString(),
+        text: forceToOneDecimal ? (data.Pay10).toFixed(1) : (data.Pay10).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
       },
       id: 'plot-band'
     }, {
-      from: (data.Base10),
-      to: (data.Base25),
-      color: '#193967',
+      from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
+      to: (data.Pay25),
+      color: payType === 'Base' ? '#193967' : '#41265c',
       label: {
         text: '10th',
         verticalAlign: 'top',
@@ -111,20 +112,20 @@ export class JobPricingGraphService {
       },
       id: 'plot-band'
     }, {
-      from: (data.Base25),
-      to: (data.Base50),
-      color: '#235090',
+      from: (data.Pay25),
+      to: (data.Pay50),
+      color: payType === 'Base' ? '#235090' : '#5a3580',
       label: {
-        text: (data.Base25).toString(),
+        text: forceToOneDecimal ? (data.Pay25).toFixed(1) : (data.Pay25).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
       },
       id: 'plot-band'
     }, {
-      from: (data.Base25),
-      to: (data.Base50),
-      color: '#235090',
+      from: (data.Pay25),
+      to: (data.Pay50),
+      color:  payType === 'Base' ? '#235090' : '#5a3580',
       label: {
         text: '25th',
         verticalAlign: 'top',
@@ -134,20 +135,20 @@ export class JobPricingGraphService {
       },
       id: 'plot-band'
     }, {
-      from: (data.Base50),
-      to: (data.Base75),
-      color: '#2D67B9',
+      from: (data.Pay50),
+      to: (data.Pay75),
+      color: payType === 'Base' ? '#2D67B9' : '#7e4ab2',
       label: {
-        text: (data.Base50).toString(),
+        text: forceToOneDecimal ? (data.Pay50).toFixed(1) : (data.Pay50).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
       },
       id: 'plot-band'
     }, {
-      from: (data.Base50),
-      to: (data.Base75),
-      color: '#2D67B9',
+      from: (data.Pay50),
+      to: (data.Pay75),
+      color: payType === 'Base' ? '#2D67B9' : '#7e4ab2',
       label: {
         text: '50th',
         verticalAlign: 'top',
@@ -157,20 +158,20 @@ export class JobPricingGraphService {
       },
       id: 'plot-band'
     }, {
-      from: (data.Base75),
-      to: (data.Base90),
-      color: '#5389D5',
+      from: (data.Pay75),
+      to: (data.Pay90),
+      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
-        text: (data.Base75).toString(),
+        text: forceToOneDecimal ? (data.Pay75).toFixed(1) : (data.Pay75).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
       },
       id: 'plot-band'
     }, {
-      from: (data.Base75),
-      to: (data.Base90),
-      color: '#5389D5',
+      from: (data.Pay75),
+      to: (data.Pay90),
+      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
         text: '75th',
         verticalAlign: 'top',
@@ -180,20 +181,20 @@ export class JobPricingGraphService {
       },
       id: 'plot-band'
     }, {
-      from: (data.Base75),
-      to: (data.Base90),
-      color: '#5389D5',
+      from: (data.Pay75),
+      to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
+      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
-        text: (data.Base90).toString(),
+        text: forceToOneDecimal ? (data.Pay90).toFixed(1) : (data.Pay90).toString(),
         verticalAlign: 'bottom',
         align: 'right',
         x: 20
       },
       id: 'plot-band'
     }, {
-      from: (data.Base75),
-      to: (data.Base90),
-      color: '#5389D5',
+      from: (data.Pay75),
+      to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
+      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
         text: '90th',
         verticalAlign: 'top',
@@ -212,32 +213,37 @@ export class JobPricingGraphService {
       EmployeeFirstName: baseData.EmployeeFirstName ? baseData.EmployeeFirstName : '',
       EmployeeLastName: baseData.EmployeeLastName ? baseData.EmployeeLastName : '',
       Base: FormattersService.formatCurrency(baseData.Base, userLocale, pricingData.Currency, pricingData.Rate, true),
-      color: (baseData.Base / 1000 > (pricingData.Base90)) || (baseData.Base / 1000 < (pricingData.Base10)) ? '#C3C3CA' : '#FFFFFF',
+      color: (baseData.Base / 1000 > (pricingData.Pay90)) || (baseData.Base / 1000 < (pricingData.Pay10)) ? '#C3C3CA' : '#FFFFFF',
       Count: count,
       Currency: (baseData.Currency !== pricingData.Currency) ? baseData.Currency : ''
     };
   }
 
-  static resetGraph(chart: Highcharts.Chart) {
+  static resetGraph(chart: Highcharts.Chart, includeAvgLine: boolean = true) {
     while (chart?.series?.length > 0) {
       chart.series[0].remove(true);
     }
     chart.yAxis[0].removePlotBand('plot-band');
-    chart.yAxis[0].removePlotLine('plot-line');
+    if (includeAvgLine) {
+      chart.yAxis[0].removePlotLine('plot-line');
+    }
 
     chart.setSize(undefined, 1, false);
   }
 
-  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any) {
-    chart.yAxis[0].addPlotLine({
-      color: '#F7A154',
-      value: avg,
-      width: 3,
-      id: 'plot-line'
-    });
+  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, payLabel: string,
+                     includeAvgLine: boolean = true, forceToOneDecimal: boolean = false) {
+    if (includeAvgLine) {
+      chart.yAxis[0].addPlotLine({
+        color: '#F7A154',
+        value: avg,
+        width: 3,
+        id: 'plot-line'
+      });
+    }
 
     chart.xAxis[0].setCategories(
-      ['<span style="font-size: 16px; font-weight: bold;">Base Pay</span><br/><span>Average: ' + avg + '</span>']
+      ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + forceToOneDecimal ? (avg).toFixed(1) : avg + '</span>']
     );
 
     chart.addSeries({
@@ -248,8 +254,8 @@ export class JobPricingGraphService {
       },
     });
 
+    chart.setSize(null, 100, false);
     chart.yAxis[0].setExtremes(min, max, true);
-    chart.setSize(undefined, 100, false);
     chart.redraw(false);
   }
 }

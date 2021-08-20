@@ -8,7 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { getUserLocale } from 'get-user-locale';
 
 import { AsyncStateObj } from 'libs/models/state';
-import { PricingForBasePayGraph } from 'libs/models/payfactors-api/pricings/response';
+import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
 import { JobPricingGraphService } from '../services/job-pricing-graph.service';
 
 import * as fromBasePayGraphActions from '../actions';
@@ -36,7 +36,7 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   chartMax: number;
   showChart: true;
 
-  pricingData$: Observable<AsyncStateObj<PricingForBasePayGraph>>;
+  pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
 
   constructor(
     private store: Store<fromBasePayGraphReducer.State>,
@@ -80,10 +80,10 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
       return;
     }
 
-    this.chartMin = (data.pricing.Base10);
-    this.chartMax = (data.pricing.Base90);
+    this.chartMin = (data.pricing.Pay10);
+    this.chartMax = (data.pricing.Pay90);
 
-    const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data.pricing);
+    const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data.pricing, 'Base');
 
     plotBands.forEach(x => this.chartRef.yAxis[0].addPlotBand(x));
 
@@ -115,6 +115,6 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
         x: 0,
       });
     }
-    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, data.pricing.BaseAvg, scatterData );
+    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, data.pricing.PayAvg, scatterData, 'Base Pay');
   }
 }

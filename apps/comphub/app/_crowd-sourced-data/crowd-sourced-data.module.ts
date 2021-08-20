@@ -9,12 +9,14 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 import { NgbModalModule, NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
 
 import { CrowdSourcedDataRoutingModule } from './crowd-sourced-data-routing.module';
 import * as fromFaIcons from './fa-icons';
@@ -49,6 +51,7 @@ import { CompensableFactorsEffect } from './effects';
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
+    HighchartsChartModule,
 
     StoreModule.forFeature('comphub_crowd_sourced', reducers),
     EffectsModule.forFeature([
@@ -61,7 +64,8 @@ import { CompensableFactorsEffect } from './effects';
     PfFormsModule,
     GuidelinesBadgeModule,
     BasicDataGridModule,
-    SharedModule
+    SharedModule,
+    JobPricingGraphModule
 
   ],
   declarations: [

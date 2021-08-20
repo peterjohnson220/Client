@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { EmployeesBasePayModel } from 'libs/models/payfactors-api/company/response/employees-base-pay-model.model';
-import { PricingForBasePayGraph } from 'libs/models/payfactors-api/pricings/response';
+import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
 
 export const GET_PRICING_DATA = '[Base Pay Graph] Get Pricing Data';
 export const GET_PRICING_DATA_SUCCESS = '[Base Pay Graph] Get Pricing Data Success';
@@ -20,7 +20,7 @@ export class GetPricingData implements Action {
 export class GetPricingDataSuccess implements Action {
   readonly type = GET_PRICING_DATA_SUCCESS;
 
-  constructor(public pricing: PricingForBasePayGraph) {}
+  constructor(public pricing: PricingForPayGraph) {}
 }
 
 export class GetPricingDataError implements Action {
@@ -32,13 +32,13 @@ export class GetPricingDataError implements Action {
 export class LoadBasePayData implements Action {
   readonly type = LOAD_BASE_PAY_DATA;
 
-  constructor(public jobId: number, public paymarketId: number, public pricing: PricingForBasePayGraph) {}
+  constructor(public jobId: number, public paymarketId: number, public pricing: PricingForPayGraph) {}
 }
 
 export class LoadBasePayDataSuccess implements Action {
   readonly type = LOAD_BASE_PAY_DATA_SUCCESS;
 
-  constructor(public pricing: PricingForBasePayGraph, public basePay: EmployeesBasePayModel[]) {}
+  constructor(public pricing: PricingForPayGraph, public basePay: EmployeesBasePayModel[]) {}
 }
 
 export class LoadBasePayDataError implements Action {
