@@ -38,4 +38,5 @@ export class FeatureFlags {
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
   static readonly TabularReportingScopes = 'tabular-reporting-report-scopes';
   static readonly JobDescriptionSharing = 'jdm-sharing';
+  static readonly JdmLibrarySkills = 'jdm-library-skills';
 }
