@@ -25,7 +25,7 @@ export class ExchangeExplorerEffects {
     map((action: fromExchangeExplorerContextInfoActions.LoadContextInfo) => action.payload),
     filter((payload: any) => !payload.lockedExchangeJobId),
     switchMap((payload: any) =>
-      this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload.request).pipe(
+      this.exchangeDataSearchApiService.getExchangeExplorerContextInfo(payload.request ?? payload).pipe(
         mergeMap((response) => ExchangeExplorerEffects.mapResponseToContextInfoSuccessActions(response, payload)),
         catchError(() => of(new fromExchangeExplorerContextInfoActions.LoadContextInfoError))
       )
