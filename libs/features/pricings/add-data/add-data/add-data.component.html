@@ -11,7 +11,7 @@
       [modalId]="'au-modal-add-data'"
       [allowDismiss]="true"
       [showFooter]="true"
-      [primaryButtonText]="'Add'"
+      [primaryButtonText]="'Add' + ((selectedCuts$ | async)?.length > 0 ? ' (' + (selectedCuts$ | async).length + ')' : '')"
       (onDismiss)="handleCancelClicked()"
       (onSubmit)="handleAddClicked()"
       [submitEnabled]="!(addingData$ | async) && (selectedCuts$ | async).length"
