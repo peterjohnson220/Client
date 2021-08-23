@@ -16,11 +16,15 @@ import { faFilePlus } from '@fortawesome/pro-solid-svg-icons/faFilePlus';
 import { faBookOpen } from '@fortawesome/pro-solid-svg-icons/faBookOpen';
 import { faCaretRight } from '@fortawesome/pro-solid-svg-icons/faCaretRight';
 import { faCaretDown } from '@fortawesome/pro-solid-svg-icons/faCaretDown';
-
 import { faTimes as farTimes } from '@fortawesome/pro-regular-svg-icons/faTimes';
+import { faCopyright} from '@fortawesome/pro-solid-svg-icons/faCopyright';
+import { faClipboardList} from '@fortawesome/pro-solid-svg-icons/faClipboardList';
+import { faUserShield } from '@fortawesome/pro-solid-svg-icons/faUserShield';
+import { faChartLine} from '@fortawesome/pro-solid-svg-icons/faChartLine';
+import { faUsers } from '@fortawesome/pro-solid-svg-icons/faUsers';
 
 export const faIcons = [
   faTimes, faCheckCircle, faPlusCircle, faUserCircle, faMapMarkerAlt, faDatabase, faFileAlt,
   faInfoCircle, faBook, faSortUp, faSortDown, faExclamationTriangle, faFilePdf, faShare, faFilePlus, faBookOpen,
-  faCaretRight, faCaretDown, farTimes
+  faCaretRight, faCaretDown, farTimes, faUserShield, faCopyright, faClipboardList, faChartLine, faUsers
 ];

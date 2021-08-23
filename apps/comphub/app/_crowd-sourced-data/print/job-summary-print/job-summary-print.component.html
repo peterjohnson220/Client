@@ -1,0 +1,565 @@
+<div class="container prints position-relative" *ngIf="selectedJobTitle" #CoverPage>
+  <pf-async-container [loading]="loadingData"></pf-async-container>
+  <div class="pb-4 js-page position-relative main cover-page">
+    <div class="header">
+      <h2>{{selectedJobTitle}}</h2>
+      <h1>Payscale</h1>
+      <h1>Market Report</h1>
+    </div>
+
+    <div class="content">
+      <img class="img-style" src="assets/svg/Market_Report.svg">
+    </div>
+    <div class="footer">
+      <p>
+        Report Date: Friday, November 13, 2021
+      </p>
+    </div>
+  </div>
+
+  <div class="pb-4 js-page position-relative additional">
+    <pf-job-summary-report-print-template
+      [pageNumber]="1">
+
+      <ng-conainer content>
+        <section class="border-bottom padding-bottom">
+          <h3><b>{{selectedJobTitle}} ({{jobData.JobCode}})</b></h3>
+          <h4>Paymarket: {{selectedPaymarket}}</h4>
+          <h4>Generated: {{date}} by Brittany Innes</h4>
+        </section>
+        <section class="border-bottom">
+          <h2 class="page-header-padding">Pricing Details</h2>
+          <img class="img-style" src="assets/svg/Market_Report.svg">
+        </section>
+        <section>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Payscale <span style="float: right">{{jobData.JobTitle}} ({{jobData.JobId}})</span></h5>
+              <h6 class="card-subtitle mb-2 text-muted">Crowd Sourced Data ({{date}})</h6>
+              <p class="card-text">{{jobData.JobDescription}}</p>
+              <table align="center" border="1">
+                <thead align="center" class="tableheader">
+                <tr>
+                  <th colspan="5" align="center" valign="middle" style="text-decoration: none;">
+                    Base Pay</th>
+                  <th colspan="1" align="center" valign="middle" style="text-decoration: none;">
+                    &nbsp;
+                  </th>
+                  <th colspan="1" align="center" valign="middle" style="text-decoration: none;">
+                    &nbsp;
+                  </th>
+                  <th colspan="5" align="center" valign="middle" style="text-decoration: none;">
+                    Total Cash</th>
+                </tr>
+                <tr>
+                <tr>
+                  <th>10th</th>
+                  <th>25th</th>
+                  <th>50th</th>
+                  <th>75th</th>
+                  <th>90th</th>
+                  <th>&nbsp;</th>
+                  <th>&nbsp;</th>
+                  <th>10th</th>
+                  <th>25th</th>
+                  <th>50th</th>
+                  <th>75th</th>
+                  <th>90th</th>
+                </tr>
+                </thead>
+                <tr>
+                  <td align="center">{{jobData.Base10}}</td>
+                  <td align="center">{{jobData.Base25}}</td>
+                  <td align="center">{{jobData.Base50}}</td>
+                  <td align="center">{{jobData.Base75}}</td>
+                  <td align="center">{{jobData.Base90}}</td>
+                  <td align="center">&nbsp;</td>
+                  <td align="center">&nbsp;</td>
+                  <td align="center">{{jobData.Tcc10}}</td>
+                  <td align="center">{{jobData.Tcc25}}</td>
+                  <td align="center">{{jobData.Tcc50}}</td>
+                  <td align="center">{{jobData.Tcc75}}</td>
+                  <td align="center">{{jobData.Tcc90}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+      </ng-conainer>
+    </pf-job-summary-report-print-template>
+  </div>
+
+  <div class="pb-4 js-page position-relative additional">
+    <pf-job-summary-report-print-template
+      [pageNumber]="2">
+
+      <ng-container content>
+        <section class="border-bottom padding-bottom">
+          <h3><b>{{selectedJobTitle}} ({{jobData.JobCode}})</b></h3>
+          <h4>Paymarket: {{selectedPaymarket}}</h4>
+          <h4>Generated: {{date}} by Brittany Innes</h4>
+        </section>
+
+        <section class="comp-factors">
+          <h2 class="page-header-padding">Compensable Factors</h2>
+          <ul>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Location
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.Location;else noData">
+                {{compensableFactorData.Location}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Industry
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.Industry;else noData">
+                {{compensableFactorData.Industry}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Organization Type
+                </li>
+              </div>
+              <div class="col-6"  *ngIf="!!compensableFactorData.OrgType;else noData">
+                {{compensableFactorData.OrgType}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Employee Count
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.EmployeeCount;else noData">
+                {{compensableFactorData.EmployeeCount}}
+              </div>
+            </div>
+
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Government Contractor
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.GovContractor;else noData">
+                {{compensableFactorData.GovContractor}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Years Experience
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.YearsExperience;else noData">
+                {{compensableFactorData.YearsExperience}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Degree Requirements
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.DegreeRequirements;else noData">
+                {{compensableFactorData.DegreeRequirements}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Management Role
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.ManagementRole;else noData">
+                {{compensableFactorData.ManagementRole}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Skills
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.Skills && compensableFactorData.Skills.length;else noData">
+                {{compensableFactorData.Skills}}
+              </div>
+            </div>
+            <div class="row justify-content-start">
+              <div class="col-6">
+                <li>
+                  Certifications
+                </li>
+              </div>
+              <div class="col-6" *ngIf="!!compensableFactorData.Certs && compensableFactorData.Certs.length;else noData">
+                {{compensableFactorData.Certs}}
+              </div>
+            </div>
+          </ul>
+        </section>
+      </ng-container>
+    </pf-job-summary-report-print-template>
+  </div>
+
+  <div class="pb-4 js-page position-relative additional">
+    <pf-job-summary-report-print-template
+      [pageNumber]="3">
+
+      <ng-container content>
+        <section>
+          <h2 class="page-header-padding">Data Summary</h2>
+          <p>
+            This data shows a breakdown of the 45 anonymous profile that most closely match your specified criteria.
+            A Sample of these profiles are listed on the following pages.
+          </p>
+          <div class="container data-summary">
+            <div class="row">
+              <div class="col">
+                  <div class="card">
+                    <div class="card-header">
+                      Organization's Product\Business:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['ProductBusiness']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header">
+                      Organization Types:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['Types']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      Data Ranges:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['DataRanges']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-header">
+                      Years Experience Ranges:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['JobTitles']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+
+              <div class="col">
+                  <div class="card">
+                    <div class="card-header">
+                      Organization Sizes:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['YearsExperience']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      Cities:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['OrgSize']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      Cities:
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item" *ngFor="let data of dataSummary['Cities']">
+                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </ng-container>
+    </pf-job-summary-report-print-template>
+
+  </div>
+
+  <div class="pb-4 js-page position-relative additional">
+    <pf-job-summary-report-print-template
+      [pageNumber]="4">
+      <ng-container content>
+        <section class="border-bottom data-methodology data-methodology-heading">
+          <h2 class="padding-bottom">Payscale Crowd Sourced<br> Data & Methodology</h2>
+          <h6 class="padding-bottom"><b>Real time data to keep a pulse on the market, backed by validation, data science & machine learning.</b></h6>
+          <p>PayScale crowd sourced data, is the worlds largest salary database with over 65 million profiles,
+            provides customers a pulse on changing comp realities and a true reflection of the market with with
+            real-time data, including specificity into skills and geo data.
+          </p>
+        </section>
+        <section class="data-methodology">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="row">
+                  <h5>PayScale’s Data Model</h5>
+                  <p>PayScale’s crowd sourced data is built upon our
+                    proprietary machine learned model developed over
+                    15 years of big data analytics, human expertise, and
+                    customer insight, which provides the most accurate pay
+                    predictions in the market—ultimately saving you time.<br>
+                    PayScale’s methodology leverages employee submitted
+                    data and a proprietary algorithm giving organizations
+                    the ability to benchmark their positions based on fresh
+                    market data.
+                  </p>
+                </div>
+                <div class="row">
+                  <div class="pf-border-left">
+                    <ul class="no-bullets">
+                      <li>
+                        <h3>65M</h3>
+                        <p>Salary profiles</p>
+                      </li>
+                      <li>
+                        <h3>8-10M</h3>
+                        <p>Visitors a month</p>
+                      </li>
+                      <li>
+                        <h3>350K</h3>
+                        <p>New salary profiles added monthly</p>
+                      </li>
+                      <li>
+                        <h3>6K</h3>
+                        <p>Industries represented</p>
+                      </li>
+                      <li>
+                        <h3>5K</h3>
+                        <p>Certifications represented</p>
+                      </li>
+                      <li>
+                        <h3>3K</h3>
+                        <p>Skills represented</p>
+                      </li>
+                      <li>
+                        <h3>15K</h3>
+                        <p>Job titles represented</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="row">
+                  <h6>Real time pulse: tap into changing comp realities </h6>
+                  <p>PayScale crowd sourced data uniquely provides a
+                    real time pulse on the market with data collected
+                    daily; this is critical in today’s quickly changing
+                    market. </p>
+                </div>
+                <div class="row">
+                  <h6>Validated data you can rely on<br>
+                    to compensate your talent. </h6>
+                  <p>Meticulous 4-step validation process, with a variety
+                    of statistical and validation steps to ensure PayScale
+                    data is a true reflection of the market, giving you full
+                    confidence and compliance.</p>
+                </div>
+                <div class="row">
+                  <h6>Specific skills data to attract and retain<br>
+                    talent and location drive your workforce planning </h6>
+                  <p>PayScale crowd sourced data captures real time
+                    skills and location data, increasingly important with
+                    today’s remote work flexibility and skilled workforce.</p>
+                </div>
+                <div class="row">
+                  <h6>Machine lear predictive data modeling to<br>
+                    surface personalized insights for you.</h6>
+                  <p>Through data science and machine learning, our
+                    sophisticated data models customize results to
+                    generate insights and personalize pay predictions
+                    for our customers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+    </pf-job-summary-report-print-template>
+  </div>
+
+  <div class="pb-4 js-page position-relative additional">
+    <pf-job-summary-report-print-template [pageNumber]="5">
+      <ng-container content>
+        <section>
+          <h2 class="page-header-padding">The Process</h2>
+        </section>
+        <section class="process-page">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div>
+                  <h4><span><fa-icon icon="clipboard-list"></fa-icon></span> 1. Collect</h4>
+                  <ul>
+                    <li>
+                      <p>
+                        PayScale leverages employee submitted data<br>
+                        bringing in 8-10M monthly visitors and 350K<br>
+                        completed surveys through the Internet.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Visitors come to our site looking to understand<br>
+                        their price in the market. They have an intrinsic<br>
+                        motivation to not only complete our online salary<br>
+                        survey but also to give us honest answers.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        We partner with several organizations including<br>
+                        Forbes, the Wall Street Journal, and Fortune who<br>
+                        use our data in their reporting.
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col">
+                <h4><span><fa-icon icon="user-shield"></fa-icon></span> 2. Validate</h4>
+                <ul>
+                  <li>
+                    <p>
+                      Our approach is led by a team of data<br>
+                      scientists and a combination of machine<br>
+                      learning and human validation process.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      30 hard coded validation points that could<br>
+                      trigger criteria for review, ensuring only the<br>
+                      highest quality data makes it through.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Weed out the outliers and multiple<br>
+                      submissions.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Defend against attempts to “stuff the ballot<br>
+                      box” by automatically detecting and rejecting<br>
+                      questionable data.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h4><span><fa-icon icon="chart-line"></fa-icon></span> 3. Augment & Analyze</h4>
+                <ul>
+                  <li>
+                    <p>
+                      Standardize data and compare data, making<br>
+                      sure we are matching to the right jobs. You say<br>
+                      computer programmer, I say software<br>
+                      developer.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Match to industry hierarchies, transcribing data<br>
+                      to employer standards.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      We constantly analyze and model our data with<br>
+                      many recognized data sources including those<br>
+                      reported by the Bureau of Labor & Statistics, the<br>
+                      Census, and other economic indicators.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Our propriety algorithm ensures the<br>
+                      consistency and accuracy of every data point<br>
+                      used in our compensation models
+                    </p>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col">
+                <h4><span><fa-icon icon="users"></fa-icon></span> 4. Match & Deliver</h4>
+                <ul>
+                  <li>
+                    <p>
+                      MarketMatch™ algorithm is kind of like online<br>
+                      dating: we look at the potential compensable<br>
+                      factors and the relationships between those<br>
+                      factors when finding the ideal matches for<br>
+                      positions.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      We align your positions to a labor market<br>
+                      allowing you see how your pay compares to<br>
+                      who you are competing with for talent, not just<br>
+                      your business competitors.
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      We are able to price positions and competitive<br>
+                      scenarios that other compensation approaches<br>
+                      cannot.
+                    </p>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+    </pf-job-summary-report-print-template>
+  </div>
+</div>
+
+<ng-template #noData>
+  <div class="col-6">--</div>
+</ng-template>
+
