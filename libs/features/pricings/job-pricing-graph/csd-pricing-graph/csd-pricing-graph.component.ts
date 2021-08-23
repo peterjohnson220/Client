@@ -72,7 +72,7 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
 
       // just in case you're curious, the bogus scatterData is here because you have to have "something" in series data for highcharts to display properly
       JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, data.PayAvg,
-        [{x: 0}], this.payType === 'Base' ? 'Base Pay' : 'Total Cash', false);
+        [{x: 0}], this.payType === 'Base' ? 'Base Pay' : 'Total Cash', false, true);
       this.chartRef.redraw();
     }
   }
