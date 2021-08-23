@@ -241,9 +241,9 @@ export class JobPricingGraphService {
         id: 'plot-line'
       });
     }
-
+    const avgDisplay = forceToOneDecimal ? (avg).toFixed(1) : avg.toString();
     chart.xAxis[0].setCategories(
-      ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + forceToOneDecimal ? (avg).toFixed(1) : avg + '</span>']
+      ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + avgDisplay + '</span>']
     );
 
     chart.addSeries({
