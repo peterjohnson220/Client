@@ -11,7 +11,7 @@ $action-btn-size: 20px;
 
 .row-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
