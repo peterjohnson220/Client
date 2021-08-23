@@ -5,6 +5,7 @@ export interface EmployeeInsights {
   Employee: CompanyEmployee;
   EmployeeBenefits: EmployeeBenefit[];
   CurrencyName: string;
+  StructureRangeGroupId: number;
 }
 
 export interface GetEmployeeInsightsRequest {
