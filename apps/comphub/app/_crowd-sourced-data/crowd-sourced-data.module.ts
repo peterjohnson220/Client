@@ -32,6 +32,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { CrowdSourcedJobGridContentComponent, CompensableFactorTypeComponent} from './components';
 import { reducers } from './reducers';
 import { CompensableFactorsEffect } from './effects';
+import { JobSummaryReportPrintTemplateComponent, JobSummaryPrintComponent } from './print';
 
 @NgModule({
   imports: [
@@ -75,7 +76,9 @@ import { CompensableFactorsEffect } from './effects';
     CrowdSourcedJobGridContentComponent,
     CrowdSourcedSummaryCardComponent,
     CompensableFactorTypeComponent,
-    CompensableFactorsComponent
+    CompensableFactorsComponent,
+    JobSummaryReportPrintTemplateComponent,
+    JobSummaryPrintComponent
   ],
   providers: [
     CrowdSourcedDataPageGuard
