@@ -66,13 +66,15 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
       this.chartMin = data.OverallMin;
       this.chartMax = data.OverallMax;
 
-      const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data, this.payType, true, true);
+      const decimalPlaces = this.csdPricingData.Rate == "Hourly" ? 2 : 1;
+
+      const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data, this.payType, true, true, decimalPlaces);
 
       plotBands.forEach(x => this.chartRef.yAxis[0].addPlotBand(x));
 
       // just in case you're curious, the bogus scatterData is here because you have to have "something" in series data for highcharts to display properly
       JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, data.PayAvg,
-        [{x: 0}], this.payType === 'Base' ? 'Base Pay' : 'Total Cash', false, true);
+        [{x: 0}], this.payType === 'Base' ? 'Base Pay' : 'Total Cash', false, true, decimalPlaces);
       this.chartRef.redraw();
     }
   }
