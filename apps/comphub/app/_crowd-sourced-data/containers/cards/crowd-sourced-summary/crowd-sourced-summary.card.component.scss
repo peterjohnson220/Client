@@ -1,3 +1,4 @@
+@import 'comphub-variables';
 
 .tempTable {
   border: 1px;
@@ -21,19 +22,22 @@ tr {
 
 .summary-panel-wrapper {
   background-color: #f7f7f7;
-  border-right: 5px solid #ecf1f4;
-  padding: .5rem 0;
-  font-size: 12px;
+  border-right: 4px solid rgba(0, 153, 204, 0.06);
+  padding: .25rem 1rem 3rem;
+  overflow: auto;
 
   .summary-panel-item {
     padding: 0 0 10px 0;
 
     .summary-panel-item-header {
+      font-size: .85rem;
       text-transform: uppercase;
     }
 
     .summary-panel-item-value {
-      color: #306589;
+      font-weight: $comphub-bold-font-weight;
+      font-size: 1.25rem;
+      color: $comphub-header-blue;
     }
   }
 }
