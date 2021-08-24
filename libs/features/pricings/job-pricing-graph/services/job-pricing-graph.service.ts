@@ -87,13 +87,13 @@ export class JobPricingGraphService {
   }
 
   static getYAxisPlotBandsOptionsArray(data: any, payType: string, forceChartAlignment: boolean = false,
-                                       forceToOneDecimal: boolean = false): YAxisPlotBandsOptions[] {
+                                       forceDecimals: boolean = false, decimalPlaces: number = 1): YAxisPlotBandsOptions[] {
     return [{
       from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
       to: (data.Pay25),
       color: payType === 'Base' ? '#193967' : '#41265c',
       label: {
-        text: forceToOneDecimal ? (data.Pay10).toFixed(1) : (data.Pay10).toString(),
+        text: forceDecimals ? (data.Pay10).toFixed(decimalPlaces) : (data.Pay10).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -116,7 +116,7 @@ export class JobPricingGraphService {
       to: (data.Pay50),
       color: payType === 'Base' ? '#235090' : '#5a3580',
       label: {
-        text: forceToOneDecimal ? (data.Pay25).toFixed(1) : (data.Pay25).toString(),
+        text: forceDecimals ? (data.Pay25).toFixed(decimalPlaces) : (data.Pay25).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -139,7 +139,7 @@ export class JobPricingGraphService {
       to: (data.Pay75),
       color: payType === 'Base' ? '#2D67B9' : '#7e4ab2',
       label: {
-        text: forceToOneDecimal ? (data.Pay50).toFixed(1) : (data.Pay50).toString(),
+        text: forceDecimals ? (data.Pay50).toFixed(decimalPlaces) : (data.Pay50).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -162,7 +162,7 @@ export class JobPricingGraphService {
       to: (data.Pay90),
       color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
-        text: forceToOneDecimal ? (data.Pay75).toFixed(1) : (data.Pay75).toString(),
+        text: forceDecimals ? (data.Pay75).toFixed(decimalPlaces) : (data.Pay75).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -185,7 +185,7 @@ export class JobPricingGraphService {
       to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
       color: payType === 'Base' ? '#5389D5' : '#9a70c4',
       label: {
-        text: forceToOneDecimal ? (data.Pay90).toFixed(1) : (data.Pay90).toString(),
+        text: forceDecimals ? (data.Pay90).toFixed(decimalPlaces) : (data.Pay90).toString(),
         verticalAlign: 'bottom',
         align: 'right',
         x: 20
@@ -232,7 +232,7 @@ export class JobPricingGraphService {
   }
 
   static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, payLabel: string,
-                     includeAvgLine: boolean = true, forceToOneDecimal: boolean = false) {
+                     includeAvgLine: boolean = true, forceDecimals: boolean = false, decimalPlaces: number = 1) {
     if (includeAvgLine) {
       chart.yAxis[0].addPlotLine({
         color: '#F7A154',
@@ -241,7 +241,7 @@ export class JobPricingGraphService {
         id: 'plot-line'
       });
     }
-    const avgDisplay = forceToOneDecimal ? (avg).toFixed(1) : avg.toString();
+    const avgDisplay = forceDecimals ? (avg).toFixed(decimalPlaces) : avg.toString();
     chart.xAxis[0].setCategories(
       ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + avgDisplay + '</span>']
     );
