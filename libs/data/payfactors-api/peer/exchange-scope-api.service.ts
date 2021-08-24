@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ExchangeScopeItem, ExchangeScopes, UpsertExchangeExplorerScopeRequest } from 'libs/models/peer';
+import { ExchangeScopesByExchangeRequest } from 'libs/models/payfactors-api/peer/exchange-scopes/request';
+import { ExchangeScopesByJobsRequest } from 'libs/models/payfactors-api/peer/exchange-scopes/request/exchange-scopes-by-jobs-request';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -24,15 +26,15 @@ export class ExchangeScopeApiService {
     );
   }
 
-  getExchangeScopesByJobs(exchangeJobIds: number[]): Observable<ExchangeScopeItem[]> {
-    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByJobs`,
-      { params: { exchangeJobIds: exchangeJobIds } }
+  getExchangeScopesByJobs(request: ExchangeScopesByJobsRequest): Observable<ExchangeScopeItem[]> {
+    return this.payfactorsApiService.post<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByJobs`,
+      request
     );
   }
 
-  getExchangeScopesByExchange(exchangeId: number): Observable<ExchangeScopeItem[]> {
-    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByExchange`,
-      { params: { exchangeId: exchangeId } }
+  getExchangeScopesByExchange(request: ExchangeScopesByExchangeRequest): Observable<ExchangeScopeItem[]> {
+    return this.payfactorsApiService.post<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByExchange`,
+      request
     );
   }
 
@@ -40,10 +42,10 @@ export class ExchangeScopeApiService {
     return this.payfactorsApiService.get<ExchangeScopes[]>(`${this.endpoint}/GetCompanyExchangeScopes`);
   }
 
-  deleteExchangeScope(exchangeScopeId: number): Observable<boolean> {
+  deleteExchangeScope(exchangeScopeId: number, isStandardScope: boolean): Observable<boolean> {
     return this.payfactorsApiService.post<boolean>(`${this.endpoint}/DeleteExchangeScope`,
-      { ExchangeScopeId: exchangeScopeId }
-    );
+      { ExchangeScopeId: exchangeScopeId, IsStandardScope: isStandardScope }
+  );
   }
 
 }

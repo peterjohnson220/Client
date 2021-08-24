@@ -41,6 +41,10 @@ export const EXIT_DELETE_EXCHANGE_SCOPE_MODE =
 export const SET_EXCHANGE_SCOPE_TO_DELETE =
   '[Features/Peer/Exchange Explorer/Exchange Scopes] Set Exchange Scope To Delete';
 export const RESET_INITIALLY_LOADED_STATE = '[Features/Peer/Exchange Explorer/Exchange Scopes] Reset Initially Loaded State';
+export const SET_INCLUDE_COMPANY_SCOPES = '[Features/Peer/Exchange Explorer/Exchange Scopes] Set Include Company Scopes';
+export const SET_INCLUDE_STANDARD_SCOPES = '[Feature/Peer/Exchange Explorer/Exchange Scopes] Set Include Standard Scopes';
+export const SET_EXCHANGE_SCOPES = '[Feature/Peer/Exchange Explorer/ Exchange Scopes] Set Exchange Scopes';
+export const SET_EXCHANGE_SCOPE_NAME_FILTER = '[Feature/Peer/Exchange Explorer/ Exchange Scopes] Set Exchange Scope Name Fitler';
 
 export class LoadExchangeScopesByJobs implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS;
@@ -51,7 +55,6 @@ export class LoadExchangeScopesByJobs implements Action {
 export class LoadExchangeScopesByJobsSuccess implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS;
 
-  constructor(public payload: ExchangeScopeItem[]) {}
 }
 
 export class LoadExchangeScopesByJobsError implements Action {
@@ -60,14 +63,11 @@ export class LoadExchangeScopesByJobsError implements Action {
 
 export class LoadExchangeScopesByExchange implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_EXCHANGE;
-
-  constructor(public payload: number) {}
 }
 
 export class LoadExchangeScopesByExchangeSuccess implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS;
 
-  constructor(public payload: ExchangeScopeItem[]) {}
 }
 
 export class LoadExchangeScopesByExchangeError implements Action {
@@ -105,7 +105,7 @@ export class UpsertExchangeScopeError implements Action {
 export class DeleteExchangeScope implements Action {
   readonly type = DELETE_EXCHANGE_SCOPE;
 
-  constructor(public payload: number) {}
+  constructor(public payload: {scopeId: number, isStandardScope: boolean}) {}
 }
 
 export class DeleteExchangeScopeSuccess implements Action {
@@ -135,6 +135,22 @@ export class SetExchangeScopeToDelete implements Action {
 export class ResetInitiallyLoadedState implements Action {
   readonly type = RESET_INITIALLY_LOADED_STATE;
 }
+export class SetIncludeCompanyScopes implements Action {
+  readonly type = SET_INCLUDE_COMPANY_SCOPES;
+  constructor(public payload: boolean) {}
+}
+export class SetIncludeStandardScopes implements Action {
+  readonly type = SET_INCLUDE_STANDARD_SCOPES;
+  constructor(public payload: boolean) {}
+}
+export class SetExchangeScopes implements Action {
+  readonly type = SET_EXCHANGE_SCOPES;
+  constructor(public payload: ExchangeScopeItem[]) {}
+}
+export class SetExchangeScopeNameFilter implements Action {
+  readonly type = SET_EXCHANGE_SCOPE_NAME_FILTER;
+  constructor(public payload: string) {}
+}
 
 export type Actions
   = LoadExchangeScopesByJobs
@@ -155,4 +171,8 @@ export type Actions
   | EnterDeleteExchangeScopeMode
   | ExitDeleteExchangeScopeMode
   | SetExchangeScopeToDelete
-  | ResetInitiallyLoadedState;
+  | ResetInitiallyLoadedState
+  | SetIncludeCompanyScopes
+  | SetIncludeStandardScopes
+  | SetExchangeScopes
+  | SetExchangeScopeNameFilter;

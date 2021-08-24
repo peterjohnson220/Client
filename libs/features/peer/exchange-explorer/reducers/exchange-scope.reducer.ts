@@ -1,12 +1,9 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
-import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
 // Extended entity state
-export interface State extends EntityState<ExchangeScopeItem> {
+export interface State {
   loadingByJobs: boolean;
   loadingByJobsError: boolean;
   loadingByExchange: boolean;
@@ -19,16 +16,14 @@ export interface State extends EntityState<ExchangeScopeItem> {
   deletingScopeError: boolean;
   inDeleteScopeMode: boolean;
   exchangeScopeToDelete: ExchangeScopeItem;
+  includeCompanyScopes: boolean;
+  includeStandardScopes: boolean;
+  exchangeScopeNameFilter: string;
+  exchangeScopes: ExchangeScopeItem[];
 }
 
-// Create entity adapter
-export const adapter: EntityAdapter<ExchangeScopeItem> = createEntityAdapter<ExchangeScopeItem>({
-  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.ExchangeScopeId,
-  sortComparer: (a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending)
-});
-
 // Initial State
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
   loadingByJobs: false,
   loadingByJobsError: false,
   loadingByExchange: false,
@@ -40,8 +35,13 @@ export const initialState: State = adapter.getInitialState({
   deletingScope: false,
   deletingScopeError: false,
   inDeleteScopeMode: false,
-  exchangeScopeToDelete: null
-});
+  exchangeScopeToDelete: null,
+  includeCompanyScopes: true,
+  includeStandardScopes: false,
+  exchangeScopeNameFilter: '',
+  exchangeScopes: []
+
+};
 
 export let initialLoadCompleteState: State = null;
 
@@ -50,22 +50,15 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
   switch (action.type) {
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS: {
     return {
-      ...adapter.removeAll(state),
+      ...state,
       loadingByJobs: true
     };
   }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS: {
-      const scopes: ExchangeScopeItem[] = action.payload;
-      const newState = {
-        ...adapter.setAll(scopes, state),
+      return {
+        ...state,
         loadingByJobs: false
       };
-
-      if (!initialLoadCompleteState) {
-        initialLoadCompleteState = newState;
-      }
-
-      return newState;
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_ERROR: {
       return {
@@ -76,22 +69,15 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE: {
       return {
-        ...adapter.removeAll(state),
+        ...state,
         loadingByExchange: true
       };
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS: {
-      const scopes: ExchangeScopeItem[] = action.payload;
-      const newState = {
-        ...adapter.setAll(scopes, state),
+      return {
+        ...state,
         loadingByExchange: false
       };
-
-      if (!initialLoadCompleteState) {
-        initialLoadCompleteState = newState;
-      }
-
-      return newState;
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR: {
       return {
@@ -149,7 +135,8 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     }
     case fromExchangeScopeActions.DELETE_EXCHANGE_SCOPE_SUCCESS: {
       return {
-        ...adapter.removeOne(action.payload, state),
+        ...state,
+        exchangeScopes: state.exchangeScopes.filter(x => x.ExchangeScopeId !== action.payload),
         deletingScope: false,
         deletingScopeError: false,
         inDeleteScopeMode: false,
@@ -186,6 +173,30 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
     case fromExchangeScopeActions.RESET_INITIALLY_LOADED_STATE: {
       return !!initialLoadCompleteState ? {...initialLoadCompleteState} : {...state};
     }
+    case fromExchangeScopeActions.SET_INCLUDE_COMPANY_SCOPES: {
+      return {
+        ...state,
+        includeCompanyScopes: action.payload
+      };
+    }
+    case fromExchangeScopeActions.SET_INCLUDE_STANDARD_SCOPES: {
+      return {
+        ...state,
+        includeStandardScopes: action.payload
+      };
+    }
+    case fromExchangeScopeActions.SET_EXCHANGE_SCOPES: {
+        return{
+          ...state,
+          exchangeScopes: action.payload
+        };
+    }
+    case fromExchangeScopeActions.SET_EXCHANGE_SCOPE_NAME_FILTER: {
+      return {
+        ...state,
+        exchangeScopeNameFilter: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -205,3 +216,7 @@ export const getDeletingScope = (state: State) => state.deletingScope;
 export const getDeletingScopeError = (state: State) => state.deletingScopeError;
 export const getInDeleteScopeMode = (state: State) => state.inDeleteScopeMode;
 export const getExchangeScopeToDelete = (state: State) => state.exchangeScopeToDelete;
+export const getIncludeCompanyScopes = (state: State) => state.includeCompanyScopes;
+export const getIncludeStandardScopes = (state: State) => state.includeStandardScopes;
+export const getExchangeScopes = (state: State) => state.exchangeScopes;
+export const getExchangeScopeNameFilter = (state: State) => state.exchangeScopeNameFilter;

@@ -141,3 +141,6 @@ export const getFilterContext = (state: State) => {
 };
 export const getWeightingType = (state: State) => !!state.hasBeenSet ? state.WeightingType : null;
 export const getHasDefaultScope = (state: State) => state.hasDefaultScope;
+export const getExchangeId = (state: State) => state.ExchangeId;
+export const getSelectedExchangeScope = (state: State) => state.selectedScope;
+export const getMapHasExchangeJobs = (state: State) => !!state.ExchangeJobIds || !!state.ExchangeJobId;

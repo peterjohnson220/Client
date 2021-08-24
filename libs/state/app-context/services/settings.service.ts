@@ -44,10 +44,14 @@ export class SettingsService {
     }));
   }
 
-  selectUiPersistenceSettingFromDictionary<TValue>(featureName: string, settingName: string, key: string|number): Observable<TValue> {
+  selectUiPersistenceSettingFromDictionary<TValue>(featureName: string, settingName: string, key: string | number): Observable<TValue> {
     const dictionary$ = this.selectUiPersistenceSetting<{ [dictionaryKey: string]: TValue}>(featureName, settingName, 'json');
 
     return dictionary$.pipe(map(dictionary => !!dictionary && !!key ? dictionary[key.toString()] : null));
+  }
+
+  selectUiPersistenceSettingDictionary<TValue>(featureName: string, settingName: string): Observable<{ [dictionaryKey: string]: TValue}> {
+    return this.selectUiPersistenceSetting<{ [dictionaryKey: string]: TValue}>(featureName, settingName, 'json');
   }
 
   updateUiPersistenceSettingDictionary<TValue>(featureName: string, settingName: string, key: string|number, value: TValue) {
