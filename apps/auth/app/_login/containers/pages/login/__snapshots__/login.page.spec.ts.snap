@@ -97,6 +97,7 @@ exports[`Auth - Login should disable and show correct login button text when log
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -247,6 +248,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -397,6 +399,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -554,6 +557,7 @@ exports[`Auth - Login should show password expired notification on submitError 1
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
