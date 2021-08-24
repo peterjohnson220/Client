@@ -214,6 +214,11 @@ export class UserTileToTileMapper {
         tile.IgnoreTileAnchorOverlay = true;
         tile.MarketingButtonText = 'LEARN MORE';
         break;
+      case TileTypes.PayEquity:
+        tile.CssClass = 'tile-green';
+        tile.MarketingDescription = MarketingTileDescriptions.PayEquity;
+        tile.MarketingButtonText = 'LEARN MORE';
+        break;
 
       default:
         tile.CssClass = 'tile-green';
