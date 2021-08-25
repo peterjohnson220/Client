@@ -1,5 +1,7 @@
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api';
 
+import { MarketDataJobPricingMatch } from './market-data-job-pricing.model';
+
 export class MarketDataConfig {
   static marketDataGridId = 'jobs-job-insights-market-data';
   static baseEntity = 'CompanyJobs_PricingsMatches';
@@ -177,5 +179,18 @@ export class MarketDataConfig {
         Values: [jobPricingId?.toString()]
       }
     ];
+  }
+
+  static buildMarketDataJobPricingMatch(pricingMatch: any): MarketDataJobPricingMatch {
+    return {
+      PricingMatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobTitle: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Title'],
+      JobCode: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Code'],
+      EffectiveDate: pricingMatch['vw_PricingMatchesJobTitlesMerged_Effective_Date'],
+      Source: pricingMatch['vw_PricingMatchesJobTitlesMerged_Source'],
+      Weight: pricingMatch['CompanyJobs_PricingsMatches_Match_Weight'],
+      Adjustment: pricingMatch['CompanyJobs_PricingsMatches_Match_Adjustment'],
+      PricingId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+    };
   }
 }

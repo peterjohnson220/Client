@@ -32,6 +32,19 @@ export class JobInsightsEffects {
     );
 
   @Effect()
+  getJobInsightsForPrint$ = this.actions$
+    .pipe(
+      ofType(fromJobInsightsActions.LOAD_JOB_INSIGHTS_FOR_PRINT),
+      switchMap((action: fromJobInsightsActions.LoadJobInsightsForPrint) => {
+        return this.jobsApiService.getJobInsightsForPrint(action.payload)
+          .pipe(
+            map((response) => new fromJobInsightsActions.LoadJobInsightsSuccess(response)),
+            catchError(() => of(new fromJobInsightsActions.LoadJobInsightsError()))
+          );
+      })
+    );
+
+  @Effect()
   loadCustomJobFields$ = this.actions$
     .pipe(
       ofType(fromJobInsightsActions.LOAD_CUSTOM_JOB_FIELDS),

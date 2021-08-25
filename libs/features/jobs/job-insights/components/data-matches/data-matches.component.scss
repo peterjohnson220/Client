@@ -1,0 +1,11 @@
+@import 'job-insights/job-insights-print';
+@import 'kendo-grid';
+
+.match-table {
+  margin-bottom: 1rem;
+  background: #F6F7F8;
+}
+
+:host ::ng-deep .k-grid th, :host ::ng-deep .k-grid td {
+  padding: 0.25em 1em 0.25em 0.25em !important
+}
