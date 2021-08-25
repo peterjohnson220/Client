@@ -51,11 +51,9 @@ tr {
 }
 
 .rate-display-dropdown {
-  width: 150px;
   vertical-align: unset;
-
-
-
+  width:fit-content;
+  padding-right: 30px;
 }
 
 :host ::ng-deep .k-dropdown.rate-display-dropdown {
@@ -66,19 +64,17 @@ tr {
   }
   .k-dropdown-wrap {
     border: 0 solid transparent;
+    width: fit-content;
   }
   .k-state-focused {
     box-shadow: none !important;
   }
 
   .k-select {
-    position: absolute;
-    right: 45px;
+    position: relative;
     top: 5px;
     color: #3593d3;
   }
-
-
 }
 
 .rate-display {
