@@ -103,6 +103,8 @@ export class MappingHelper {
         return TileTypes.InternationalData;
       case 'What Is New':
           return TileTypes.WhatIsNew;
+      case 'Pay Equity':
+        return TileTypes.PayEquity;
       default:
         return TileTypes.Unknown;
     }
