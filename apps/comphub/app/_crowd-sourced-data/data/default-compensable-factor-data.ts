@@ -39,7 +39,8 @@ export function generateDefaultEducationTypes(): CompensableFactorModel[] {
 
 export function generateDefaultSupervisorRole(): CompensableFactorModel[] {
   return [
-    { Name: 'No', Data: null, Selected: true },
+    { Name: 'Any', Data: null, Selected: true },
+    { Name: 'No', Data: null, Selected: false },
     { Name: 'Yes', Data: null, Selected: false }
   ];
 }
