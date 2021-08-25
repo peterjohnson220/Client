@@ -65,6 +65,9 @@
                                   [data]="displayRates"
                                   textField="Name"
                                   valueField="Value"
+                                  [popupSettings]="{
+                                    width: '11.1em'
+                                  }"
                                   [valuePrimitive]="true"
                                   [(ngModel)]="selectedDisplayRate"
                                   (selectionChange)="handleDisplayRateSelectionChange($event)">
