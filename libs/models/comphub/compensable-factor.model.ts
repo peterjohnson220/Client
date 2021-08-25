@@ -1,4 +1,3 @@
-
 export interface CompensableFactorModel {
   Name: string;
   Data: CompensableFactorData;

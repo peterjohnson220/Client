@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { JobData, JobGridData } from 'libs/models/comphub';
-import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import { QuickPriceGridContext } from '../models';
 

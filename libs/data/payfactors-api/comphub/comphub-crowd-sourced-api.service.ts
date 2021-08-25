@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {
   CompensableFactorsRequestModel,
-  CompensableFactorsResponseModel,
+  CompensableFactorsResponse,
   GetCrowdSourcedEducationTypesResponse,
+  GetCrowdSourcedJobPricingRequest,
   GetCrowdSourcedJobPricingResponse,
+  SaveExportDataRequest,
   SearchCrowdSourcedJobsResponse
 } from '../../../models/payfactors-api';
-import { GetCrowdSourcedJobPricingRequest } from '../../../models/comphub/get-crowd-sourced-job-pricing';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,8 @@ export class ComphubCrowdSourcedApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) {}
 
-  getCompensableFactors(request: CompensableFactorsRequestModel): Observable<CompensableFactorsResponseModel[]> {
-    return this.payfactorsApiService.post<CompensableFactorsResponseModel[]>(`${this.endpoint}/GetCompensableFactors`, request);
+  getCompensableFactors(request: CompensableFactorsRequestModel): Observable<CompensableFactorsResponse[]> {
+    return this.payfactorsApiService.post<CompensableFactorsResponse[]>(`${this.endpoint}/GetCompensableFactors`, request);
   }
 
   searchCrowdSourcedJobs(jobTitle: string): Observable<SearchCrowdSourcedJobsResponse> {
@@ -35,5 +36,9 @@ export class ComphubCrowdSourcedApiService {
 
   getCrowdSourcedEducationTypes(): Observable<GetCrowdSourcedEducationTypesResponse[]> {
     return this.payfactorsApiService.get<GetCrowdSourcedEducationTypesResponse[]>(`${this.endpoint}/GetCrowdSourcedEducationTypes`);
+  }
+
+  saveExportData(request: SaveExportDataRequest): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/SaveExportData`, request);
   }
 }

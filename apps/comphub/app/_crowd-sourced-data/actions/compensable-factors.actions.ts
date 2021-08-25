@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
+import { CompensableFactorsResponse } from 'libs/models/payfactors-api/comphub/response';
 import { CompensableFactorModel } from 'libs/models/comphub';
 
 export const GET_ALL_COMPENSABLE_FACTORS = '[Comphub/Compensable Factors] Get All Compensable Factors';
@@ -22,7 +22,7 @@ export class GetAllCompensableFactors implements Action {
 export class GetAllCompensableFactorsSuccess implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS_SUCCESS;
 
-  constructor(public payload: CompensableFactorsResponseModel[]) {}
+  constructor(public payload: CompensableFactorsResponse[]) {}
 }
 
 export class GetAllCompensableFactorsError implements Action {

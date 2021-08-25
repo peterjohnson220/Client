@@ -9,13 +9,14 @@ import { ComphubApiService, ComphubCrowdSourcedApiService } from 'libs/data/payf
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import { JobGridData } from 'libs/models/comphub';
-import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
+import { ExportData, JobGridData } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
+import * as fromExportDataActions from '../../_crowd-sourced-data/actions/export-data.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
 import { WorkflowContext } from '../models';
@@ -174,12 +175,25 @@ export class JobGridEffects {
       mergeMap((data) => {
           return this.csdApiService.getCrowdSourcedJobPricing(data.action.payload)
             .pipe(
-              map(response => {
+              mergeMap((response) => {
+                const actions = [];
+
                 const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
-                return new fromJobGridActions.GetCrowdSourcedJobPricingSuccess(jobData);
+                actions.push(new fromJobGridActions.GetCrowdSourcedJobPricingSuccess(jobData));
+
+                if (data.action.payload.IncludeExportData) {
+                  const exportData: ExportData = {
+                    JsonRequest: JSON.stringify(data.action.payload),
+                    JsonResponse: JSON.stringify(response)
+                  };
+                  actions.push(new fromExportDataActions.GetExportDataSuccess(exportData));
+                }
+
+                return actions;
               }),
-              catchError((error) => of(
+              catchError(error => of(
                 new fromJobGridActions.GetCrowdSourcedJobPricingError(),
+                new fromExportDataActions.GetExportDataError(),
                 new fromComphubPageActions.HandleApiError(error)))
             );
         }
