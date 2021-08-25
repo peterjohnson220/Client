@@ -10,5 +10,6 @@ export enum MarketingTileDescriptions {
     Jobs = 'A central repository for all your jobs, displaying pay markets, data cuts, and employees associated with each position.',
     InternationalData = 'Reliable, HR-reported data from 13 countries—all part of the best comp technology on the planet.',
     TotalRewards = 'Engage and educate your employees by communicating the value and mechanics of their pay.',
-    PayEquity = 'Text for Pay Equity marketing tile goes here...'
+    PayEquity = 'Text for Pay Equity marketing tile goes here...',
+    MeritPlanning = 'Text for Merit Planning marketing tile goes here...'
 }
