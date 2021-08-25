@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, OnInit } from '@angular/core';
 import { formatDate } from '@angular/common';
 
 import { EmployeeRewardsData } from 'libs/models/payfactors-api/total-rewards/response';
@@ -10,7 +10,7 @@ import { Statement, StatementModeEnum } from 'libs/features/total-rewards/total-
   styleUrls: ['./statement-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatementViewComponent implements OnChanges {
+export class StatementViewComponent implements OnInit, OnChanges {
   @Input() statement: Statement;
   @Input() loading: boolean;
   @Input() loadingError: boolean;
@@ -23,6 +23,10 @@ export class StatementViewComponent implements OnChanges {
   mode = StatementModeEnum.Preview;
   statementTitle: string;
   currentDate: string;
+
+  ngOnInit() {
+    document.querySelector('nav').classList.remove('d-none');
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!!this.statement && !!this.employeeRewardsData) {

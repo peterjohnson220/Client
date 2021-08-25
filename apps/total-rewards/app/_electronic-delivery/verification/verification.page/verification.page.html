@@ -14,6 +14,7 @@
     <div class="verification-container bg-white h-100">
       <div class="img-container text-center">
         <img height="55" width="220px" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
+        <img height="55" src="assets/payscale-logo.png" alt="payscale-logo">
       </div>
       <hr>
       <div *ngIf="(tokenStatus$ | async)?.loading || (tokenStatus$ | async)?.obj === tokenStatus.Valid || (tokenStatus$ | async)?.obj === tokenStatus.Invalid" class="verification-content">
@@ -66,7 +67,7 @@
         <h1 class="p-5">Sorry, we couldn't confirm it's you.</h1>
         <h5 class="font-weight-normal">It looks like your verification code was entered incorrectly. Please wait {{lockedUntilTimeLeft}} minute<span *ngIf="lockedUntilTimeLeft !== 1">s</span> and try again or contact your company administrator.</h5>
       </div>
-      <p class="font-weight-light	text-primary text-center">All Rights Reserved Payfactors @ {{currentYear}} | Privacy Policy</p>
+      <pf-global-footer></pf-global-footer>
     </div>
   </div>
 </ng-template>

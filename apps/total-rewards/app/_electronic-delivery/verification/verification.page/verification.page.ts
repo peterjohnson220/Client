@@ -48,6 +48,7 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
   notificationConnected = false;
 
   totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
+  payscaleBrandingFeatureFlag: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
   unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<fromPageReducer.State>, private featureFlagService: AbstractFeatureFlagService) {
@@ -62,6 +63,7 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
     this.downloadingPdf$ = this.store.select(fromPageReducer.getDownloadingPdf);
 
     this.totalRewardsAdditionalPageFeatureFlag.value = this.featureFlagService.enabled(this.totalRewardsAdditionalPageFeatureFlag.key);
+    this.payscaleBrandingFeatureFlag.value = this.featureFlagService.enabled(this.payscaleBrandingFeatureFlag.key);
   }
 
   ngOnInit(): void {
@@ -83,6 +85,9 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
         this.initHubConnection(token);
       }
     });
+    if (this.payscaleBrandingFeatureFlag.value === true) {
+      document.querySelector('nav').classList.add('d-none');
+    }
   }
 
   ngOnDestroy() {

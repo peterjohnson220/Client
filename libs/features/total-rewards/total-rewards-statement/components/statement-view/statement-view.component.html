@@ -1,6 +1,7 @@
 <ng-container *ngIf="!!employeeRewardsData && !!statement">
   <span *ngIf="showPayfactorsLogo" class="navbar-brand logo mr-auto">
-    <img src="/client/total-rewards/assets/payfactors-transparent.png"/>
+    <img src="./assets/payfactors-transparent.png"/>
+    <img src="./assets/payscale_logo_white_rgb.png" class="ml-4" />
   </span>
   <pf-page-with-title-bar class = "desktop">
       <ng-container page-title>
@@ -39,7 +40,8 @@
   </pf-page-with-title-bar>
   <div class="justify-content-center h-100 mobile">
     <div class="bg-white h-100">
-      <img height="55" width="220px" class="mobile-img" src="/client/total-rewards/assets/images/payfactors-logo.png" alt="payfactors-logo">
+      <img height="55" width="220px" class="mobile-img" src="./assets/payfactors-transparent.png" alt="payfactors-logo">
+      <img height="55" src="./assets/payscale-logo.png" />
       <hr>
       <div class="mobile-text">
         <div>Your Total Rewards Statement is ready for review! Tap "View Statement" to see more.</div>
