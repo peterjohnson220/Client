@@ -4,10 +4,8 @@ exports[`Tile Preview Peer should show component 1`] = `
 <pf-tile-preview-peer
   carousel={[Function NgbCarousel]}
   exchangePreviewModels={[Function Array]}
-  legendLabelStyle={[Function Object]}
-  limitLabelText={[Function Object]}
   model={[Function Object]}
-  seriesItemHighlightStyle={[Function Object]}
+  payscaleBrandingFeatureFlag="false"
 >
   <div
     class="tile-container row m-1"

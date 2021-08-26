@@ -10,6 +10,7 @@ import {
 import { StringReplacePipe } from 'libs/core/pipes';
 import { SettingsService } from 'libs/state/app-context/services';
 import * as fromRootState from 'libs/state/state';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import { TileComponent } from './tile.component';
 
@@ -29,7 +30,13 @@ describe('Tile', () => {
         TileComponent,
         StringReplacePipe
       ],
-      providers: [SettingsService],
+      providers: [
+        SettingsService,
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -57,7 +64,7 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with no payload', () => {
     instance.tile = generateMockIconTile();
     fixture.detectChanges();
-    const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile);
+    const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile, false);
     expect(tilePreviewIcon.ContainsDetailData).toEqual(false);
     expect(tilePreviewIcon.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
     expect(tilePreviewIcon.IconSize).toEqual('10x');
@@ -67,7 +74,7 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with payload', () => {
     instance.tile = generateMockIconTileWithPayload();
     fixture.detectChanges();
-    const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile);
+    const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile, false);
     expect(tilePreviewIconWithPayload.ContainsDetailData).toEqual(true);
     expect(tilePreviewIconWithPayload.faIconClass.join(' ')).toEqual(instance.tile.IconClass);
     expect(tilePreviewIconWithPayload.IconSize).toEqual('4x');

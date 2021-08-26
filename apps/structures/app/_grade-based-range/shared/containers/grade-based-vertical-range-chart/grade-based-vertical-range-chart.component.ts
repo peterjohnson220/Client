@@ -11,6 +11,7 @@ import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { FormattersService } from 'libs/core/services/formatters.service';
 
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromGradeBasedSharedReducer from '../../../shared/reducers';
@@ -323,7 +324,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
   }
 
   private formatSalary(salary: number) {
-    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+    return `Average ${this.controlPointDisplay}: ${FormattersService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
   }
 
   private formatOutlierCount(min: boolean, count: number) {
@@ -331,7 +332,7 @@ export class GradeBasedVerticalRangeChartComponent implements OnInit, OnDestroy,
   }
 
   private formatDelta(min: boolean, delta: number) {
-    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
+    return FormattersService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
       + (min ? ' to bring all to minimum' : ' above the maximum');
   }
 

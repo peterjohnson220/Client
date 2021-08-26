@@ -4,7 +4,7 @@
   [ngClass]="tile.CssClass">
 
   <div *ngIf="!highlightMarketingContent">
-    <h4>{{ tile.Label }}</h4>
+    <h4 [ngClass]="{'pl-1': payscaleBrandingFeatureFlag.value}">{{ tile.Label }}</h4>
   </div>
 
   <a *ngIf="!tile.IgnoreTileAnchorOverlay" id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile-link"
@@ -14,11 +14,13 @@
   <!-- Tile Inner Content -->
   <div *ngIf="!highlightMarketingContent">
     <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
-                          [model]="previewModel">
+                           [model]="previewModel"
+                           [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
     </pf-tile-preview-chart>
 
     <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
-                          [model]="previewModel">
+                          [model]="previewModel"
+                          [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
     </pf-tile-preview-icon>
 
     <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"
@@ -34,16 +36,19 @@
     </pf-tile-preview-calendar-with-chart>
 
     <pf-tile-preview-chart-with-list *ngSwitchCase="tilePreviewType.ChartWithList"
-                                    [model]="previewModel">
+                                     [model]="previewModel"
+                                     [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
 
     </pf-tile-preview-chart-with-list>
 
     <pf-basic-list *ngSwitchCase="tilePreviewType.BasicList"
-                  [model]="previewModel">
+                   [model]="previewModel"
+                   [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag">
     </pf-basic-list>
 
     <pf-tile-preview-peer *ngSwitchCase="tilePreviewType.Peer"
-                   [model]="previewModel">
+                          [model]="previewModel"
+                          [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
     </pf-tile-preview-peer>
 
     <pf-tile-preview-total-rewards *ngSwitchCase="tilePreviewType.TotalRewards"
@@ -62,7 +67,7 @@
       </div>
     </div>
 
-  </div>    
+  </div>
 
   <div #makretingTileOverlay *ngIf="tile.MarketingEnabled"
     class='marketing-overlay'

@@ -1,21 +1,16 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Store, StoreModule, combineReducers } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { SettingsService } from 'libs/state/app-context/services';
-import {
-  DataViewAccessLevel,
-  generateMockSharedDataViewUser,
-  SharedDataViewUser,
-  generateMockUserDataView
-} from 'libs/ui/formula-editor';
-import { CsvFileDelimiter, ExportFileExtension } from 'libs/models/payfactors-api';
+import { DataViewAccessLevel, generateMockSharedDataViewUser, generateMockUserDataView, SharedDataViewUser } from 'libs/ui/formula-editor';
+import { CsvFileDelimiter, DataViewScope, ExportFileExtension } from 'libs/models/payfactors-api';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
 import { PermissionService } from 'libs/core/services';
 
@@ -77,6 +72,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     route = TestBed.inject(ActivatedRoute);
 
     fixture.detectChanges();
+    instance.userDataView = generateMockUserDataView();
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
   });
@@ -223,6 +219,17 @@ describe('Data Insights - Custom Report View Comopnent', () => {
     spyOn(store, 'dispatch');
     instance.shareableUsersLoaded = true;
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch GetShareableUsers action when handling share clicked but not a personal report', () => {
+    const expectedAction = new fromDataViewActions.GetShareableUsers();
+    spyOn(store, 'dispatch');
+    instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
+    instance.userDataView.Scope = DataViewScope.Standard;
 
     instance.handleShareClicked();
 

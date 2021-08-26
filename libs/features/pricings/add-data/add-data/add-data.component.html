@@ -5,7 +5,7 @@
       [size]="'xl'"
       [title]="'Add Data' + ((jobContext$ | async) ? ' - ' + (jobContext$ | async).JobTitle : '')"
       [isOpen$]="showAddModal$"
-      [showSubmit]="false"
+      [showSubmit]="showSubmit"
       [centered]="true"
       [showSpinner]="true"
       [modalId]="'au-modal-add-data'"
@@ -14,8 +14,9 @@
       [primaryButtonText]="'Add'"
       (onDismiss)="handleCancelClicked()"
       (onSubmit)="handleAddClicked()"
-      [submitEnabled]="false"
-      [primaryButtonTextSubmitting]="'Saving'"
+      [submitEnabled]="!(addingData$ | async) && (selectedCuts$ | async).length"
+      [submitting]="(addingData$ | async)"
+      [primaryButtonTextSubmitting]="'Adding'"
     >
       <ng-container basic-content>
         <div class="add-data-modal-container">
@@ -70,7 +71,7 @@
           Cancel
         </button>
 
-        <div class="exclude-from-participation">
+        <div *ngIf="featureImplementation !== implementations.MODIFY_PRICINGS" class="exclude-from-participation">
           <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2 au-chk-exclude-from-participation"/>
           <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
         </div>

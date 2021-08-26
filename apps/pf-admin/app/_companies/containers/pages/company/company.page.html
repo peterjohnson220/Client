@@ -9,7 +9,7 @@
       (click)="handleCompanyTagsClicked()">
       <fa-icon [icon]="['fal', 'tags']" class="tag-icon-center"></fa-icon>
     </button>
-    <button [disabled]="(savingCompany$ | async) || submitDisabled" id="company-form-submit"
+    <button [disabled]="(savingCompany$ | async) || !(loadingCompanyTilesSuccess$ | async) || submitDisabled" id="company-form-submit"
       (click)="handleSaveClicked(companyPageTabs.companySettings)"
       class="btn btn-primary">{{(savingCompany$ | async) ? 'Saving' : 'Save'}}
     </button>

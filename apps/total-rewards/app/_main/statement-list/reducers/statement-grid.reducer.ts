@@ -166,7 +166,8 @@ export function reducer(state, action) {
           dir: 'desc'
         }
       ]
-    })(state, action);
+    },
+    true)(state, action);
 }
 
 export const getStatementsTotal = (state: State) => state.statementsTotal;
