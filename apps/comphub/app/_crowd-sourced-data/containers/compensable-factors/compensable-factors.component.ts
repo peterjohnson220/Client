@@ -4,14 +4,14 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { CompensableFactorModel } from 'libs/models/comphub';
-import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
-import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api';
+import { CompensableFactorsResponse, GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import * as fromComphubCsdReducer from '../../reducers';
 import { CompensableFactorsConstants } from '../../constants/compensable-factors-constants';
 import { CompensableFactorTypes } from '../../constants';
 import * as fromJobGridActions from '../../../_shared/actions/job-grid.actions';
 import { CompensableFactorDataMapper } from '../../helpers';
+import * as fromExportDataActions from '../../actions/export-data.actions';
 
 @Component({
   selector: 'pf-compensable-factors',
@@ -22,7 +22,7 @@ export class CompensableFactorsComponent implements OnDestroy {
   @Input() selectedJobTitle: string;
   @Input() selectedCountry: string;
   @Input() selectedPaymarketId: number;
-  @Input() selectedFactors: CompensableFactorsResponseModel[];
+  @Input() selectedFactors: CompensableFactorsResponse[];
 
   compensableFactorsDataSub: Subscription;
 
@@ -54,10 +54,11 @@ export class CompensableFactorsComponent implements OnDestroy {
       JobTitle: this.selectedJobTitle,
       Country: this.selectedCountry,
       PaymarketId: this.selectedPaymarketId,
-      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors)
+      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors),
+      IncludeExportData: true
     };
-
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
+    this.store.dispatch(new fromExportDataActions.GetExportData());
   }
 
   ngOnDestroy(): void {

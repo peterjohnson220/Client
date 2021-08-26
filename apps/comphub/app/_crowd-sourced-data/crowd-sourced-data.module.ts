@@ -33,6 +33,7 @@ import { CrowdSourcedJobGridContentComponent, CompensableFactorTypeComponent} fr
 import { reducers } from './reducers';
 import { CompensableFactorsEffect } from './effects';
 import { JobSummaryReportPrintTemplateComponent, JobSummaryPrintComponent } from './print';
+import { ExportDataEffect } from './effects/export-data.effect';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { JobSummaryReportPrintTemplateComponent, JobSummaryPrintComponent } from
 
     StoreModule.forFeature('comphub_crowd_sourced', reducers),
     EffectsModule.forFeature([
-      CompensableFactorsEffect
+      CompensableFactorsEffect,
+      ExportDataEffect
     ]),
 
     // Payfactors

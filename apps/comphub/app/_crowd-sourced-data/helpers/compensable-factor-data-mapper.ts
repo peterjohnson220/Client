@@ -1,8 +1,7 @@
-import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
-import { CompensableFactorRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
+import { CompensableFactorRequest, CompensableFactorsResponse } from 'libs/models/payfactors-api';
 
 export class CompensableFactorDataMapper {
-  static getCompensableFactorDataMap(data: CompensableFactorsResponseModel[]): CompensableFactorsResponseModel[] {
+  static getCompensableFactorDataMap(data: CompensableFactorsResponse[]): CompensableFactorsResponse[] {
     Object.keys(data).forEach(key => {
       data[key].map(x => {
         x.Selected = false;

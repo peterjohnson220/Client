@@ -1,11 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
+import { CompensableFactorsResponse } from 'libs/models/payfactors-api';
 
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 
 export interface State {
-  compensableFactors: CompensableFactorsResponseModel[];
+  compensableFactors: CompensableFactorsResponse[];
   loadingCompensableFactors: boolean;
   loadingCompensableFactorsError: boolean;
   loadingEducationTypes: boolean;

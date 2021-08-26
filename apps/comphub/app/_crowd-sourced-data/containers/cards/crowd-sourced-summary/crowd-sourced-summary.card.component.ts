@@ -5,10 +5,9 @@ import { ActionsSubject, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
 
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
-import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
 import { Rates, RateType } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models';
-import { PricingForPayGraph } from 'libs/models/payfactors-api';
+import { GetCrowdSourcedJobPricingRequest, PricingForPayGraph } from 'libs/models/payfactors-api';
 
 import { ComphubPages } from '../../../../_shared/data';
 import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
@@ -21,6 +20,7 @@ import { CompensableFactorDataMapper } from '../../../helpers';
 import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
 import * as fromComphubCsdReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
+import * as fromExportDataActions from '../../../actions/export-data.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -133,9 +133,11 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       JobTitle: this.selectedJob.JobTitle,
       Country: this.workflowContext.activeCountryDataSet.CountryName,
       PaymarketId: this.selectedPaymarket.CompanyPayMarketId,
-      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors)
+      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors),
+      IncludeExportData: true
     };
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
+    this.store.dispatch(new fromExportDataActions.GetExportData());
   }
 
   getOrganizationType(id: number) {
@@ -158,6 +160,10 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     const selectedRateType = RateType[type.Value];
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
     this.mapJobDataToPayGraphData(this.selectedJob);
+  }
+
+  handleExportJobBtnClicked() {
+    this.store.dispatch(new fromExportDataActions.SaveExportData());
   }
 
   mapJobDataToPayGraphData(selectedJob: JobData) {
