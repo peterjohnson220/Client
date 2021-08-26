@@ -9,6 +9,7 @@ export class JobInfoResponse {
 
 export interface CompanyJob {
   CompanyJobId: number;
+  Id?: number;
   CompanyId?: number;
   JobTitle: string;
   JobLevel: string;

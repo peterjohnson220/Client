@@ -169,45 +169,7 @@
               Access Code is required
             </div>
         </div>
-  
-        <!-- Payment -->
-        <div class="form-group">
-          <label [class.text-danger]="showControlValidation('PaymentOption')">Payment*</label>
-          <div class="form-check">
-            <input
-              data-qa-id="chk-pay-now"
-              class="form-check-input"
-              type="radio"
-              name="PaymentOption"
-              id="option-pay-now"
-              value="now"
-              formControlName="PaymentOption"
-              [class.is-invalid]="showControlValidation('PaymentOption')"
-              required>
-            <label class="form-check-label" for="option-pay-now">
-              Pay Now
-            </label>
-          </div>
-          <div class="form-check">
-            <input
-              data-qa-id="chk-pay-later"
-              class="form-check-input"
-              type="radio"
-              name="PaymentOption"
-              id="option-pay-later"
-              value="later"
-              formControlName="PaymentOption"
-              [class.is-invalid]="showControlValidation('PaymentOption')"
-              required>
-            <label class="form-check-label" for="option-pay-later">
-              Pay Later (Invoice)
-            </label>
-          </div>
-          <div *ngIf="showControlValidation('PaymentOption')" class="text-danger mt-1">
-            Payment is required
-          </div>
-        </div>
-  
+
         <!-- Captcha -->
         <div class="form-group">
           <pf-captcha formControlName="Captcha"></pf-captcha>

@@ -15,7 +15,8 @@ const initialState: State = {
 // Reducer function
 export function reducer(state = initialState, action: fromAddSurveyDataActions.Actions): State {
   switch (action.type) {
-    case fromAddSurveyDataActions.ADD_DATA: {
+    case fromAddSurveyDataActions.ADD_DATA:
+    case fromAddSurveyDataActions.ADD_PRICING_MATCHES: {
       return {
         ...state,
         addingData: true,

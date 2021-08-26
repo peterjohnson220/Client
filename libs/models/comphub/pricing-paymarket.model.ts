@@ -7,6 +7,8 @@ export interface PricingPaymarket {
   SizeLabel: string;
   CurrencyCode: string;
   CountryCode?: string;
+  OrganizationTypeId?: number;
+  IsGovernmentContractor?: boolean;
 }
 
 export function generateMockPricingPaymarket(): PricingPaymarket {

@@ -1,4 +1,4 @@
-<ng-container *ngIf="jobPricing?.Id > 0; else noDataTemplate">
+<ng-container *ngIf="!!jobPricing?.PricingId; else noDataTemplate">
   <pf-async-container [loading]="(pricingMatches$ | async)?.loading"></pf-async-container>
   <ng-container *ngIf="(pricingMatches$ | async)?.obj?.length; else noDataTemplate">
     <ng-container *ngFor="let job of (pricingMatches$ | async).obj; let isEven=even;">
@@ -22,8 +22,14 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="match-actions-{{job['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID']}}">
                 <button ngbDropdownItem type="button" (click)="openMatchDetailsModal(job)">View Match Details</button>
+                <button [pfSecuredResource]="permissions.MODIFY_PRICINGS"
+                        ngbDropdownItem
+                        type="button"
+                        (click)="openWeightAdjustModal(job)">
+                        Weight/Adjust
+                </button>
                 <span [title]="modifyMatchPermissionMessage(true)">
-                  <button [disabled]="!isActiveJob || !!jobPricing.LinkedPayMarketId"
+                  <button [disabled]="!isActiveJob || !!jobPricing.LinkedPayMarketName?.length"
                           [pfSecuredResource]="permissions.MODIFY_PRICINGS"
                           ngbDropdownItem
                           type="button"
@@ -63,7 +69,7 @@
 
 <ng-template #noDataTemplate>
   <div class="px-3 pb-3 no-market-data-container d-flex align-items-center justify-content-center">
-    <span>No market data to display. Click 'Add Data' to match this job.</span>
+    <span>No market data to display.<span *ngIf="canModifyPricings"> Click 'Add Data' to match this job.</span></span>
   </div>
 </ng-template>
 
@@ -85,3 +91,5 @@
     </pf-data-cut-summary>
   </ng-container>
 </pf-modal-form>
+
+<pf-weight-adjust-modal></pf-weight-adjust-modal>

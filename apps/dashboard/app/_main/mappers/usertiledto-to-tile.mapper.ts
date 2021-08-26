@@ -6,7 +6,7 @@ import { MarketingTileDescriptions } from '../models/marketing-tile-descriptions
 
 export class UserTileToTileMapper {
 
-  static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
+  static mapUserTileDtoToTile(dashboardTile: UserTileDto, payscaleBrandingFeatureFlag: boolean): Tile {
     return this.setTileStylesProperties({
       Id: dashboardTile.UserTileId,
       Label: dashboardTile.TileDisplayName,
@@ -23,7 +23,7 @@ export class UserTileToTileMapper {
       MarketingEnabled: dashboardTile.MarketingEnabled,
       MarketingDescription: '',
       MarketingButtonText: ''
-    });
+    }, payscaleBrandingFeatureFlag);
   }
 
   static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
@@ -51,7 +51,7 @@ export class UserTileToTileMapper {
     }
   }
 
-  static setTileStylesProperties(tile: Tile): Tile {
+  static setTileStylesProperties(tile: Tile, payscaleBrandingFeatureFlag: boolean): Tile {
     switch (tile.Type) {
       case TileTypes.DataInsights:
         tile.CssClass = 'tile-green';
@@ -71,10 +71,10 @@ export class UserTileToTileMapper {
           tile.ChartLabel = 'Market Index';
           tile.ShouldLimitLegendText = false;
 
-          this.SetChartLegendColor(tile, '<90%', '#C79500');
-          this.SetChartLegendColor(tile, '90-110%', '#EEB200');
-          this.SetChartLegendColor(tile, '>110%', '#FEC968');
-          this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
+          this.SetChartLegendColor(tile, '<90%', payscaleBrandingFeatureFlag ? '#004E4B' : '#C79500');
+          this.SetChartLegendColor(tile, '90-110%', payscaleBrandingFeatureFlag ? '#00817D' : '#EEB200');
+          this.SetChartLegendColor(tile, '>110%', payscaleBrandingFeatureFlag ? '#00AAA4' : '#FEC968');
+          this.SetChartLegendColor(tile, 'Not Available', payscaleBrandingFeatureFlag ? '#4EDAD5' : '#FEDCAC');
         }
 
         break;
@@ -87,10 +87,10 @@ export class UserTileToTileMapper {
         tile.MarketingDescription = MarketingTileDescriptions.JobDescriptions;
         tile.MarketingButtonText = 'TAKE A LOOK';
 
-        this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
-        this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
-        this.SetChartLegendColor(tile, 'Published', '#5A99D3');
-        this.SetChartLegendColor(tile, 'In Review', '#264478');
+        this.SetChartLegendColor(tile, 'Not Started', payscaleBrandingFeatureFlag ? '#86B62D' : '#4472C3');
+        this.SetChartLegendColor(tile, 'Draft', payscaleBrandingFeatureFlag ? '#59791E' : '#A3A3A3');
+        this.SetChartLegendColor(tile, 'Published', payscaleBrandingFeatureFlag ? '#A6D452' : '#5A99D3');
+        this.SetChartLegendColor(tile, 'In Review', payscaleBrandingFeatureFlag ? '#CDE79D' : '#264478');
         break;
 
       case TileTypes.MyJobs:
@@ -105,14 +105,14 @@ export class UserTileToTileMapper {
           ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
 
         if (NotPricedCategory.length > 0) {
-          NotPricedCategory[ 0 ].color = '#FFCA69';
+          NotPricedCategory[ 0 ].color = payscaleBrandingFeatureFlag ? '#05678F' : '#FFCA69';
         }
 
         const PricedCategory = tile.TilePreviewData.length > 0
           ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Priced') : null;
 
         if (PricedCategory.length > 0) {
-          PricedCategory[ 0 ].color = '#EFB300';
+          PricedCategory[ 0 ].color = payscaleBrandingFeatureFlag ? '#0891CA' : '#EFB300';
         }
 
         break;
@@ -139,7 +139,6 @@ export class UserTileToTileMapper {
           tile.ChartType = TilePreviewChartTypes.Pie;
           tile.ChartLabel = 'Company Jobs';
           tile.ShouldLimitLegendText = true;
-          this.SetChartLegendColors(tile, [ '#A3A3A3', '#264478', '#C79500' ]);
         }
         break;
 
@@ -175,7 +174,7 @@ export class UserTileToTileMapper {
           tile.ChartType = TilePreviewChartTypes.Pie;
           tile.ChartLabel = 'Top Surveys';
           tile.ShouldLimitLegendText = true;
-          this.SetChartLegendColors(tile, [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
+          this.SetChartLegendColors(tile, payscaleBrandingFeatureFlag ? ['#0891CA', '#05678F', '#0FB2F6', '#71D2FA'] : [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
         }
 
         break;

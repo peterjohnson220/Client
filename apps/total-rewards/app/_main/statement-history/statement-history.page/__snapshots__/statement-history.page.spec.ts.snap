@@ -3,6 +3,8 @@
 exports[`StatementHistoryPageComponent should show the statement name 1`] = `
 <pf-statement-history
   enableFileDownloadSecurityWarning$={[Function Observable]}
+  enableFileDownloadSecurityWarningSubscription={[Function Subscription]}
+  exportModeSubscription={[Function Subscription]}
   featureFlagService={[Function Object]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
   gridFields={[Function Array]}
