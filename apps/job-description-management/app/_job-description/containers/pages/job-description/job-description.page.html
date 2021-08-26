@@ -121,6 +121,7 @@
               [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
               [results]="(jobDescriptionLibraryResults$ | async)?.obj"
               [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+              [showSkillsTab]="jdmLibrarySkillsFeatureFlag.value"
               (searchChanged)="handleLibrarySearchChange($event)"
               (tabChanged)="handleLibraryTabChange($event)"
               (pageChanged)="handleLibraryPageChange($event)"
