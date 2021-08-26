@@ -47,7 +47,7 @@ describe('Tile Preview Peer', () => {
       Type: TileTypes.Peer,
       TilePreviewData: []
     };
-    instance.model = generateTilePreviewPeerFromTile(tile);
+    instance.model = generateTilePreviewPeerFromTile(tile, false);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

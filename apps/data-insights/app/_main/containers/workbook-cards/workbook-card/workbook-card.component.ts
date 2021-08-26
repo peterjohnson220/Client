@@ -1,27 +1,38 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
 import { Workbook } from 'libs/features/surveys/reports/models';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';
+
 
 @Component({
   selector: 'pf-workbook-card',
   templateUrl: './workbook-card.component.html',
   styleUrls: ['./workbook-card.component.scss']
 })
-export class WorkbookCardComponent {
+export class WorkbookCardComponent implements OnDestroy {
   @Input() workbook: Workbook;
   @Input() displayActionsOverlayOverride: boolean;
 
   displayActionsOverlay: boolean;
   hoverWorkbookContainer: boolean;
-
+  unsubscribe$ = new Subject<void>();
+  reportingScopesEnabled: RealTimeFlag = { key: FeatureFlags.TabularReportingScopes, value: false };
   constructor(
-    private store: Store<fromDataInsightsMainReducer.State>
-  ) {}
+    private store: Store<fromDataInsightsMainReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService
+  ) {
+    this.featureFlagService.bindEnabled(this.reportingScopesEnabled, this.unsubscribe$);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$?.next();
+  }
 
   handleMouseOverWorkbookContainer() {
     this.hoverWorkbookContainer = true;

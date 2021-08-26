@@ -8,6 +8,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateMockWorkbook } from 'libs/features/surveys/reports/models';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import * as fromDashboardsActions from '../../actions/dashboards.actions';
@@ -32,7 +33,14 @@ describe('Data Insights - Dashboards Comopnent', () => {
       declarations: [ DashboardsComponent ],
       schemas: [ NO_ERRORS_SCHEMA ],
       providers: [
-        { provide: SettingsService, useClass: SettingsService }
+        {
+          provide: SettingsService,
+          useClass: SettingsService
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
       ]
     });
 

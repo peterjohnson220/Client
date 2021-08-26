@@ -6,6 +6,7 @@ import { State as KendoState } from '@progress/kendo-data-query';
 import { GetListAreaColumnsRequest } from 'libs/models/payfactors-api/user-profile/request';
 import { ListAreaColumn } from 'libs/models/common';
 import { QueryListStateRequest } from 'libs/models/payfactors-api/job-description/request/query-liststate-request.model';
+import { CREATE_WORKFLOW } from './workflow.actions';
 
 export const LOAD_JOB_DESCRIPTION_GRID = '[job-description-management / Job Description Grid] Load Job Description Grid';
 export const LOAD_JOB_DESCRIPTION_GRID_ERROR = '[job-description-management / Job Description Grid] Load Job Description Grid Error';
@@ -28,7 +29,9 @@ export const LOAD_PUBLIC_JDM_COLUMNS_SUCCESS = '[job-description-management / Jo
 export const SELECT_JOB_DESCRIPTIONS = '[job-description-management / Job Description Grid] Select Job Descriptions';
 export const ADD_ROUTING_JOBS = '[job-description-management / Job Description Grid] Add Routing Jobs';
 export const REMOVE_ROUTING_JOB = '[job-description-management / Job Description Grid] Remove Routing Job';
+export const REMOVE_ROUTING_JOB_TO_DRAFT = '[job-description-management / Job Description Grid] Remove Routing Job To Draft';
 export const ADD_DELETING_JOBS = '[job-description-management / Job Description Grid] Add Deleting Jobs';
+export const CREATE_WORKFLOW_ERROR = '[job-description-management / Job Description Grid] Create Workflow Error';
 
 export class LoadJobDescriptionGrid implements Action {
   readonly type = LOAD_JOB_DESCRIPTION_GRID;
@@ -139,6 +142,16 @@ export class RemoveRoutingJob implements Action {
   constructor(public payload: number) {}
 }
 
+export class RemoveRoutingJobToDraft implements Action {
+  readonly type = REMOVE_ROUTING_JOB_TO_DRAFT;
+
+  constructor(public payload: number) {}
+}
+
+export class CreateWorkflowError implements Action {
+  readonly type = CREATE_WORKFLOW_ERROR;
+}
+
 export class AddDeletingJobs implements Action {
   readonly type = ADD_DELETING_JOBS;
 
@@ -166,4 +179,6 @@ export type Actions
   | SelectJobDescriptions
   | AddRoutingJobs
   | RemoveRoutingJob
+  | RemoveRoutingJobToDraft
+  | CreateWorkflowError
   | AddDeletingJobs;

@@ -116,8 +116,11 @@ export class MarketsCardComponent implements OnInit {
   }
 
   handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
-    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-                              {paymarket: checkedPayMarket, initialLoad: false, comphubType: this.workflowContext.comphubType}));
+    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({
+      paymarket: checkedPayMarket,
+      initialLoad: false,
+      comphubType: this.workflowContext.comphubType
+    }));
   }
 
   handleDismissInfoBanner() {
@@ -142,15 +145,21 @@ export class MarketsCardComponent implements OnInit {
       let userDefaultPaymarketSet = false;
       for (const pp of paymarkets) {
         if (pp.CompanyPayMarketId === userContext.DefaultPayMarketId) {
-          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-            {paymarket: pp, initialLoad: true, comphubType: workflowContext.comphubType}));
+          this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({
+            paymarket: pp,
+            initialLoad: true,
+            comphubType: workflowContext.comphubType
+          }));
           userDefaultPaymarketSet = true;
           break;
         }
       }
       if (!userDefaultPaymarketSet) {
-        this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(
-          {paymarket: null, initialLoad: true, comphubType: workflowContext.comphubType}));
+        this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket({
+          paymarket: null,
+          initialLoad: true,
+          comphubType: workflowContext.comphubType
+        }));
       }
     }
   }

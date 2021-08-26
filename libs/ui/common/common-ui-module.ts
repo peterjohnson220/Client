@@ -35,6 +35,7 @@ import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { AfterIfDirective, ClickElsewhereDirective, EllipsisActiveDirective, PfScrollSpyDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
+import { MultiUserOrEmailPickerComponent } from './multi-user-email-picker/multi-user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
@@ -51,6 +52,7 @@ const components = [
   CardComponent,
   CardSelectorComponent,
   UserOrEmailPickerComponent,
+  MultiUserOrEmailPickerComponent,
   MultiSelectComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,

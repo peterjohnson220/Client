@@ -1,3 +1,6 @@
+@import 'colors';
+@import 'libs/styles/ngbootstrap-tabset-overrides';
+
 .close-btn {
   cursor: pointer;
 }
@@ -5,3 +8,36 @@
 .header-actions {
   padding: 0.75rem 1.0rem;
 }
+
+.tab-top-offset {
+  top: 90px !important;
+}
+
+.nav-link {
+  color: black !important;
+  padding: 0.75rem 1.0rem;
+}
+
+.full-size {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.employee-details-bottom-border {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.employee-title {
+  white-space: nowrap;
+  display: block;
+  padding: 10px 0px;
+  max-width: 320px;
+}
+
+@include pf-tabset;

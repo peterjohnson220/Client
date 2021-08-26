@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 import { generateMockEntity, generateMockUserDataView } from 'libs/ui/formula-editor';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import * as fromDataViewMainReducer from '../../reducers';
 import * as fromDataViewActions from '../../actions/data-view.actions';
@@ -36,6 +37,10 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
           useValue: { group: jest.fn(), reset: jest.fn(), patchValue: jest.fn() }
         },
         {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
           provide: NgbModal,
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
         }
@@ -49,7 +54,8 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
     instance.baseDataViewForm = new FormGroup({
       entity: new FormControl(''),
       name: new FormControl(''),
-      summary: new FormControl('')
+      summary: new FormControl(''),
+      scope: new FormControl('')
     });
     instance.baseEntitiesSubscription = of(generateDefaultAsyncStateObj([generateMockEntity()])).subscribe();
     fixture.detectChanges();
@@ -68,7 +74,8 @@ describe('Data Insights - Duplicate Data View Modal Component', () => {
     instance.baseDataViewForm.patchValue({
       entity: instance.userDataView.Entity,
       name: instance.userDataView.Name,
-      summary: instance.userDataView.Summary
+      summary: instance.userDataView.Summary,
+      scope: instance.userDataView.Scope
     });
     const expectedAction = new fromDataViewActions.DuplicateUserReport(instance.userDataView);
 

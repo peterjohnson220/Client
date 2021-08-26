@@ -17,9 +17,7 @@ import {
   JobPricedHistorySummaryRequest,
   JobPricedHistorySummaryResponse,
   QuickPriceJobDataRequest,
-  QuickPriceJobDataResponse,
-  SearchCrowdSourcedJobsResponse,
-  GetCrowdSourcedJobPricingResponse
+  QuickPriceJobDataResponse
 } from 'libs/models/payfactors-api/comphub';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search/request';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
@@ -94,16 +92,5 @@ export class ComphubApiService {
 
   getJobPricedHistorySummary(request: JobPricedHistorySummaryRequest): Observable<JobPricedHistorySummaryResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetJobPricedHistorySummary`, request);
-  }
-
-  searchCrowdSourcedJobs(jobTitle: string): Observable<SearchCrowdSourcedJobsResponse>  {
-    return this.payfactorsApiService.get<SearchCrowdSourcedJobsResponse>(`${this.endpoint}/SearchCrowdSourcedJobs`,
-      { params: { jobTitle: jobTitle } });
-  }
-
-  getCrowdSourcedJobPricing(jobTitle: string, country: string, paymarketId): Observable<GetCrowdSourcedJobPricingResponse>  {
-    const params = !!paymarketId ? { jobTitle: jobTitle, country: country, paymarketId: paymarketId } : { jobTitle: jobTitle, country: country };
-    return this.payfactorsApiService.get<GetCrowdSourcedJobPricingResponse>(`${this.endpoint}/GetCrowdSourcedJobPricing`,
-      { params: params });
   }
 }

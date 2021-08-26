@@ -9,6 +9,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { FormattersService } from 'libs/core/services/formatters.service';
 
 import { StructuresHighchartsService } from '../../../../shared/services';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
@@ -171,7 +172,7 @@ export class SingleJobViewEmployeesSalaryRangeChartComponent implements OnInit, 
       x: this.getScatterXCoordinate(xCoordinate),
       y: currentRow.vw_EmployeesGradeBasedStructureInfo_GradeBased_EmployeePay,
       empDisplay: name,
-      salaryDisplay: `${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
+      salaryDisplay: `${this.controlPointDisplay}: ${FormattersService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`
     };
 
     if (salary >= min && salary <= max) {

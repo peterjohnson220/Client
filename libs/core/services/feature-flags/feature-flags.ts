@@ -3,7 +3,6 @@
  */
 export class FeatureFlags {
   static readonly TotalRewardsElectronicDelivery = 'total-rewards-electronic-delivery';
-  static readonly TotalRewardsEmployeeContribution = 'total-rewards-employee-contribution';
   static readonly TotalRewardsRadialTextCounters = 'total-rewards-radial-text-counters';
   static readonly TotalRewardsHistory = 'total-rewards-history';
   static readonly PeerManageJobsGridToggle = 'peer-manage-jobs-grid-toggle';
@@ -37,4 +36,7 @@ export class FeatureFlags {
   static readonly PayscaleBranding = 'payscale-branding';
   static readonly EmployeeDetailsPanel = 'employee-details-panel';
   static readonly PeerGetResultsAsyncStrategy = 'peer-get-results-async-strategy';
+  static readonly TabularReportingScopes = 'tabular-reporting-report-scopes';
+  static readonly JobDescriptionSharing = 'jdm-sharing';
+  static readonly JdmLibrarySkills = 'jdm-library-skills';
 }

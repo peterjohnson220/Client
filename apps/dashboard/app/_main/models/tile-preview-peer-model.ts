@@ -11,7 +11,7 @@ export interface TilePreviewPeer extends TilePreviewBase {
   TileUrl: string;
 }
 
-export function generateTilePreviewPeerFromTile(tile: Tile): TilePreviewPeer {
+export function generateTilePreviewPeerFromTile(tile: Tile, payscaleBrandingFeatureFlag): TilePreviewPeer {
 
   const previewData = tile.TilePreviewData[ 0 ] !== undefined ?
     tile.TilePreviewData[ 0 ] : { TileListTitle: undefined, TileListData: undefined };
@@ -28,13 +28,13 @@ export function generateTilePreviewPeerFromTile(tile: Tile): TilePreviewPeer {
         const mappedItem = {...item};
         switch (item.DataField) {
           case 'Matched':
-            mappedItem.color = '#A3A3A3';
+            mappedItem.color = payscaleBrandingFeatureFlag ? '#5A3580' : '#A3A3A3';
             break;
           case 'Pending Review':
-            mappedItem.color = '#264478';
+            mappedItem.color = payscaleBrandingFeatureFlag ? '#41265C' : '#264478';
             break;
           case 'Not Matched':
-            mappedItem.color = '#C79500';
+            mappedItem.color = payscaleBrandingFeatureFlag ? '#7E4AB2' : '#C79500';
             break;
           default:
             break;

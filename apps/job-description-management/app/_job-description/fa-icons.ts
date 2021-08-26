@@ -31,7 +31,8 @@ import {
   faEnvelope,
   faEnvelopeOpen,
   faCheckSquare,
-  faMinusSquare
+  faMinusSquare,
+  faShare
 } from '@fortawesome/pro-solid-svg-icons';
 
 // Regular
@@ -100,6 +101,7 @@ export const faIcons = [
   falEnvelopeOpen,
   faCheckSquare,
   faMinusSquare,
+  faShare,
   fasFileExcel,
   fasFileWord,
   fasFile,

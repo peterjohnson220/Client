@@ -4143,7 +4143,8 @@
               "lodash",
               "jwt-decode",
               "dragula",
-              "hammerjs"
+              "hammerjs",
+              "highcharts"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

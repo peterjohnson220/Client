@@ -5,6 +5,7 @@ import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockWorkbook } from 'libs/features/surveys/reports/models';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import * as fromDataInsightsMainReducer from '../../../reducers';
 import * as fromDashboardsActions from '../../../actions/dashboards.actions';
@@ -24,7 +25,13 @@ describe('Data Insights - Workbook Card Component', () => {
         })
       ],
       declarations: [ WorkbookCardComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        }
+      ]
     });
 
     fixture = TestBed.createComponent(WorkbookCardComponent);

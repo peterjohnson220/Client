@@ -4,15 +4,18 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
   __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
+  featureFlagService={[Function Object]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
   marketingVideoUrl$={[Function Store]}
+  payscaleBrandingFeatureFlag={[Function Object]}
   previewModel={[Function Object]}
   sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
@@ -39,15 +42,18 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
 <pf-tile
   __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
+  featureFlagService={[Function Object]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
   marketingVideoUrl$={[Function Store]}
+  payscaleBrandingFeatureFlag={[Function Object]}
   previewModel={[Function Object]}
   sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
@@ -74,15 +80,18 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
 <pf-tile
   __ngContext__={[Function LRootView]}
   clientAppRoot={[Function String]}
+  featureFlagService={[Function Object]}
   highlightMarketingContent="false"
   marketingVideoMouseOver="false"
   marketingVideoUrl$={[Function Store]}
+  payscaleBrandingFeatureFlag={[Function Object]}
   previewModel={[Function Object]}
   sanitizer={[Function DomSanitizerImpl]}
   settingsService={[Function SettingsService]}
   store={[Function Store]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
+  unsubscribe$={[Function Subject]}
 >
   <div
     class="tile m-0 p-1 test cssClass"

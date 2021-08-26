@@ -3,6 +3,7 @@ export interface JobContext {
   JobPayMarketId?: number;
   CompanyJobId: number;
   JobCode: string;
+  PricingId?: number;
 }
 
 export function generateMockJobContext(): JobContext {

@@ -131,7 +131,7 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleAssignedEmployeesGridStateChange should preserve current filters and dispatch updated paging in the dispatched action', () => {
     // arrange
-    jest.spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch').mockImplementation(() => jest.fn());
     const currentGridState = {
       filter: {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }]
@@ -154,7 +154,8 @@ describe('AssignedEmployeesGridComponent', () => {
 
   it('handleClearFilter should remove the expected filter', () => {
     // arrange, set the current gridState up to have one filter
-    jest.spyOn(component.filterChangeSubject, 'next');
+    jest.spyOn(component.filterChangeSubject, 'next').mockImplementation(() => jest.fn());
+
     const currentGridState = {
       filter: {
         filters: [{ field: 'LastName', operator: 'contains', value: 'a' }]
