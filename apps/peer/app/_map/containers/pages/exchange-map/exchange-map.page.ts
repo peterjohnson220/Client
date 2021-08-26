@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
-import { Exchange, ExchangeScopeItem } from 'libs/models';
+import { Exchange, ExchangeScopeItem, StatusEnum } from 'libs/models';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer-map';
@@ -13,11 +14,14 @@ import * as fromLibsPeerExchangeExplorerActions from 'libs/features/peer/exchang
 import * as fromLibsExchangeExplorerReducer from 'libs/features/peer/exchange-explorer/reducers';
 import * as fromLibsSearchReducer from 'libs/features/search/search/reducers';
 import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromExchangeScopeActions from '../../../actions/save-exchange-scope.actions';
 import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromPeerMapReducer from '../../../reducers';
+
+
 
 @Component({
   selector: 'pf-exchange-map-page',
@@ -37,10 +41,14 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   exchangeJobIdsInScope$: Observable<number[]>;
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScope$: Observable<ExchangeScopeItem>;
+  isAdminOrImpersonating$: Observable<boolean>;
+
+  StatusEnum = StatusEnum;
 
   constructor(
     private route: ActivatedRoute,
     private libsExchangeExplorerStore: Store<fromLibsExchangeExplorerReducer.State>,
+    private store: Store<fromRootState.State>,
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
     private peerMapStore: Store<fromPeerMapReducer.State>,
     private exchangeExplorerContextService: ExchangeExplorerContextService
@@ -53,6 +61,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     this.exchangeJobIdsInScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducer.getPeerMapExchangeJobIds));
     this.exchangeScopeItems$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopes));
     this.selectedExchangeScope$ = this.sharedPeerStore.pipe(select(fromLibsExchangeExplorerReducers.getFilterContextScopeSelection));
+    this.isAdminOrImpersonating$ = this.store.pipe(select(fromRootState.getIsAdminOrImpersonating));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
@@ -92,5 +101,32 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
       }
     } as MessageEvent;
     this.exchangeExplorer.onMessage(setContextMessage);
+  }
+
+  isExportDisabled(): boolean {
+    let exchangeIsPreliminary: boolean;
+    let companyCountSufficient: boolean;
+    let exchangeJobsInScope: boolean;
+    let isSiteAdminOrImpersonating: boolean;
+
+
+    this.exchange$.pipe(take(1)).subscribe(x => {
+      exchangeIsPreliminary = x.Status === StatusEnum.Preliminary;
+    });
+
+    this.peerMapCompaniesCount$.pipe(take(1)).subscribe(x => {
+      companyCountSufficient = x >= 5;
+    });
+
+    this.exchangeJobIdsInScope$.pipe(take(1)).subscribe(x => {
+      exchangeJobsInScope = x?.length > 0;
+    });
+
+    this.isAdminOrImpersonating$.pipe(take(1)).subscribe(x => {
+      isSiteAdminOrImpersonating = x;
+    });
+
+return !companyCountSufficient || !exchangeJobsInScope || (exchangeIsPreliminary && !isSiteAdminOrImpersonating);
+
   }
 }

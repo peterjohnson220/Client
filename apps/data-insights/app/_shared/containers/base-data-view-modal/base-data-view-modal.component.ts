@@ -13,12 +13,14 @@ export class BaseDataViewModalComponent {
   @Input() baseEntities: Entity[];
   @Input() reportName: string;
   @Input() summary: string;
+  @Input() canChangeScope: boolean;
   @Input() showErrorMessages: boolean;
   @Input() saving: boolean;
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() baseDataViewForm: FormGroup;
   @Input() saveDisabled: boolean;
+  @Input() scopes: string[];
   @Output() saveClicked: EventEmitter<any> = new EventEmitter();
   @Output() cancelClicked: EventEmitter<any> = new EventEmitter();
 

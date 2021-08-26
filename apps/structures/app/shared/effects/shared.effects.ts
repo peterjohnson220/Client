@@ -39,7 +39,7 @@ export class SharedEffects {
         )
       ),
       switchMap((data) => {
-        return this.exchangeApiService.getExchangeDictionaryForCompany(data.a.payload)
+        return this.exchangeApiService.getExchangeDictionaryForCompany(data.a.payload, false)
           .pipe(
             mergeMap((res) => {
               const actions = [];

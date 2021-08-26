@@ -1,19 +1,20 @@
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 
+import { getSearchFilters } from 'libs/features/surveys/survey-search/data';
+import { JobSearchUserFilterType, SearchFilterMappingData, staticFilters } from 'libs/features/jobs/add-jobs/data';
+import { SearchContextType } from 'libs/features/surveys/survey-search/models';
+import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
-import { getSearchFilters } from 'libs/features/surveys/survey-search/data';
 import * as fromMultiMatchPageActions from 'libs/features/pricings/multi-match/actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from 'libs/features/pricings/multi-match/actions/jobs-to-price.actions';
 import * as fromAddSurveyDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
-import {JobSearchUserFilterType, SearchFilterMappingData, staticFilters} from 'libs/features/jobs/add-jobs/data';
 import * as fromPaymarketActions from 'libs/features/jobs/add-jobs/actions/paymarkets.actions';
 import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
-import {SearchFeatureIds} from 'libs/features/search/search/enums/search-feature-ids';
 
 import { AbstractFeatureFlagService, FeatureFlags } from './feature-flags';
 
@@ -34,9 +35,9 @@ export class PricingProjectHelperService {
     this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(context));
   }
 
-  SetAddDataModalContext(jobContext: any, searchContext: any) {
+  SetAddDataModalContext(jobContext: any, searchContext: any, searchContextType = SearchContextType.Project) {
+    this.setSearchContext(searchContext, searchContextType);
     this.store.dispatch(new fromSearchFiltersActions.AddFilters(getSearchFilters(this.matchMode)));
-    this.store.dispatch(new fromContextActions.SetProjectSearchContext(searchContext));
     this.store.dispatch(new fromContextActions.SetJobContext(jobContext));
     this.store.dispatch(new fromAddSurveyDataActions.ResetAddData());
     this.store.dispatch(new fromAddSurveyDataActions.SetAddDataModalStatus(true));
@@ -54,5 +55,16 @@ export class PricingProjectHelperService {
     this.store.dispatch(new fromCompanySettingsActions.LoadCompanySettings());
 
     this.store.dispatch(new fromAddJobsPageActions.SetAddJobsModalStatus(true));
+  }
+
+  private setSearchContext(searchContext: any, searchContextType = SearchContextType.Project): void {
+    switch (searchContextType) {
+      case SearchContextType.Jobs:
+        this.store.dispatch(new fromContextActions.SetModifyPricingsSearchContext(searchContext));
+        break;
+      default:
+        this.store.dispatch(new fromContextActions.SetProjectSearchContext(searchContext));
+        break;
+    }
   }
 }

@@ -10,8 +10,9 @@ import { TilePreviewCharWithList } from '../../../models';
   styleUrls: [ './tile-preview-chart-with-list.component.scss' ]
 })
 export class TilePreviewChartWithListComponent  implements OnInit {
-
   @Input() model: TilePreviewCharWithList;
+  @Input() payscaleBrandingFeatureFlag = false;
+
   chartData: any;
   MIN_CHART_DISPLAY_VALUE = 2.0001;
   MAX_TEXT_LENGTH = 55;

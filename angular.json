@@ -4089,7 +4089,8 @@
               "lodash",
               "jwt-decode",
               "dragula",
-              "hammerjs"
+              "hammerjs",
+              "highcharts"
             ]
           },
           "configurations": {

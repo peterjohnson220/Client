@@ -1,0 +1,82 @@
+<pf-async-container [loading]="(employeeInsightsAsync$ | async)?.loading">
+  <div class="p-3 employee-insights-container">
+    <div class="d-flex flex-column">
+      <ng-container *ngIf="employeeInsights">
+        <div class="card mb-3 employees-details-container">
+          <div class="card-body">
+            <div class="title">Employee Details</div>
+            <ng-container [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: employeeInformation, subTitle: 'EMPLOYEE INFORMATION'}">
+            </ng-container>
+            <ng-container *ngIf="isViewMore" [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: jobInformation, subTitle: 'JOB INFORMATION'}">
+            </ng-container>
+            <ng-container *ngIf="isViewMore" [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: componentsOfPay, subTitle: 'COMPONENTS OF PAY'}">
+            </ng-container>
+            <ng-container *ngIf="isViewMore" [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: allowances, subTitle: 'ALLOWANCES'}">
+            </ng-container>
+            <ng-container *ngIf="isViewMore" [ngTemplateOutlet]="incentiveSection"
+                          [ngTemplateOutletContext]="{fields: incentives, subTitle: 'INCENTIVES'}">
+            </ng-container>
+            <ng-container *ngIf="isViewMore" [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: employeeBenefits, subTitle: 'BENEFITS'}">
+            </ng-container>
+            <ng-container *ngIf="!!customEmployeeFields?.length && isViewMore" [ngTemplateOutlet]="employeeDetailFields"
+                          [ngTemplateOutletContext]="{fields: customEmployeeFields, subTitle: 'CUSTOM FIELDS'}">
+            </ng-container>
+            <div class="d-flex justify-content-end pb-3">
+              <div class="link" (click)="toggleViewMore()">
+                <span *ngIf="!isViewMore">view more</span>
+                <span *ngIf="isViewMore">view less</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</pf-async-container>
+
+<ng-template #employeeDetailFields let-fields="fields" let-subTitle="subTitle">
+  <div class="card-subtitle text-muted py-3">{{subTitle}}</div>
+  <div class="row">
+    <div class="col-6 px-3">
+      <div *ngFor="let field of fields; let isOdd=odd; let i=index;" class="pl-1">
+        <div *ngIf="!isOdd" class="row">
+          <ng-container *ngIf="(i <= 5 && !isViewMore) || isViewMore">
+            <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
+            <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 px-3">
+      <div *ngFor="let field of fields; let isOdd=odd; let i=index;">
+        <div *ngIf="isOdd" class="row">
+          <ng-container *ngIf="(i <= 5 && !isViewMore) || isViewMore">
+            <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
+            <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #incentiveSection let-fields="fields" let-subTitle="subTitle">
+  <div class="card-subtitle text-muted py-3">{{subTitle}}</div>
+  <div class="row">
+    <div class="col-12 px-3">
+      <div *ngFor="let field of fields; let isOdd=odd; let i=index;" class="pl-1">
+        <div class="row">
+          <ng-container *ngIf="isViewMore">
+            <label pfEllipsisActive class="col-6 ellipsis-overflowing-text">{{field.Key}}</label>
+            <div pfEllipsisActive class="col-6 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

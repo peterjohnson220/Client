@@ -5,13 +5,16 @@ import { Observable, Subscription } from 'rxjs';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
-import { CompanyJobToMapTo, ExchangeJobMapping, Job, LatestCompanyJob } from 'libs/models';
+import { CompanyJobToMapTo, ExchangeJobMapping, Job, LatestCompanyJob, StatusEnum } from 'libs/models';
 import { Permissions } from 'libs/constants';
 import * as fromNationalAverageActions from 'libs/features/peer/national-average/actions/national-average.actions';
+import * as fromRootState from 'libs/state/state';
+
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
+import * as fromPeerSharedReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-exchange-job-mapping-info',
@@ -57,7 +60,11 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   debouncedQueryValue: string;
   addingMapping: boolean;
 
-  constructor(private store: Store<fromPeerManagementReducer.State>) {
+  exchangeStatus$: Observable<number>;
+  status = StatusEnum;
+  private isAdminOrImpersonating$: Observable<boolean>;
+
+  constructor(private store: Store<fromPeerManagementReducer.State>, private peerSharedStore: Store<fromPeerSharedReducer.State>) {
     this.loadingExchangeMappingInfo$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsInfoLoading));
     this.selectedExchangeJobMapping$ = this.store.pipe(select(fromPeerManagementReducer.getSelectedExchangeJobMapping));
     this.companyJobsToMapTo$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapTo));
@@ -71,6 +78,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.deletingMappingError$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMappingError));
     this.getActiveCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoActiveCompanyJobId));
     this.selectedCompanyJobInfoModels$ = this.store.pipe(select(fromPeerManagementReducer.getAssociatedCompanyJobs));
+    this.exchangeStatus$ = this.peerSharedStore.pipe(select(fromPeerSharedReducer.getExchangeStatus));
+    this.isAdminOrImpersonating$ = this.store.pipe(select(fromRootState.getIsAdminOrImpersonating));
   }
 
   searchChanged() {

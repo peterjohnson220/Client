@@ -1,4 +1,4 @@
-import { TableauReportResponse, TableauReportViewsResponse } from 'libs/models/payfactors-api';
+import { DataViewScope, TableauReportResponse, TableauReportViewsResponse } from 'libs/models/payfactors-api';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 
 import { ReportType, View, Workbook } from '../models';
@@ -22,7 +22,7 @@ export class ReportsPayfactorsApiModelMapper {
       WorkbookDescription: response.WorkbookDescription,
       ContentUrl: response.ContentUrl,
       ShowTabs: response.ShowTabs,
-      IconClass: response.IconClass,
+      IconClass: this.mapIconClasses(response),
       Tag: response.Tag,
       IsFavorite: response.IsFavorite,
       IsStandard: companyName ? false : true,
@@ -31,8 +31,35 @@ export class ReportsPayfactorsApiModelMapper {
       DashboardsOrder: response.DashboardsOrder,
       FavoritesOrder: response.FavoritesOrder,
       Views: views,
-      AccessLevel: response.AccessLevel
+      Scope: response.Scope,
+      AccessLevel: response.AccessLevel,
+      CreatedBy: response.CreatedBy,
+      CreateDate: response.CreateDate,
+      LastModifiedBy: response.LastModifiedBy,
+      EditDate: response.EditDate,
+      ScopeIconClass: this.mapScopeIconClasses(response)
     };
+  }
+
+  static mapIconClasses(response: TableauReportResponse): string[] {
+    if  (response.ReportType === ReportType.TableauReport) {
+      return ['far', 'chart-line'];
+    }
+    return ['fal', 'table'];
+  }
+
+  static mapScopeIconClasses(response: TableauReportResponse): string[] {
+    switch (response.Scope) {
+      case DataViewScope.Company:
+        return ['fal', 'building'];
+      case DataViewScope.Standard:
+        return ['fal', 'globe'];
+      case DataViewScope.Personal:
+        return ['fal', 'user'];
+      case DataViewScope.Partner:
+        return ['fas', 'handshake'];
+    }
+    return [];
   }
 
   static mapTableauReportViewsResponsesToViews(response: TableauReportViewsResponse[]): View[] {

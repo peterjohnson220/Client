@@ -1,14 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 
 import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/comphub/get-crowd-sourced-job-pricing';
+import { Rates, RateType } from 'libs/data/data-sets';
+import { KendoDropDownItem } from 'libs/models';
 
 import { ComphubPages } from '../../../../_shared/data';
-import { WorkflowContext } from '../../../../_shared/models';
+import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromJobGridActions from '../../../../_shared/actions/job-grid.actions';
+import { SummaryPageSalaryData } from '../../../models';
+import * as fromMarketsCardActions from '../../../../_shared/actions/markets-card.actions';
+import { DataCardHelper } from '../../../../_shared/helpers';
+import { CompensableFactorDataMapper } from '../../../helpers';
+import * as fromCompensableFactorsActions from '../../../actions/compensable-factors.actions';
+import * as fromComphubCsdReducer from '../../../reducers';
+import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
 
 @Component({
   selector: 'pf-crowd-sourced-summary-card',
@@ -17,9 +28,9 @@ import * as fromJobGridActions from '../../../../_shared/actions/job-grid.action
 })
 export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
-  selectedJob$: Observable<JobData>;
   selectedJobSub: Subscription;
   selectedJob: JobData;
+  selectedJobData: SummaryPageSalaryData;
   selectedPaymarket: PricingPaymarket;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedPaymarketSub: Subscription;
@@ -29,18 +40,35 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   jobResults: JobGridData;
   jobResults$: Observable<JobGridData>;
   jobResultsSub: Subscription;
+  summaryPage: boolean;
+  firstDayOfMonth: Date;
+  selectedRate: RateType;
+  selectedRateSub: Subscription;
+  marketDataScopeSub: Subscription;
+  marketDataScope: MarketDataScope;
+  selectedFactors: {};
+  selectedFactorsSub: Subscription;
+  initJobInitialPricingSub: Subscription;
+  rates: KendoDropDownItem[] = Rates;
 
   constructor(
-    private store: Store<fromComphubSharedReducer.State>
+    private store: Store<fromComphubSharedReducer.State>,
+    private actionsSubject: ActionsSubject
   ) {
-    this.selectedJob$ = this.store.select(fromComphubSharedReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubSharedReducer.getSelectedPaymarket);
     this.workflowContext$ = this.store.select(fromComphubSharedReducer.getWorkflowContext);
     this.jobResults$ = this.store.select(fromComphubSharedReducer.getJobGridResults);
+    this.selectedFactorsSub = this.store.select(fromComphubCsdReducer.getSelectedFactors).subscribe(f => {
+      if (f) {
+        this.selectedFactors = f;
+      }
+    });
+    this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }
 
   ngOnInit() {
-    this.selectedJobSub = this.selectedJob$.subscribe(sj => {
+    this.summaryPage = false;
+    this.selectedJobSub = this.store.select(fromComphubSharedReducer.getSelectedJobData).subscribe(sj => {
       this.selectedJob = sj;
     });
 
@@ -50,24 +78,65 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
 
     this.workflowContextSub = this.workflowContext$.subscribe(wc => {
       if (!!wc && wc.selectedPageId === ComphubPages.Summary) {
+        this.summaryPage = true;
         this.workflowContext = wc;
-        this.getInitialPricing();
+        this.store.dispatch(new fromCompensableFactorsActions.GetAllCompensableFactors());
       }
     });
 
-    this.jobResultsSub = this.jobResults$.subscribe( jr => {
+    this.jobResultsSub = this.jobResults$.subscribe(jr => {
       this.jobResults = jr;
       // update selected job data
-      const jobToUpdate = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
-      this.selectedJob = jobToUpdate;
+      this.selectedJob = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
     });
+
+    this.selectedRateSub = this.store.select(fromComphubSharedReducer.getSelectedRate).subscribe(r => this.selectedRate = r);
+    this.marketDataScopeSub = this.store.select(fromComphubSharedReducer.getMarketDataScope).subscribe(md => {
+        if (md) {
+          this.marketDataScope = md;
+        }
+      }
+    );
+
+    this.store.dispatch(new fromMarketsCardActions.GetMarketDataScope());
+
+    // We need to get initial pricing only when all compensable factors loaded including default (Education, Years of experience, Supervisor)
+    this.initJobInitialPricingSub = this.actionsSubject
+      .pipe(ofType(fromCompensableFactorsActions.INIT_JOB_INITIAL_PRICING))
+      .subscribe(() => {
+        this.getInitialPricing();
+      });
   }
 
   getInitialPricing() {
-    this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(
-      { jobTitle: this.selectedJob.JobTitle, country: this.workflowContext.activeCountryDataSet.CountryName,
-        paymarketId: this.selectedPaymarket.CompanyPayMarketId }
-    ));
+    const request: GetCrowdSourcedJobPricingRequest = {
+      JobTitle: this.selectedJob.JobTitle,
+      Country: this.workflowContext.activeCountryDataSet.CountryName,
+      PaymarketId: this.selectedPaymarket.CompanyPayMarketId,
+      SelectedFactors: CompensableFactorDataMapper.mapSelectedFactorsToCompensableFactorsRequest(this.selectedFactors)
+    };
+    this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
+  }
+
+  getOrganizationType(id: number) {
+    if (this.marketDataScope != null && this.marketDataScope.OrganizationTypes != null && id != null) {
+      return this.marketDataScope.OrganizationTypes.find(x => +x.Value === id).Name;
+    }
+  }
+
+  get isHourly(): boolean {
+    return (this.selectedRate === RateType.Hourly);
+  }
+
+  calculateDataByRate(value: number): number {
+    return this.isHourly
+      ? DataCardHelper.calculateDataByHourlyRate(value)
+      : value;
+  }
+
+  handleRateSelectionChange(type: KendoDropDownItem) {
+    const selectedRateType = RateType[type.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
   }
 
   ngOnDestroy(): void {
@@ -75,7 +144,9 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.workflowContextSub.unsubscribe();
     this.selectedPaymarketSub.unsubscribe();
     this.selectedJobSub.unsubscribe();
+    this.selectedRateSub.unsubscribe();
+    this.marketDataScopeSub.unsubscribe();
+    this.selectedFactorsSub.unsubscribe();
+    this.initJobInitialPricingSub.unsubscribe();
   }
-
-
 }

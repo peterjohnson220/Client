@@ -51,6 +51,10 @@ export class ExchangeSwitcherComponent implements OnInit, OnDestroy {
     return exchangeListItem.Status === StatusEnum.Inactive;
   }
 
+  isPreliminary(exchangeListItem: ExchangeListItem): boolean {
+    return exchangeListItem.Status === StatusEnum.Preliminary;
+  }
+
   handleExchangeClicked(exchangeListItem: ExchangeListItem) {
     this.popover.close();
 
