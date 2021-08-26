@@ -1,13 +1,18 @@
 import { Injectable, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store, select } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { PfValidators } from 'libs/forms/validators';
 import { Entity, BaseDataView } from 'libs/ui/formula-editor';
+import { UserContext } from 'libs/models/security';
+import { Permissions } from 'libs/constants';
+import * as fromRootReducer from 'libs/state/state';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
+import { DataViewScope } from 'libs/models/payfactors-api';
 
 import * as fromSharedMainReducer from '../../reducers';
 
@@ -17,24 +22,32 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
   saving$: Observable<boolean>;
   savingConflict$: Observable<boolean>;
   savingError$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
 
+  userContextSubscription: Subscription;
   baseEntitiesSubscription: Subscription;
   savingSubscription: Subscription;
 
   baseEntities: Entity[];
+  scopes: string[] = [];
   saving: boolean;
   baseDataViewForm: FormGroup;
   defaultEntity: Entity;
   showErrorMessages: boolean;
   reportName: string;
   summary: string;
-
+  scope: string;
+  reportingScopesEnabled: RealTimeFlag = { key: FeatureFlags.TabularReportingScopes, value: false };
+  unsubscribe$ = new Subject<void>();
   constructor(
     protected modalService: NgbModal,
     protected formBuilder: FormBuilder,
-    protected store: Store<fromSharedMainReducer.State>
+    protected store: Store<fromSharedMainReducer.State>,
+    protected featureFlagService: AbstractFeatureFlagService
   ) {
+    this.featureFlagService.bindEnabled(this.reportingScopesEnabled, this.unsubscribe$);
     this.baseEntitiesAsync$ = this.store.pipe(select(fromSharedMainReducer.getBaseEntitiesAsync));
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit() {
@@ -45,6 +58,12 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
         this.createForm();
       }
     });
+    this.userContextSubscription = this.userContext$.subscribe(userContext => {
+      if (!userContext) {
+        return;
+      }
+      this.scopes = this.getAvailableScopes(userContext);
+  });
     this.savingSubscription = this.saving$.subscribe(value => this.saving = value);
   }
 
@@ -57,6 +76,8 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
   ngOnDestroy(): void {
     this.baseEntitiesSubscription.unsubscribe();
     this.savingSubscription.unsubscribe();
+    this.userContextSubscription?.unsubscribe();
+    this.unsubscribe$?.next();
   }
 
   close(): void {
@@ -78,7 +99,8 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
     this.baseDataViewForm = this.formBuilder.group({
       entity: [this.defaultEntity],
       name: [this.reportName, [PfValidators.required, Validators.maxLength(255)]],
-      summary: [this.summary, [Validators.maxLength(300)]]
+      summary: [this.summary, [Validators.maxLength(300)]],
+      scope: [this.scope],
     });
   }
 
@@ -86,8 +108,24 @@ export abstract class AbstractBaseDataViewModal implements OnInit, OnChanges, On
     return {
       Entity: this.baseDataViewForm.value.entity,
       Name: this.baseDataViewForm.value.name,
-      Summary: this.baseDataViewForm.value.summary
+      Summary: this.baseDataViewForm.value.summary,
+      Scope: this.baseDataViewForm.value.scope
     };
+  }
+
+  private getAvailableScopes(userContext: UserContext): string[] {
+    const scopesList: string[] = [DataViewScope.Personal];
+    if (userContext.Permissions?.some(s => s === Permissions.MANAGE_COMPANY_REPORTS)) {
+      scopesList.push(DataViewScope.Company);
+    }
+    if (userContext.AccessLevel === 'Admin') {
+      if (userContext.SystemUserGroupsId === 1) {
+        scopesList.push(DataViewScope.Standard);
+      } else {
+        scopesList.push(DataViewScope.Partner);
+      }
+    }
+    return scopesList;
   }
 
   open(): void {}

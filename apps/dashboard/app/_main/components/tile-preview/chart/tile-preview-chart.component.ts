@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-import { TilePreviewChart } from '../../../models';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import 'hammerjs';
+
+import { TileTypes } from 'libs/models';
+
+import { TilePreviewChart } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-chart',
@@ -10,36 +12,56 @@ import 'hammerjs';
   styleUrls: [ './tile-preview-chart.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TilePreviewChartComponent {
+export class TilePreviewChartComponent implements OnChanges {
   @Input() model: TilePreviewChart;
+  @Input() payscaleBrandingFeatureFlag = false;
 
   public chartData: any[] = [];
 
-  public seriesItemHighlightStyle: any = {
-    opacity: 1,
-    color: '#fff',
-    border: '#000'
-  };
-
   showChartDetail = false;
 
-  public legendLabelStyle: any = {
-    padding: 3,
-    font: 'bold 1rem',
-    color: '#fff'
-  };
+  legendLabelStyle: any;
+  limitLabelText: any;
+  seriesItemHighlightStyle: any;
 
-  public limitLabelText: any = {
-      padding: 3,
-      font: 'bold 1rem',
-      color: '#fff',
-      content: function(e) {
-      if (e.text.length > 17) {
-        return e.text.substring(0, 14) + '...';
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.payscaleBrandingFeatureFlag) {
+      this.legendLabelStyle = {
+        padding: 3,
+        font: 'bold 1rem',
+        color: this.payscaleBrandingFeatureFlag ? '#312B36' : '#fff'
+      };
+      this.limitLabelText = {
+        padding: 3,
+        font: 'bold 1rem',
+        color: this.payscaleBrandingFeatureFlag ? '#312B36' : '#fff',
+        content: function(e) {
+          if (e.text.length > 17) {
+            return e.text.substring(0, 14) + '...';
+          }
+          return e.text;
+        }
+      };
+
+      let chartHighlightColor = '#312B36';
+      switch (this.model.TileType) {
+        case TileTypes.Employees:
+          chartHighlightColor = '#001F1D';
+          break;
+        case TileTypes.Surveys:
+          chartHighlightColor = '#03394F';
+          break;
+        case TileTypes.JobDescriptions:
+          chartHighlightColor = '#2A390E';
+          break;
       }
-      return e.text;
+      this.seriesItemHighlightStyle = {
+        opacity: 1,
+        color: this.payscaleBrandingFeatureFlag ? chartHighlightColor : '#fff',
+        border: '#000'
+      };
     }
-  };
+  }
 
   public seriesClick(e): void {
     this.loadChartDetail(e.category);

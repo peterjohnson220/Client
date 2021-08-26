@@ -6,6 +6,7 @@ import { AsyncStateObj, generateDefaultAsyncStateObj } from 'libs/models';
 import { Statement } from 'libs/features/total-rewards/total-rewards-statement/models';
 import { AsyncStateObjHelper } from 'libs/core';
 import { StatementHistoryViewModel } from 'libs/features/total-rewards/total-rewards-statement/models/statement-history-list-view-model';
+import { ExportMode } from 'libs/features/total-rewards/total-rewards-statement/types/ExportMode.type';
 
 import * as fromActions from '../actions/statement-history.page.actions';
 
@@ -16,15 +17,16 @@ export interface State {
   downloadingHistoricalPdfError: boolean;
   gridState: fromKendo.State;
   pdfIdToExport: string;
+  exportMode: ExportMode;
 }
 
-export const getStatementLoadingError = (state: State) => state.statement.loadingError;
 export const initialState: State = {
   statement: generateDefaultAsyncStateObj<Statement>(null),
   statementHistory: generateDefaultAsyncStateObj<StatementHistoryViewModel>(null),
   downloadingHistoricalPdf: false,
   downloadingHistoricalPdfError: false,
   pdfIdToExport: null,
+  exportMode: 'None',
   gridState: {
     skip: 0,
     take: 20,
@@ -71,6 +73,13 @@ export function reducer(state = initialState, action: fromActions.StatementHisto
       return AsyncStateObjHelper.loadingError(state, 'statementHistory', action.payload);
     }
     case fromActions.UPDATE_GRID_STATE: {
+      const newSort = action.payload.sort[0], initialSort = initialState.gridState.sort[0];
+      if (newSort.field === initialSort.field && !newSort.dir) {
+        return { ...state, gridState: { ...action.payload, sort: [{ field: newSort.field, dir: 'asc' }] }};
+      } else if (!newSort.dir) {
+        return { ...state, gridState: { ...action.payload, sort: [initialSort] }};
+      }
+
       return { ...state, gridState: action.payload };
     }
     case fromActions.DOWNLOAD_HISTORICAL_STATEMENT: {
@@ -97,7 +106,8 @@ export function reducer(state = initialState, action: fromActions.StatementHisto
     case fromActions.UPDATE_PDF_ID_TO_EXPORT: {
       return {
         ...state,
-        pdfIdToExport: action.payload.pdfId
+        pdfIdToExport: action.payload.pdfId,
+        exportMode: action.payload.exportMode
       };
     }
     default: {
@@ -106,7 +116,9 @@ export function reducer(state = initialState, action: fromActions.StatementHisto
   }
 }
 
+export const getStatementLoadingError = (state: State) => state.statement.loadingError;
 export const getStatementHistoryLoading = (state: State) => state.statementHistory.loading;
 export const getStatementHistoryLoadingError = (state: State) => state.statementHistory.loadingError;
 export const getDownloadingHistoricalPdf = (state: State) => state.downloadingHistoricalPdf;
 export const getPdfIdToExport = (state: State) => state.pdfIdToExport;
+export const getExportMode = (state: State) => state.exportMode;

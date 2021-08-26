@@ -122,6 +122,11 @@
           Update Job Info
         </button>
 
+        <button class="dropdown-item" *ngIf="showSharePermissionsLink()"
+          (click)="handleSharePermissionsClicked()">
+          Share Permissions
+        </button>
+
         <div class="dropdown-divider"></div>
 
         <button class="dropdown-item" (click)="handleExportAsWordClicked()">

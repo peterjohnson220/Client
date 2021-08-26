@@ -1,0 +1,5 @@
+<pf-async-container [loading]="(employeeInsightsAsync$ | async)?.loading">
+  <div class="tab-content-container">
+    <pf-total-rewards-statement-lite [employeeTotalRewardsLite]="employeeTotalRewardsLite"></pf-total-rewards-statement-lite>
+  </div>
+</pf-async-container>

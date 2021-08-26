@@ -9,7 +9,7 @@ import { PricingApiService } from 'libs/data/payfactors-api';
 
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromModifyPricingsActions from '../../actions/modify-pricings.actions';
-import { DeleteMatchModalData } from '../../models';
+import { DeleteMatchModalData, MarketDataJobPricing, MarketDataJobPricingMatch } from '../../models';
 
 @Component({
   selector: 'pf-delete-match-modal',
@@ -27,6 +27,8 @@ export class DeleteMatchModalComponent implements OnInit, OnDestroy {
 
   previousPricingEffectiveDate: any = null;
   modalData: DeleteMatchModalData;
+  jobPricing: MarketDataJobPricing;
+  jobPricingMatch: MarketDataJobPricingMatch;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -41,6 +43,8 @@ export class DeleteMatchModalComponent implements OnInit, OnDestroy {
     this.modalDataSubscription = this.modalData$.subscribe(data => {
       this.modalData = data;
       if (this.modalData) {
+        this.jobPricing = this.modalData.JobPricing;
+        this.jobPricingMatch = this.modalData.JobPricingMatch;
         if (this.modalData.PricingMatchesCount !== 1) {
           this.openModal();
         } else {
@@ -62,9 +66,9 @@ export class DeleteMatchModalComponent implements OnInit, OnDestroy {
     if (!this.modalData) {
       return;
     }
-    const jobPayMarketMetaData = `${this.modalData.JobId}_${this.modalData.PayMarketId}`;
+    const jobPayMarketMetaData = `${this.jobPricing.JobId}_${this.jobPricing.PayMarketId}`;
     const request = {
-      MatchId: this.modalData.PricingMatchId,
+      MatchId: this.jobPricingMatch.PricingMatchId,
       JobPayMarketMetaData: jobPayMarketMetaData
     };
     if (this.modalData.PricingMatchesCount !== 1) {
@@ -85,8 +89,7 @@ export class DeleteMatchModalComponent implements OnInit, OnDestroy {
   }
 
   private getPreviousPricingEffectiveDate(): void {
-    const matchId = this.modalData.PricingMatchId;
-    this.pricingApiService.getPreviousPricingEffectiveDate(matchId).subscribe(response => {
+    this.pricingApiService.getPreviousPricingEffectiveDate(this.jobPricingMatch.PricingMatchId).subscribe(response => {
       this.previousPricingEffectiveDate = response;
       this.openModal();
     });

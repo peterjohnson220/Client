@@ -4,11 +4,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import { generateMockCompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
 import * as fromRootState from 'libs/state/state';
+
+import * as fromPeerSharedReducer from '../../../shared/reducers';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as manageReducers from '../../reducers/';
-import { generateMockCompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
-
 import { CompanyJobAndExchangeDetailComponent } from './company-job-and-exchange-detail.component';
 
 describe('CompanyJobAndExchangeDetailComponent', () => {
@@ -21,6 +22,7 @@ describe('CompanyJobAndExchangeDetailComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
+          peer_shared: combineReducers(fromPeerSharedReducer.reducers),
           peer_manage: combineReducers(manageReducers.reducers)
         }),
       ],

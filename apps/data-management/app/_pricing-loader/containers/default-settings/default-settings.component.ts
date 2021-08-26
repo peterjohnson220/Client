@@ -65,7 +65,7 @@ export class DefaultSettingsComponent implements OnInit, OnDestroy, OnChanges {
 
   handleNumericValueChange(keyName: LoaderSettingKeyName, defaultValue: number) {
     const updatedSetting: PricingLoaderSetting = this.defaultSettings.find(s => s.KeyName === keyName);
-    if (!updatedSetting?.NumericValue) {
+    if (updatedSetting?.NumericValue == null) {
       updatedSetting.NumericValue = defaultValue;
     }
     this.store.dispatch(new fromDefaultSettingsActions.UpdateDefaultSetting({ keyName, numericValue: updatedSetting.NumericValue }));

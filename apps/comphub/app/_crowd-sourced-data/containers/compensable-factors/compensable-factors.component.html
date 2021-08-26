@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-md-10"><h3>Compensable Factors</h3></div>
+  <div class="col-md-2"><button class="btn btn-secondary submit-btn" (click)="handleSubmitClicked()">Submit</button></div>
+</div>
+<div class="row">
+  <div class="col-md-2">
+    <ng-container #YearsFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.YEARS_EXPERIENCE"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.DropDown"
+        [smallDropDown]="true"
+        [title]="'Years of Experience'"
+        [compensableFactors]="yearsOfExperience"
+        [selectedPaymarketId]="selectedPaymarketId">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+  <div class="col-md-2">
+      <ng-container #SupervisoryFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.SUPERVISORY_ROLE"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.DropDown"
+        [smallDropDown]="true"
+        [title]="'Supervisory Role'"
+        [compensableFactors]="supervisoryRole"
+        [selectedPaymarketId]="selectedPaymarketId">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <ng-container *ngIf="!!skills" #SkillsFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.SKILLS"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.Search"
+        [title]="'Impactful Skills'"
+        [description]="'Different skills can affect salary. Choose the most important skills for this job.'"
+        [searchPlaceHolder]="'Search for more skills'"
+        [compensableFactors]="skills"
+        [topFactorsHeading]="'Top Skills'"
+        [selectedPaymarketId]="selectedPaymarketId">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+  <div class="column">
+    <ng-container *ngIf="!!certs" #CertificateFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.CERTS"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.Search"
+        [title]="'Certifications & Licenses'"
+        [description]="'Different certifications can also affect salary. Below are the most impactful certifications/licenses.'"
+        [searchPlaceHolder]="'Search for more certifications'"
+        [compensableFactors]="certs"
+        [topFactorsHeading]="'Top Certifications/Licenses'"
+        [selectedPaymarketId]="selectedPaymarketId">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+
+  <div class="column">
+
+    <ng-container #EducationFactor>
+      <pf-compensable-factor-type
+        [compensableFactorName]="compensableFactorsConstants.EDUCATION"
+        [selectedJobTitle]="selectedJobTitle"
+        [factorType]="factorTypes.DropDown"
+        [smallDropDown]="false"
+        [title]="'Minimum Degree Required'"
+        [compensableFactors]="educationTypes"
+        [selectedPaymarketId]="selectedPaymarketId">
+      </pf-compensable-factor-type>
+    </ng-container>
+  </div>
+
+</div>

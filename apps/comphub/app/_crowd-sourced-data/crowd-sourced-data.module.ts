@@ -7,6 +7,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { NgbModalModule, NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -20,11 +22,14 @@ import {
   CrowdSourcedJobsCardComponent,
   CrowdSourcedJobResultsComponent,
   CrowdSourcedDataPageComponent,
-  CrowdSourcedSummaryCardComponent } from './containers';
+  CrowdSourcedSummaryCardComponent,
+  CompensableFactorsComponent} from './containers';
 import { MainModule } from '../_main/main.module';
 import { CrowdSourcedDataPageGuard } from './guards';
 import { SharedModule } from '../_shared/shared.module';
-import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-job-grid-content';
+import { CrowdSourcedJobGridContentComponent, CompensableFactorTypeComponent} from './components';
+import { reducers } from './reducers';
+import { CompensableFactorsEffect } from './effects';
 
 @NgModule({
   imports: [
@@ -45,6 +50,11 @@ import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-
     NgbTooltipModule,
     FontAwesomeModule,
 
+    StoreModule.forFeature('comphub_crowd_sourced', reducers),
+    EffectsModule.forFeature([
+      CompensableFactorsEffect
+    ]),
+
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
@@ -59,7 +69,9 @@ import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-
     CrowdSourcedJobsCardComponent,
     CrowdSourcedJobResultsComponent,
     CrowdSourcedJobGridContentComponent,
-    CrowdSourcedSummaryCardComponent
+    CrowdSourcedSummaryCardComponent,
+    CompensableFactorTypeComponent,
+    CompensableFactorsComponent
   ],
   providers: [
     CrowdSourcedDataPageGuard
