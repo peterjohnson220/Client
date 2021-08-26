@@ -227,7 +227,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should NOT dispatch GetShareableUsers action when handling share clicked but not a personal report', () => {
     const expectedAction = new fromDataViewActions.GetShareableUsers();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     instance.userDataView.Scope = DataViewScope.Standard;
 
