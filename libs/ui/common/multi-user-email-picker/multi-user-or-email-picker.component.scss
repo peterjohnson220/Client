@@ -1,0 +1,105 @@
+@import "colors";
+
+:host {
+    display: inline-flex;
+    width: 100%;
+    flex-flow: column wrap;
+}
+
+.form-group {
+  position: relative;
+  border: 1px solid $grey;
+  cursor: text;
+  box-sizing: border-box;
+  width: 100%;
+  height: 9rem;
+  overflow-y: auto;
+}
+
+.form-control {
+  border: none;
+  height: 2.75rem;
+  padding-right: 0;
+}
+
+.multi-search-bar {
+  float: left;
+  width: auto;
+  box-shadow: none;
+  min-width: 160px;
+  display: flex;
+  background: #fff;
+}
+
+.has-danger {
+    border: 1px solid red;
+}
+
+.badge {
+  color: rgba(33, 37, 41, 1);
+  background: rgba(255, 193, 7, 0.37);
+}
+
+.badge-pill {
+  padding: 1em 0.6em;
+  border-radius: 10rem;
+  height: 3em;
+  max-width: 23rem;
+}
+
+.avatar-chip {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: space-around;
+}
+
+.remove-icon {
+  font-size: medium;
+}
+
+.remove-icon:hover {
+  cursor: pointer;
+}
+
+.picker-searching-icon {
+  position: absolute;
+  right: 14px;
+  top: calc(22%);
+}
+
+.user-picture {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+.selected-emails-container {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  outline: 0;
+  list-style: none;
+}
+
+.selected-emails {
+  float: left;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.25rem;
+  font-size: 12px;
+  font-weight: 500;
+  height: 2.25rem;
+}
+
+.disabled {
+  background: $grey;
+}
+
+::ng-deep .dropdown-menu {
+    z-index: 1500;
+}

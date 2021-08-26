@@ -67,7 +67,7 @@ export class TooltipContainerComponent implements OnInit, OnDestroy {
   }
 
   openMatchesDetailsTooltip(matchesDetails: string[]): void {
-    if (matchesDetails.length === 0) {
+    if (matchesDetails.length === 0 || !this.matchesDetailsTooltipData) {
       return;
     }
     this.matchesDetailsTooltipData.MatchesDetails = matchesDetails;

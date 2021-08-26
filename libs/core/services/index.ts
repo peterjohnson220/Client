@@ -14,3 +14,4 @@ export * from './feature-flags';
 export * from './unauthorized-http-interceptor.service';
 export * from './entity-key-validation.service';
 export * from './pricing-project-helper.service';
+export * from './formatters.service';

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { ActionsSubject, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { ofType } from '@ngrx/effects';
 import { DragulaService } from 'ng2-dragula';
 
 import { SearchBaseDirective } from 'libs/features/search/search/containers/search-base';
@@ -19,29 +20,36 @@ import * as fromContextReducer from 'libs/features/surveys/survey-search/reducer
 
 import * as fromAddSurveyDataActions from '../actions/add-data.actions';
 import * as fromAddDataReducer from '../reducers';
+import { AddDataFeatureImplementations } from '../models';
 
 @Component({
   selector: 'pf-add-data',
   templateUrl: './add-data.component.html',
   styleUrls: ['./add-data.component.scss']
 })
-export class AddDataComponent extends SearchBaseDirective {
+export class AddDataComponent extends SearchBaseDirective implements OnInit, OnDestroy {
   @Input() display: 'component' | 'modal' = 'component';
+  @Input() featureImplementation = AddDataFeatureImplementations.LEGACY_PROJECTS;
+  @Input() showSubmit = false;
   selectedCuts$: Observable<DataCutDetails[]>;
   addingData$: Observable<boolean>;
   pageShown$: Observable<boolean>;
   excludeFromParticipation: boolean;
-  featureImplementation = 'component';
   matchMode: boolean;
   showAddModal$: Observable<boolean>;
   loadingResults$: Observable<boolean>;
   searchError$: Observable<boolean>;
   jobContext$: Observable<JobContext>;
 
+  addDataSuccessSubscription: Subscription;
+
+  implementations = AddDataFeatureImplementations;
+
   constructor(
     store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private actionsSubject: ActionsSubject
   ) {
     super(store, SurveySearchFilterMappingDataObj, SearchFeatureIds.AddSurveyData, SurveySearchUserFilterType);
     this.matchMode = this.featureFlagService.enabled(FeatureFlags.SurveySearchLightningMode, false);
@@ -53,6 +61,16 @@ export class AddDataComponent extends SearchBaseDirective {
     this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
     this.showAddModal$ = this.store.select(fromAddDataReducer.getShowModal);
     this.jobContext$ = this.store.select(fromContextReducer.getJobContext);
+  }
+
+  ngOnInit(): void {
+    this.addDataSuccessSubscription = this.actionsSubject.pipe(
+      ofType(fromAddSurveyDataActions.ADD_DATA_SUCCESS)
+    ).subscribe((data) => this.handleCancelClicked());
+  }
+
+  ngOnDestroy(): void {
+    this.addDataSuccessSubscription.unsubscribe();
   }
 
   onResetApp() {
@@ -69,7 +87,14 @@ export class AddDataComponent extends SearchBaseDirective {
   }
   // Event Handling
   handleAddClicked() {
-    this.store.dispatch(new fromAddSurveyDataActions.AddData(this.excludeFromParticipation));
+    switch (this.featureImplementation) {
+      case AddDataFeatureImplementations.MODIFY_PRICINGS:
+        this.store.dispatch(new fromAddSurveyDataActions.AddPricingMatches());
+        break;
+      default:
+        this.store.dispatch(new fromAddSurveyDataActions.AddData(this.excludeFromParticipation));
+        break;
+    }
   }
   handleCancelClicked() {
     super.handleCancelClicked();

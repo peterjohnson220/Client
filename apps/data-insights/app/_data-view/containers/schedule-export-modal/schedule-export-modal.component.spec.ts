@@ -12,10 +12,11 @@ import { DataViewAccessLevel } from 'libs/ui/formula-editor/models';
 import { ExportScheduleHelper } from 'libs/features/export-scheduler/export-scheduler/models';
 import * as fromRootState from 'libs/state/state';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import { DataViewScope } from 'libs/models/payfactors-api';
 
 import * as fromScheduleExportModalReducer from '../../reducers';
-import * as fromScheduleExportModalActions from '../../actions/schedule-export-modal.actions';
 import * as fromDataViewMainReducer from '../../reducers';
+import * as fromScheduleExportModalActions from '../../actions/schedule-export-modal.actions';
 import * as fromSharedReducer from '../../../_shared/reducers';
 import { ScheduleExportModalComponent } from './schedule-export-modal.component';
 
@@ -158,9 +159,10 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
             IsBaseEntity: true,
             Name: 'Jobs',
          },
-         Name: 'New Name',
-           Summary: 'Test summary',
-           UserDataViewId: 1,
+          Name: 'New Name',
+          Summary: 'Test summary',
+          UserDataViewId: 1,
+          Scope: DataViewScope.Personal
       },
     };
       const expectedAction = new fromScheduleExportModalActions.UpdateExportSchedule(schedule);

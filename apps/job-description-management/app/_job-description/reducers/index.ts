@@ -639,6 +639,11 @@ export const getWorkflowSaving = createSelector(
   selectWorkflowState,
   fromWorkflowReducer.getWorkflowSaving
 );
+
+export const getCreateWorkflowError = createSelector(
+  selectJobDescriptionGridState,
+  fromJobDescriptionGridReducer.getCreateWorkflowError
+);
 // Workflow log
 export const getWorkflowLogEntries = createSelector(
   selectWorkflowState,

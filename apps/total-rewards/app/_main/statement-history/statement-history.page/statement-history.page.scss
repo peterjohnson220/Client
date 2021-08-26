@@ -22,3 +22,11 @@
 :host ::ng-deep .k-grid-norecords {
   background-color: white !important;
 }
+
+:host ::ng-deep .k-grid a.employee-count {
+  color: $link-color;
+  padding-left: 10px;
+  &:hover {
+    text-decoration: underline;
+  }
+}

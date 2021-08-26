@@ -6,3 +6,4 @@ export * from './project-search-context.model';
 export * from './project-context.model';
 export * from './modify-pricings-search-context.model';
 export * from './pricing-match-data-search-context.model';
+export * from './search-context-types.model';

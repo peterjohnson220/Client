@@ -4144,6 +4144,7 @@
               "jwt-decode",
               "dragula",
               "hammerjs"
+              "highcharts"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

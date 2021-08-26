@@ -10,6 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
 import { generateDefaultAsyncStateObj } from 'libs/models';
 import { generateMockEntity } from 'libs/ui/formula-editor';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import * as fromDataInsightsMainReducer from '../../reducers';
 import { DashboardsHeaderComponent } from './dashboards-header.component';
@@ -37,6 +38,10 @@ describe('Data Insights - Dashboards Comopnent', () => {
         {
           provide: FormBuilder,
           useValue: { group: jest.fn(), reset: jest.fn(), patchValue: jest.fn() }
+        },
+        {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
         }
       ]
     });

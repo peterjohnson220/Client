@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { userVoiceUrl } from 'libs/core/functions';
@@ -8,6 +8,7 @@ import { SettingsService } from 'libs/state/app-context/services';
 import { TileTypes } from 'libs/models';
 import * as fromMarketingActions from 'libs/features/infrastructure/marketing-settings/marketing-settings/actions/marketing-settings.actions';
 import { AppConstants } from 'libs/constants';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
 
 import {
   generateTilePreviewBasicListFromTile, generateTilePreviewChartFromTile, generateTilePreviewChartWithCalendarFromTile,
@@ -35,16 +36,21 @@ export class TileComponent implements OnInit, OnDestroy {
   marketingVideoUrl$: Observable<string>;
   marketingVideoUrlSubscription: Subscription;
 
+  payscaleBrandingFeatureFlag: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
+  unsubscribe$ = new Subject<void>();
+
   constructor(private settingsService: SettingsService,
               public store: Store<fromMarketingReducer.State>,
-              private sanitizer: DomSanitizer) {
+              private sanitizer: DomSanitizer,
+              private featureFlagService: AbstractFeatureFlagService) {
     this.marketingVideoUrl$ = this.store.select(fromMarketingReducer.getMarketingVideoUrl);
+    this.featureFlagService.bindEnabled(this.payscaleBrandingFeatureFlag, this.unsubscribe$);
   }
 
   generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
-        return generateTilePreviewIconFromTile(tile);
+        return generateTilePreviewIconFromTile(tile, this.payscaleBrandingFeatureFlag.value);
       case TilePreviewTypes.Chart:
         return generateTilePreviewChartFromTile(tile);
       case TilePreviewTypes.ChartWithCalendar:
@@ -58,7 +64,7 @@ export class TileComponent implements OnInit, OnDestroy {
       case TilePreviewTypes.BasicList:
         return generateTilePreviewBasicListFromTile(tile);
       case TilePreviewTypes.Peer:
-        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile), TileUrl: this.getTileHref(tile)};
+        return <TilePreviewPeer>{...generateTilePreviewPeerFromTile(tile, this.payscaleBrandingFeatureFlag.value), TileUrl: this.getTileHref(tile)};
       case TilePreviewTypes.TotalRewards:
         return {...generateTilePreviewListFromTile(tile), PreviewType: TilePreviewTypes.TotalRewards};
       case TilePreviewTypes.WhatIsNew: {
@@ -68,7 +74,7 @@ export class TileComponent implements OnInit, OnDestroy {
             this.marketingVideoSafeIframeUrl = this.getMarketingVideoIframeUrl(result);
           }
         });
-        return generateTilePreviewIconFromTile(tile);
+        return generateTilePreviewIconFromTile(tile, this.payscaleBrandingFeatureFlag.value);
       }
       default:
         return {
@@ -98,6 +104,7 @@ export class TileComponent implements OnInit, OnDestroy {
     if (this.marketingVideoUrlSubscription) {
       this.marketingVideoUrlSubscription.unsubscribe();
     }
+    this.unsubscribe$.next();
   }
 
   getTileHref(tile: Tile) {
