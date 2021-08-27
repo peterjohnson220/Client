@@ -56,9 +56,17 @@
         </div>
       </div>
       <div class="col-9">
-        <button type="button" class="btn btn-primary mb-lg-2" (click)="handleExportJobBtnClicked()">Export</button>
+        <div class="header">
+          <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
+          <div class="actions">
+            <button class="btn btn-secondary"
+              (click)="handleDownloadPdfClicked()"
+              ngbTooltip="Export">
+              <fa-icon icon="file-pdf"></fa-icon>
+            </button>
+          </div>
+        </div>
 
-        <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
         <div class="row rate-value-row">
           <div class="col-md-3"><h3 class="rate-value-label">{{selectedBaseValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> BASE PAY</div>
           <div class="col-md-3"><h3 class="rate-value-label">{{selectedTccValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> TOTAL CASH</div>

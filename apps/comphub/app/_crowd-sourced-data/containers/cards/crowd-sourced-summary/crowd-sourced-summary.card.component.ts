@@ -162,10 +162,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     this.mapJobDataToPayGraphData(this.selectedJob);
   }
 
-  handleExportJobBtnClicked() {
-    this.store.dispatch(new fromExportDataActions.SaveExportData());
-  }
-
   mapJobDataToPayGraphData(selectedJob: JobData) {
     if (!!selectedJob) {
       this.basePayGraph = {
@@ -217,6 +213,10 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       return calculatedValue / 1000;
     }
     return calculatedValue;
+  }
+
+  handleDownloadPdfClicked() {
+    this.store.dispatch(new fromExportDataActions.SaveExportData());
   }
 
   ngOnDestroy(): void {

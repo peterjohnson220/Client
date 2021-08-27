@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
@@ -9,11 +10,12 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
-import { SentryErrorHandler, SentryService } from 'libs/core/services';
+import { JwtQueryStringAuthInterceptor, SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   imports: [
@@ -36,6 +38,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     NgbPopoverModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtQueryStringAuthInterceptor, multi: true },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
     SentryService
   ],

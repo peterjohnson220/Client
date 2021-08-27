@@ -35,3 +35,4 @@ export * from './organizational-data';
 export * from './structures';
 export * from './notes';
 export * from './site-admin';
+export * from './html-to-pdf-generation';

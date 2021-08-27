@@ -26,3 +26,4 @@ export * from './notes';
 export * from './user-settings';
 export * from './projects';
 export * from './service-accounts';
+export * from './html-to-pdf-generation';
