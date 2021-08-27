@@ -42,13 +42,40 @@ tr {
   }
 }
 
-.job-title {
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: -10px;
   margin-bottom: 30px;
-  font-size: 2rem;
-  font-weight: 500;
-  color: #306589;
+
+  .job-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #306589;
+  }
+
+  .actions {
+    min-width: 185px;
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      margin-left: .75rem;
+      border: 1px solid transparent;
+
+      &:hover {
+        border: 1px solid #CCC;
+      }
+
+      fa-icon {
+        color: #777777;
+        font-size: 1.25rem;
+      }
+    }
+  }
 }
+
 
 .rate-display-dropdown {
   vertical-align: unset;

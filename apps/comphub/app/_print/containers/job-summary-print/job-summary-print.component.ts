@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -6,14 +6,15 @@ import { Observable, Subscription } from 'rxjs';
 import { JobData } from 'libs/models/comphub';
 
 import * as fromComphubSharedReducer from '../../../_shared/reducers';
-import { CompensableFactorsSummaryModel } from '../../models';
+import { CompensableFactorsSummaryModel } from '../../../_crowd-sourced-data/models';
+import { PrintConstants } from '../../constants';
 
 @Component({
   selector: 'pf-job-summary-print',
   templateUrl: './job-summary-print.component.html',
   styleUrls: ['./job-summary-print.component.scss']
 })
-export class JobSummaryPrintComponent implements OnInit, OnDestroy {
+export class JobSummaryPrintComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectedJobData$: Observable<JobData>;
 
@@ -23,6 +24,11 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
   selectedPaymarket: string;
   loadingData: boolean;
   date: string;
+  fullRenderComplete = false;
+  pageTotal = 5;
+  renderCount = 0;
+  readyForPdfGenerationSelector = PrintConstants.READY_FOR_PDF_GENERATION_SELECTOR;
+
   jobData: JobData = {
     JobId: 1234,
     JobCode: 'Test',
@@ -57,14 +63,6 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
     Skills: 'Angular, C#, Javascript',
     Certs: 'Cert 1, Cert 2, Cert3'
   };
-
-  productBusinessData: any[];
-  typesData: any[];
-  dataRangesData: any[];
-  jobTitleData: any[];
-  yearsExperienceData: any[];
-  orgSizeData: any[];
-  citiesData: any[];
 
   dataSummary = {
     'ProductBusiness': [
@@ -274,18 +272,30 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.sharedStore.select(fromComphubSharedReducer.getSelectedJobData);
   }
 
+  handleRenderComplete(rendered: boolean) {
+    if ( rendered ) {
+      this.renderCount++;
+      if (this.renderCount === this.pageTotal) {
+        this.fullRenderComplete = true;
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.selectedJobTitle = this.jobData.JobTitle;
     this.selectedPaymarket = 'National';
     this.date = '8/19/2021';
     this.loadingData = false;
-    console.log(this.dataSummary);
-    this.productBusinessData = this.dataSummary['ProductBusiness'];
     this.selectedJobDataSub = this.selectedJobData$.subscribe(data => {
       if (data) {
         this.selectedJobTitle = data.JobTitle;
       }
     });
+  }
+  ngAfterViewInit(): void {
+    if ( this.renderCount === this.pageTotal ) {
+      this.fullRenderComplete = true;
+    }
   }
 
   ngOnDestroy(): void {

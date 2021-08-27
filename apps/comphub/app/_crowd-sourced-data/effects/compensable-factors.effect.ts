@@ -9,12 +9,12 @@ import { Observable, of } from 'rxjs';
 import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub';
 
 import * as fromComphubCrowdSourcedDataReducer from '../reducers';
+import * as fromComphubCsdReducer from '../reducers';
 import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
 import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
 import { generateDefaultEducationTypes, generateDefaultSupervisorRole, generateDefaultYearsExperience } from '../data';
-import * as fromComphubCsdReducer from '../reducers';
 import { CompensableFactorDataMapper } from '../helpers';
 
 @Injectable()
