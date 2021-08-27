@@ -1,5 +1,5 @@
 import { AsyncStateObj } from 'libs/models/state';
-import { DataViewAccessLevel } from 'libs/models/payfactors-api';
+import { DataViewAccessLevel, DataViewScope } from 'libs/models/payfactors-api';
 
 import { View } from './view.model';
 import { ReportType } from './report-types.enum';
@@ -13,6 +13,7 @@ export interface Workbook {
   ContentUrl: string;
   ShowTabs: boolean;
   IconClass: string[];
+  ScopeIconClass: string[];
   Tag: string;
   IsFavorite: boolean;
   DefaultTag: string;
@@ -22,6 +23,11 @@ export interface Workbook {
   FavoritesOrder?: number;
   Views?: AsyncStateObj<View[]>;
   AccessLevel?: DataViewAccessLevel;
+  Scope?: DataViewScope;
+  CreateDate?: Date;
+  EditDate?: Date;
+  CreatedBy?: string;
+  LastModifiedBy?: string;
 }
 
 export function generateMockWorkbook(): Workbook {
@@ -38,6 +44,7 @@ export function generateMockWorkbook(): Workbook {
     IsFavorite: false,
     DefaultTag: '',
     DashboardsOrder: 1,
-    FavoritesOrder: 2
+    FavoritesOrder: 2,
+    ScopeIconClass: []
   };
 }

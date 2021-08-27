@@ -123,7 +123,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       EnableInfiniteScroll: true,
       ScrollToTop: true,
       SelectAllPanelItemName: 'employees',
-      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(500, 70, true)
+      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(400, 70, true)
     };
 
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);

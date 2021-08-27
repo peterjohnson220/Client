@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { FontAwesomeModule , FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule, NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from '@progress/kendo-angular-dateinputs';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -16,11 +17,13 @@ import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-r
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
-import { EmployeesPageEffects } from './effects';
+import { EmployeeInsightsEffects, EmployeesPageEffects } from './effects';
 import { EmployeesPageRoutingModule } from './employees-page-routing.module';
 import { EmployeesPageComponent } from './employees.page';
 import { SharedModule } from '../shared/shared.module';
-import { EmployeeDetailsComponent } from './containers';
+import { EmployeeDetailsComponent, TotalRewardsTabContentComponent } from './containers';
+import { EmployeeInsightsComponent, TotalRewardsStatementLiteComponent } from './components';
+import { ContributionCurrencyPipe } from './pipes';
 
 @NgModule({
   imports: [
@@ -31,11 +34,15 @@ import { EmployeeDetailsComponent } from './containers';
     StoreModule.forFeature('employees_main', reducers),
     FontAwesomeModule,
     EffectsModule.forFeature([
-      EmployeesPageEffects
+      EmployeesPageEffects,
+      EmployeeInsightsEffects
     ]),
     NgbTooltipModule,
     NgbDropdownModule,
+    NgbModule,
     CalendarModule,
+    NgbNavModule,
+    HighchartsChartModule,
 
     // Routing
     EmployeesPageRoutingModule,
@@ -52,7 +59,15 @@ import { EmployeeDetailsComponent } from './containers';
   declarations: [
     EmployeesPageComponent,
     // Containers
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+
+    // Components
+    EmployeeInsightsComponent,
+    TotalRewardsTabContentComponent,
+    TotalRewardsStatementLiteComponent,
+
+    // Pipes
+    ContributionCurrencyPipe
   ]
 })
 export class EmployeesPageModule {

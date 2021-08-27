@@ -18,7 +18,7 @@
 
     .dashboard-actions {
       position: relative;
-      justify-content: center;
+      justify-content: space-between;
 
       .right-container {
         position: absolute;
@@ -40,8 +40,9 @@
 
     .view-selector{
       text-align: center;
+      padding-left: 75px;
     }
-    
+
     .tag-dropdown {
       width: 150px;
       text-transform: none;

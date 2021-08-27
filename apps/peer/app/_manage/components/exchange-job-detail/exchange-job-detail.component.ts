@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ExchangeJob } from 'libs/features/peer/job-association/models/exchange-job.model';
 import { CompanyJob } from 'libs/features/peer/job-association/models/company-job.model';
-
 import { Permissions } from 'libs/constants';
+import { StatusEnum } from 'libs/models/common';
 
 @Component({
   selector: 'pf-exchange-job-detail',
@@ -19,6 +19,7 @@ export class ExchangeDetailComponent {
   @Input() exchangeJobLoadingSuccess: boolean;
   @Input() exchangeJobLoadingError: boolean;
   @Input() exchangeJob: ExchangeJob;
+  @Input() createProjectButtonEnabled: boolean;
 
   @Output() approveClick = new EventEmitter();
   @Output() rejectClick = new EventEmitter();
@@ -26,6 +27,8 @@ export class ExchangeDetailComponent {
   @Output() createProjectClick = new EventEmitter();
 
   permissions = Permissions;
+
+  constructor() {}
 
   handleApproveClick() {
     this.approveClick.emit(this.exchangeJob);

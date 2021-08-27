@@ -5,11 +5,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api';
+import { PricingApiService, SurveySearchApiService } from 'libs/data/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
-import { AddSurveyDataCutMatchResponse } from 'libs/models/payfactors-api';
+import { AddSurveyDataCutMatchResponse, ModifyPricingMatchesRequest, ModifyPricingMatchesResponse } from 'libs/models/payfactors-api';
 import * as fromSearchFiltersActionsShared from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromSearchPageActionsShared from 'libs/features/search/search/actions/search-page.actions';
+import * as fromTempDataCutReducer from 'libs/features/temp-data-cut/reducers';
 
 import * as fromAddSurveyDataActions from '../actions/add-data.actions';
 import * as fromContextActions from 'libs/features/surveys/survey-search/actions/context.actions';
@@ -103,10 +104,49 @@ export class AddDataEffects {
       })
     );
 
+  @Effect()
+  addPricingMatches$ = this.actions$
+    .pipe(
+      ofType(fromAddSurveyDataActions.ADD_PRICING_MATCHES),
+      withLatestFrom(
+        this.store.select(fromSurveySearchReducer.getJobContext),
+        this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
+        this.store.select(fromTempDataCutReducer.getTempDataCutFilterContextDictionary),
+        (
+          action: fromAddSurveyDataActions.AddPricingMatches,
+          jobContext: JobContext,
+          selectedDataCuts: DataCutDetails[],
+          tempDataCutFilterContextDictionary: any
+        ) => ({ action, jobContext, selectedDataCuts, tempDataCutFilterContextDictionary })),
+      switchMap((data) => {
+        const requests: ModifyPricingMatchesRequest[] = [
+          PayfactorsSurveySearchApiModelMapper.buildModifyPricingMatchesRequest(
+            data.jobContext,
+            data.selectedDataCuts,
+            data.tempDataCutFilterContextDictionary
+          )
+        ];
+        return this.pricingApiService.savePricingMatches(requests).pipe(
+          mergeMap(() => {
+            const response: ModifyPricingMatchesResponse = {
+              CompanyJobId: data.jobContext.CompanyJobId,
+              PaymarketId: data.jobContext.JobPayMarketId
+            };
+            return [
+              new fromAddSurveyDataActions.AddDataSuccess([]),
+              new fromAddSurveyDataActions.AddPricingMatchesSuccess([response])
+            ];
+          }),
+          catchError(() => of(new fromAddSurveyDataActions.AddDataError()))
+        );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private surveySearchApiService: SurveySearchApiService,
     private store: Store<fromSurveySearchReducer.State>,
-    private windowCommunicationService: WindowCommunicationService
+    private windowCommunicationService: WindowCommunicationService,
+    private pricingApiService: PricingApiService
   ) {}
 }

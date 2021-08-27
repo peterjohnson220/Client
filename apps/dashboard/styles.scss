@@ -2,13 +2,87 @@
 @import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
+// Payscale Brand Colors
+$payscale-primary-text-color: #312B36;
+$payscale-secondary-text-color: #027BC5;
+$payscale-tile-background-color: #FFFFFF;
+$payscale-light-highlight: #EBF8FE;
+$tile-border-radius: 9px;
+
 .main-body-scroll {
   background: url("^assets/images/DarkWood.png") repeat;
 }
 
 // TODO: remove this rule when `payscale-branding` feature flag is deprecated
-html.payscale-rebrand .main-body-scroll {
-  background: #DBDAE0;
+html.payscale-rebrand {
+  .main-body-scroll {
+    background: url("assets/images/StackedWave.svg") bottom/cover no-repeat;
+  }
+
+  body {
+    th, .chart-label, .name, .tile-text-color, .tile-text, .tile-text-large {
+      color: $payscale-primary-text-color;
+      .preview-tile-icon, .heading-icon-image, .tile-preview-list-button fa-icon {
+        color: #C3C3CA;
+      }
+    }
+
+    .gu-transit {
+      opacity: 1;
+      .tile {
+        background: #f8f9f9;
+      }
+      .tile > * {
+        opacity: 0.2;
+      }
+    } 
+
+    .tile {
+      background: $payscale-tile-background-color;
+      box-shadow: 0px 4px 4px 0px #A1A1AA80;
+      border: 2px solid transparent;
+      transition: border .3s ease-in-out;
+      border-radius: $tile-border-radius;
+
+      td > a, div > a {
+        color: $payscale-primary-text-color;
+        &:hover {
+          color: $payscale-secondary-text-color;
+        }
+      }
+
+      .marketing-overlay {
+        border-radius: $tile-border-radius;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .marketing-overlay-context {
+        background: $payscale-tile-background-color;
+        border-radius: $tile-border-radius;
+      }
+      .tile-preview-list-button {
+        color: $payscale-secondary-text-color;
+        background-color: $payscale-tile-background-color;
+      }
+
+      .details-body-container {
+        background-color: $payscale-light-highlight;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        span {
+          border: none;
+        }
+      }
+
+      .exchange-carousel .carousel-item .exchange-metrics-container .exchange-metrics > .card,
+      .exchange-carousel .carousel-item .exchange-metrics-container .latest-companies {
+        background: $payscale-light-highlight;
+      }
+      .title-body:hover {
+        color: $payscale-secondary-text-color;
+      }
+    }
+  }
 }
 
 .reset-button {

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest } from 'libs/models/payfactors-api/';
+import { GetPricingHistoryRequest, ModifyPricingMatchesRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForBasePayGraph } from 'libs/models/payfactors-api/';
 
 
 @Injectable({
@@ -18,6 +18,10 @@ export class PricingApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPricedPayMarkets?jobId=${jobId}`);
   }
 
+  getRecentCompanyJobPricingByPayMarket(companyJobId: number, companyPayMarketId: number, convertToAnnual: boolean): Observable<PricingForBasePayGraph> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetRecentCompanyJobPricingByPayMarket?companyJobId=${companyJobId}&companyPayMarketId=${companyPayMarketId}&convertToAnnual=${convertToAnnual}`);
+  }
+
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricing`, updatePricingRequest);
   }
@@ -30,7 +34,7 @@ export class PricingApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/UpdatePricingMatch`, updatePricingMatchRequest);
   }
 
-  savePricingMatches(savePricingMatchesRequest: any): Observable<any> {
+  savePricingMatches(savePricingMatchesRequest: ModifyPricingMatchesRequest[]): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ModifyPricingMatches`, savePricingMatchesRequest );
   }
 

@@ -54,6 +54,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
   peerIndustries$: Observable<string[]>;
   clientTypes$: Observable<CompanyClientTypesReponse[]>;
   enableJobPricingLimiter$: Observable<boolean>;
+  loadingCompanyTilesSuccess$: Observable<boolean>;
 
   userContextSubscription: Subscription;
   companySubscription: Subscription;
@@ -78,6 +79,7 @@ export class CompanyPageComponent implements OnInit, OnDestroy {
     this.clientTypes$ = this.store.select(fromPfAdminMainReducer.getCompanyClientTypes);
     this.enableJobPricingLimiter$ = this.store.select(fromPfAdminMainReducer.getEnableJobPricingLimiter);
     this.peerIndustries$ = this.store.select(fromPfAdminMainReducer.getPeerIndustries);
+    this.loadingCompanyTilesSuccess$ = this.store.select(fromPfAdminMainReducer.getLoadingCompanyTilesSuccess);
   }
 
   ngOnInit() {

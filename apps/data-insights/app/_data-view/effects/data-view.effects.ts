@@ -226,7 +226,8 @@ export class DataViewEffects {
         return this.dataViewApiService.editUserDataView({
           UserDataViewId: action.payload.UserDataViewId,
           Name: action.payload.Name,
-          Summary: action.payload.Summary
+          Summary: action.payload.Summary,
+          Scope: action.payload.Scope
         })
           .pipe(
             map(() => {

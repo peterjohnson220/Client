@@ -55,13 +55,11 @@ export class SettingsPanelComponent implements OnInit, OnDestroy {
 
   showFontFamilyMenu = AppConstants.EnableTrsCustomFontFamilies;
   cpUseRootViewContainer = false;
-  totalRewardsEmployeeContributionFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsEmployeeContribution, value: false };
   totalRewardsAdditionalPageFeatureFlag: RealTimeFlag = { key: FeatureFlags.TotalRewardsAdditionalPage, value: false };
   unsubscribe$ = new Subject<void>();
   delay = ms => new Promise(res => setTimeout(res, ms));
 
   constructor(private featureFlagService: AbstractFeatureFlagService, private browserDetectionService: BrowserDetectionService) {
-    this.featureFlagService.bindEnabled(this.totalRewardsEmployeeContributionFeatureFlag, this.unsubscribe$);
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 

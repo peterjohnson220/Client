@@ -248,4 +248,3 @@ export class HistoricalTrendChartComponent implements OnInit, OnDestroy, OnChang
     }
   }
 }
-

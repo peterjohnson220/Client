@@ -22,4 +22,8 @@ export class TotalRewardsStatementHistoryApiService {
   getStatementUrl(pdfId: string): Observable<string> {
     return this.payfactorsApiService.get<string>(`${this.endpoint}/GetStatementUrl?pdfId=${pdfId}`);
   }
+
+  createEmployeesExport(pdfId: string): Observable<any> {
+    return this.payfactorsApiService.get<string>(`${this.endpoint}/CreateStatementHistoryAssigneesExport?pdfId=${pdfId}`);
+  }
 }

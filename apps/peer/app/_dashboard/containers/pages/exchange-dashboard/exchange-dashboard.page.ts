@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
 
-import { ExchangeRequestTypeEnum, Exchange, AsyncStateObj } from 'libs/models';
+import { ExchangeRequestTypeEnum, Exchange, AsyncStateObj, StatusEnum } from 'libs/models';
 import * as fromCompanyContextActions from 'libs/state/app-context/actions/company-context.actions';
 import { Permissions } from 'libs/constants';
 import { Workbook } from 'libs/features/surveys/reports/models';
@@ -46,6 +46,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   isSystemExchange = false;
   peerTrendsReportFeatureFlag: RealTimeFlag = { key: FeatureFlags.PeerDashboard_PeerTrendsReport, value: false };
   enableFileDownloadSecurityWarning = false;
+  private exchangeStatus: StatusEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -130,6 +131,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromExchangeDashboardActions.LoadMapCount(ex.ExchangeId));
         this.exchangeId = ex.ExchangeId;
         this.isSystemExchange = ex.IsSystemExchange;
+        this.exchangeStatus = ex.Status
     });
 
     this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {

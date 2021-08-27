@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Observable, Subject, Subscription } from 'rxjs';
-import { GridDataResult, DataStateChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
+import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { select, Store } from '@ngrx/store';
-
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
@@ -14,10 +14,10 @@ import { StatementHistoryListViewModel } from 'libs/features/total-rewards/total
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { CompanySettingsEnum } from 'libs/models';
 import { SettingsService } from 'libs/state/app-context/services';
+import { ExportMode } from 'libs/features/total-rewards/total-rewards-statement/types/ExportMode.type';
 
 import * as fromPageReducer from '../reducers';
 import * as fromPageActions from '../actions/statement-history.page.actions';
-
 import { statementsGridFields } from '../models';
 
 @Component({
@@ -47,11 +47,15 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
   downloadingHistoricalPdf$: Observable<boolean>;
   pdfIdToExport$: Observable<string>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
+  exportMode$: Observable<ExportMode>;
+
   unsubscribe$ = new Subject<void>();
 
-  enableFileDownloadSecurityWarningSubscription: Subscription;
+  enableFileDownloadSecurityWarningSubscription = new Subscription();
+  exportModeSubscription = new Subscription();
 
   enableFileDownloadSecurityWarning: boolean;
+  exportMode: ExportMode;
 
   constructor(
     private store: Store<fromPageReducer.State>,
@@ -85,10 +89,13 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
 
     this.downloadingHistoricalPdf$ = this.store.pipe(select(fromPageReducer.getDownloadingHistoricalPdf));
     this.pdfIdToExport$ = this.store.pipe(select(fromPageReducer.getPdfIdToExport));
+    this.exportMode$ = this.store.pipe(select(fromPageReducer.getExportMode));
 
     this.enableFileDownloadSecurityWarningSubscription = this.enableFileDownloadSecurityWarning$.subscribe(isEnabled => {
       this.enableFileDownloadSecurityWarning = isEnabled;
     });
+
+    this.exportModeSubscription = this.exportMode$.subscribe(exportMode => this.exportMode = exportMode);
 
     window.addEventListener('scroll', this.onScroll, true);
   }
@@ -96,6 +103,7 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeParamSubscription.unsubscribe();
     this.enableFileDownloadSecurityWarningSubscription.unsubscribe();
+    this.exportModeSubscription.unsubscribe();
     this.unsubscribe$.next();
   }
 
@@ -129,21 +137,38 @@ export class StatementHistoryPageComponent implements OnInit, OnDestroy {
   onDownloadClick(statement: StatementHistoryListViewModel): void {
     if (!statement.HasAccess) { return; }
 
-    this.store.dispatch( new fromPageActions.UpdatePdfIdToExport({ pdfId: statement.Id }) );
+    this.store.dispatch(new fromPageActions.UpdatePdfIdToExport({ pdfId: statement.Id, exportMode: 'PdfDownload' }));
+
     if (this.enableFileDownloadSecurityWarning) {
       this.fileDownloadSecurityWarningModal.open();
     } else {
-      this.store.dispatch( new fromPageActions.DownloadHistoricalStatement() );
+      this.store.dispatch(new fromPageActions.DownloadHistoricalStatement());
+    }
+  }
+
+  onEmployeeCountClick(statement: StatementHistoryListViewModel): void {
+    if (!statement.HasAccess) { return; }
+
+    this.store.dispatch(new fromPageActions.UpdatePdfIdToExport({ pdfId: statement.Id, exportMode: 'AssigneesExport' }));
+
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.store.dispatch(new fromPageActions.ExportEmployees());
     }
   }
 
   handleSecurityWarningConfirmed(isConfirmed): void {
     if (isConfirmed) {
-      this.store.dispatch( new fromPageActions.DownloadHistoricalStatement() );
+      if (this.exportMode === 'PdfDownload') {
+        this.store.dispatch(new fromPageActions.DownloadHistoricalStatement());
+      } else if (this.exportMode === 'AssigneesExport') {
+        this.store.dispatch(new fromPageActions.ExportEmployees());
+      }
     }
   }
 
   handleSecurityWarningCancelled(): void {
-    this.store.dispatch( new fromPageActions.UpdatePdfIdToExport({ pdfId: null }) );
+    this.store.dispatch(new fromPageActions.UpdatePdfIdToExport({ pdfId: null, exportMode: 'None' }));
   }
 }

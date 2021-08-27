@@ -55,7 +55,8 @@ export class ExchangeJobSelectorComponent {
       return !!this.selection ? this.getExchangeLabel(this.selection) : '';
     }
 
-    const statusText = job.ExchangeStatus === StatusEnum.Active ? '' : ' (INACTIVE)';
+    const statusText = this.getStatusText(job.ExchangeStatus);
+
     return job.ExchangeName + statusText;
   }
 
@@ -65,6 +66,18 @@ export class ExchangeJobSelectorComponent {
     }
 
     return exchangeJobId === this.selection.ExchangeJobId;
+  }
+
+  getStatusText(exchangeStatus: StatusEnum): string {
+    switch (exchangeStatus) {
+      case StatusEnum.Inactive:
+        return ' (Inactive)';
+      case StatusEnum.Preliminary:
+        return ' (Preliminary)';
+      default: {
+        return '';
+      }
+    }
   }
 
   handleExchangeJobClicked(buttonClickEvent: any, exchangeJobSelectorItem: ExchangeJobExchangeDetail) {

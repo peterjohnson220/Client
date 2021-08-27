@@ -4,6 +4,8 @@
       [baseEntities]="baseEntities"
       [reportName]="reportName"
       [summary]="summary"
+      [scopes]="scopes"
+      [canChangeScope]="scopes?.length > 1 && reportingScopesEnabled.value"
       [baseDataViewForm]="baseDataViewForm"
       [showErrorMessages]="showErrorMessages"
       [saving]="(saving$ | async)"

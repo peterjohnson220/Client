@@ -45,7 +45,7 @@ export class AssociateCompanyJobEffects {
       ofType(fromAssociateAction.LOAD_EXCHANGE_DICTIONARY),
       map((action: fromAssociateAction.LoadExchangeDictionary) => action.payload),
       switchMap(payload =>
-      this.exchangeApiService.getExchangeDictionaryForCompany(payload).pipe(
+      this.exchangeApiService.getExchangeDictionaryForCompany(payload, false).pipe(
         map((exchangeDictionary: GenericKeyValue<number, string>[]) => {
           return new fromAssociateAction.LoadExchangeDictionarySuccess(exchangeDictionary);
         }), catchError(() => of(new fromAssociateAction.LoadExchangeDictionaryError()))

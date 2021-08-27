@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/search/peer';
 import { ExchangeDataSearchResponse } from 'libs/models/payfactors-api/peer/exchange-data-search/response';
@@ -14,6 +14,7 @@ import { OperatorEnum } from 'libs/constants';
 import { SearchFilter } from 'libs/models/payfactors-api/search/response';
 import { MultiSelectFilter } from 'libs/features/search/search/models';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromExchangeExplorerReducer from '../reducers';
@@ -188,32 +189,43 @@ export class ExchangeSearchEffects {
           const exchangeRequest: ExchangeDataSearchRequest = {
             ...data.filterContext
           };
-          return this.exchangeDataSearchApiService.searchExchangeData(exchangeRequest).pipe(
-              map(response => {
-                let successPayload = {
-                  response: response
-                };
 
-                if (data.action.payload) {
-                  response.KeepFilteredOutOptions = data.action.payload.keepFilteredOutOptions;
-                  successPayload = {
-                    ...successPayload,
-                    ...{
-                      getSingledFilteredAggregates: data.action.payload.getSingledFilteredAggregates,
-                      resetInitialBounds: data.action.payload.resetInitialBounds,
-                      resetToPayMarketBounds: data.action.payload.resetToPayMarketBounds
-                    }
-                  };
-                }
-
-                return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(successPayload);
-              }),
-              catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
+          if (this.featureFlagService.enabled(FeatureFlags.PeerGetResultsAsyncStrategy)) {
+            return this.exchangeDataSearchApiService.searchExchangeDataAsync(exchangeRequest).pipe(
+              this.handleSearchExchangeDataResponse(data)
             );
+          } else {
+            return this.exchangeDataSearchApiService.searchExchangeData(exchangeRequest).pipe(
+              this.handleSearchExchangeDataResponse(data)
+            );
+          }
         }
       )
     );
   }
+
+  private handleSearchExchangeDataResponse = (data: any) => pipe(
+    map((r: ExchangeDataSearchResponse) => {
+      let successPayload = {
+        response: r
+      };
+
+      if (data.action.payload) {
+        r.KeepFilteredOutOptions = data.action.payload.keepFilteredOutOptions;
+        successPayload = {
+          ...successPayload,
+          ...{
+            getSingledFilteredAggregates: data.action.payload.getSingledFilteredAggregates,
+            resetInitialBounds: data.action.payload.resetInitialBounds,
+            resetToPayMarketBounds: data.action.payload.resetToPayMarketBounds
+          }
+        };
+      }
+
+      return new fromExchangeSearchResultsActions.GetExchangeDataResultsSuccess(successPayload);
+    }),
+    catchError(() => of(new fromExchangeSearchResultsActions.GetExchangeDataResultsError(0)))
+  )
 
   constructor(
     private actions$: Actions,
@@ -221,6 +233,7 @@ export class ExchangeSearchEffects {
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,
-    private exchangeExplorerContextService: ExchangeExplorerContextService
+    private exchangeExplorerContextService: ExchangeExplorerContextService,
+    private featureFlagService: AbstractFeatureFlagService
   ) {}
 }

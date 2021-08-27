@@ -4,6 +4,7 @@ import { RateType } from 'libs/data/data-sets';
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { FormattersService } from 'libs/core/services/formatters.service';
 
 import { RangeDistributionDataPointTypeIds } from '../constants/range-distribution-data-point-type-ids';
 
@@ -25,25 +26,13 @@ export class StructuresHighchartsService {
       };
   }
 
-  static formatCurrency(rawCurrency, locale, currencyCode, rate, useGrouping?) {
-    const formatter = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: currencyCode,
-      minimumFractionDigits: rate === RateType.Hourly ? 2 : 0,
-      maximumFractionDigits: rate === RateType.Hourly ? 2 : 0,
-      useGrouping: useGrouping
-    });
-
-    return formatter.format(rawCurrency);
-  }
-
   static formatColumnRange(xCoordinate, low, high) {
     return {x: xCoordinate, low: low, high: high};
   }
 
   static formatYAxisLabel(value, locale, currencyCode, rate) {
     const rawLabelValue = rate === RateType.Hourly ? value : value / 1000;
-    const formattedValue = StructuresHighchartsService.formatCurrency(rawLabelValue, locale, currencyCode, rate, false);
+    const formattedValue = FormattersService.formatCurrency(rawLabelValue, locale, currencyCode, rate, false);
     return formattedValue + (rate === RateType.Hourly ? '' : 'k');
   }
 
@@ -71,7 +60,7 @@ export class StructuresHighchartsService {
     } else {
       formattedPercentile = `(${payType} ${percentile}th)`;
     }
-    return `MRP: ${StructuresHighchartsService.formatCurrency(mrp, locale, currency, rate, true)} ${formattedPercentile}`;
+    return `MRP: ${FormattersService.formatCurrency(mrp, locale, currency, rate, true)} ${formattedPercentile}`;
   }
 
   static formatDataPointDelta(hasCurrentStructure, chartLocale, md: RangeGroupMetadata, dataPoint, currentDataPoint) {
@@ -81,7 +70,7 @@ export class StructuresHighchartsService {
   }
 
   static formatDataPoint(dataPointType, value, locale, currency, rate) {
-    return !!value ? `${dataPointType}: ${StructuresHighchartsService.formatCurrency(value, locale, currency, rate)}` : null;
+    return !!value ? `${dataPointType}: ${FormattersService.formatCurrency(value, locale, currency, rate)}` : null;
   }
 
   static formatDeltaInDataPointForExistingStruct(newValue, currentValue, locale, currency, rate) {
@@ -89,7 +78,7 @@ export class StructuresHighchartsService {
       if (Math.round(newValue) > Math.round(currentValue)) {
         const percentChange = Math.round(((newValue - currentValue) / currentValue) * 100);
         return {
-          message: `${StructuresHighchartsService.formatCurrency(newValue - currentValue, locale, currency, rate)}
+          message: `${FormattersService.formatCurrency(newValue - currentValue, locale, currency, rate)}
               (${percentChange}%) increase`,
           icon: '&#8593;',
           color: '#6DD400'
@@ -97,7 +86,7 @@ export class StructuresHighchartsService {
       } else if (Math.round(newValue) < Math.round(currentValue)) {
         const percentChange = Math.round(((currentValue - newValue) / currentValue) * 100);
         return {
-          message: `${StructuresHighchartsService.formatCurrency(currentValue - newValue, locale, currency, rate)}
+          message: `${FormattersService.formatCurrency(currentValue - newValue, locale, currency, rate)}
             (${percentChange}%) decrease`,
           icon: '&#8595;',
           color: 'red'
@@ -111,7 +100,7 @@ export class StructuresHighchartsService {
     return {
       x: xCoordinate,
       y: !!jobData.mrp ? jobData.mrp : null,
-      dataPoint: StructuresHighchartsService.formatCurrency(jobData.mrp, locale, metaData.Currency, metaData.Rate),
+      dataPoint: FormattersService.formatCurrency(jobData.mrp, locale, metaData.Currency, metaData.Rate),
       jobTitle: jobData.jobTitle,
       companyJobsStructuresId: jobData.companyJobsStructuresId,
       includeInRegression: jobData.includeInRegression

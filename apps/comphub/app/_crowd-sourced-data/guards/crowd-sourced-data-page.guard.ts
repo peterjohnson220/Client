@@ -2,38 +2,47 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Injectable, OnDestroy } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 import { CompanySettingsEnum } from 'libs/models/company';
 import { SettingsService } from 'libs/state/app-context/services';
-
+import * as fromRootState from 'libs/state/state';
 
 @Injectable()
 export class CrowdSourcedDataPageGuard implements CanActivate, OnDestroy {
   hasCrowdSourcedDataSub: Subscription;
-  hasCrowdSourcedData: boolean;
   unsubscribe$ = new Subject<void>();
 
   constructor(
     private settingsService: SettingsService,
+    private store: Store<fromRootState.State>,
     private router: Router
-  ) {
-    this.hasCrowdSourcedDataSub = this.settingsService.selectCompanySetting<boolean>(
-      CompanySettingsEnum.CrowdSourcedData
-    ).subscribe(x => {
-      if (x !== null) {
-        this.hasCrowdSourcedData = x;
-      } else {
-        this.hasCrowdSourcedData = false;
-      }
-    });
-  }
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
-    if (!this.hasCrowdSourcedData) {
+    const hasAccess = this.waitForCompanySettingsLoadAttempt().pipe(
+      switchMap(() =>
+        this.settingsService.selectCompanySetting<boolean>(
+          CompanySettingsEnum.CrowdSourcedData
+        ).pipe(
+          map(setting => !!setting),
+          take(1)
+        )
+      )
+    );
+    if (!hasAccess) {
       this.router.navigate(['/access-denied']);
       return false;
     }
     return true;
+  }
+
+  private waitForCompanySettingsLoadAttempt() {
+    return this.store.select(fromRootState.getCompanySettingsLoadAttempted).pipe(
+      filter(attempted => attempted),
+      take(1)
+    );
   }
 
   ngOnDestroy(): void {
