@@ -24,6 +24,7 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
@@ -57,6 +58,7 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
@@ -98,6 +100,7 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
