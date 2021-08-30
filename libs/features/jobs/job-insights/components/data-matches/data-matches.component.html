@@ -1,0 +1,72 @@
+<div class="py-3">
+  <span class="font-size-11 font-weight-600">Data Matches</span>
+</div>
+<div>
+  <ng-container *ngIf="pricingMatches?.length; else noDataTemplate">
+    <ng-container *ngFor="let job of pricingMatches">
+      <div class="page-break-after-auto">
+        <ul class="p-3 match-table">
+          <li class="d-flex align-items-top">
+            <div class="flex-fill ellipsis-overflowing-text">
+              <div class="d-flex flex-column">
+                <div pfEllipsisActive class="font-size-10 font-weight-500 ellipsis-overflowing-text">
+                  {{job.JobTitle}} ({{job.JobCode}})
+                </div>
+                <div pfEllipsisActive class="font-size-10 font-weight-500 ellipsis-overflowing-text">
+                  {{job.Source}} ({{job.EffectiveDate | date:'MM/dd/yyyy'}})
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="font-size-10 font-weight-500">{{jobTitleCode}}</span>
+            </div>
+          </li>
+  
+          <li>
+            <p class="font-size-9">{{job.JobSummary}}</p>
+          </li>
+          
+          <li class="data-matches-grid">
+            <kendo-grid [data]="[job]">
+              <kendo-grid-column-group title="Base Pay" [headerClass]="'text-center header-text'">
+                <ng-container *ngFor="let field of basePayFields;let i = index">
+                  <kendo-grid-column [field]="field"
+                                     [title]="displayNames[i]"
+                                     width="60"
+                                     [headerClass]="'text-right header-text'">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <div class="text-right cell-text">{{dataItem[field] | comp : rate | emptyPlaceholder}}</div>
+                    </ng-template>
+                  </kendo-grid-column>
+                </ng-container>
+              </kendo-grid-column-group>
+              <kendo-grid-column-group title="Total Cash" [headerClass]="'text-center header-text border-left'">
+                <ng-container *ngFor="let field of totalCashFields;let i = index">
+                  <kendo-grid-column [field]="field"
+                                     [title]="displayNames[i]"
+                                     width="60"
+                                     [headerClass]="field === 'TCC10' ? 'text-right header-text border-left' : 'text-right header-text'"
+                                     [class]="field === 'TCC10' ? 'border-left' : ''">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <div class="text-right cell-text">{{dataItem[field] | comp : rate | emptyPlaceholder}}</div>
+                    </ng-template>
+                  </kendo-grid-column>
+                </ng-container>
+              </kendo-grid-column-group>
+            </kendo-grid>
+          </li>
+  
+          <li class="weight-adjustment d-flex justify-content-end pt-3">
+            <span class="font-size-9">Weight: {{job.MatchWeight}} | Adjustment: {{job.MatchAdjustment}}</span>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #noDataTemplate>
+  <div class="px-3 pb-3 no-data-container d-flex align-items-center justify-content-center">
+    <span class="font-size-10">No market data to display.</span>
+  </div>
+</ng-template>

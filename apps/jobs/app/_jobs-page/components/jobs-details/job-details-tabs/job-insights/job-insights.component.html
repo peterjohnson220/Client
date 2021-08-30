@@ -11,7 +11,7 @@
               [valueField]="'CompanyPayMarketId'"
               [kendoDropDownFilter]="filterSettings"
               [valuePrimitive]="true"
-              [ngModel]="selectedPayMarketId"
+              [ngModel]="companyPayMarketId"
               [style.width.px]="250"
               class="k-dropdown-white"
               (valueChange)="handlePayMarketValueChanged($event)">
@@ -28,10 +28,9 @@
       <ng-container *ngIf="jobInsights?.JobSummary?.length">
         <div class="card mb-3">
           <div class="card-body">
-            <div class="title">Job Summary</div>
-            <ng-container *ngIf="jobInsights.JobSummary !== multipleJobDescriptions; else multipleJobDescriptionsTemplate">
-              <pf-ellipsis-view-more [copy]="true" [content]="jobInsights.JobSummary" [maxLength]="600"></pf-ellipsis-view-more>
-            </ng-container>
+            <pf-job-insights-job-summary [mode]="jobInsightsEditMode"
+                                         [jobSummary]="jobInsights.JobSummary">
+            </pf-job-insights-job-summary>
           </div>
         </div>
       </ng-container>
@@ -40,7 +39,7 @@
           <div class="card-body">
             <span class="title">Pricing Details</span>
             <div class="graph-container">
-              <pf-job-pricing-graph [paymarketId]="selectedPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-graph>
+              <pf-job-pricing-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-graph>
             </div>
             <div class="card mb-3">
               <div>
@@ -55,7 +54,7 @@
                     </button>
                   </div>
                 </div>
-                <pf-market-data [jobPricing]="jobPricing" (reloadJobPricing)="loadJobInsights()"></pf-market-data>
+                <pf-market-data [jobPricing]="jobPricing" (reloadJobPricing)="handlePricingChanged()"></pf-market-data>
               </div>
             </div>
           </div>
@@ -64,53 +63,16 @@
       <ng-container *ngIf="jobInsights">
         <div class="card mb-3">
           <div class="card-body">
-            <div class="title">Job Details</div>
-            <ng-container [ngTemplateOutlet]="jobDetailsFields"
-                          [ngTemplateOutletContext]="{fields: standardFields, subTitle: 'STANDARD FIELDS'}">
-            </ng-container>
-            <ng-container *ngIf="!!customFields?.length && isViewMore">
-              <ng-container [ngTemplateOutlet]="jobDetailsFields"
-                            [ngTemplateOutletContext]="{fields: customFields, subTitle: 'CUSTOM FIELDS'}">
-              </ng-container>
-            </ng-container>
-            <div *ngIf="!!customFields?.length" class="d-flex justify-content-end pb-3">
-              <div class="link" (click)="toggleViewMore()">
-                <span *ngIf="!isViewMore">view more</span>
-                <span *ngIf="isViewMore">view less</span>
-              </div>
-            </div>
+            <pf-job-insights-job-details [mode]="jobInsightsEditMode"
+                                         [standardFields]="standardFields"
+                                         [customFields]="customFields">
+            </pf-job-insights-job-details>
           </div>
         </div>
       </ng-container>
     </div>
   </div>
 </pf-async-container>
-
-<ng-template #multipleJobDescriptionsTemplate>
-  <span>{{multipleJobDescriptions}}</span>
-</ng-template>
-
-<ng-template #jobDetailsFields let-fields="fields" let-subTitle="subTitle">
-  <div class="card-subtitle text-muted py-3">{{subTitle}}</div>
-  <div class="row">
-    <div class="col-6 px-3">
-      <div *ngFor="let field of fields; let isOdd=odd;" class="pl-1">
-        <div *ngIf="!isOdd" class="row">
-          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
-          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 px-3">
-      <div *ngFor="let field of fields; let isOdd=odd;">
-        <div *ngIf="isOdd" class="row">
-          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
-          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
 
 <pf-add-data
   [display]="'modal'"

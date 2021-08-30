@@ -1,9 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import { GenericKeyValue } from 'libs/models';
+import { GenericKeyValue } from 'libs/models/common';
+
 import { GetJobInsightsRequest, JobInsights } from 'libs/models/payfactors-api';
 
 export const LOAD_JOB_INSIGHTS = '[Jobs / Job Insights] Load Job Insights';
+export const LOAD_JOB_INSIGHTS_FOR_PRINT = '[Jobs / Job Insights] Load Job Insights For Print';
 export const LOAD_JOB_INSIGHTS_SUCCESS = '[Jobs / Job Insights] Load Job Insights Success';
 export const LOAD_JOB_INSIGHTS_ERROR = '[Jobs / Job Insights] Load Job Insights Error';
 export const LOAD_CUSTOM_JOB_FIELDS = '[Jobs / Job Insights] Load Custom Job Fields';
@@ -12,6 +14,11 @@ export const LOAD_CUSTOM_JOB_FIELDS_ERROR = '[Jobs / Job Insights] Load Custom J
 
 export class LoadJobInsights implements Action {
   readonly type = LOAD_JOB_INSIGHTS;
+  constructor(public payload: GetJobInsightsRequest) {}
+}
+
+export class LoadJobInsightsForPrint implements Action {
+  readonly type = LOAD_JOB_INSIGHTS_FOR_PRINT;
   constructor(public payload: GetJobInsightsRequest) {}
 }
 
@@ -42,6 +49,7 @@ export class LoadCustomJobFieldsError implements Action {
 
 export type Actions
   = LoadJobInsights
+  | LoadJobInsightsForPrint
   | LoadJobInsightsSuccess
   | LoadJobInsightsError
   | LoadCustomJobFields

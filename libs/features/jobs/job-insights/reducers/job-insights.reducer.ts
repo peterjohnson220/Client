@@ -16,7 +16,8 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromJobInsightsActions.Actions): State {
   switch (action.type) {
-    case fromJobInsightsActions.LOAD_JOB_INSIGHTS: {
+    case fromJobInsightsActions.LOAD_JOB_INSIGHTS:
+    case fromJobInsightsActions.LOAD_JOB_INSIGHTS_FOR_PRINT: {
       return AsyncStateObjHelper.loading(state, 'jobInsights');
     }
     case fromJobInsightsActions.LOAD_JOB_INSIGHTS_SUCCESS: {
