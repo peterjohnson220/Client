@@ -4,7 +4,10 @@
     <div class="d-flex p-3">
       <div class="title">Range Penetration</div>
       <div class="d-flex flex-fill justify-content-end">
-        <div *ngIf="structures?.length > 0">
+        <div *ngIf="structures?.length === 1" [style.width.px]="250" pfEllipsisActive class="ellipsis-overflowing-text text-right">
+          <span>{{structures[0].StructureName}}</span>
+        </div>
+        <div *ngIf="structures?.length > 1">
           <kendo-dropdownlist
             [attr.data-qa-id]="'ddm-employee-salary-range-chart-structures'"
             [data]="structures"
