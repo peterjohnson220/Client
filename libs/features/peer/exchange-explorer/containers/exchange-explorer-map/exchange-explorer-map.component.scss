@@ -45,3 +45,7 @@ mgl-map {
 .incumbent-count {
   color: #9a9a9a;
 }
+
+:host ::ng-deep .mapboxgl-ctrl-geocoder--input {
+  font-size: 1rem;
+}

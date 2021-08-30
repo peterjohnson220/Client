@@ -24,7 +24,7 @@ describe('IntegrationCompleteModalComponent', () => {
   });
 
   it('should emit event on OK clicked', () => {
-    spyOn(component.dismissed, 'emit');
+    jest.spyOn(component.dismissed, 'emit');
 
     component.onOk();
 

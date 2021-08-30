@@ -122,7 +122,7 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should emit when the select facade is clicked', () => {
-    spyOn(component.selectFacadeClick, 'emit');
+    jest.spyOn(component.selectFacadeClick, 'emit');
 
     component.isExpanded = true;
     component.isLoading = false;
@@ -135,7 +135,7 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should NOT emit when the select facade is clicked if disabled', () => {
-    spyOn(component.selectFacadeClick, 'emit');
+    jest.spyOn(component.selectFacadeClick, 'emit');
     component.disabled = true;
     component.isExpanded = true;
     component.isLoading = false;
@@ -149,7 +149,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
   it('should emit when the clear selections button is clicked', () => {
     component.options = [{ DisplayName: 'Zoos and Zookeeping', Value: 'Zoos and Zookeeping', IsSelected: false }];
-    spyOn(component.clearSelectionsClick, 'emit');
+    jest.spyOn(component.clearSelectionsClick, 'emit');
     component.isExpanded = true;
     component.isLoading = false;
 
@@ -159,7 +159,7 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should emit with the right object when a checkbox form value is changed', () => {
-    spyOn(component.selectedOptionsChange, 'emit');
+    jest.spyOn(component.selectedOptionsChange, 'emit');
     component.isExpanded = true;
     component.isLoading = false;
     component.options = [{ DisplayName: 'Zoos and Zookeeping', Value: 'Zoos and Zookeeping', IsSelected: false }];

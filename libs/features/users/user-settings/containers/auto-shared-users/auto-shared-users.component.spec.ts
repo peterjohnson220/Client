@@ -24,7 +24,7 @@ describe('AutoSharedUsersComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(AutoSharedUsersComponent);
     instance = fixture.componentInstance;

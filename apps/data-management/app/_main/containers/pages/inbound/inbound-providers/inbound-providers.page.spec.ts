@@ -58,7 +58,7 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
     });
 
   it('should dispatch init action when page is initialized', () => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       instance.ngOnInit();
       fixture.detectChanges();
@@ -68,7 +68,7 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
     });
 
   it('should dispatch an action when set transfer method button is clicked', () => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       instance.ngOnInit();
       instance.setSelectedTransferMethod(1);
@@ -79,7 +79,7 @@ describe('Data Management - Main - Transfer Data Page - Inbound - Vendor', () =>
     });
 
   it('should dispatch an action when set provider button is clicked', () => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       instance.ngOnInit();
       const mock = generateMockProvider();

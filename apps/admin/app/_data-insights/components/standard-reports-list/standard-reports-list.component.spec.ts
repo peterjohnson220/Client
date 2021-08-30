@@ -23,7 +23,7 @@ describe('Data Insights Management - Standard Reports List Component', () => {
   it('should emit editClicked when clicking on Edit button with correct report', () => {
     const selectedItem = generateMockStandardReportDetails();
     instance.standardReportsList = [selectedItem];
-    spyOn(instance.editClicked, 'emit');
+    jest.spyOn(instance.editClicked, 'emit');
 
     instance.handleEditClicked(selectedItem);
 

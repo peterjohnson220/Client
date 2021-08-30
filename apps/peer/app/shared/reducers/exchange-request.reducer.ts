@@ -44,7 +44,7 @@ function getExchangeRequestReducer<T> (
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES_SUCCESS}`: {
         return {
-          ...entityAdapter.addAll(action.payload, state),
+          ...entityAdapter.setAll(action.payload, state),
           loading: false,
         };
       }

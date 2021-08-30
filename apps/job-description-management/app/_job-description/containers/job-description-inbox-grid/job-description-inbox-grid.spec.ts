@@ -63,7 +63,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should dispatch an UnselectAll action upon ngOnDestroy', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UnselectAll();
 
@@ -73,7 +73,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should route to job description page upon cell clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     const mockCellClickEvent = {
         dataItem: mockJobDescriptionInbox,
@@ -94,7 +94,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
 
 
   it('should dispatch UpdateGrid, LoadInbox, and GetUnreadInboxCount actions upon onDataStateChange', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockGridState = generateMockDataStateChangeEvent();
     const updateGridAction = new fromGridActions.UpdateGrid(GridTypeEnum.JobDescriptionInbox, mockGridState);
@@ -109,7 +109,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should dispatch a SelectId action upon onIdSelected clicked ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.SelectId(1);
 
@@ -119,7 +119,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should dispatch a SelectAll action upon onSelectAllChange clicked ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.SelectAll();
 
@@ -129,7 +129,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should dispatch a UpdateJobDescriptionUnread action upon onEnvelopeSelected clicked and isRead is true', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UpdateJobDescriptionUnread(1);
 
@@ -139,7 +139,7 @@ describe('Job Description Manager - Job Description Inbox Page - ', () => {
   });
 
   it('should dispatch a UpdateJobDescriptionRead action upon onEnvelopeSelected clicked and isRead is false', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UpdateJobDescriptionRead(1);
 

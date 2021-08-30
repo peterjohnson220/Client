@@ -38,7 +38,7 @@ describe('Data Insights - Tableau Workbook Card', () => {
   it('should dispatch GetCompanyWorkbookViews when clicking open views with no views loaded and not loading', () => {
     instance.workbook = generateMockWorkbook();
     const expectedAction = new fromDashboardsActions.GetCompanyWorkbookViews({ workbookId: instance.workbook.WorkbookId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleOpenViewsClicked();
 
@@ -52,7 +52,7 @@ describe('Data Insights - Tableau Workbook Card', () => {
       Views: {...generateDefaultAsyncStateObj([view]), loading: true }
     };
     const action = new fromDashboardsActions.GetCompanyWorkbookViews({ workbookId: instance.workbook.WorkbookId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleOpenViewsClicked();
 
@@ -66,7 +66,7 @@ describe('Data Insights - Tableau Workbook Card', () => {
       Views: generateDefaultAsyncStateObj([view])
     };
     const action = new fromDashboardsActions.GetCompanyWorkbookViews({ workbookId: instance.workbook.WorkbookId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleOpenViewsClicked();
 

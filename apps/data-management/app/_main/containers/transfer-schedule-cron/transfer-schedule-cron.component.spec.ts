@@ -83,7 +83,7 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should emit a daily cron expression when daily button is clicked', () => {
-    spyOn(component.cronExpressionChanges, 'emit');
+    jest.spyOn(component.cronExpressionChanges, 'emit');
 
     component.setDaily();
     expect(component.dailyChecked).toBe(true);
@@ -94,7 +94,7 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should emit an incomplete cron expression when weekly button is clicked and no selection made', () => {
-    spyOn(component.cronExpressionChanges, 'emit');
+    jest.spyOn(component.cronExpressionChanges, 'emit');
 
     component.setWeekly();
     expect(component.dailyChecked).toBe(false);
@@ -105,7 +105,7 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should emit a weekly cron expression when weekly button is clicked and selection made', () => {
-    spyOn(component.cronExpressionChanges, 'emit');
+    jest.spyOn(component.cronExpressionChanges, 'emit');
 
     component.setWeekly();
     component.dayOfWeekChange({ text: 'Tuesday', value: '2'});
@@ -119,7 +119,7 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should emit a monthly cron expression when monthly fields are passed', () => {
-    spyOn(component.cronExpressionChanges, 'emit');
+    jest.spyOn(component.cronExpressionChanges, 'emit');
 
     component.setMonthly();
     component.weekOfMonthChange({ text: '2nd', value: '2'});
@@ -133,28 +133,28 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should call setDaily when handle click has a daily interval', () => {
-    spyOn(component, 'setDaily');
+    jest.spyOn(component, 'setDaily');
 
     component.handleClick('daily');
     expect(component.setDaily).toHaveBeenCalled();
   });
 
   it('should call setWeekly when handle click has a weekly interval', () => {
-    spyOn(component, 'setWeekly');
+    jest.spyOn(component, 'setWeekly');
 
     component.handleClick('weekly');
     expect(component.setWeekly).toHaveBeenCalled();
   });
 
   it('should call setMonthly when handle click has a weekly interval', () => {
-    spyOn(component, 'setMonthly');
+    jest.spyOn(component, 'setMonthly');
 
     component.handleClick('monthly');
     expect(component.setMonthly).toHaveBeenCalled();
   });
 
   it('should create a new cron expression if empty expression is passed', () => {
-    spyOn(component, 'createNewCronExpression');
+    jest.spyOn(component, 'createNewCronExpression');
 
     component.ngOnChanges({cronExpression: new SimpleChange(null, null, true)});
 
@@ -162,7 +162,7 @@ describe('TransferScheduleCronComponent', () => {
   });
 
   it('should create a new cron expression if invalid expression is passed', () => {
-    spyOn(component, 'createNewCronExpression');
+    jest.spyOn(component, 'createNewCronExpression');
 
     component.ngOnChanges({cronExpression: new SimpleChange(null, '* * * *', true)});
 

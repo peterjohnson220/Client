@@ -2,6 +2,7 @@
 
 exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping button, when the selected exchange job mapping is not mapped 1`] = `
 <pf-exchange-job-mapping-info
+  __ngContext__={[Function LRootView]}
   activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
   addingMapping="false"
   addingMapping$={[Function Store]}
@@ -47,7 +48,6 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
       >
         Job Information
       </h6>
-      
       <a
         class="close-panel mr-2 mt-1"
         href="javascript:void(0)"
@@ -75,8 +75,6 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
         <pf-async-container
           class="company-job-mapping-container"
         >
-          
-          
           <div
             class="company-job-mapping-add"
           >
@@ -86,7 +84,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
               Search for Company Job
             </h5>
             <div
-              style="display:flex;"
+              style="display: flex;"
             >
               <pf-input-debounce
                 class="search-box"
@@ -99,8 +97,6 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
               class="mapping-results-container remove-scroll"
             >
               <pf-async-container>
-                
-                
               </pf-async-container>
             </div>
           </div>
@@ -113,6 +109,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping butt
 
 exports[`Peer - Exchange Job Mapping Info should display a carousel when more than one company job is mapped 1`] = `
 <pf-exchange-job-mapping-info
+  __ngContext__={[Function LRootView]}
   activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
   addingMapping="false"
   addingMapping$={[Function Store]}
@@ -159,8 +156,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
       >
         Job Information
       </h6>
-      
-      
       <button
         class="btn btn-sm mr-4 btn-secondary"
         id="add-mapping-button"
@@ -196,18 +191,11 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
         <pf-async-container
           class="company-job-mapping-container"
         >
-          
           <div
             class="company-job-mapping d-flex flex-column justify-content-between"
           >
             <ngb-carousel>
-              
-              
-              
-              
-              
             </ngb-carousel>
-            
             <div
               class="carousel-controls d-flex flex-row justify-content-between"
             >
@@ -222,7 +210,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
               <div
                 class="indicators flex-grow-1 space-out-children text-center"
               >
-                
                 <span
                   class="control active"
                 >
@@ -248,7 +235,6 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
               </div>
             </div>
           </div>
-          
         </pf-async-container>
       </div>
     </div>
@@ -258,6 +244,7 @@ exports[`Peer - Exchange Job Mapping Info should display a carousel when more th
 
 exports[`Peer - Exchange Job Mapping Info should display an add mapping button, when the selected exchange job mapping is mapped 1`] = `
 <pf-exchange-job-mapping-info
+  __ngContext__={[Function LRootView]}
   activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
   addingMapping="false"
   addingMapping$={[Function Store]}
@@ -303,8 +290,6 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
       >
         Job Information
       </h6>
-      
-      
       <button
         class="btn btn-sm mr-4 btn-secondary"
         id="add-mapping-button"
@@ -340,16 +325,12 @@ exports[`Peer - Exchange Job Mapping Info should display an add mapping button, 
         <pf-async-container
           class="company-job-mapping-container"
         >
-          
           <div
             class="company-job-mapping d-flex flex-column justify-content-between"
           >
             <ngb-carousel>
-              
             </ngb-carousel>
-            
           </div>
-          
         </pf-async-container>
       </div>
     </div>

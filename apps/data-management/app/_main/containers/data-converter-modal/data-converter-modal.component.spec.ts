@@ -39,7 +39,7 @@ describe('Data Management - Main - Data Converter Modal', () => {
   });
 
   it('should dispatch an action on dismiss of the modal', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromConverterSettingsActions.OpenDataConverterModal({open: false, modalInfo: null});
 
     instance.closeDataConverterModal();
@@ -48,7 +48,7 @@ describe('Data Management - Main - Data Converter Modal', () => {
   });
 
   it('should dispatch a close action on save button of modal click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromConverterSettingsActions.OpenDataConverterModal({open: false, modalInfo: null});
 
     instance.saveDataConverterModal(null);
@@ -57,7 +57,7 @@ describe('Data Management - Main - Data Converter Modal', () => {
   });
 
   it('should dispatch an action on save button of modal click to save and close', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockConverterSetting = generateMockConverterSettings();
     const expectedSaveAction = new fromConverterSettingsActions.AddConverterSetting({converterSetting: mockConverterSetting});
     const expectedCloseAction = new fromConverterSettingsActions.OpenDataConverterModal({open: false, modalInfo: null});

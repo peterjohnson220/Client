@@ -2,6 +2,7 @@
 
 exports[`CommunitySearchComponent should show community search component 1`] = `
 <pf-community-search
+  __ngContext__={[Function LRootView]}
   searchEvent={[Function EventEmitter_]}
 >
   <div

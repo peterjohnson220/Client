@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { Subject, of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import {ExchangeCompanyApiService} from 'libs/data/payfactors-api/peer';
@@ -75,7 +74,7 @@ describe('Peer - Manage - Request Job - New Job Form', () => {
   it('should dispatch a LoadJobFamilies action on init', () => {
     const expectedAction = new fromJobFamiliesActions.LoadJobFamilies();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

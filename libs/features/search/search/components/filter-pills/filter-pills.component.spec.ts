@@ -27,7 +27,7 @@ describe('Search Feature - Filter Pills', () => {
   });
 
   it('should emit a clearPill event when handling a pill clicked', () => {
-    spyOn(instance.clearPill, 'emit');
+    jest.spyOn(instance.clearPill, 'emit');
 
     instance.handlePillClicked(generateMockPill());
 
@@ -35,7 +35,7 @@ describe('Search Feature - Filter Pills', () => {
   });
 
   it('should emit a clearPillGroup event when handling clear all clicked', () => {
-    spyOn(instance.clearPillGroup, 'emit');
+    jest.spyOn(instance.clearPillGroup, 'emit');
 
     instance.handleClearAllClicked(generateMockPillGroup());
 

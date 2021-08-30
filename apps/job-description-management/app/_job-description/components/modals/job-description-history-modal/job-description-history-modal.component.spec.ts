@@ -31,7 +31,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   });
 
   it('should dispatch LoadJobDescriptionHistoryListItems event and open modal, when calling open', () => {
-    spyOn(modal, 'open');
+    jest.spyOn(modal, 'open');
 
     instance.jobDescriptionHistoryModal = {};
 

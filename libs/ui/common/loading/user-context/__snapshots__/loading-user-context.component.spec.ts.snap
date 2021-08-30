@@ -2,6 +2,7 @@
 
 exports[`Loading User Context should show a router outlet, when we are not getting the user context 1`] = `
 <pf-loading-user-context
+  __ngContext__={[Function LRootView]}
   gettingUserContext$={[Function Observable]}
   store={[Function Store]}
   userContext$={[Function Store]}

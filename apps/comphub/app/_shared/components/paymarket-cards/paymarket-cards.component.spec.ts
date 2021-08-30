@@ -22,7 +22,7 @@ describe('Comphub - Main - Paymarket Cards', () => {
   });
 
   it('should emit a paymarketChecked event when paymarket toggled', () => {
-    spyOn(instance.paymarketChecked, 'emit');
+    jest.spyOn(instance.paymarketChecked, 'emit');
 
     instance.togglePaymarket(generateMockPricingPaymarket());
 

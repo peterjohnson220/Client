@@ -33,14 +33,14 @@ describe('Pf-Admin - Companies - Companies List Page', () => {
     });
 
     it('Should dispatch a LoadCompanies Action when the page is loaded', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
         const expectedAction = new fromCompaniesActions.LoadCompanies();
         fixture.detectChanges();
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     it('Should dispatch an UpdatedSearchTerm action when updateSearchTerm method is called', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
         const searchTerm = 'TestSearchTerm';
         const expectedAction = new fromCompaniesActions.UpdateSearchTerm(searchTerm);
 

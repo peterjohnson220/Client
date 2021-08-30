@@ -50,9 +50,9 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   });
 
   it('should reset component variables and open the modal, when calling open', () => {
-    spyOn(instance.opened, 'emit');
-    spyOn(instance.filterForm, 'reset');
-    spyOn(modal, 'open');
+    jest.spyOn(instance.opened, 'emit');
+    jest.spyOn(instance.filterForm, 'reset');
+    jest.spyOn(modal, 'open');
 
     instance.saveFilterModal = {};
 

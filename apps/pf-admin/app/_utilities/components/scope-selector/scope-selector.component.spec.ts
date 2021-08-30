@@ -22,7 +22,7 @@ describe('Pf-Admin - Utilities - Scope Selector', () => {
   });
 
   it('Should emit that a survey scope was selected, when handling a survey scope clicked', () => {
-    spyOn(instance.surveyScopeSelected, 'emit');
+    jest.spyOn(instance.surveyScopeSelected, 'emit');
     const scope = generateMockSurveyScope();
 
     instance.handleSurveyScopeClicked(scope);
@@ -31,7 +31,7 @@ describe('Pf-Admin - Utilities - Scope Selector', () => {
   });
 
   it('Should emit that an apply scope was clicked, when handling an apply scope click', () => {
-    spyOn(instance.applyScopeClicked, 'emit');
+    jest.spyOn(instance.applyScopeClicked, 'emit');
 
     instance.handleApplyScopeClicked();
 

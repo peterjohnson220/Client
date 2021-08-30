@@ -61,7 +61,7 @@ describe('Data Insights - Views Component', () => {
     const view = {...generateMockView(), IsFavorite: false};
     const workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
     const expectedAction = new fromViewsActions.AddViewFavorite({ workbookId: workbook.WorkbookId, viewId: view.ViewId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleFavoriteClicked({ workbookId: workbook.WorkbookId, view });
 
@@ -72,7 +72,7 @@ describe('Data Insights - Views Component', () => {
     const view = {...generateMockView(), IsFavorite: true};
     const workbook = {...generateMockWorkbook(), Views: generateDefaultAsyncStateObj([view])};
     const expectedAction = new fromViewsActions.RemoveViewFavorite({ workbookId: workbook.WorkbookId, viewId: view.ViewId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleFavoriteClicked({ workbookId: workbook.WorkbookId, view });
 
@@ -86,7 +86,7 @@ describe('Data Insights - Views Component', () => {
       ViewIds: ['123', '456']
     };
     const expectedAction = new fromViewsActions.SaveReportOrder(data);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleViewsOrderUpdated(data);
 
@@ -96,7 +96,7 @@ describe('Data Insights - Views Component', () => {
   it('should dispatch SetDashboardView with correct dashboard view', () => {
     const dashboardViewSettingValue = 'All Views';
     const expectedAction = new fromViewsActions.SetDashboardView(DashboardView.Views);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 
@@ -106,7 +106,7 @@ describe('Data Insights - Views Component', () => {
   it('should dispatch SetDashboardView with default dashboard view if the setting value does not match', () => {
     const dashboardViewSettingValue = 'Random View';
     const expectedAction = new fromViewsActions.SetDashboardView(DashboardView.Views);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 

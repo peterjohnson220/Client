@@ -3,6 +3,7 @@
 exports[`Job Management Feature - Job Form Should display form 1`] = `
 <pf-user-defined-fields
   DEFAULT_MAX_LENGTH={[Function Number]}
+  __ngContext__={[Function LRootView]}
   actionsSubject={[Function ActionsSubject]}
   formBuilder={[Function FormBuilder]}
   formChangesSubscription={[Function Subscriber]}
@@ -20,7 +21,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
     <div
       class="d-flex flex-wrap"
     >
-      
       <div
         class="form-group col-6 row no-gutters"
       >
@@ -37,7 +37,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             data-qa-id="txt-job-form-UDF1"
             type="text"
           />
-          
         </div>
       </div>
       <div
@@ -56,7 +55,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             data-qa-id="txt-job-form-UDF2"
             type="text"
           />
-          
         </div>
       </div>
     </div>

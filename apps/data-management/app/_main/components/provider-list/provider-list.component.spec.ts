@@ -20,7 +20,7 @@ describe('ProviderListComponent', () => {
   });
 
   it('Should emit event when provider is clicked', () => {
-    spyOn(instance.providerSelected, 'emit');
+    jest.spyOn(instance.providerSelected, 'emit');
     instance.setSelectedProvider(null);
     expect(instance.providerSelected.emit).toHaveBeenCalledTimes(1);
   });

@@ -45,8 +45,8 @@ describe('Job Description History Grid', () => {
 
   it('should go to current JD version for historyListItemClicked when historyListItem is the 1st item in jobDescriptionHistoryListItems',
     () => {
-    spyOn(router, 'navigate');
-    spyOn(instance.historyListItemClicked, 'emit');
+    jest.spyOn(router, 'navigate');
+    jest.spyOn(instance.historyListItemClicked, 'emit');
 
     instance.historyListItems$ = of(generateDefaultAsyncStateObj([generateMockJobDescriptionHistoryListItem()]));
     const mockedHistoryListItem = generateMockJobDescriptionHistoryListItem();
@@ -63,7 +63,7 @@ describe('Job Description History Grid', () => {
 
   it('should go to specific JD version for historyListItemClicked when historyListItem is > 1st item in jobDescriptionHistoryListItems',
     () => {
-      spyOn(router, 'navigate');
+      jest.spyOn(router, 'navigate');
 
       const mockedHistoryListItem1 = generateMockJobDescriptionHistoryListItem(1);
       const mockedHistoryListItem2 = generateMockJobDescriptionHistoryListItem(2);

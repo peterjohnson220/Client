@@ -2,6 +2,7 @@
 
 exports[`ConfirmUnmatchModalComponent should not render job details if the exchange and company jobs are falsy 1`] = `
 <pf-confirm-unmatch-modal
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   mappedExchangeJob={[Function Object]}
   mappedExchangeJob$={[Function Store]}
@@ -18,13 +19,13 @@ exports[`ConfirmUnmatchModalComponent should not render job details if the excha
     secondarybuttontext="No"
     title="Unmatch Company Job"
   >
-    
   </pf-modal-form>
 </pf-confirm-unmatch-modal>
 `;
 
 exports[`ConfirmUnmatchModalComponent should render job details if the exchange job and company job are truthy 1`] = `
 <pf-confirm-unmatch-modal
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   mappedExchangeJob={[Function Object]}
   mappedExchangeJob$={[Function Store]}
@@ -41,8 +42,6 @@ exports[`ConfirmUnmatchModalComponent should render job details if the exchange 
     secondarybuttontext="No"
     title="Unmatch Company Job"
   >
-    
-    
     <p
       class="mb-2"
     >

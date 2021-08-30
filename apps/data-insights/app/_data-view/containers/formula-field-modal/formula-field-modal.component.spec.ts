@@ -48,14 +48,14 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.open();
 
     expect(ngbModal.open).toHaveBeenCalled();
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.close();
 
@@ -63,7 +63,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
   });
 
   it('should dispatch SaveFormula action with FormulaFieldModalObj when handling save clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const fieldName = 'Compa-Ratio';
     const isPublic = false;
     instance.formulaFieldForm.patchValue({ fieldName, isPublic });
@@ -88,7 +88,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
   });
 
   it('should emit formulaChanged with correct value when handling formula changed', () => {
-    spyOn(instance.formulaChanged, 'next');
+    jest.spyOn(instance.formulaChanged, 'next');
     const formula = '[Base]/[Mid]';
     instance.baseEntityId = 1;
 
@@ -98,7 +98,7 @@ describe('Data Insights - Data View - Formula Field Modal Component', () => {
   });
 
   it('should NOT dispatch ValidateFormula with formula when formula IS empty', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const formula = '';
     instance.baseEntityId = 1;
     const action = new fromFormulaFieldActions.ValidateFormula({ formula, baseEntityId: instance.baseEntityId, formulaFieldId: '' });

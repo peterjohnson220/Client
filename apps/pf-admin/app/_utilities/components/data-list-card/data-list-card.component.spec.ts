@@ -22,7 +22,7 @@ describe('Pf-Admin - Utilities - Data List Card', () => {
   });
 
   it('Should emit that an item was clicked with the value, when handling a company click', () => {
-    spyOn(instance.itemClicked, 'emit');
+    jest.spyOn(instance.itemClicked, 'emit');
     const dataListItem = generateMockDataListItem();
 
     instance.handleCompanyClicked(dataListItem);
@@ -31,7 +31,7 @@ describe('Pf-Admin - Utilities - Data List Card', () => {
   });
 
   it('Should emit that the filter has changed with the value when handling the search term changing', () => {
-    spyOn(instance.filterChanged, 'emit');
+    jest.spyOn(instance.filterChanged, 'emit');
     const searchTerm = 'blah';
 
     instance.handleSearchTermChanged(searchTerm);

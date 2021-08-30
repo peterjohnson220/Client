@@ -32,7 +32,7 @@ describe('PricingLoaderDownloadComponent', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(PricingLoaderDownloadComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

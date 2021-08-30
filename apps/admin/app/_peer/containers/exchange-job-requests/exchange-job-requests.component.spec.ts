@@ -46,7 +46,7 @@ describe('Exchange Job Requests', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeJobRequestsComponent);
     instance = fixture.componentInstance;

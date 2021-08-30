@@ -46,7 +46,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch a dismiss modal action when reset modal dismiss button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedModalDismissAction = new fromServiceAccountActions.CloseResetAccountModal();
 
@@ -56,7 +56,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch a dismiss modal action when new credentials modal dismiss button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedModalDismissAction = new fromServiceAccountActions.CloseNewAccountModal();
 
@@ -66,7 +66,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch a dismiss modal action when new credentials modal dismiss button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedModalDismissAction = new fromServiceAccountActions.CloseNewAccountModal();
 
@@ -76,7 +76,7 @@ describe('Data Management - Main - Outbound Bulk Jobs Export Scheduler Page', ()
   });
 
   it('should dispatch a dismiss modal action when new credentials modal dismiss button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedResetAction = new fromServiceAccountActions.ResetServiceAccount({
       Purpose: 'Resetting Account for JDM Export Api',

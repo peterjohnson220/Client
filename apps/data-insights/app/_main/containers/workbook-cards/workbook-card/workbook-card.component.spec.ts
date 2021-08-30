@@ -68,7 +68,7 @@ describe('Data Insights - Workbook Card Component', () => {
   it('should dispatch AddWorkbookFavorite action when a workbook is marked as favorite', () => {
     const workbook = generateMockWorkbook();
     const expectedAction = new fromDashboardsActions.AddWorkbookFavorite({ workbookId: workbook.WorkbookId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleFavoriteClicked(workbook);
 
@@ -78,7 +78,7 @@ describe('Data Insights - Workbook Card Component', () => {
   it('should dispatch RemoveWorkbookFavorite action when a workbook is unmarked as favorite', () => {
     const workbook = {...generateMockWorkbook(), IsFavorite: true};
     const expectedAction = new fromDashboardsActions.RemoveWorkbookFavorite({ workbookId: workbook.WorkbookId });
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleFavoriteClicked(workbook);
 

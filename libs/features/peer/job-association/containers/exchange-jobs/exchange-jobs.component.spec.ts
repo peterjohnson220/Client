@@ -37,7 +37,7 @@ describe('ExchangeJobsComponent', () => {
     .compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch').mockImplementation(jest.fn());
   }));
 
   beforeEach(() => {
@@ -176,7 +176,7 @@ describe('ExchangeJobsComponent', () => {
     // arrange
     component.grid = {} as GridComponent;
     component.grid.collapseRow = () => ({});
-    spyOn(component.grid, 'collapseRow');
+    jest.spyOn(component.grid, 'collapseRow');
     component.expandedDetailRowId = null;
 
     // act
@@ -190,7 +190,7 @@ describe('ExchangeJobsComponent', () => {
     // arrange
     component.grid = {} as GridComponent;
     component.grid.collapseRow = () => ({});
-    spyOn(component.grid, 'collapseRow');
+    jest.spyOn(component.grid, 'collapseRow');
     component.expandedDetailRowId = 123;
 
     // act

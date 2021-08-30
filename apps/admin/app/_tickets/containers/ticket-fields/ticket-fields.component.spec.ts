@@ -44,9 +44,9 @@ describe('Admin - Tickets - Ticket - TicketFields', () => {
   });
 
   it('should call getPfServiceRepsByCompany upon init.  pfServiceReps should contain API result', () => {
-    spyOn(store, 'dispatch');
-    spyOn(UserApiService.prototype, 'getPfServiceRepsByCompany')
-      .and.returnValue(of([generateMockPfServicesRep()]));
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(UserApiService.prototype, 'getPfServiceRepsByCompany')
+      .mockReturnValue(<any>of([generateMockPfServicesRep()]));
 
     jest.useFakeTimers();
 

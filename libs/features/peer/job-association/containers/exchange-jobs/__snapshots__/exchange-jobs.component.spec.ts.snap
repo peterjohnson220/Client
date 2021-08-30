@@ -2,6 +2,7 @@
 
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   badRequestError=""
   badRequestError$={[Function Store]}
@@ -95,28 +96,22 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
           <kendo-grid-column
             class="no-ellipsis"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeJobTitle"
             title="Job Title"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeJobFamily"
             title="Job Family"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeName"
             title="Exchange Name"
           >
-            
           </kendo-grid-column>
-          
-          
         </kendo-grid>
       </div>
     </pf-async-container>

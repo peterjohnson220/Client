@@ -2,6 +2,7 @@
 
 exports[`Project - Add Jobs - Job Result should not show the job category or eeo, when the job is a company job 1`] = `
 <pf-add-job-result
+  __ngContext__={[Function LRootView]}
   job={[Function Object]}
   jobClicked={[Function EventEmitter_]}
   jobDetailClicked={[Function EventEmitter_]}
@@ -30,7 +31,6 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
         >
            (2345) 
         </div>
-        
         <div>
           <fa-icon
             class="fa-w-16 peer-icon"
@@ -43,9 +43,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
     <div
       class="d-flex flex-column job-subtitle"
     >
-      
       <div>
-        
         <div>
           PayFactors
         </div>
@@ -60,27 +58,19 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
          Hide Job Detail 
       </div>
     </div>
-    
     <div
       class="job-detail"
     >
       <table>
         <tbody>
-          
           <tr>
             <th>
               MRP:
             </th>
-            
             <td>
               56.3
             </td>
-            
           </tr>
-          
-          
-          
-          
           <tr>
             <th>
               Job Level:
@@ -97,7 +87,6 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
               Finance
             </td>
           </tr>
-          
           <tr>
             <th>
               FLSA:
@@ -106,10 +95,6 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
               Exempt
             </td>
           </tr>
-          
-          
-          
-          
           <tr>
             <th>
               UdfField1
@@ -118,14 +103,11 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
               UdfValue
             </td>
           </tr>
-          
           <tr>
             <th>
               Job Description:
             </th>
             <td>
-              
-              
               <pf-ellipsis-view-more />
             </td>
           </tr>
@@ -138,6 +120,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
 
 exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs is mapped to an exchange 1`] = `
 <pf-add-job-result
+  __ngContext__={[Function LRootView]}
   job={[Function Object]}
   jobClicked={[Function EventEmitter_]}
   jobDetailClicked={[Function EventEmitter_]}
@@ -166,7 +149,6 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
         >
            (2345) 
         </div>
-        
         <div>
           <fa-icon
             class="fa-w-16 peer-icon"
@@ -179,9 +161,7 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
     <div
       class="d-flex flex-column job-subtitle"
     >
-      
       <div>
-        
         <div>
           PayFactors
         </div>
@@ -196,13 +176,13 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
          Show Job Detail 
       </div>
     </div>
-    
   </div>
 </pf-add-job-result>
 `;
 
 exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
 <pf-add-job-result
+  __ngContext__={[Function LRootView]}
   job={[Function Object]}
   jobClicked={[Function EventEmitter_]}
   jobDetailClicked={[Function EventEmitter_]}
@@ -231,15 +211,12 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
         >
            (2345) 
         </div>
-        
       </div>
     </div>
     <div
       class="d-flex flex-column job-subtitle"
     >
-      
       <div>
-        
         <div>
           PayFactors
         </div>
@@ -254,27 +231,19 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
          Hide Job Detail 
       </div>
     </div>
-    
     <div
       class="job-detail"
     >
       <table>
         <tbody>
-          
           <tr>
             <th>
               MRP:
             </th>
-            
             <td>
               56.3
             </td>
-            
           </tr>
-          
-          
-          
-          
           <tr>
             <th>
               Job Level:
@@ -291,7 +260,6 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               Finance
             </td>
           </tr>
-          
           <tr>
             <th>
               FLSA:
@@ -300,8 +268,6 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               Exempt
             </td>
           </tr>
-          
-          
           <tr>
             <th>
               Job Category:
@@ -318,9 +284,6 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               Typically Professionals
             </td>
           </tr>
-          
-          
-          
           <tr>
             <th>
               UdfField1
@@ -329,14 +292,11 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
               UdfValue
             </td>
           </tr>
-          
           <tr>
             <th>
               Job Description:
             </th>
             <td>
-              
-              
               <pf-ellipsis-view-more />
             </td>
           </tr>

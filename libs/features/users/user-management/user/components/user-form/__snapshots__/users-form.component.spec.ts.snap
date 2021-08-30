@@ -14,6 +14,7 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
   PASSWORD_NUMERIC_CHARS={[Function Number]}
   PASSWORD_SPECIAL_CHARS={[Function Number]}
   PASSWORD_UPPER_CASE_CHARS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   _showPassword={[Function Boolean]}
   companySubsidiaries={[Function Array]}
   companySubsidiaries$={[Function Observable]}
@@ -56,13 +57,11 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="First Name"
         type="text"
       />
-      
       <span
         class="invalid-feedback"
       >
         First Name is required
       </span>
-      
     </div>
     <div
       class="form-group"
@@ -85,13 +84,11 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="Last Name"
         type="text"
       />
-      
       <span
         class="invalid-feedback"
       >
         Last Name is required
       </span>
-      
     </div>
     <div
       class="form-group"
@@ -109,15 +106,11 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="Title"
         type="text"
       />
-      
     </div>
     <div
       class="form-group"
     >
       <pf-modal-form>
-        
-        
-        
         <div
           class="modal-container"
           id="UpdateUserRole"
@@ -151,7 +144,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           Inactive
         </option>
       </select>
-      
     </div>
     <div
       class="form-group"
@@ -169,7 +161,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="Phone Number"
         type="text"
       />
-      
     </div>
     <div
       class="form-group"
@@ -193,15 +184,11 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="Email Address"
         type="text"
       />
-      
       <span
         class="invalid-feedback"
       >
         Email Address is required
       </span>
-      
-      
-      
     </div>
     <div
       class="form-group"
@@ -223,11 +210,8 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         id="user-form-user-role"
         placeholder="User Role"
       >
-        
       </select>
-      
     </div>
-    
     <div
       class="form-group"
     >
@@ -258,11 +242,8 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
         placeholder="SSO ID"
         type="text"
       />
-      
     </div>
-    
     <div>
-      
       <div
         class="form-group"
       >
@@ -285,41 +266,33 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           placeholder="Password"
           type="password"
         />
-        
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <div
           class="text-danger small"
         >
-          
         </div>
         <button
           class="btn btn-link"
@@ -328,7 +301,6 @@ exports[`Admin - Company Admin - User Component Should display form 1`] = `
           Automatically generate a new password...
         </button>
       </div>
-      
       <div>
         <label>
           <input

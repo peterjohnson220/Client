@@ -26,7 +26,7 @@ describe('FooterBarComponent', () => {
 
   it('should emit when the primary button is clicked', () => {
     // arrange
-    spyOn(component.primaryButtonClick, 'emit');
+    jest.spyOn(component.primaryButtonClick, 'emit');
 
     // act
     const primaryButton = fixture.debugElement.nativeElement.querySelector('button.btn-trs-primary');

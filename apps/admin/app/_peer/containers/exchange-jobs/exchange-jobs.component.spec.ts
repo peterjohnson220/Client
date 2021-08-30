@@ -55,7 +55,7 @@ describe('Exchange Jobs', () => {
     routeIdParam = activatedRoute.snapshot.parent.params.id;
     gridHelperService = TestBed.inject(GridHelperService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeJobsComponent);
     instance = fixture.componentInstance;
@@ -91,7 +91,7 @@ describe('Exchange Jobs', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
 
-    spyOn(gridHelperService, 'loadExchangeJobs');
+    jest.spyOn(gridHelperService, 'loadExchangeJobs');
 
     instance.handlePageChange(pageChangeEvent);
 
@@ -116,7 +116,7 @@ describe('Exchange Jobs', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
 
-    spyOn(gridHelperService, 'loadExchangeJobs');
+    jest.spyOn(gridHelperService, 'loadExchangeJobs');
 
     instance.handleSortChange(sortDescriptor);
 

@@ -54,7 +54,7 @@ describe('FileMappingComponent', () => {
     component.selectedCompany = { CompanyId: 1, CompanyName: 'test', CombinedDetail: 'test (1)' };
     fixture.detectChanges();
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

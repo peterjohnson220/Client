@@ -27,7 +27,7 @@ describe('UploadSurveyFileComponent', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(UploadSurveyFileComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.worksheetNamesSubscription = of(mockWorksheetName).subscribe();
     instance.surveyJobSheetNameSubscription = of('test').subscribe();
     instance.surveyDataSheetNameSubscription = of('test').subscribe();

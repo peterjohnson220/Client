@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeChartTypeEnum } from 'libs/models/peer';
@@ -53,7 +52,7 @@ describe('Peer Dashboard - Chart Detail', () => {
     fixture = TestBed.createComponent(ChartDetailComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should show the chart detail component', () => {

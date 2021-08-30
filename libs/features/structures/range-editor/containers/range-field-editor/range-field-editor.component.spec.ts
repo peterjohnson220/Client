@@ -163,7 +163,7 @@ describe('Features - Structures - Midpoint Editor', () => {
   });
 
   it('should dispatch an action to update the mid value when handling a value changed event', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     buildDefaultInputs(instance);
     const expectedActionPayload = {
       pageViewId: instance.pageViewId,

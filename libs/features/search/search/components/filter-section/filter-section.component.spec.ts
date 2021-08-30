@@ -83,7 +83,7 @@ describe('Search Feature - Filter Section', () => {
   it('should stop propagation on the mouse event when handling the clear clicked', () => {
     const mockEvent = { stopPropagation: jest.fn()};
     instance.filter = generateMockTextFilter();
-    spyOn(mockEvent, 'stopPropagation');
+    jest.spyOn(mockEvent, 'stopPropagation');
 
     instance.handleClearClicked(mockEvent, instance.filter.Id);
 
@@ -93,7 +93,7 @@ describe('Search Feature - Filter Section', () => {
   it('should emit a clear event with the filterId when handling the clear clicked', () => {
     const mockEvent = { stopPropagation: jest.fn()};
     instance.filter = generateMockTextFilter();
-    spyOn(instance.clear, 'emit');
+    jest.spyOn(instance.clear, 'emit');
 
     instance.handleClearClicked(mockEvent, instance.filter.Id);
 
@@ -105,7 +105,7 @@ describe('Search Feature - Filter Section', () => {
     instance.singled = false;
     instance.maxOptions = 1;
 
-    spyOn(instance.showMore, 'emit');
+    jest.spyOn(instance.showMore, 'emit');
 
     instance.handleShowMoreClicked(instance.filter);
 
@@ -115,7 +115,7 @@ describe('Search Feature - Filter Section', () => {
   it('should emit a search event with the filter when handling the search clicked', () => {
     const mockEvent = { stopPropagation: jest.fn()};
     instance.filter = generateMockMultiSelectFilter();
-    spyOn(instance.search, 'emit');
+    jest.spyOn(instance.search, 'emit');
 
     instance.handleSearchClicked(mockEvent, instance.filter);
 

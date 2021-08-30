@@ -63,7 +63,7 @@ describe('Manage Exchange Filters', () => {
     routeIdParam = activatedRoute.snapshot.parent.params.id;
     gridHelperService = TestBed.inject(GridHelperService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ManageExchangeFiltersComponent);
     instance = fixture.componentInstance;
@@ -123,7 +123,7 @@ describe('Manage Exchange Filters', () => {
 
     fixture.detectChanges();
 
-    spyOn(gridHelperService, 'loadExchangeFilters');
+    jest.spyOn(gridHelperService, 'loadExchangeFilters');
 
     instance.handleSearchChanged(str);
 

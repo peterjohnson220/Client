@@ -2,6 +2,7 @@
 
 exports[`UserRoleUserTabComponent Page load 1`] = `
 <pf-user-role-users-tab
+  __ngContext__={[Function LRootView]}
   currentRole={[Function Object]}
   currentRole$={[Function Store]}
   searchTerm=""

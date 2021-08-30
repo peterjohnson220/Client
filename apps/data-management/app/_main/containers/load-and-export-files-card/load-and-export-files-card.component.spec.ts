@@ -80,7 +80,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
     const expectedOrgDataNavigationAction = new fromOrgDataNavigationLinkActions.InitiateOrgDataExport();
     const expectedAppNotificationAction = new fromAppNotificationsActions.AddNotification(mockNotification);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleOrgDataExportClick();
 
@@ -91,7 +91,7 @@ describe('Data Management - Main - Load And Export File Card', () => {
   it('should dispatch an action when export job description export button is clicked', () => {
     const expectedJobDescriptionExportAction = new fromJobDescriptionsExportActions.InitiateJobDescriptionExport();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleJobDescriptionExportClick();
 

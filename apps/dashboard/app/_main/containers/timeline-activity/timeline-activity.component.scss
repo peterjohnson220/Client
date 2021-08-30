@@ -143,8 +143,6 @@
 .timeline-filter > ul > li {
   width: 260px;
   display:inline-block;
-  *display:inline; /*IE7*/
-  *zoom:1; /*IE7*/
   border-bottom: solid 1px #eee;
 }
 

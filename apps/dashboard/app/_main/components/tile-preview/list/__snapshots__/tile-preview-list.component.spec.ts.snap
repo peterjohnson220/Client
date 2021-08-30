@@ -2,62 +2,44 @@
 
 exports[`TilePreviewList should not display main button when main button url is blank 1`] = `
 <pf-tile-preview-list
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
 >
   <table
     class="mt-3"
   >
-    
-    
     <tr>
-      
-      
       <td>
-        
-        
         <a
           class="m-0 p-0;"
           href="/marketdata/marketdata.asp?usersession_id=156025"
         >
           a new test project
         </a>
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           1
         </p>
-        
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           02/07/2018
         </p>
-        
-        
       </td>
-      
       <td
         class="w-10"
       >
-        
-        
-        
       </td>
     </tr>
   </table>
@@ -66,6 +48,7 @@ exports[`TilePreviewList should not display main button when main button url is 
 
 exports[`TilePreviewList should show data with columns when data is given and showColumnHeadings is true 1`] = `
 <pf-tile-preview-list
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
 >
   <a
@@ -74,86 +57,60 @@ exports[`TilePreviewList should show data with columns when data is given and sh
   >
     <fa-icon />
      test button text
-  
   </a><table
     class="mt-3"
   >
-    
     <tr>
-      
-      
       <th>
          Project Name 
       </th>
-      
       <th
         class="hideable"
       >
          # Jobs 
       </th>
-      
       <th
         class="hideable"
       >
          Created 
       </th>
-      
       <th
         class="w-10"
       >
-          
       </th>
     </tr>
-    
     <tr>
-      
-      
       <td>
-        
-        
         <a
           class="m-0 p-0;"
           href="/marketdata/marketdata.asp?usersession_id=156025"
         >
           a new test project
         </a>
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           1
         </p>
-        
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           02/07/2018
         </p>
-        
-        
       </td>
-      
       <td
         class="w-10"
       >
-        
-        
-        
       </td>
     </tr>
   </table>
@@ -162,6 +119,7 @@ exports[`TilePreviewList should show data with columns when data is given and sh
 
 exports[`TilePreviewList should show data without columns when data is given and showColumnHeadings is false 1`] = `
 <pf-tile-preview-list
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
 >
   <a
@@ -170,61 +128,41 @@ exports[`TilePreviewList should show data without columns when data is given and
   >
     <fa-icon />
      test button text
-  
   </a><table
     class="mt-3"
   >
-    
-    
     <tr>
-      
-      
       <td>
-        
-        
         <a
           class="m-0 p-0;"
           href="/marketdata/marketdata.asp?usersession_id=156025"
         >
           a new test project
         </a>
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           1
         </p>
-        
-        
       </td>
-      
       <td
         class="hideable"
       >
-        
         <p
           class="d-inline"
           placement="top"
         >
           02/07/2018
         </p>
-        
-        
       </td>
-      
       <td
         class="w-10"
       >
-        
-        
-        
       </td>
     </tr>
   </table>

@@ -2,6 +2,7 @@
 
 exports[`CommunityFilteredTagsComponent should not show filter title when filtering by multiple posts 1`] = `
 <pf-community-filtered-tags
+  __ngContext__={[Function LRootView]}
   communityPosts$={[Function Store]}
   filterOptionsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
@@ -24,19 +25,9 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
     class="mb-3"
     id="tag-container"
   >
-    
-    
-    
-    
-    
-    
-    
-    
     <div
       class="mt-1"
     >
-      
-      
       <button
         class="btn btn-secondary submit-button-container"
         type="button"
@@ -49,13 +40,13 @@ exports[`CommunityFilteredTagsComponent should not show filter title when filter
         </span>
       </button>
     </div>
-    
   </div>
 </pf-community-filtered-tags>
 `;
 
 exports[`CommunityFilteredTagsComponent should show filter title when filtering by single post 1`] = `
 <pf-community-filtered-tags
+  __ngContext__={[Function LRootView]}
   communityPosts$={[Function Store]}
   filterOptionsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
@@ -78,18 +69,9 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
     class="mb-3"
     id="tag-container"
   >
-    
-    
-    
-    
-    
-    
-    
-    
     <div
       class="mt-1"
     >
-      
       <button
         class="btn m-1 tag py-2 px-3 shadow-none btn-selected"
         type="button"
@@ -101,15 +83,14 @@ exports[`CommunityFilteredTagsComponent should show filter title when filtering 
           icon="times-circle"
         />
       </button>
-      
     </div>
-    
   </div>
 </pf-community-filtered-tags>
 `;
 
 exports[`CommunityFilteredTagsComponent should show trending tags 1`] = `
 <pf-community-filtered-tags
+  __ngContext__={[Function LRootView]}
   communityPosts$={[Function Store]}
   filterOptionsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
@@ -131,7 +112,6 @@ exports[`CommunityFilteredTagsComponent should show trending tags 1`] = `
     class="mb-3"
     id="tag-container"
   >
-    
   </div>
 </pf-community-filtered-tags>
 `;

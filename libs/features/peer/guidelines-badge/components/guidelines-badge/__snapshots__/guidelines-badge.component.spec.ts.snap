@@ -3,15 +3,16 @@
 exports[`Legacy Content - Peer - Guidelines Badge Component should NOT display failing label when passingGuidelines is true 1`] = `
 <pf-guidelines-badge
   IncludeSimilarityCheck={[Function Boolean]}
+  __ngContext__={[Function LRootView]}
   guidelinesService={[Function DojGuidelinesStub]}
 >
-  
 </pf-guidelines-badge>
 `;
 
 exports[`Legacy Content - Peer - Guidelines Badge Component should display failing label when passingGuidelines is false 1`] = `
 <pf-guidelines-badge
   IncludeSimilarityCheck={[Function Boolean]}
+  __ngContext__={[Function LRootView]}
   guidelinesService={[Function DojGuidelinesStub]}
 >
   <div
@@ -29,6 +30,7 @@ exports[`Legacy Content - Peer - Guidelines Badge Component should display faili
 exports[`Legacy Content - Peer - Guidelines Badge Component should display warning label when hasNoDominatingData is false and passingGuidelines is true 1`] = `
 <pf-guidelines-badge
   IncludeSimilarityCheck={[Function Boolean]}
+  __ngContext__={[Function LRootView]}
   guidelinesService={[Function DojGuidelinesStub]}
 >
   <div

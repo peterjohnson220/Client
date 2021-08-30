@@ -44,7 +44,7 @@ describe('OutboundTransferScheduleSummaryComponent', () => {
   });
 
   it('should dispatch getOutboundTransferSummary when page is initialized', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     component.ngOnInit();
     fixture.detectChanges();
