@@ -142,7 +142,7 @@ describe('ProjectTemplateManagementComponent', () => {
 
     instance.configureTabs(templateFields);
 
-    expect(instance.activeAccordionIds).toEqual(['Basic Data_Test', 'Company Target Pay_Test']);
+    expect(instance.activeAccordionIds).toEqual(['panel-0-0', 'panel-1-0']);
   });
 
   it.each([
