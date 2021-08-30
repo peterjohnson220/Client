@@ -56,6 +56,7 @@ export class EmployeesPageEffects {
           mergeMap(() => [
             new fromEmployeesPageActions.DeleteEmployeeSuccess(),
             new fromPfDataGridActions.ClearSelections(data.payload.pageViewId),
+            new fromPfDataGridActions.CloseSplitView(data.payload.pageViewId),
             new fromPfDataGridActions.LoadData(data.payload.pageViewId)
           ]),
           catchError(() => {
