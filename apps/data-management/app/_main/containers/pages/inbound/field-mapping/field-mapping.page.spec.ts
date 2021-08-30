@@ -45,7 +45,7 @@ describe('Data Management - Main - Transfer Data - Inbound Field Mapping Page', 
 
   it('should dispatch an action when clicking the save button', () => {
     const expectedAction = new fromFieldMappingActions.TrySaveMapping();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.saveMappings();
 
@@ -54,7 +54,7 @@ describe('Data Management - Main - Transfer Data - Inbound Field Mapping Page', 
 
   it('should dispatch an action on init', () => {
     const expectedAction = new fromHrisConnectionActions.GetHrisConnectionSummary();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.ngOnInit();
 

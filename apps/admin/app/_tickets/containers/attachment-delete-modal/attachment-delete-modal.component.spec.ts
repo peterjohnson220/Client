@@ -41,7 +41,7 @@ describe('AttachmentDeleteModalComponent', () => {
   });
 
   it('should dispatch delete attachment action on handleDeleteConfirmed', () => {
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
     component.request = generateUserTicketAttachmentDeleteRequest();
     const expectedAction = new fromTicketAttachmentActions.DeleteAttachment(component.request);
 
@@ -53,7 +53,7 @@ describe('AttachmentDeleteModalComponent', () => {
   });
 
   it('should dispatch delete attachment close action on handleDeleteDenied', () => {
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
     const expectedAction = new fromTicketAttachmentActions.DeleteAttachmentModalClose();
 
     component.handleDeleteDenied();

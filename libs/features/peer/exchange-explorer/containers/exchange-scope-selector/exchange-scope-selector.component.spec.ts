@@ -77,11 +77,11 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should close the popover when clicking on an a scope', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
-    spyOn(instance.popover, 'close');
+    jest.spyOn(instance.popover, 'close');
 
     instance.handleExchangeScopeClicked(event, generateMockExchangeScopeItem());
 
@@ -90,12 +90,12 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should not close the popover when clicking on an a scope and in delete mode', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.deleteMode = true;
 
     fixture.detectChanges();
 
-    spyOn(instance.popover, 'close');
+    jest.spyOn(instance.popover, 'close');
 
     instance.handleExchangeScopeClicked(event, generateMockExchangeScopeItem());
 
@@ -104,7 +104,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a SetExchangeScopeSelection action when clicking on a scope', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -118,7 +118,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should not dispatch a SetExchangeScopeSelection action when clicking on a scope if in delete mode', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.deleteMode = true;
 
     fixture.detectChanges();
@@ -133,7 +133,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a LoadExchangeScopeDetails action when clicking on a scope', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -147,7 +147,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should not dispatch a LoadExchangeScopeDetails action when clicking on a scope and in delete mode', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.deleteMode = true;
 
     fixture.detectChanges();
@@ -166,7 +166,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     instance.systemFilterLoaded$ = of(true);
     instance.isExchangeJobSpecific = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.ngOnInit();
@@ -182,7 +182,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     instance.isExchangeJobSpecific = false;
     instance.exchangeId = exchangeId;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.ngOnInit();
@@ -234,7 +234,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a SetExchangeScopeToDelete action when clicking on a delete icon', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -248,7 +248,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a EnterDeleteExchangeScopeMode action when clicking on a delete icon', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -262,7 +262,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch an ExitDeleteExchangeScopeMode action when clicking on the cancel delete button', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -275,7 +275,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a SetExchangeScopeToDelete action when clicking on the cancel delete button', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -288,7 +288,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should dispatch a DeleteExchangeScope action when clicking on the delete scope button', () => {
     const event = new MouseEvent('click');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const exchangeScopeItem = generateMockExchangeScopeItem();
     instance.scopeToDelete = exchangeScopeItem;
 

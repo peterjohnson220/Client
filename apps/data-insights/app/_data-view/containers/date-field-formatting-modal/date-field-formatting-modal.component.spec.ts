@@ -34,7 +34,7 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     const field = generateMockField();
     instance.open(field);
 
@@ -42,7 +42,7 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.close();
 
@@ -50,7 +50,7 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
   });
 
   it('should emit saveClicked with correct data when save button clicked', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
     const mockField = generateMockField();
     instance.field = mockField;
 

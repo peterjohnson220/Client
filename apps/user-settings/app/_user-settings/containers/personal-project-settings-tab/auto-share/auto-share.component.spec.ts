@@ -28,7 +28,7 @@ describe('AutoShareComponent', () => {
   });
 
   it('should dispatch OpenAutoShareModal action when handleAddClicked is called', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromAutoShareActions.OpenAutoShareModal();
 
     instance.handleAddClicked();

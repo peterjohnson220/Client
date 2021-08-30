@@ -34,7 +34,7 @@ describe('Comphub - Main - Comphub Page', () => {
   });
 
   it('should dispatch a NavigateToCard action, when handling a card change and the page is enabled', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.Markets});
 
     instance.enabledPages = [ComphubPages.Jobs, ComphubPages.Markets];
@@ -44,7 +44,7 @@ describe('Comphub - Main - Comphub Page', () => {
   });
 
   it('should NOT dispatch a NavigateToCard action, when handling a card change and the page is not enabled', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.Markets});
 
     instance.enabledPages = [ComphubPages.Jobs];

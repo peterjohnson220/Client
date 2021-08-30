@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import {NgbTabsetModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AbstractFeatureFlagService } from 'libs/core';
 
@@ -26,7 +26,7 @@ describe('TotalRewardsStatementsGridComponent', () => {
           ...fromRootState.reducers,
           totalRewards: combineReducers(fromTotalRewardsReducer.reducer)
         }),
-        ReactiveFormsModule, NgbTabsetModule, NgbDropdownModule],
+        ReactiveFormsModule, NgbDropdownModule],
       declarations: [ StatementsGridComponent ],
       providers: [
         { provide: Router, useValue: { navigate: jest.fn() }},

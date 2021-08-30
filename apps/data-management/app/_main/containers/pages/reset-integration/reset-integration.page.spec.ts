@@ -43,7 +43,7 @@ describe('ResetIntegrationPageComponent', () => {
   });
 
   it('should get the current hris connection on init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -52,7 +52,7 @@ describe('ResetIntegrationPageComponent', () => {
   });
 
   it('should soft delete an hris connection on reset', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.doReset();
@@ -62,7 +62,7 @@ describe('ResetIntegrationPageComponent', () => {
   });
 
   it('should go home if goHome is called', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     fixture.detectChanges();
     instance.goHome();

@@ -38,7 +38,7 @@ describe('Peer Features - Exchange List Component', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeListComponent);
     instance = fixture.componentInstance;
@@ -61,7 +61,7 @@ describe('Peer Features - Exchange List Component', () => {
   });
 
   it('should emit an onCellClick event with the exchangeId when handleCellClick is triggered', () => {
-    spyOn(instance.onCellClick, 'emit');
+    jest.spyOn(instance.onCellClick, 'emit');
 
     const exchangeListItem: ExchangeListItem = mockExchangeListItem;
 

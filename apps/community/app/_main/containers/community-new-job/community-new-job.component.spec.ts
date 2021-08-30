@@ -32,7 +32,7 @@ describe('CommunityNewJobComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityNewJobComponent);
     instance = fixture.componentInstance;

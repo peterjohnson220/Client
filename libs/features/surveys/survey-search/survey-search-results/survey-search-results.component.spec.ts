@@ -48,7 +48,7 @@ describe('Project - Survey Search - Search Results', () => {
     };
     const toggleSurveyDataCut = new fromSurveySearchResultsActions.ToggleDataCutSelection(surveyDataCut);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleCutSelectionToggle(surveyDataCut);
 
     expect(store.dispatch).toHaveBeenCalledWith(toggleSurveyDataCut);
@@ -59,7 +59,7 @@ describe('Project - Survey Search - Search Results', () => {
 
     const getSurveyDataResults = new fromSurveySearchResultsActions.GetSurveyDataResults(jobData);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleLoadDataCuts(jobData);
 
     expect(store.dispatch).toHaveBeenCalledWith(getSurveyDataResults);
@@ -71,7 +71,7 @@ describe('Project - Survey Search - Search Results', () => {
 
     const getSurveyDataResults = new fromSurveySearchResultsActions.GetSurveyDataResults(jobData);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleLoadDataCuts(jobData);
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getSurveyDataResults);

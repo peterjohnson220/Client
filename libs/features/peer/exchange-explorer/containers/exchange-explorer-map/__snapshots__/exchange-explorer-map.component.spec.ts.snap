@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Map Component should load the exchange explorer map with default options 1`] = `
 <pf-exchange-explorer-map
+  __ngContext__={[Function LRootView]}
   dataLoading$={[Function Store]}
   ignoreNextMoveEnd="false"
   initialMoveEnd={[Function Boolean]}
@@ -29,9 +30,7 @@ exports[`Features - Peer - Map Component should load the exchange explorer map w
   userContext$={[Function Store]}
   userContextSub={[Function Subscriber]}
 >
-  <mgl-map
-    style=""
-  >
+  <mgl-map>
     <mgl-control
       mglgeocoder=""
     />
@@ -46,20 +45,17 @@ exports[`Features - Peer - Map Component should load the exchange explorer map w
           class="btn btn-secondary"
           title="Toggle Satellite View"
         >
-          
           <span>
             <fa-icon
               icon="globe"
             />
           </span>
-          
         </button>
       </div>
     </mgl-control>
     <mgl-geojson-source
       id="incumbents"
     />
-    
     <mgl-layer
       id="multiple-company-latlon-layer"
       source="incumbents"
@@ -75,13 +71,13 @@ exports[`Features - Peer - Map Component should load the exchange explorer map w
       source="incumbents"
       type="symbol"
     />
-    
   </mgl-map>
 </pf-exchange-explorer-map>
 `;
 
 exports[`Features - Peer - Map Component should show the no data message on the map 1`] = `
 <pf-exchange-explorer-map
+  __ngContext__={[Function LRootView]}
   dataLoading$={[Function Observable]}
   ignoreNextMoveEnd="false"
   initialMoveEnd={[Function Boolean]}
@@ -111,7 +107,6 @@ exports[`Features - Peer - Map Component should show the no data message on the 
 >
   <mgl-map
     class="map-no-data"
-    style=""
   >
     <mgl-control
       mglgeocoder=""
@@ -127,20 +122,17 @@ exports[`Features - Peer - Map Component should show the no data message on the 
           class="btn btn-secondary"
           title="Toggle Satellite View"
         >
-          
           <span>
             <fa-icon
               icon="globe"
             />
           </span>
-          
         </button>
       </div>
     </mgl-control>
     <mgl-geojson-source
       id="incumbents"
     />
-    
     <mgl-layer
       id="multiple-company-latlon-layer"
       source="incumbents"
@@ -156,13 +148,10 @@ exports[`Features - Peer - Map Component should show the no data message on the 
       source="incumbents"
       type="symbol"
     />
-    
     <mgl-popup>
       <div
         class="map-no-data-message"
       >
-        
-        
       </div>
     </mgl-popup>
   </mgl-map>
@@ -171,6 +160,7 @@ exports[`Features - Peer - Map Component should show the no data message on the 
 
 exports[`Features - Peer - Map Component should show the satellite style if it is enabled 1`] = `
 <pf-exchange-explorer-map
+  __ngContext__={[Function LRootView]}
   dataLoading$={[Function Store]}
   ignoreNextMoveEnd="false"
   initialMoveEnd={[Function Boolean]}
@@ -198,9 +188,7 @@ exports[`Features - Peer - Map Component should show the satellite style if it i
   userContext$={[Function Store]}
   userContextSub={[Function Subscriber]}
 >
-  <mgl-map
-    style=""
-  >
+  <mgl-map>
     <mgl-control
       mglgeocoder=""
     />
@@ -215,8 +203,6 @@ exports[`Features - Peer - Map Component should show the satellite style if it i
           class="btn btn-secondary"
           title="Toggle Map View"
         >
-          
-          
           <span>
             <fa-icon />
           </span>
@@ -226,7 +212,6 @@ exports[`Features - Peer - Map Component should show the satellite style if it i
     <mgl-geojson-source
       id="incumbents"
     />
-    
     <mgl-layer
       id="multiple-company-latlon-layer"
       source="incumbents"
@@ -242,7 +227,6 @@ exports[`Features - Peer - Map Component should show the satellite style if it i
       source="incumbents"
       type="symbol"
     />
-    
   </mgl-map>
 </pf-exchange-explorer-map>
 `;

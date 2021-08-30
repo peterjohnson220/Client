@@ -43,7 +43,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should dispatch an action to set the selected job, when valid search option selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job A'];
     const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'job a' });
 
@@ -53,7 +53,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should NOT dispatch a set selected job action when invalid search option selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job B', 'Job C'];
     const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Job A'});
 
@@ -63,7 +63,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should dispatch an action to clear the selected job when invalid search option selected and there is a selected job', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job B'];
     instance.selectedJob = 'Job B';
     const expectedAction = new fromJobsCardActions.ClearSelectedJob();
@@ -74,7 +74,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should NOT dispatch an action to clear the selected job when invalid search option selected and there is not a selected job', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job B'];
     instance.selectedJob = '';
     const expectedAction = new fromJobsCardActions.ClearSelectedJob();
@@ -85,7 +85,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should dispatch an action to get the job search options with the search term, when there is a non empty search term', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobsCardActions.GetJobSearchOptions('Accountant');
     instance.userContext = generateMockUserContext();
@@ -95,7 +95,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should NOT dispatch an action to get the job search options, when there is an empty search term', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.userContext = generateMockUserContext();
 
     instance.handleJobSearchFilterChange('');
@@ -106,7 +106,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   it('should dispatch a SetSelectedJob action with the job title and exchangeJobId ' +
     'when handling a trending job being clicked for PEER only', () => {
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', exchangeJobId: 10 });
     instance.isPeerComphubType = true;
 
@@ -116,7 +116,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   });
 
   it('should dispatch a UpdateActiveCountryDataSet action with the country code when handling the country data set changes', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromCompHubPageActions.UpdateActiveCountryDataSet('CAN');
 
     instance.handleCountryDataSetChanged('CAN');

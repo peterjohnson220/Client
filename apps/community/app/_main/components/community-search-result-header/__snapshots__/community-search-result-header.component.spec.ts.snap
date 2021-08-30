@@ -2,6 +2,7 @@
 
 exports[`CommunitySearchResultHeaderComponent should display company name and elapsed time 1`] = `
 <pf-community-search-result-header
+  __ngContext__={[Function LRootView]}
   companyName={[Function String]}
   elapsedTime={[Function String]}
 >
@@ -14,7 +15,6 @@ exports[`CommunitySearchResultHeaderComponent should display company name and el
       <span
         class="search-result-header-text-bold"
       >
-        
       </span>
        posted by 
       <span>
@@ -26,8 +26,6 @@ exports[`CommunitySearchResultHeaderComponent should display company name and el
     >
        | 2 days ago
     </span>
-    
-    
   </div>
 </pf-community-search-result-header>
 `;

@@ -41,7 +41,7 @@ describe('CommunityPostHeaderComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityPostHeaderComponent);
     instance = fixture.componentInstance;
@@ -69,7 +69,7 @@ describe('CommunityPostHeaderComponent', () => {
     instance.postId = '1';
     instance.isReply = true;
 
-    spyOn(instance, 'deleteReply');
+    jest.spyOn(instance, 'deleteReply');
 
     instance.delete();
 
@@ -80,7 +80,7 @@ describe('CommunityPostHeaderComponent', () => {
     instance.postId = '1';
     instance.isReply = false;
 
-    spyOn(instance, 'deletePost');
+    jest.spyOn(instance, 'deletePost');
 
     instance.delete();
 

@@ -42,7 +42,7 @@ describe('TrsSummaryControlComponent', () => {
     const directiveNode = fixture.debugElement.query(By.directive(ClickElsewhereDirective));
     directiveInstance = directiveNode.injector.get(ClickElsewhereDirective);
 
-    spyOn(directiveInstance.clickElsewhere, 'emit');
+    jest.spyOn(directiveInstance.clickElsewhere, 'emit');
   });
 
   it('should create', () => {

@@ -18,7 +18,7 @@ describe('Data Insights - Base Data View Modal', () => {
   });
 
   it('should emit saveClicked when save is called', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
 
     instance.save();
 
@@ -26,7 +26,7 @@ describe('Data Insights - Base Data View Modal', () => {
   });
 
   it('should emit cancelClicked when close is called', () => {
-    spyOn(instance.cancelClicked, 'emit');
+    jest.spyOn(instance.cancelClicked, 'emit');
 
     instance.close();
 

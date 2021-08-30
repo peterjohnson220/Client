@@ -2,6 +2,7 @@
 
 exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
 <pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   emailAlreadyAdded="false"
   identity$={[Function Store]}
@@ -21,7 +22,6 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
   <div
     class="form-group"
   >
-    
     <input
       aria-autocomplete="list"
       aria-expanded="false"
@@ -36,13 +36,13 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
       role="combobox"
       type="text"
     />
-    
   </div>
 </pf-multi-user-or-email-picker>
 `;
 
 exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
 <pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   emailAlreadyAdded="false"
   identity$={[Function Store]}
@@ -62,7 +62,6 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
   <div
     class="form-group"
   >
-    
     <input
       aria-autocomplete="list"
       aria-expanded="false"
@@ -77,7 +76,6 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
       role="combobox"
       type="text"
     />
-    
     <div
       class="picker-searching-icon"
     >
@@ -92,6 +90,7 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
 
 exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
 <pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   emailAlreadyAdded="false"
   identity$={[Function Store]}
@@ -111,7 +110,6 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
   <div
     class="form-group"
   >
-    
     <input
       aria-autocomplete="list"
       aria-expanded="false"
@@ -126,12 +124,10 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
       role="combobox"
       type="text"
     />
-    
   </div><div
     class="form-control-feedback"
   >
      Sorry, suggestions could not be loaded.
-  
   </div>
 </pf-multi-user-or-email-picker>
 `;

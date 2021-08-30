@@ -36,7 +36,7 @@ describe('Admin - Tickets - Ticket', () => {
   });
 
   it('should dispatch InitializeTicket action upon init. Containing the ticketId assigned to the component', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     jest.useFakeTimers();
 

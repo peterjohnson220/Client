@@ -65,7 +65,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.parent.snapshot.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExportDataCutsModalComponent);
     instance = fixture.componentInstance;
@@ -100,7 +100,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
   });
 
   it('should call loadingAvailableJobs onInit when the modal is opened', () => {
-    spyOn(instance, 'loadExchangeCompanyJobs');
+    jest.spyOn(instance, 'loadExchangeCompanyJobs');
 
     fixture.detectChanges();
 
@@ -109,7 +109,7 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
   it('should call selectionsControl.setErrors when exportingDataCutsError$ is true', () => {
     const error = {'error': 'There was an error adding the selected jobs.'};
-    spyOn(instance.selectionsControl, 'setErrors');
+    jest.spyOn(instance.selectionsControl, 'setErrors');
     instance.exportingDataCutsError$ = of(true);
 
     fixture.detectChanges();

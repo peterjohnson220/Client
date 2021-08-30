@@ -2,6 +2,7 @@
 
 exports[`Project - Survey Search - Data Cuts should display Scope, Country and Weight 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
@@ -15,17 +16,11 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -35,13 +30,11 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -52,7 +45,6 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -64,12 +56,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr>
-          
           <td>
             <input
               type="checkbox"
@@ -103,7 +90,6 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -121,29 +107,22 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should display singular drag cuts message if single cut selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter_]}
@@ -159,17 +138,11 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -179,13 +152,11 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -196,7 +167,6 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -208,14 +178,9 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr
           class="selected"
         >
-          
           <td>
             <input
               type="checkbox"
@@ -249,7 +214,6 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -270,26 +234,20 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
                   1
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should handle empty currency fields 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
@@ -303,17 +261,11 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -323,13 +275,11 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -340,7 +290,6 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -352,12 +301,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr>
-          
           <td>
             <input
               type="checkbox"
@@ -391,7 +335,6 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -409,29 +352,22 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should have a draggable class if cuts draggable and cut is selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable={[Function Boolean]}
   dataCutSelected={[Function EventEmitter_]}
@@ -446,17 +382,11 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th>
             Scope
           </th>
@@ -465,13 +395,11 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -482,7 +410,6 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -494,14 +421,9 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr
           class="selected draggable"
         >
-          
           <td
             class="scope-cell"
           >
@@ -530,7 +452,6 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -548,29 +469,22 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts draggable and cut is not selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable={[Function Boolean]}
   dataCutSelected={[Function EventEmitter_]}
@@ -585,17 +499,11 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th>
             Scope
           </th>
@@ -604,13 +512,11 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -621,7 +527,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -633,12 +538,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr>
-          
           <td
             class="scope-cell"
           >
@@ -667,7 +567,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -685,29 +584,22 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts not draggable and cut is selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter_]}
@@ -722,17 +614,11 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -742,13 +628,11 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -759,7 +643,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -771,14 +654,9 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr
           class="selected"
         >
-          
           <td>
             <input
               type="checkbox"
@@ -812,7 +690,6 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -830,29 +707,22 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message if multiple data cuts selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   cutsDraggable="false"
   dataCutSelected={[Function EventEmitter_]}
@@ -868,17 +738,11 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -888,13 +752,11 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -905,7 +767,6 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -917,14 +778,9 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr
           class="selected"
         >
-          
           <td>
             <input
               type="checkbox"
@@ -958,7 +814,6 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -979,28 +834,21 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
                   2
                 </strong>
                  selected data cut
-                
-                
                 s
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should show a message when there is no data cuts 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   currencyCode=""
   customizeInPeerClicked={[Function EventEmitter_]}
   dataCutSelected={[Function EventEmitter_]}
@@ -1015,26 +863,19 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
   <div
     class="data-cuts-container"
   >
-    
-    
-    
     <div
       class="no-data-cuts-message"
     >
        No data cuts available. 
-      
-      
-      
        Please adjust your filters. 
     </div>
-    
-    
   </div>
 </pf-data-cuts>
 `;
 
 exports[`Project - Survey Search - Data Cuts should show selected if the data cut has been selected 1`] = `
 <pf-data-cuts
+  __ngContext__={[Function LRootView]}
   customizeInPeerClicked={[Function EventEmitter_]}
   dataCutSelected={[Function EventEmitter_]}
   dataCuts={[Function Array]}
@@ -1048,17 +889,11 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
   <div
     class="data-cuts-container"
   >
-    
-    
-    
-    
-    
     <table
       class="data-cuts-table"
     >
       <thead>
         <tr>
-          
           <th />
           <th>
             Scope
@@ -1068,13 +903,11 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
           >
             Country
           </th>
-          
           <th
             class="text-center"
           >
             Weight
           </th>
-          
           <th
             class="text-center"
           >
@@ -1085,7 +918,6 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
           >
             TCC 50th
           </th>
-          
           <th
             class="text-center"
           >
@@ -1097,14 +929,9 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
         class="data-cuts-source"
         dragula="data-cuts-bag"
       >
-        
-        
-        
-        
         <tr
           class="selected"
         >
-          
           <td>
             <input
               type="checkbox"
@@ -1138,7 +965,6 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
           <td
             class="text-center"
           >
-            
             <span
               class="matches"
             >
@@ -1156,23 +982,15 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
               >
                 Add 
                 <strong>
-                  
                 </strong>
                  selected data cut
-                
                  to job...
               </div>
             </div>
           </td>
         </tr>
-        
-        
-        
       </tbody>
     </table>
-    
-    
-    
   </div>
 </pf-data-cuts>
 `;

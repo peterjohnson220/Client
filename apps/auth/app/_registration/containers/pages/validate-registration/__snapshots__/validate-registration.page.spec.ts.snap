@@ -2,6 +2,7 @@
 
 exports[`ValidateRegistrationPage should disable Submit password button when password is not valid 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -32,11 +33,6 @@ exports[`ValidateRegistrationPage should disable Submit password button when pas
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -71,6 +67,7 @@ exports[`ValidateRegistrationPage should disable Submit password button when pas
 
 exports[`ValidateRegistrationPage should disable the submit button when updatePassword is clicked 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
@@ -102,11 +99,6 @@ exports[`ValidateRegistrationPage should disable the submit button when updatePa
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -141,6 +133,7 @@ exports[`ValidateRegistrationPage should disable the submit button when updatePa
 
 exports[`ValidateRegistrationPage should enable Submit password button when password is valid 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
@@ -172,11 +165,6 @@ exports[`ValidateRegistrationPage should enable Submit password button when pass
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -210,6 +198,7 @@ exports[`ValidateRegistrationPage should enable Submit password button when pass
 
 exports[`ValidateRegistrationPage should fade the form when the form is submitting 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Observable]}
   resendingToken$={[Function Store]}
@@ -240,11 +229,6 @@ exports[`ValidateRegistrationPage should fade the form when the form is submitti
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -279,6 +263,7 @@ exports[`ValidateRegistrationPage should fade the form when the form is submitti
 
 exports[`ValidateRegistrationPage should hide the error message when there is no submit error 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
@@ -310,11 +295,6 @@ exports[`ValidateRegistrationPage should hide the error message when there is no
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -349,6 +329,7 @@ exports[`ValidateRegistrationPage should hide the error message when there is no
 
 exports[`ValidateRegistrationPage should not show the submit spinner when the form is not submitting 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Observable]}
   resendingToken$={[Function Store]}
@@ -379,11 +360,6 @@ exports[`ValidateRegistrationPage should not show the submit spinner when the fo
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -418,6 +394,7 @@ exports[`ValidateRegistrationPage should not show the submit spinner when the fo
 
 exports[`ValidateRegistrationPage should should allow choosing password when page is loaded successfully 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -448,11 +425,6 @@ exports[`ValidateRegistrationPage should should allow choosing password when pag
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -487,6 +459,7 @@ exports[`ValidateRegistrationPage should should allow choosing password when pag
 
 exports[`ValidateRegistrationPage should show a message after resending successfully 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Observable]}
@@ -517,11 +490,6 @@ exports[`ValidateRegistrationPage should show a message after resending successf
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -556,6 +524,7 @@ exports[`ValidateRegistrationPage should show a message after resending successf
 
 exports[`ValidateRegistrationPage should show an error message after resending error 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Observable]}
@@ -586,11 +555,6 @@ exports[`ValidateRegistrationPage should show an error message after resending e
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -625,6 +589,7 @@ exports[`ValidateRegistrationPage should show an error message after resending e
 
 exports[`ValidateRegistrationPage should show an error message when page is loaded if the account exists 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -655,9 +620,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
     <div
       class="opacity-transition"
     >
-      
-      
-      
       <div
         class="p-3 d-flex flex-column align-items-center registration-box"
       >
@@ -666,7 +628,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
         >
            An account for 
           <strong>
-            
           </strong>
            already exists. Please log in. 
         </h5>
@@ -678,8 +639,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
            Login 
         </button>
       </div>
-      
-      
     </div>
   </div>
 </pf-validate-registration-page>
@@ -687,6 +646,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
 
 exports[`ValidateRegistrationPage should show an error message when page is loaded if the company exists and is Enterprise 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -717,10 +677,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -731,11 +687,9 @@ exports[`ValidateRegistrationPage should show an error message when page is load
             Company
           </strong>
            already owns a Payfactors 
-          
            account. Please contact your system administrator. 
         </h5>
       </div>
-      
     </div>
   </div>
 </pf-validate-registration-page>
@@ -743,6 +697,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
 
 exports[`ValidateRegistrationPage should show an error message when page is loaded if the company exists and is Small Business 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -773,10 +728,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
     <div
       class="opacity-transition"
     >
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -787,13 +738,10 @@ exports[`ValidateRegistrationPage should show an error message when page is load
             Company
           </strong>
            already owns a Payfactors 
-          
-          
            for Small Business 
            account. Please contact your system administrator. 
         </h5>
       </div>
-      
     </div>
   </div>
 </pf-validate-registration-page>
@@ -801,6 +749,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
 
 exports[`ValidateRegistrationPage should show an error message when page is loaded if the token is expired 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -831,13 +780,9 @@ exports[`ValidateRegistrationPage should show an error message when page is load
     <div
       class="opacity-transition"
     >
-      
-      
       <div
         class="p-3 d-flex flex-column align-items-center registration-box"
       >
-        
-        
         <h4
           class="p-3"
         >
@@ -862,11 +807,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
              An unexpected error has occurred 
           </p>
         </div>
-        
       </div>
-      
-      
-      
     </div>
   </div>
 </pf-validate-registration-page>
@@ -874,6 +815,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
 
 exports[`ValidateRegistrationPage should show an error message when page is loaded if the token is invalid 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -904,7 +846,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
     <div
       class="opacity-transition"
     >
-      
       <div
         class="p-3 d-flex flex-column align-items-center registration-box"
       >
@@ -924,10 +865,6 @@ exports[`ValidateRegistrationPage should show an error message when page is load
            Return to Login 
         </button>
       </div>
-      
-      
-      
-      
     </div>
   </div>
 </pf-validate-registration-page>
@@ -935,6 +872,7 @@ exports[`ValidateRegistrationPage should show an error message when page is load
 
 exports[`ValidateRegistrationPage should show the error message when there is a submit error 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
@@ -966,11 +904,6 @@ exports[`ValidateRegistrationPage should show the error message when there is a 
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -1005,6 +938,7 @@ exports[`ValidateRegistrationPage should show the error message when there is a 
 
 exports[`ValidateRegistrationPage should show the loading message when the page is loading 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Store]}
@@ -1034,6 +968,7 @@ exports[`ValidateRegistrationPage should show the loading message when the page 
 
 exports[`ValidateRegistrationPage should show the spinner when resending token 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   resendingToken$={[Function Observable]}
@@ -1064,11 +999,6 @@ exports[`ValidateRegistrationPage should show the spinner when resending token 1
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >
@@ -1103,6 +1033,7 @@ exports[`ValidateRegistrationPage should show the spinner when resending token 1
 
 exports[`ValidateRegistrationPage should show the submit spinner when the form is submitting 1`] = `
 <pf-validate-registration-page
+  __ngContext__={[Function LRootView]}
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Observable]}
   resendingToken$={[Function Store]}
@@ -1133,11 +1064,6 @@ exports[`ValidateRegistrationPage should show the submit spinner when the form i
     <div
       class="opacity-transition faded"
     >
-      
-      
-      
-      
-      
       <div
         class="p-3 registration-box"
       >

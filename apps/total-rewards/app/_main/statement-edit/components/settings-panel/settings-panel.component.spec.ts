@@ -60,7 +60,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should emit when the close button is clicked', () => {
     // arrange
-    spyOn(component.close, 'emit');
+    jest.spyOn(component.close, 'emit');
     component.isOpen$ = of(true);
 
     // act
@@ -74,7 +74,7 @@ describe('SettingsPanelComponent', () => {
 
   it('should emit when the reset button is clicked', () => {
     // arrange
-    spyOn(component.resetSettings, 'emit');
+    jest.spyOn(component.resetSettings, 'emit');
     component.isOpen$ = of(true);
 
     // act

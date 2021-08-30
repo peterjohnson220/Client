@@ -117,7 +117,7 @@ describe('CompanyJobDetailComponent', () => {
   });
 
   it('should emit when the view full job description link is clicked', () => {
-    spyOn(component.viewJdmDescriptionClick, 'emit');
+    jest.spyOn(component.viewJdmDescriptionClick, 'emit');
 
     component.jdmDescriptionIds = [123];
     component.jdmDescriptionLoading = false;

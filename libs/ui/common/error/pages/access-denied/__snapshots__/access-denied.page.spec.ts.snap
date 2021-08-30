@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Access Denied Page should show the error message 1`] = `
-<pf-access-denied-page>
+<pf-access-denied-page
+  __ngContext__={[Function LRootView]}
+>
   <pf-base-error-page />
 </pf-access-denied-page>
 `;

@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { AbstractFeatureFlagService } from 'libs/core/services/feature-flags';
@@ -64,7 +63,7 @@ describe('Auth - Login', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should show login when page is loaded', () => {

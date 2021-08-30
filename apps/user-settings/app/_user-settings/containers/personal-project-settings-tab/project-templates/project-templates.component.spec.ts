@@ -36,7 +36,7 @@ describe('ProjectTemplatesComponent', () => {
   });
 
   it('should dispatch a delete when delete is confirmed', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     instance.selectedTemplate = {ProjectTemplateId : 1, TemplateName: 'Test'};
     const expectedAction = new fromProjectTemplateActions.DeleteProjectTemplate(1);
 
@@ -46,7 +46,7 @@ describe('ProjectTemplatesComponent', () => {
   });
 
   it('should not dispatch a delete when delete is confirmed but no template selected', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     instance.selectedTemplate = null;
     const expectedAction = new fromProjectTemplateActions.DeleteProjectTemplate(1);
 
@@ -56,7 +56,7 @@ describe('ProjectTemplatesComponent', () => {
   });
 
   it('should dispatch edit item when item clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const item: ProjectTemplate = {
       TemplateName: 'Test Template',
       ProjectTemplateId: 1
@@ -69,7 +69,7 @@ describe('ProjectTemplatesComponent', () => {
   });
 
   it('should dispatch open add when add button clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
 
     const expectedAction = new fromProjectTemplateManagementActions.CreateNewTemplate();
 

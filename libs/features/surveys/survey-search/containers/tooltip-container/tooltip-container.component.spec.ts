@@ -40,7 +40,7 @@ describe('TooltipContainerComponent', () => {
     const data: MatchesDetailsTooltipData = generateMatchesDetailsTooltipData();
     const getMatchesDetailsAction = new fromTooltipContainerActions.GetMatchesDetails(data.Request);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleMatchesMouseEnter(data);
 
     expect(store.dispatch).toHaveBeenCalledWith(getMatchesDetailsAction);
@@ -49,7 +49,7 @@ describe('TooltipContainerComponent', () => {
   it('should dispatch close matches tooltip action on mouse leave matches field', () => {
     const closeMatchesTooltipAction = new fromTooltipContainerActions.CloseMatchesDetailsTooltip();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.handleMatchesMouseLeave();
 
     expect(store.dispatch).toHaveBeenCalledWith(closeMatchesTooltipAction);
@@ -60,7 +60,7 @@ describe('TooltipContainerComponent', () => {
     const openMatchesDetailsTooltipAction = new fromTooltipContainerActions.OpenMatchesDetailsTooltip();
     instance.matchesDetailsTooltipData = generateMatchesDetailsTooltipData();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.openMatchesDetailsTooltip(matchesDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(openMatchesDetailsTooltipAction);

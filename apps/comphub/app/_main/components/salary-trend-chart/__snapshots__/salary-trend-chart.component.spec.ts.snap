@@ -3,6 +3,7 @@
 exports[`Comphub - Salary Bar Trend Component should display minus sign when percentage change is negative 1`] = `
 <pf-salary-trend-chart
   Highcharts={[Function Object]}
+  __ngContext__={[Function LRootView]}
   absoluteValueOfPercentageChange={[Function Number]}
   categories={[Function Array]}
   chartOptions={[Function Object]}
@@ -21,7 +22,6 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
       class="percentage-change"
       data-qa-id="cnt-percentageChange"
     >
-      
       <span
         class="text-danger"
       >
@@ -34,7 +34,7 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
     />
     <img
       class="export-chart"
-      src="null"
+      src=""
     />
   </div>
 </pf-salary-trend-chart>
@@ -43,6 +43,7 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
 exports[`Comphub - Salary Bar Trend Component should display plus sign when percentage change is positive 1`] = `
 <pf-salary-trend-chart
   Highcharts={[Function Object]}
+  __ngContext__={[Function LRootView]}
   absoluteValueOfPercentageChange={[Function Number]}
   categories={[Function Array]}
   chartOptions={[Function Object]}
@@ -61,7 +62,6 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
       class="percentage-change"
       data-qa-id="cnt-percentageChange"
     >
-      
       <span
         class="plus-sign"
       >
@@ -74,7 +74,7 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
     />
     <img
       class="export-chart"
-      src="null"
+      src=""
     />
   </div>
 </pf-salary-trend-chart>
@@ -83,6 +83,7 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
 exports[`Comphub - Salary Bar Trend Component should not display plus or minus sign when percentage change is 0 1`] = `
 <pf-salary-trend-chart
   Highcharts={[Function Object]}
+  __ngContext__={[Function LRootView]}
   absoluteValueOfPercentageChange="0"
   categories={[Function Array]}
   chartOptions={[Function Object]}
@@ -101,7 +102,6 @@ exports[`Comphub - Salary Bar Trend Component should not display plus or minus s
       class="percentage-change"
       data-qa-id="cnt-percentageChange"
     >
-      
        0.00% 
     </div>
     <highcharts-chart
@@ -109,7 +109,7 @@ exports[`Comphub - Salary Bar Trend Component should not display plus or minus s
     />
     <img
       class="export-chart"
-      src="null"
+      src=""
     />
   </div>
 </pf-salary-trend-chart>

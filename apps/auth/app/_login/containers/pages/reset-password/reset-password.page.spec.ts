@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
@@ -48,7 +47,7 @@ describe('Auth - Reset Password', () => {
     store = TestBed.inject(Store);
     route = TestBed.inject(ActivatedRoute);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ResetPasswordPageComponent);
     instance = fixture.componentInstance;

@@ -34,7 +34,7 @@ describe ('Deny Request Modal', () => {
 
   it('should emit a closeClicked event, when the handleModalDismissed method is called', () => {
     // Spy on the emit method for the closeClicked EventEmitter
-    spyOn(instance.closeClicked, 'emit');
+    jest.spyOn(instance.closeClicked, 'emit');
 
     instance.handleModalDismissed();
 
@@ -43,7 +43,7 @@ describe ('Deny Request Modal', () => {
 
   it('should emit a denyClicked event, when the deny button is clicked', () => {
     // Spy on the emit method for the denyClicked EventEmitter
-    spyOn(instance.denyClicked, 'emit');
+    jest.spyOn(instance.denyClicked, 'emit');
 
     instance.reason.setValue('test');
     instance.handleFormSubmit();
@@ -54,7 +54,7 @@ describe ('Deny Request Modal', () => {
   });
 
   it('should call setPlaceholderOnBlur method, when the textarea focus is changed', () => {
-    spyOn(instance, 'setPlaceholderOnBlur');
+    jest.spyOn(instance, 'setPlaceholderOnBlur');
 
     fixture.detectChanges();
 

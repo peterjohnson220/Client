@@ -2,9 +2,10 @@
 
 exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -43,16 +44,16 @@ exports[`Libs - Upsert Peer Data Cut should disable the add/updated button when 
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
 
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Add button 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -92,7 +93,6 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
     <pf-exchange-explorer />
   </pf-async-container>
 </pf-upsert-peer-data-cut>
@@ -100,9 +100,10 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 
 exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page with an Update button 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
@@ -142,7 +143,6 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
     <pf-exchange-explorer />
   </pf-async-container>
 </pf-upsert-peer-data-cut>
@@ -150,9 +150,10 @@ exports[`Libs - Upsert Peer Data Cut should display the upsert data cut page wit
 
 exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -191,16 +192,16 @@ exports[`Libs - Upsert Peer Data Cut should display untagged incumbents filter w
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
 
 exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -239,16 +240,16 @@ exports[`Libs - Upsert Peer Data Cut should enable the add button when passesGui
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
 
 exports[`Libs - Upsert Peer Data Cut should enable the update button when passesGuidelines is true 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -287,16 +288,16 @@ exports[`Libs - Upsert Peer Data Cut should enable the update button when passes
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
 
 exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -335,7 +336,6 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -343,9 +343,10 @@ exports[`Libs - Upsert Peer Data Cut should show 'Request Access' button and mes
 exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' button and 'Access Requested' message when
   peer terms haven't been accepted and access has been requested 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -384,7 +385,6 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;
@@ -392,9 +392,10 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Access Requested' but
 exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
   is being requested 1`] = `
 <pf-upsert-peer-data-cut
+  __ngContext__={[Function LRootView]}
   accessRequestedMessage={[Function String]}
   cancelChanges={[Function EventEmitter_]}
-  cdRef={[Function ViewRef_]}
+  cdRef={[Function ViewRef]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
@@ -433,7 +434,6 @@ exports[`Libs - Upsert Peer Data Cut should show disabled 'Requesting Access' bu
   weightingTypeSubscription={[Function Subscriber]}
 >
   <pf-async-container>
-    
   </pf-async-container>
 </pf-upsert-peer-data-cut>
 `;

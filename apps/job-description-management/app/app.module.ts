@@ -4,7 +4,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FormatPurePipeModule, GetUnixTimePipeModule, FormatDistanceToNowPurePipeModule } from 'ngx-date-fns';
-import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
@@ -32,7 +32,6 @@ import { SsoAuthGuard } from './shared/guards';
     GetUnixTimePipeModule,
     FormatDistanceToNowPurePipeModule,
     NgbModalModule,
-    NgbTabsetModule,
     LayoutModule,
 
     // PF Modules

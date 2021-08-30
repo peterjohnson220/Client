@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import {  ExchangeChartTypeEnum } from 'libs/models';
@@ -49,7 +48,7 @@ describe('Peer Dashboard - Revenue Chart', () => {
     fixture = TestBed.createComponent(ExchangeRevenueChartComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should show the revenue chart and title', () => {

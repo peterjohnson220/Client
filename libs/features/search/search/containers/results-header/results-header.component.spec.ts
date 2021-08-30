@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
@@ -42,7 +41,7 @@ describe('Search Feature - Results Header', () => {
   });
 
   it('should dispatch a ResetAllFilters action, when handling a reset click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSearchFiltersActions.ResetAllFilters();
 
     instance.handleResetClicked();
@@ -51,7 +50,7 @@ describe('Search Feature - Results Header', () => {
   });
 
   it('should dispatch a RemoveFilterValue action for search filters, when handling a clear pill', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const pill = generateMockPill();
     const expectedAction = new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value});
 
@@ -61,7 +60,7 @@ describe('Search Feature - Results Header', () => {
   });
 
   it('should dispatch a RemoveFilterValue action for the singled filter, when handling a clear pill', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const pill = generateMockPill();
     const expectedAction = new fromSingledFilterActions.RemoveFilterValue({value: pill.Value});
 
@@ -71,7 +70,7 @@ describe('Search Feature - Results Header', () => {
   });
 
   it('should dispatch a ClearFilter action for search filters, when handling a clear pill group', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const pillGroup = generateMockPillGroup();
     const expectedAction = new fromSearchFiltersActions.ClearFilter({filterId: pillGroup.FilterId});
 
@@ -81,7 +80,7 @@ describe('Search Feature - Results Header', () => {
   });
 
   it('should dispatch a ClearSelections action for the singled filter, when handling a clear pill group', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const pillGroup = generateMockPillGroup();
     const expectedAction = new fromSingledFilterActions.ClearSelections();
 

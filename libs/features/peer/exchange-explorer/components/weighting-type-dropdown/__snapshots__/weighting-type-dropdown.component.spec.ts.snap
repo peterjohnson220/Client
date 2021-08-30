@@ -2,6 +2,7 @@
 
 exports[`Weighting Type Toggle should load the dropdown as if it was in a component 1`] = `
 <pf-weighting-type-dropdown
+  __ngContext__={[Function LRootView]}
   inComponent={[Function Boolean]}
   weightingTypeChanged={[Function EventEmitter_]}
 >
@@ -14,6 +15,7 @@ exports[`Weighting Type Toggle should load the dropdown as if it was in a compon
 
 exports[`Weighting Type Toggle should load the dropdown with default options 1`] = `
 <pf-weighting-type-dropdown
+  __ngContext__={[Function LRootView]}
   inComponent={[Function Boolean]}
   weightingTypeChanged={[Function EventEmitter_]}
 >
@@ -26,6 +28,7 @@ exports[`Weighting Type Toggle should load the dropdown with default options 1`]
 
 exports[`Weighting Type Toggle should load the dropdown with the label 1`] = `
 <pf-weighting-type-dropdown
+  __ngContext__={[Function LRootView]}
   inComponent={[Function Boolean]}
   includeLabel={[Function Boolean]}
   weightingTypeChanged={[Function EventEmitter_]}

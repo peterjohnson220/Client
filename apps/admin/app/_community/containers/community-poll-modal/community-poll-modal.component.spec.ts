@@ -35,7 +35,7 @@ describe('CommunityPollModalComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityPollModalComponent);
     instance = fixture.componentInstance;
@@ -114,7 +114,7 @@ describe('CommunityPollModalComponent', () => {
   });
 
   it ('should call responses.push when calling addResponseOption', () => {
-    spyOn(instance.choices, 'push');
+    jest.spyOn(instance.choices, 'push');
 
     instance.addResponseOption();
     expect(instance.choices.push).toHaveBeenCalled();

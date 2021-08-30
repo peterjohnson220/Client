@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
@@ -104,7 +103,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
     guidelinesService = TestBed.inject(DojGuidelinesService);
     // exchangeExplorerStub = TestBed.inject(ExchangeExplorerComponent);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UpsertPeerDataCutComponent);
     instance = fixture.componentInstance;
@@ -177,7 +176,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
       }
     } as MessageEvent;
 
-    spyOn(instance.exchangeExplorer, 'onMessage');
+    jest.spyOn(instance.exchangeExplorer, 'onMessage');
 
     fixture.detectChanges();
 
@@ -302,7 +301,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
       BaseEntityId: 1
     };
 
-    spyOn(guidelinesService, 'validateDataCut');
+    jest.spyOn(guidelinesService, 'validateDataCut');
 
     fixture.detectChanges();
 
@@ -315,7 +314,7 @@ describe('Libs - Upsert Peer Data Cut', () => {
     instance.peerMapCompanies$ = of(payload);
     instance.refining = true;
 
-    spyOn(guidelinesService, 'validateTempDataCut');
+    jest.spyOn(guidelinesService, 'validateTempDataCut');
 
     fixture.detectChanges();
 

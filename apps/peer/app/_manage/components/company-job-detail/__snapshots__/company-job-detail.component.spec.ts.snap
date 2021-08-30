@@ -2,6 +2,7 @@
 
 exports[`CompanyJobDetailComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
@@ -73,18 +74,11 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
       >
         View Full Job Description
       </a>
-      
-      
-      
-      
-      
       <p
         class="font-italic"
       >
          No Job Description Available 
       </p>
-      
-      
     </div>
   </div>
 </pf-company-job-detail>
@@ -92,6 +86,7 @@ exports[`CompanyJobDetailComponent should hide a link to download the jdm descri
 
 exports[`CompanyJobDetailComponent should render the selected company jobs props 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
@@ -163,18 +158,11 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
       >
         View Full Job Description
       </a>
-      
-      
-      
-      
-      
       <p
         class="font-italic"
       >
          No Job Description Available 
       </p>
-      
-      
     </div>
   </div>
 </pf-company-job-detail>
@@ -182,6 +170,7 @@ exports[`CompanyJobDetailComponent should render the selected company jobs props
 
 exports[`CompanyJobDetailComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
@@ -253,13 +242,6 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
       >
         View Full Job Description
       </a>
-      
-      
-      
-      
-      
-      
-      
     </div>
   </div>
 </pf-company-job-detail>
@@ -267,6 +249,7 @@ exports[`CompanyJobDetailComponent should show a link to download the jdm descri
 
 exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm description 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading={[Function Boolean]}
   jdmUrl={[Function String]}
@@ -339,14 +322,7 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
       >
         View Full Job Description
       </a>
-      
-      
       <pf-loading-indicator />
-      
-      
-      
-      
-      
     </div>
   </div>
 </pf-company-job-detail>
@@ -354,6 +330,7 @@ exports[`CompanyJobDetailComponent should show a spinner when downloading a jdm 
 
 exports[`CompanyJobDetailComponent should show an error message if the jdm description download fails 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmDescriptionLoading="false"
   jdmDescriptionLoadingError={[Function Boolean]}
@@ -427,18 +404,11 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
       >
         View Full Job Description
       </a>
-      
-      
-      
       <p
         class="jdm-error d-inline-block mb-0"
       >
          Unable to load job description 
       </p>
-      
-      
-      
-      
     </div>
   </div>
 </pf-company-job-detail>
@@ -446,6 +416,7 @@ exports[`CompanyJobDetailComponent should show an error message if the jdm descr
 
 exports[`CompanyJobDetailComponent should show an informational message when multiple jdm ids exist 1`] = `
 <pf-company-job-detail
+  __ngContext__={[Function LRootView]}
   jdmDescriptionIds={[Function Array]}
   jdmUrl={[Function String]}
   selectedCompanyJob={[Function Object]}
@@ -517,7 +488,6 @@ exports[`CompanyJobDetailComponent should show an informational message when mul
       >
         View Full Job Description
       </a>
-      
       <p
         class="mb-1"
       >
@@ -530,12 +500,6 @@ exports[`CompanyJobDetailComponent should show an informational message when mul
         </a>
          to view each description. 
       </p>
-      
-      
-      
-      
-      
-      
     </div>
   </div>
 </pf-company-job-detail>

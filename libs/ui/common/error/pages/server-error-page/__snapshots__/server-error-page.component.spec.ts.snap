@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Server Error Page should show the error message 1`] = `
-<pf-server-error-page>
+<pf-server-error-page
+  __ngContext__={[Function LRootView]}
+>
   <pf-base-error-page />
 </pf-server-error-page>
 `;

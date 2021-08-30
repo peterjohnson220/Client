@@ -2,6 +2,7 @@
 
 exports[`Data Insights - Report View Page Component should match snapshot 1`] = `
 <pf-report-view-page
+  __ngContext__={[Function LRootView]}
   reportTitle={[Function String]}
   route={[Function Object]}
   viewName={[Function String]}
@@ -10,9 +11,7 @@ exports[`Data Insights - Report View Page Component should match snapshot 1`] = 
   workbookName={[Function String]}
 >
   <pf-page-with-title-bar>
-    
     Salary Structures
-    
     <pf-report-view />
   </pf-page-with-title-bar>
 </pf-report-view-page>

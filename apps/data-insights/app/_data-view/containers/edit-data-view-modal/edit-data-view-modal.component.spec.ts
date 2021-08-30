@@ -62,7 +62,7 @@ describe('Data Insights - Edit Data View Modal', () => {
   });
 
   it('should open editDataViewModal using modalService when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
 
     instance.open();
 
@@ -79,7 +79,7 @@ describe('Data Insights - Edit Data View Modal', () => {
     });
     const expectedAction = new fromDataViewActions.EditUserReport(instance.userDataView);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.save();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

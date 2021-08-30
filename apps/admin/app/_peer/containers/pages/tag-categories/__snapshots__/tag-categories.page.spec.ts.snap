@@ -2,13 +2,12 @@
 
 exports[`Admin - Tag Categories Page (the page) should match the snapshot 1`] = `
 <pf-tag-categories
+  __ngContext__={[Function LRootView]}
   gridState$={[Function Observable]}
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Custom Filter Categories 
-    
     <div
       class="omni-box"
     >
@@ -20,7 +19,6 @@ exports[`Admin - Tag Categories Page (the page) should match the snapshot 1`] = 
     >
       Create
     </button>
-    
     <pf-tag-categories-list />
   </pf-page-with-title-bar><pf-create-tag-category-modal />
 </pf-tag-categories>

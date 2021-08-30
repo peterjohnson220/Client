@@ -2,6 +2,7 @@
 
 exports[`ExchangeJobSearchComponent should search results when matches are found 1`] = `
 <pf-exchange-job-search
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   descriptionSearchTerm="null"
   exchangeId="null"
@@ -36,7 +37,6 @@ exports[`ExchangeJobSearchComponent should search results when matches are found
       class="loading-container position-relative"
     >
       <pf-async-container>
-        
         <div
           class="search-results mt-4"
         >
@@ -71,7 +71,6 @@ exports[`ExchangeJobSearchComponent should search results when matches are found
           </div>
           <pf-ellipsis-view-more />
         </div>
-        
       </pf-async-container>
     </div>
   </section>
@@ -80,6 +79,7 @@ exports[`ExchangeJobSearchComponent should search results when matches are found
 
 exports[`ExchangeJobSearchComponent should show a no results message when no matches are found 1`] = `
 <pf-exchange-job-search
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   descriptionSearchTerm="null"
   exchangeId="null"
@@ -114,8 +114,6 @@ exports[`ExchangeJobSearchComponent should show a no results message when no mat
       class="loading-container position-relative"
     >
       <pf-async-container>
-        
-        
         <div
           class="no-search-results"
         >
@@ -126,7 +124,6 @@ exports[`ExchangeJobSearchComponent should show a no results message when no mat
             <span
               class="font-italic"
             >
-               
             </span>
           </p>
           <p

@@ -2,6 +2,7 @@
 
 exports[`Deny Request Modal modal and text area should match the snapshot 1`] = `
 <pf-deny-request-modal
+  __ngContext__={[Function LRootView]}
   closeClicked={[Function EventEmitter_]}
   denyClicked={[Function EventEmitter_]}
   denyReasonForm={[Function FormGroup]}
@@ -11,8 +12,6 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
     class="ng-untouched ng-pristine ng-invalid"
     title="undefined"
   >
-    
-    
     <p />
     <div
       class="flex-grow-1 d-flex flex-column form-group mb-0"

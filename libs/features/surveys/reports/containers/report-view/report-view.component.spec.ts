@@ -58,7 +58,7 @@ describe('Libs - Reports - Report View Component', () => {
   });
 
   it('should dispatch GetStandardReportViewUrl action when routedViewType is StandardWorkbook', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetStandardReportViewUrl({ workbookId: '123' });
 
     instance.loadWorkbookViewUrl();
@@ -70,7 +70,7 @@ describe('Libs - Reports - Report View Component', () => {
     instance.viewType = ReportViewTypes.PeerStandardWorkbook;
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetPeerStandardReportViewUrl({ workbookId: '123' });
 
     instance.loadWorkbookViewUrl();
@@ -82,7 +82,7 @@ describe('Libs - Reports - Report View Component', () => {
     instance.viewType = ReportViewTypes.StandardWorkbookSheet;
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetStandardReportSheetViewUrl({
       viewName: 'Test View Name',
       workbookName: 'Test Workbook Name'
@@ -97,7 +97,7 @@ describe('Libs - Reports - Report View Component', () => {
     instance.viewType = ReportViewTypes.CompanyWorkbookSheet;
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetCompanyReportSheetViewUrl({
       viewName: 'Test View Name',
       workbookName: 'Test Workbook Name'
@@ -112,7 +112,7 @@ describe('Libs - Reports - Report View Component', () => {
     instance.viewType = ReportViewTypes.CompanyWorkbook;
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetCompanyReportViewUrl({ workbookId: '123' });
 
     instance.loadWorkbookViewUrl();
@@ -124,7 +124,7 @@ describe('Libs - Reports - Report View Component', () => {
     instance.viewType = 5;
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromReportsViewActions.GetViewUrlError();
 
     instance.loadWorkbookViewUrl();

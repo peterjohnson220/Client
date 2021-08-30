@@ -37,7 +37,7 @@ describe('ExportSchedulesComponent', () => {
 
   it('should dispatch showDeleteModal when handleDeleteClicked', () => {
     const expectedAction = new fromTabularReportExportSchedulerPageActions.ShowDeleteModal(true);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDeleteClicked(instance.scheduleToDelete);
 
@@ -46,7 +46,7 @@ describe('ExportSchedulesComponent', () => {
 
   it('should dispatch showDeleteModal when handleCancelClicked', () => {
     const expectedAction = new fromTabularReportExportSchedulerPageActions.ShowDeleteModal(false);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();
 
@@ -55,7 +55,7 @@ describe('ExportSchedulesComponent', () => {
 
   it('should dispatch DeleteExportSchedule when handleDeleteScheduledExport', () => {
     const expectedAction = new fromTabularReportExportSchedulerPageActions.DeleteExportSchedule(instance.scheduleToDelete.DataViewId);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDeleteScheduledExport();
 

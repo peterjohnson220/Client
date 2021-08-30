@@ -2,6 +2,7 @@
 
 exports[`Legacy Content - Peer - PayMarket Exchange Scope should display the PayMarket exchange Scope page 1`] = `
 <pf-paymarket-exchange-scope
+  __ngContext__={[Function LRootView]}
   companyPayMarketId={[Function Number]}
   exchangeScopes$={[Function Store]}
   exchangeScopesSub={[Function Subscriber]}
@@ -54,7 +55,6 @@ exports[`Legacy Content - Peer - PayMarket Exchange Scope should display the Pay
       <div
         class="form-group"
       >
-        
       </div>
     </div>
   </pf-async-container>

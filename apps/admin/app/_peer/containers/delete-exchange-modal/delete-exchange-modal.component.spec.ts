@@ -40,7 +40,7 @@ describe('Delete Exchange Modal', () => {
     instance = fixture.componentInstance;
     instance.selectedExchange = mockExchangeListItem;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it(`should match snapshot on init`, () => {

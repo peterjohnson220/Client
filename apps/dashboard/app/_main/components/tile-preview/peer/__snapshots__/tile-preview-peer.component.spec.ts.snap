@@ -2,6 +2,7 @@
 
 exports[`Tile Preview Peer should show component 1`] = `
 <pf-tile-preview-peer
+  __ngContext__={[Function LRootView]}
   carousel={[Function NgbCarousel]}
   exchangePreviewModels={[Function Array]}
   model={[Function Object]}
@@ -14,22 +15,20 @@ exports[`Tile Preview Peer should show component 1`] = `
       class="exchange-carousel d-flex flex-column justify-content-between"
     >
       <ngb-carousel
+        aria-activedescendant="slide-"
         class="carousel slide"
         style="display: block;"
         tabindex="0"
       >
-        
         <ol
           class="carousel-indicators"
+          role="tablist"
         >
-          
         </ol>
         <div
           class="carousel-inner"
         >
-          
         </div>
-        
         <a
           class="carousel-control-prev"
           role="button"
@@ -44,7 +43,6 @@ exports[`Tile Preview Peer should show component 1`] = `
             Previous
           </span>
         </a>
-        
         <a
           class="carousel-control-next"
           role="button"
@@ -60,7 +58,6 @@ exports[`Tile Preview Peer should show component 1`] = `
           </span>
         </a>
       </ngb-carousel>
-      
     </div>
   </div>
 </pf-tile-preview-peer>

@@ -40,7 +40,7 @@ describe('Bulk Job Description Export Scheduler - Bulk Export Schedule Form', ()
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(BulkExportSchedulesListComponent);
     instance = fixture.componentInstance;
@@ -49,15 +49,15 @@ describe('Bulk Job Description Export Scheduler - Bulk Export Schedule Form', ()
   it('should call RemovingSchedule with a filename when removeSchedule is called', () => {
     const fileName = 'Test.xlsx';
 
-    spyOn(fromBulkExportScheduleActions, 'RemovingSchedule');
-
     fixture.detectChanges();
 
     instance.removeSchedule(fileName);
 
     fixture.detectChanges();
 
-    expect(fromBulkExportScheduleActions.RemovingSchedule).toHaveBeenCalledWith(fileName);
+    const action = new fromBulkExportScheduleActions.RemovingSchedule(fileName);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch a OpenScheduleModal action when openModal is called', () => {

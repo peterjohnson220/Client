@@ -29,7 +29,7 @@ describe('PfDataGridComponent', () => {
     });
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(PfDataGridComponent);
     component = fixture.componentInstance;
