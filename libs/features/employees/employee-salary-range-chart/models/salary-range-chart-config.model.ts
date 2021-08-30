@@ -72,7 +72,7 @@ export class EmployeeSalaryRangeChartConfig {
     if (rangeTypeId === RangeType.Job) {
       return 'CompanyStructures_RangeGroup_Rate';
     }
-    return 'vw_EmployeesGradeBasedStructureInfo_Rate';
+    return 'vw_EmployeesGradeBasedStructureInfo_CompanyStructureRangeGroupRate';
   }
 
   static getFieldsByRangeType(rangeTypeId: number): BasicDataViewField[] {
@@ -223,10 +223,10 @@ export class EmployeeSalaryRangeChartConfig {
           },
           {
             EntitySourceName: 'vw_EmployeesGradeBasedStructureInfo',
-            SourceName: 'Rate',
+            SourceName: 'CompanyStructureRangeGroupRate',
             DisplayName: 'Rate',
             DataType: DataViewFieldDataType.String,
-            KendoGridField: 'vw_EmployeesGradeBasedStructureInfo_Rate'
+            KendoGridField: 'vw_EmployeesGradeBasedStructureInfo_CompanyStructureRangeGroupRate'
           },
           {
             EntitySourceName: 'CompanyJobs_Structures',
