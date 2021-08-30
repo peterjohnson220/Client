@@ -16,7 +16,7 @@ $tile-border-radius: 9px;
 // TODO: remove this rule when `payscale-branding` feature flag is deprecated
 html.payscale-rebrand {
   .main-body-scroll {
-    background: url("assets/images/StackedWave.svg") bottom/cover no-repeat;
+    background: url("../../assets/images/StackedWave.svg") bottom/cover no-repeat;
   }
 
   body {

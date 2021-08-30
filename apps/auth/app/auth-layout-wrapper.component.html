@@ -7,13 +7,8 @@
     <div class="p-0 box-shadow main-panel">
       <ng-content select="[mainContent]"></ng-content>
     </div>
-    <div class="p-3 text-white d-flex align-self-center">
-      <span id="pf-privacy">
-        All Rights Reserved.  Payfactors @ {{currentYear}}. | <a href="https://payfactors.com/privacy-policy" target="_blank">Privacy Policy</a> 
-      </span>
-      <span id="ps-privacy">
-        All Rights Reserved.  PayScale @ {{currentYear}}. | <a href="https://www.payscale.com/privacy" class="privacy" target="_blank">Privacy Policy</a> 
-      </span>
+    <div class="text-white">
+      <pf-global-footer></pf-global-footer>
     </div>
   </div>
 </div>
