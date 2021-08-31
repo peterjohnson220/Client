@@ -10,6 +10,7 @@ import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/
 import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer-map';
 import * as fromSaveExchangeScopeActions from 'libs/features/peer/save-exchange-scope/actions';
 import * as fromSaveExchangeScopeReducer from 'libs/features/peer/save-exchange-scope/reducers';
+import * as fromLibsSearchReducer from 'libs/features/search/search/reducers';
 
 import * as fromPeerAdminReducer from '../../reducers';
 
@@ -25,10 +26,12 @@ export class StandardScopesComponent implements OnInit {
   exchangeId: number;
 
   exchange$: Observable<Exchange>;
+  numberOfSelections$: Observable<number>;
 
   constructor(private route: ActivatedRoute, private store: Store<fromSaveExchangeScopeReducer.State>, private sharedPeerStore: Store<fromPeerAdminReducer.State>) {
     this.exchangeId = +this.route.snapshot.parent.params.id;
     this.exchange$ = this.sharedPeerStore.pipe(select(fromPeerAdminReducer.getManageExchange));
+    this.numberOfSelections$ = this.sharedPeerStore.pipe(select(fromLibsSearchReducer.getOverallFilterSelectionsCount));
   }
 
   ngOnInit() {
