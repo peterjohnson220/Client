@@ -52,7 +52,7 @@ describe('SurveyNotesListComponent', () => {
     });
 
     it('should dispatch SaveSurveyNote action on delete', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromSurveyNotesActions.SaveSurveyNote({note, actionType: 'Delete'});
         component.delete(note);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);

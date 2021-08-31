@@ -48,7 +48,7 @@ describe('Job Management Feature - Job Management', () => {
     modal = TestBed.inject(NgbModal);
     formBuilder = TestBed.inject(FormBuilder);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(JobManagementComponent);
     instance = fixture.componentInstance;
@@ -72,7 +72,7 @@ describe('Job Management Feature - Job Management', () => {
 
 
   it('Should reset the DuplicateJobCodeError and emit cancel changes on cancel', () => {
-    spyOn(instance.cancelChanges, 'emit');
+    jest.spyOn(instance.cancelChanges, 'emit');
 
     const expectedAction = new fromActions.ResetState();
     const expectedNotesClearAction = new fromNotesManagerActions.ResetState();

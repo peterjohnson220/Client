@@ -5,7 +5,6 @@ import { AbstractControl, AsyncValidatorFn, FormGroup, FormControl,
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, Exchange, generateMockExchange, RequestExchangeRequest } from 'libs/models/index';
@@ -93,7 +92,7 @@ describe('Peer - Manage - Request Job Modal', () => {
     instance.newJobFormEnabled = true;
     instance.exchangeJobRequestForm.addControl('newJobForm', mockNewJobForm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -121,7 +120,7 @@ describe('Peer - Manage - Request Job Modal', () => {
 
     instance.exchangeJobRequestForm.addControl('jobSelectionForm', mockJobSelectionForm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -135,7 +134,7 @@ describe('Peer - Manage - Request Job Modal', () => {
     const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob);
     instance.newJobFormEnabled = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -149,7 +148,7 @@ describe('Peer - Manage - Request Job Modal', () => {
       const expectedAction = new fromExchangeRequestActions.ResetExchangeRequest(ExchangeRequestTypeEnum.PayfactorsJob);
       instance.newJobFormEnabled = true;
 
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       fixture.detectChanges();
 
@@ -161,7 +160,7 @@ describe('Peer - Manage - Request Job Modal', () => {
   it(`should not dispatch ResetExchangeRequest action of type PayfactorsJob when newJobFormEnabled is toggled on`, () => {
     const expectedAction = new fromExchangeRequestActions.ResetExchangeRequest(ExchangeRequestTypeEnum.PayfactorsJob);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

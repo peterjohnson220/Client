@@ -27,7 +27,7 @@ describe('DataFieldFilterComponent', () => {
       .compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(DataFieldFilterComponent);
     component = fixture.componentInstance;
   }));

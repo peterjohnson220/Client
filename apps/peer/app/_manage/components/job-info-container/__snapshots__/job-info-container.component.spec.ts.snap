@@ -2,6 +2,7 @@
 
 exports[`Peer - Job Info Container should show the job code, when showJobCode is true 1`] = `
 <pf-job-info-container
+  __ngContext__={[Function LRootView]}
   job={[Function Object]}
   showJobCode={[Function Boolean]}
 >
@@ -35,8 +36,6 @@ exports[`Peer - Job Info Container should show the job code, when showJobCode is
               </label>
               <span>
                 Mock Job 
-                
-                
                  - 1002
               </span>
             </div>
@@ -65,7 +64,6 @@ exports[`Peer - Job Info Container should show the job code, when showJobCode is
               </span>
             </div>
           </div>
-          
         </div>
         <div
           class="info-row"

@@ -2,6 +2,7 @@
 
 exports[`Data Management - Main - Hris Re-Authentication Modal should not show the form text and should show a required error message once a submit has been attempted 1`] = `
 <pf-hris-reauthentication-modal
+  __ngContext__={[Function LRootView]}
   attemptedSubmit="false"
   fb={[Function FormBuilder]}
   hrisAuthFormErrors$={[Function Store]}
@@ -17,8 +18,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
     class="ng-untouched ng-pristine ng-invalid"
     title="Authenticate"
   >
-    
-    
     <div
       class="form-group"
     >
@@ -30,7 +29,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
         placeholder="Username*"
         type="text"
       />
-      
     </div>
     <div
       class="form-group"
@@ -42,7 +40,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
         placeholder="Password*"
         type="password"
       />
-      
     </div>
   </pf-modal-form>
 </pf-hris-reauthentication-modal>
@@ -50,6 +47,7 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should not show t
 
 exports[`Data Management - Main - Hris Re-Authentication Modal should show the form text and no error messages when a submit has not been attempted 1`] = `
 <pf-hris-reauthentication-modal
+  __ngContext__={[Function LRootView]}
   attemptedSubmit="false"
   fb={[Function FormBuilder]}
   hrisAuthFormErrors$={[Function Store]}
@@ -65,8 +63,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
     class="ng-untouched ng-pristine ng-invalid"
     title="Authenticate"
   >
-    
-    
     <div
       class="form-group"
     >
@@ -78,7 +74,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
         placeholder="Username*"
         type="text"
       />
-      
     </div>
     <div
       class="form-group"
@@ -90,7 +85,6 @@ exports[`Data Management - Main - Hris Re-Authentication Modal should show the f
         placeholder="Password*"
         type="password"
       />
-      
     </div>
   </pf-modal-form>
 </pf-hris-reauthentication-modal>

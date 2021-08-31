@@ -79,7 +79,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should dispatch the loadData action when mid is updated from the employees page', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.EmployeesMinMidMax);
     const metainfo = { pageViewId: JobBasedPageViewIds.EmployeesMinMidMax };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
@@ -88,7 +88,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should dispatch the loadData action when mid is updated from the pricings page', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.Pricings);
     const metainfo = { pageViewId: JobBasedPageViewIds.Pricings };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
@@ -97,7 +97,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should NOT dispatch the loadData action when mid is updated from the model page', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromPfGridActions.LoadData(JobBasedPageViewIds.Pricings);
     const metainfo = { pageViewId: JobBasedPageViewIds.ModelMinMidMax };
     instance.updateMidSuccessCallbackFn(instance.store, metainfo);
@@ -106,7 +106,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should dispatch the openModal action when handlePublishModelClicked is called', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromPublishModelModalActions.OpenModal();
 
     instance.handlePublishModelClicked();
@@ -115,7 +115,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should dispatch the openModal action when handleModelSettingsClicked is called', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromModelSettingsModalActions.OpenJobModal();
 
     instance.handleModelSettingsClicked();
@@ -124,7 +124,7 @@ describe('Job Range Structures - Model page', () => {
   });
 
   it('should emit the addJobs event if handleAddJobsClicked is clicked', () => {
-    spyOn(instance.addJobs, 'emit');
+    jest.spyOn(instance.addJobs, 'emit');
 
     instance.handleAddJobsClicked();
 

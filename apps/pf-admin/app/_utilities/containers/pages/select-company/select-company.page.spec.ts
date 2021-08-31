@@ -43,7 +43,7 @@ describe('Pf-Admin - Utilities - Select Company Page', () => {
   });
 
   it('Should dispatch a LoadCompaniesListIfEmpty action upon Init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSelectCompanyActions.LoadCompaniesListIfEmpty();
 
     fixture.detectChanges();
@@ -52,7 +52,7 @@ describe('Pf-Admin - Utilities - Select Company Page', () => {
   });
 
   it('Should dispatch a SetCompanyFilter action with a value, when handling the filter changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filter = 'blahblah';
     const expectedAction = new fromSelectCompanyActions.SetCompanyFilter(filter);
 
@@ -62,7 +62,7 @@ describe('Pf-Admin - Utilities - Select Company Page', () => {
   });
 
   it('Should navigate to the default scopes page for the data list item id, when handling a company click', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
     const dataListItem = generateMockDataListItem();
 
     instance.handleCompanyClicked(dataListItem);

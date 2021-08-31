@@ -44,21 +44,21 @@ describe('ModelSettingsModalComponent', () => {
   });
 
   it('should emit handleSubmit on submit', () => {
-    spyOn(instance.modalSubmit, 'emit');
+    jest.spyOn(instance.modalSubmit, 'emit');
 
     instance.handleModalSubmit();
     expect(instance.modalSubmit.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should emit handleSubmitAttempt on submit', () => {
-    spyOn(instance.modalAttemptedSubmit, 'emit');
+    jest.spyOn(instance.modalAttemptedSubmit, 'emit');
 
     instance.handleModalSubmitAttempt();
     expect(instance.modalAttemptedSubmit.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should emit handleModalDismissed on cancel', () => {
-    spyOn(instance.modalDismissed, 'emit');
+    jest.spyOn(instance.modalDismissed, 'emit');
 
     instance.handleModalDismiss();
     expect(instance.modalDismissed.emit).toHaveBeenCalledTimes(1);

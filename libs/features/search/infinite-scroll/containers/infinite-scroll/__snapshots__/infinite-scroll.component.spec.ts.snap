@@ -2,6 +2,7 @@
 
 exports[`Libs - Infinite Scroll -  should show a message, when loading more results 1`] = `
 <pf-infinite-scroll
+  __ngContext__={[Function LRootView]}
   error$={[Function Store]}
   hasAllResults="false"
   hasAllResults$={[Function Store]}
@@ -23,7 +24,6 @@ exports[`Libs - Infinite Scroll -  should show a message, when loading more resu
     style="position: absolute;"
   >
     <pf-async-container />
-    
     <div
       class="m-3"
     >

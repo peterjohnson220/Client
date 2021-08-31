@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Exclude Indirect Matches Filter should display appropriate label 1`] = `
 <pf-exclude-indirect-matches-filter
+  __ngContext__={[Function LRootView]}
   filterToggled={[Function EventEmitter_]}
 >
   <div
@@ -22,7 +23,6 @@ exports[`Features - Peer - Exclude Indirect Matches Filter should display approp
       <kendo-switch
         class="k-switch-sm"
       >
-        
         <span
           class="k-switch-container"
           role="switch"
@@ -30,12 +30,10 @@ exports[`Features - Peer - Exclude Indirect Matches Filter should display approp
           <span
             class="k-switch-label-on"
           >
-            
           </span>
           <span
             class="k-switch-label-off"
           >
-            
           </span>
           <span
             class="k-switch-handle"

@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TermsConditionsModalComponent } from './terms-conditions-modal.component';
-import spyOn = jest.spyOn;
 
 
 describe('Pf Modal Form', () => {
@@ -41,7 +40,7 @@ describe('Pf Modal Form', () => {
 
   it('should emit an onAccept event, when acceptTermsAndConditions is triggered', () => {
     // Spy on the emit method for the onDismiss EventEmitter
-    spyOn(instance.onAccept, 'emit');
+    jest.spyOn(instance.onAccept, 'emit');
 
     fixture.detectChanges();
 
@@ -53,7 +52,7 @@ describe('Pf Modal Form', () => {
 
   it('should emit a onDecline event, when declineTermsAndConditions is triggered', () => {
     // Spy on the emit method for the onSubmit EventEmitter
-    spyOn(instance.onDecline, 'emit');
+    jest.spyOn(instance.onDecline, 'emit');
 
     fixture.detectChanges();
 

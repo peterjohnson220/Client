@@ -122,7 +122,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a CreateJobDescription action, when calling appliesToFormCompleted with templateId of -1', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedSelected = {
       companyJobId: 1,
@@ -144,7 +144,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a SaveCompanyJobsJobDescriptionTemplateId action, when calling appliesToFormCompleted with templateId not -1', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedSelected = {
       companyJobId: 1,
@@ -184,7 +184,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch an OpenBulkExportPopover action, when calling handleBulkExportPopoverOpened', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleBulkExportPopoverOpened();
 
@@ -199,7 +199,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should reset the gridState & dispatch a LoadJobDescriptionGrid action, when calling handleClearAllFilters', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.gridState.filter = generateMockCompositeFilter();
     instance.gridState.skip = 1;
@@ -220,7 +220,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should remove filter from the gridState, when calling handleClearFilter', () => {
-    spyOn(instance.filterThrottle, 'next');
+    jest.spyOn(instance.filterThrottle, 'next');
 
     const mockedCurrentFilter = generateMockCompositeFilter();
 
@@ -234,7 +234,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a CreateJobDescription action, when calling handleCreateCompanyJobComplete with addAndAssign equal to true', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedComplete = {
       addAndAssign: true,
@@ -256,7 +256,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
   it('should dispatch a LoadJobDescriptionGrid action, when calling handleCreateCompanyJobComplete with addAndAssign equal to false',
     () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedComplete = {
       addAndAssign: false,
@@ -271,7 +271,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should pass along filters to filterThrottle, when calling handleFilterChanged', () => {
-    spyOn(instance.filterThrottle, 'next');
+    jest.spyOn(instance.filterThrottle, 'next');
 
     const mockedCurrentFilters = generateMockFilters();
 
@@ -281,7 +281,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should set the gridState skip value to that of the skip value in event, when calling handlePageChanged', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedEvent = { skip: 10, take: 1 };
 
@@ -295,7 +295,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should set the sort parameter to the gridState sort array, when calling handleSortChanged', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedSort = [{ field: 'test1' }, { field: 'test2' }];
 
@@ -309,7 +309,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a LoadUserFilterList action, when calling handleSaveFilterModalOpened', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleSaveFilterModalOpened();
 
@@ -319,7 +319,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a SaveCompanyJobsJobDescriptionTemplateId action, when calling handleTemplateAssignedToJob', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedAssignTemplateToJobObj = { templateId: 1, selectedCompanyJob: { CompanyJobId: 1 } };
 
@@ -337,7 +337,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a DeleteUserFilter action, when calling handleUserFilterDeleteConfirmed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedId = '1';
 
@@ -350,7 +350,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch a LoadUserFilterList action, when calling handleUserFilterListPopoverOpened', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleUserFilterListPopoverOpened();
 
@@ -360,7 +360,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should re-assign filters, when calling handleUserFilterSelected', () => {
-    spyOn(instance.filterThrottle, 'next');
+    jest.spyOn(instance.filterThrottle, 'next');
 
     instance.displayedListAreaColumnNames = ['Test Field 1'];
     instance.customListAreaColumns = generateMockListAreaColumns();
@@ -376,7 +376,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
 
   it('should dispatch LoadControlLabels & LoadJobInformationFieldsForBulkExport actions for handleViewSelectionChangedOnBulkExport',
     () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockViewName = 'Test View Name';
 
@@ -390,7 +390,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should open assignJobToTemplateModalComponent, when calling openAssignJobModal', () => {
-    spyOn(instance.assignJobToTemplateModalComponent, 'open');
+    jest.spyOn(instance.assignJobToTemplateModalComponent, 'open');
 
     const mockSelectedCompanyJob = generateMockCompanyJobViewListItem();
 
@@ -401,7 +401,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should open deleteJobDescriptionModalComponent, when calling openDeleteJobDescModal', () => {
-    spyOn(instance.deleteJobDescriptionModalComponent, 'open');
+    jest.spyOn(instance.deleteJobDescriptionModalComponent, 'open');
 
     const jobDescrtiptionIds = [123];
 
@@ -410,7 +410,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should open jobDescriptionHistoryModalComponent, when calling openJobDescriptionHistoryModal', () => {
-    spyOn(instance.jobDescriptionHistoryModalComponent, 'open');
+    jest.spyOn(instance.jobDescriptionHistoryModalComponent, 'open');
 
     const mockJobDescriptionIdObj = { jobDescriptionId: 1, jobTitle: 'Test Job Title' };
 
@@ -420,7 +420,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should open jobDescriptionAppliesToModalComponent, when calling openNewJobDescModal', () => {
-    spyOn(instance.jobDescriptionAppliesToModalComponent, 'open');
+    jest.spyOn(instance.jobDescriptionAppliesToModalComponent, 'open').mockImplementation(jest.fn());
 
     const mockSelectedCompanyJob = generateMockCompanyJobViewListItem();
 
@@ -430,7 +430,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should open saveFilterModalComponent, when calling saveFilterClicked', () => {
-    spyOn(instance.saveFilterModalComponent, 'open');
+    jest.spyOn(instance.saveFilterModalComponent, 'open');
 
     instance.saveFilterClicked();
 
@@ -438,7 +438,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch an AddUserFilter action, when calling saveFilterHandler', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const mockedFilterName = 'Test Filter Name';
 
@@ -455,7 +455,7 @@ describe('Job Description Management - Job Description - Job Description List Pa
   });
 
   it('should dispatch UpdateSearchTerm & LoadJobDescriptionGrid actions, when calling updateSearchFilter', () => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       const mockNewSearchTerm = 'Test Search Term';
 

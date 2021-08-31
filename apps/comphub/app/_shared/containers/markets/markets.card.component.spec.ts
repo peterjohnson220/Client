@@ -46,7 +46,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch SetPaymarketFilter action when filter changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromMarketsCardActions.SetPaymarketFilter('some text');
 
@@ -56,7 +56,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch SavePayMarket action when handling save pay market', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const data: AddPayMarketFormData = generateMockAddPayMarketFormData();
     const expectedAction = new fromMarketsCardActions.SavePayMarket(data);
 
@@ -66,7 +66,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch NavigateToNextCard action when handling skip add pay market', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToNextCard();
 
     instance.handleSkipAddPayMarket();
@@ -75,7 +75,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch CloseInfoBanner when handling dismiss info banner', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromAddPayMarketFormActions.CloseInfoBanner();
 
     instance.handleDismissInfoBanner();
@@ -84,7 +84,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch OpenForm from AddPayMarketForm actions when add new market clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromAddPayMarketFormActions.OpenForm();
 
     instance.handleAddNewMarketClicked();
@@ -93,7 +93,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch filter locations action when location filter changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromMarketsCardActions.GetMarketDataLocations('test');
 
     instance.handleLocationFilterChanged('test');
@@ -102,7 +102,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch CloseForm from AddPayMarketForm actions when cancel button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromAddPayMarketFormActions.CloseForm();
 
     instance.handleCancelAddPayMarket();
@@ -111,7 +111,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should dispatch a SetSelectedPayMarket action, when handling a paymarket being checked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const selectedPayMarket = generateMockPricingPaymarket();
     const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(
       {paymarket: selectedPayMarket, initialLoad: false, comphubType: ComphubType.ENTERPRISE});
@@ -122,7 +122,7 @@ describe('Comphub - Main - Markets Card Component', () => {
   });
 
   it('should call handleSearchBoxValueChanged with an empty string, when clearing the search value', () => {
-    spyOn(instance, 'handleSearchChanged');
+    jest.spyOn(instance, 'handleSearchChanged');
 
     instance.clearSearchValue();
 

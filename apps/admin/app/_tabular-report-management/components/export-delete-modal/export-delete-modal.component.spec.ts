@@ -18,7 +18,7 @@ describe('ExportDeleteModalComponent', () => {
   });
 
   it('should emit a cancelClicked event, when the onDismiss method is called', () => {
-    spyOn(instance.cancelClicked, 'emit');
+    jest.spyOn(instance.cancelClicked, 'emit');
 
     instance.onDismiss();
 
@@ -26,7 +26,7 @@ describe('ExportDeleteModalComponent', () => {
   });
 
   it('should emit a deleteScheduledExport event, when the onSubmit method is called', () => {
-    spyOn(instance.deleteScheduledExport, 'emit');
+    jest.spyOn(instance.deleteScheduledExport, 'emit');
 
     instance.onSubmit();
 

@@ -42,7 +42,7 @@ describe('CommunitySearchResultsPageComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunitySearchResultsPageComponent);
     router = TestBed.inject(Router);

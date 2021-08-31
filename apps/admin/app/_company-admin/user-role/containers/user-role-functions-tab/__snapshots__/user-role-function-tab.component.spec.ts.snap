@@ -2,6 +2,7 @@
 
 exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
 <pf-user-role-function-tab
+  __ngContext__={[Function LRootView]}
   disableCheckboxes="false"
   disableCheckboxesSubscription={[Function Subscriber]}
   store={[Function Store]}
@@ -12,7 +13,6 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
     <ul
       class="list-group nav"
     >
-      
       <li
         class="nav-item pt-2 parentPermission"
       >
@@ -24,7 +24,6 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
       <li
@@ -38,7 +37,6 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
       <li
@@ -52,7 +50,6 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
     </ul>
@@ -62,6 +59,7 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
 
 exports[`UserRoleFunctionTabComponent Page load 1`] = `
 <pf-user-role-function-tab
+  __ngContext__={[Function LRootView]}
   disableCheckboxes="false"
   disableCheckboxesSubscription={[Function Subscriber]}
   store={[Function Store]}
@@ -72,7 +70,6 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
     <ul
       class="list-group nav"
     >
-      
       <li
         class="nav-item pt-2 parentPermission"
       >
@@ -84,7 +81,6 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
       <li
@@ -98,7 +94,6 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
       <li
@@ -112,7 +107,6 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
         <ul
           class="list-group nav"
         >
-          
         </ul>
       </li>
     </ul>

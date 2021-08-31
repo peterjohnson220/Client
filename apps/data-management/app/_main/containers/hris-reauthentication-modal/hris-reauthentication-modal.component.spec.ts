@@ -69,7 +69,7 @@ describe('Data Management - Main - Hris Re-Authentication Modal', () => {
     const expectedAction = new fromHrisConnectionActions.PatchConnection(mockFormData);
     instance.hrisReAuthenticateForm.setValue(mockFormData);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
 
     instance.handleFormSubmit();
@@ -80,7 +80,7 @@ describe('Data Management - Main - Hris Re-Authentication Modal', () => {
   it('should dispatch an action on dismiss of the modal', () => {
     const expectedAction = new fromHrisConnectionActions.OpenReAuthenticationModal(false);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleModalDismissed();
 

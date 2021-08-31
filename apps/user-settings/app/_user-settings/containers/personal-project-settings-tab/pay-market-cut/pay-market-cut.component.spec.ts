@@ -39,7 +39,7 @@ describe('User Settings - Pay Market Cut Component', () => {
   });
 
   it('should dispatch GetPayMarketCuts when a pay market is selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const payMarket = generateMockPayMarket();
     const changes: SimpleChanges = {
       payMarket: { currentValue: payMarket, previousValue: null, firstChange: true, isFirstChange: () => true }
@@ -52,7 +52,7 @@ describe('User Settings - Pay Market Cut Component', () => {
   });
 
   it('should dispatch ClearPayMarketCuts when selected pay market is cleared ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const payMarket = generateMockPayMarket();
     const changes: SimpleChanges = {
       payMarket: { currentValue: null, previousValue: payMarket, firstChange: false, isFirstChange: () => false }
@@ -75,7 +75,7 @@ describe('User Settings - Pay Market Cut Component', () => {
   });
 
   it('should dispatch SavePayMarketCuts when clicking Save', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromPayMarketDefaultSettingsActions.SavePayMarketCuts({
       payMarketId: instance.payMarket.CompanyPayMarketId,
       dataCuts: instance.payMarketCuts

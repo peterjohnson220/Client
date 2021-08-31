@@ -32,7 +32,7 @@ describe('Peer - Company Job Map Result', () => {
   });
 
   it('should emit an applyMapping event with the companyJobId of the result, when handleApplyMapping is triggered', () => {
-    spyOn(instance.applyMapping, 'emit');
+    jest.spyOn(instance.applyMapping, 'emit');
 
     const companyJobToMapTo = generateMockCompanyJobToMapTo();
 

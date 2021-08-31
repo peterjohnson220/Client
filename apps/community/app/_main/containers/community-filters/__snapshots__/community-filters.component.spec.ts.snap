@@ -2,6 +2,7 @@
 
 exports[`CommunityFiltersComponent should show community filters 1`] = `
 <pf-community-filters
+  __ngContext__={[Function LRootView]}
   communityCompanySizes$={[Function Store]}
   communityFilterOptions$={[Function Store]}
   communityIndustries$={[Function Store]}
@@ -25,8 +26,6 @@ exports[`CommunityFiltersComponent should show community filters 1`] = `
   /><button
     class="btn btn-secondary attachment-button"
   >
-    
-    
   </button>
 </pf-community-filters>
 `;

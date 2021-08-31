@@ -5,7 +5,6 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
 
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityJobActions from '../../actions/community-job.actions';
@@ -36,7 +35,7 @@ describe('CommunityJobsComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityJobsComponent);
     instance = fixture.componentInstance;
@@ -78,14 +77,14 @@ describe('CommunityJobsComponent', () => {
     expect(returnValue).toBe(communityJob.Id);
   });
   it('call setTimer should call set scroller timeout first time through', () => {
-    spyOn(instance, 'setScrollTimer');
+    jest.spyOn(instance, 'setScrollTimer');
     fixture.detectChanges();
     instance.setTimer();
     fixture.detectChanges();
     expect(instance.setScrollTimer).toBeCalled();
   });
   it('call setTimer should clear scroller timeout if one exists', () => {
-    spyOn(instance, 'clearTimeout');
+    jest.spyOn(instance, 'clearTimeout');
     fixture.detectChanges();
     instance.scrollTimerId = 1;
     instance.setTimer();
@@ -100,7 +99,7 @@ describe('CommunityJobsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
   it('call clearTimeout should clear windows timeout', () => {
-    spyOn(window, 'clearTimeout');
+    jest.spyOn(window, 'clearTimeout');
     fixture.detectChanges();
 
     instance.scrollTimerId = 1;
@@ -109,7 +108,7 @@ describe('CommunityJobsComponent', () => {
     expect(clearTimeout).toBeCalled();
   });
   it('call setScrollTimer should set up window timer', () => {
-    spyOn(window, 'setTimeout');
+    jest.spyOn(window, 'setTimeout');
     fixture.detectChanges();
 
     instance.setScrollTimer();
@@ -117,7 +116,7 @@ describe('CommunityJobsComponent', () => {
     expect(instance.scrollTimerId).toBeDefined();
   });
   it('user scrolled up (by clicking on scroll bar) check navigation (back to top) button becomes visible', () => {
-    spyOn(instance, 'setTimer');
+    jest.spyOn(instance, 'setTimer');
     const param = {
       srcElement: {
         scrollTop: 10
@@ -135,7 +134,7 @@ describe('CommunityJobsComponent', () => {
     expect(instance.isNavigationVisible).toBeTruthy();
   });
   it('user scrolled up (by clicking back to top button) check the button is no longer visible and back to top reset', () => {
-    spyOn(instance, 'setTimer');
+    jest.spyOn(instance, 'setTimer');
     const param = {
       srcElement: {
         scrollTop: 10
@@ -154,7 +153,7 @@ describe('CommunityJobsComponent', () => {
     expect(instance.backToTopFlag).toBeFalsy();
   });
   it('onScroll user scrolls down timer is set', () => {
-    spyOn(instance, 'setTimer');
+    jest.spyOn(instance, 'setTimer');
     const param = {
       srcElement: {
         scrollTop: 10
@@ -170,7 +169,7 @@ describe('CommunityJobsComponent', () => {
     expect(instance.setTimer).toBeCalledTimes(1);
   });
   it('call setScrollDirection direction returns down', () => {
-    spyOn(instance, 'setTimer');
+    jest.spyOn(instance, 'setTimer');
     const param = {
       srcElement: {
         scrollTop: 10
@@ -186,7 +185,7 @@ describe('CommunityJobsComponent', () => {
     expect(instance.lastScrollTop).toBe(instance.currentScrollTop);
   });
   it('call setScrollDirection direction returns up', () => {
-    spyOn(instance, 'setTimer');
+    jest.spyOn(instance, 'setTimer');
     const param = {
       srcElement: {
         scrollTop: 10

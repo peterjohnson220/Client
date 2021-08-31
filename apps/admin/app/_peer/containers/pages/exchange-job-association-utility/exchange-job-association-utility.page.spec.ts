@@ -43,7 +43,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeJobAssociationUtilityPageComponent);
     instance = fixture.componentInstance;
@@ -115,7 +115,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
 
     fixture.detectChanges();
 
-    spyOn(instance.companyList, 'toggle');
+    jest.spyOn(instance.companyList, 'toggle');
 
     instance.handleCompanyFilterChange('11');
 
@@ -132,7 +132,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
 
     fixture.detectChanges();
 
-    spyOn(instance.exchangeList, 'toggle');
+    jest.spyOn(instance.exchangeList, 'toggle');
 
     instance.handleExchangeFilterChange('11');
 
@@ -197,7 +197,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
   it(`should reset the exchangeSelectionControl when handleCompanySelectionChange is triggered`, () => {
     fixture.detectChanges();
 
-    spyOn(instance.exchangeSelectionControl, 'reset');
+    jest.spyOn(instance.exchangeSelectionControl, 'reset');
 
     instance.handleCompanySelectionChange(mockGenericKeyValue);
 

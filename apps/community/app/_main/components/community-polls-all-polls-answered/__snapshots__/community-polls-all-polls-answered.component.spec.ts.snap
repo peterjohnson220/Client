@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Community Polls All Polls Answered should show the thumbs up icon 1`] = `
-<pf-community-polls-all-polls-answered>
+<pf-community-polls-all-polls-answered
+  __ngContext__={[Function LRootView]}
+>
   <div
     class="d-flex flex-column align-items-center p-2 answer-polls"
   >

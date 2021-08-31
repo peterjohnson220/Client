@@ -2,6 +2,7 @@
 
 exports[`Exchange Access Requests Info should match snapshot 1`] = `
 <pf-exchange-access-requests-info
+  __ngContext__={[Function LRootView]}
   closeClicked={[Function EventEmitter_]}
   selectedAccessRequest={[Function Object]}
 >

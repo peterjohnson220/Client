@@ -2,6 +2,7 @@
 
 exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   newAssociations={[Function Array]}
   removeNewAssociation={[Function EventEmitter_]}
   removePreviousAssociation={[Function EventEmitter_]}
@@ -18,7 +19,6 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
       class="position-relative"
     >
       <pf-async-container>
-        
         <div>
           <table>
             <thead>
@@ -42,7 +42,6 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
               </tr>
             </thead>
             <tbody>
-              
               <tr>
                 <td>
                   <button
@@ -70,19 +69,18 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                   jobCode
                 </td>
               </tr>
-              
             </tbody>
           </table>
         </div>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-peer-job-association-associated-jobs>
 `;
 
 exports[`AssociatedCompanyJobsComponent should render different messaging if there was an error 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   loadingPreviousAssociations="false"
   loadingPreviousAssociationsError={[Function Boolean]}
   newAssociations={[Function Array]}
@@ -102,16 +100,15 @@ exports[`AssociatedCompanyJobsComponent should render different messaging if the
       class="position-relative"
     >
       <pf-async-container>
-        
       </pf-async-container>
     </div>
-    
   </div>
 </pf-peer-job-association-associated-jobs>
 `;
 
 exports[`AssociatedCompanyJobsComponent should render the table if there are only company jobs 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   loadingPreviousAssociations="false"
   newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
@@ -130,7 +127,6 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
       class="position-relative"
     >
       <pf-async-container>
-        
         <div>
           <table>
             <thead>
@@ -154,7 +150,6 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
               </tr>
             </thead>
             <tbody>
-              
               <tr>
                 <td>
                   <button
@@ -182,19 +177,18 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                   jobCode
                 </td>
               </tr>
-              
             </tbody>
           </table>
         </div>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-peer-job-association-associated-jobs>
 `;
 
 exports[`AssociatedCompanyJobsComponent should render the table if there are only previous associations 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   loadingPreviousAssociations="false"
   newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
@@ -213,7 +207,6 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
       class="position-relative"
     >
       <pf-async-container>
-        
         <div>
           <table>
             <thead>
@@ -237,11 +230,8 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
               </tr>
             </thead>
             <tbody>
-              
-              
               <tr>
                 <td>
-                  
                   <button
                     class="association-action-button"
                     title="Remove"
@@ -250,14 +240,11 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                       icon="times"
                     />
                   </button>
-                  
                 </td>
                 <td>
-                  
                   <pf-complete-icon
                     title="Saved Match"
                   />
-                  
                 </td>
                 <td
                   class="show-tooltip"
@@ -275,13 +262,13 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
         </div>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-peer-job-association-associated-jobs>
 `;
 
 exports[`AssociatedCompanyJobsComponent should show No Associations instead of the table if there are no jobs 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   loadingPreviousAssociations="false"
   newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
@@ -300,10 +287,8 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
       class="position-relative"
     >
       <pf-async-container>
-        
       </pf-async-container>
     </div>
-    
     <div>
       <i>
         No Matches
@@ -315,6 +300,7 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
 
 exports[`AssociatedCompanyJobsComponent should show jobs after loading successfully 1`] = `
 <pf-peer-job-association-associated-jobs
+  __ngContext__={[Function LRootView]}
   loadingPreviousAssociations="false"
   newAssociations={[Function Array]}
   removeNewAssociation={[Function EventEmitter_]}
@@ -332,7 +318,6 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
       class="position-relative"
     >
       <pf-async-container>
-        
         <div>
           <table>
             <thead>
@@ -356,7 +341,6 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
               </tr>
             </thead>
             <tbody>
-              
               <tr>
                 <td>
                   <button
@@ -384,13 +368,11 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                   jobCode
                 </td>
               </tr>
-              
             </tbody>
           </table>
         </div>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-peer-job-association-associated-jobs>
 `;

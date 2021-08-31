@@ -40,9 +40,9 @@ describe('Job Description Management - Job Description - Employee Acknowledgemen
   });
 
   it('should open acknowledgement modal, when calling open', () => {
-    spyOn(modal, 'open');
-    spyOn(instance.signatureForm, 'reset');
-    spyOn(instance.signatureForm, 'setValue');
+    jest.spyOn(modal, 'open').mockImplementation(jest.fn());
+    jest.spyOn(instance.signatureForm, 'reset').mockImplementation(jest.fn());
+    jest.spyOn(instance.signatureForm, 'setValue').mockImplementation(jest.fn());
 
     instance.employeeAcknowledgementModal = {};
 

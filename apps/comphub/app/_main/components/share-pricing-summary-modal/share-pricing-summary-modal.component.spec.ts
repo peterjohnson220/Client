@@ -22,7 +22,7 @@ describe('Comphub - Main - Share Pricing Summary Modal Component', () => {
   });
 
   it('should emit sendClick with the correct email address when send button clicked', () => {
-    spyOn(instance.sendClick, 'emit');
+    jest.spyOn(instance.sendClick, 'emit');
     const expectedEmailAddress = 'test@payfactors.com';
     instance.sharePricingSummaryForm.patchValue({
       emailAddress: expectedEmailAddress
@@ -37,7 +37,7 @@ describe('Comphub - Main - Share Pricing Summary Modal Component', () => {
   });
 
   it('should emit sendClick with the correct email address and note when send button clicked', () => {
-    spyOn(instance.sendClick, 'emit');
+    jest.spyOn(instance.sendClick, 'emit');
     const expectedEmailAddress = 'test@payfactors.com';
     const expectedNote = 'Adding note test';
     instance.sharePricingSummaryForm.patchValue({
@@ -54,7 +54,7 @@ describe('Comphub - Main - Share Pricing Summary Modal Component', () => {
   });
 
   it('should emit cancelClick when cancel button clicked', () => {
-    spyOn(instance.cancelClick, 'emit');
+    jest.spyOn(instance.cancelClick, 'emit');
 
     instance.handleCancelClicked();
 

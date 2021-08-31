@@ -2,6 +2,7 @@
 
 exports[`TotalRewardsPageComponent should show the create new banner when no statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  __ngContext__={[Function LRootView]}
   copyingStatement$={[Function Store]}
   copyingStatementSuccess$={[Function Store]}
   deletingStatement$={[Function Store]}
@@ -21,9 +22,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
   urlParamSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
-    
     Total Rewards
-    
     <a
       class="pt-2 pr-2"
       data-qa-id="lnk-recentDownloads"
@@ -36,7 +35,6 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
     <pf-input-debounce
       class="mr-2"
     />
-    
     <div
       class="d-flex flex-column h-100"
     >
@@ -64,7 +62,6 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             >
               Statements
             </a>
-            
           </li>
           <li
             class="nav-item"
@@ -82,48 +79,40 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
             >
               Templates
             </a>
-            
           </li>
         </ul>
         <div
           class="tab-content"
         >
-          
-          
           <div
-            class="tab-pane active"
+            class="tab-pane fade show active"
             id="ngb-nav-4-panel"
+            ngbnavpane=""
             role="tabpanel"
           >
-            
             <div
               class="h-100"
             >
               <pf-statements-grid />
             </div>
           </div>
-          
-          
           <div
-            class="tab-pane"
+            class="tab-pane fade"
             id="ngb-nav-5-panel"
+            ngbnavpane=""
             role="tabpanel"
           >
-            
             <pf-total-rewards-template-card-selector />
           </div>
-          
         </div>
       </div>
     </div>
     <pf-modal-form
       title="Delete Statement"
     >
-      
       <p>
         Are you sure you want to delete 
         <strong>
-          
         </strong>
         ? This action is permanent and cannot be recovered.
       </p>
@@ -131,11 +120,9 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
     <pf-modal-form
       title="Copy Statement"
     >
-      
       <p>
         You are about to create a copy of 
         <strong>
-          
         </strong>
         . Are you sure you want to continue?
       </p>
@@ -146,6 +133,7 @@ exports[`TotalRewardsPageComponent should show the create new banner when no sta
 
 exports[`TotalRewardsPageComponent should show the grid component when statements are returned 1`] = `
 <pf-total-rewards-statement-list-page
+  __ngContext__={[Function LRootView]}
   copyingStatement$={[Function Store]}
   copyingStatementSuccess$={[Function Store]}
   deletingStatement$={[Function Store]}
@@ -165,9 +153,7 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
   urlParamSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
-    
     Total Rewards
-    
     <a
       class="pt-2 pr-2"
       data-qa-id="lnk-recentDownloads"
@@ -180,7 +166,6 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
     <pf-input-debounce
       class="mr-2"
     />
-    
     <div
       class="d-flex flex-column h-100"
     >
@@ -208,7 +193,6 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
             >
               Statements
             </a>
-            
           </li>
           <li
             class="nav-item"
@@ -226,48 +210,40 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
             >
               Templates
             </a>
-            
           </li>
         </ul>
         <div
           class="tab-content"
         >
-          
-          
           <div
-            class="tab-pane active"
+            class="tab-pane fade show active"
             id="ngb-nav-2-panel"
+            ngbnavpane=""
             role="tabpanel"
           >
-            
             <div
               class="h-100"
             >
               <pf-statements-grid />
             </div>
           </div>
-          
-          
           <div
-            class="tab-pane"
+            class="tab-pane fade"
             id="ngb-nav-3-panel"
+            ngbnavpane=""
             role="tabpanel"
           >
-            
             <pf-total-rewards-template-card-selector />
           </div>
-          
         </div>
       </div>
     </div>
     <pf-modal-form
       title="Delete Statement"
     >
-      
       <p>
         Are you sure you want to delete 
         <strong>
-          
         </strong>
         ? This action is permanent and cannot be recovered.
       </p>
@@ -275,11 +251,9 @@ exports[`TotalRewardsPageComponent should show the grid component when statement
     <pf-modal-form
       title="Copy Statement"
     >
-      
       <p>
         You are about to create a copy of 
         <strong>
-          
         </strong>
         . Are you sure you want to continue?
       </p>

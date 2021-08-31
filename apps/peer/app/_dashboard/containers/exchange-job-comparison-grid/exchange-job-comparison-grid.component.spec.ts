@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -68,7 +67,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     const mockGridState = generateMockDataStateChangeEvent('CompanyJobTitle');
     const expectedAction = new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, mockGridState);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -81,7 +80,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     const mockGridState = generateMockDataStateChangeEvent('CompanyJobTitle');
     const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({countryCode: 'USA'});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -93,7 +92,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
   it('should dispatch a LoadExchangeJobComparisons action when handleMarketFilterChanged is called', () => {
     const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons({countryCode: 'ALL'});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -137,7 +136,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
   it(`should NOT dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are no selections`, () => {
     const mockSelectionEvent = {...generateMockSelectionEvent(generateMockExchangeJobComparison()), selectedRows: []};
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSelectionChange(mockSelectionEvent);
 
@@ -151,7 +150,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
       selectedMarket: 'USA'
     });
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSelectionChange(generateMockSelectionEvent(generateMockExchangeJobComparison()));
 

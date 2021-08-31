@@ -2,6 +2,7 @@
 
 exports[`Peer Dashboard - Exchange Selector should display the currently selected exchange name 1`] = `
 <pf-exchange-switcher
+  __ngContext__={[Function LRootView]}
   currentExchange={[Function Object]}
   currentExchangeSub={[Function Subscriber]}
   exchange$={[Function Store]}
@@ -19,30 +20,17 @@ exports[`Peer Dashboard - Exchange Selector should display the currently selecte
     popovertitle="My Current Exchanges"
     type="button"
   >
-    
-  
-    
     <span
       class="text-muted"
     >
       Exchange:
     </span>
-    
-    
     <strong>
       Mock Exchange
     </strong>
-    
-    
     <fa-icon
       icon="caret-down"
     />
-    
-  
-  
   </button>
-  
-  
-  
 </pf-exchange-switcher>
 `;

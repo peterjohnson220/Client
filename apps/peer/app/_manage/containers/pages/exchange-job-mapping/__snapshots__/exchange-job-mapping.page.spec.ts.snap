@@ -3,6 +3,7 @@
 exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true 1`] = `
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   collapse={[Function Boolean]}
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
@@ -29,9 +30,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Manage Jobs 
-    
     <div
       class="btn-group btn-group-toggle"
     >
@@ -100,8 +99,6 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         icon="upload"
       />
     </button>
-    
-    
     <div
       class="flex-column-container"
     >
@@ -110,9 +107,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       >
         <pf-exchange-job-mapping-grid />
       </div>
-      
     </div>
-    
   </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;
@@ -120,6 +115,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
 exports[`Peer - Exchange Job Mapping Page should show the correct header message and company jobs grid when the company jobs grid is enabled 1`] = `
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   collapse="false"
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
@@ -146,9 +142,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Manage Jobs 
-    
     <div
       class="btn-group btn-group-toggle"
     >
@@ -217,8 +211,6 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
         icon="upload"
       />
     </button>
-    
-    
     <div
       class="flex-column-container"
     >
@@ -226,10 +218,8 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
         class="h-100"
       >
         <pf-company-jobs-grid />
-        
       </div>
     </div>
-    
   </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;
@@ -237,6 +227,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
 exports[`Peer - Exchange Job Mapping Page should show the correct header message and exchange jobs grid when the company jobs grid is disabled 1`] = `
 <pf-exchange-job-mapping-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   collapse="false"
   companyJobsSearchComponent={[Function ElementRef]}
   companySecurityApi={[Function Object]}
@@ -263,9 +254,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
   userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Manage Jobs 
-    
     <div
       class="btn-group btn-group-toggle"
     >
@@ -334,8 +323,6 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
         icon="upload"
       />
     </button>
-    
-    
     <div
       class="flex-column-container"
     >
@@ -344,9 +331,7 @@ exports[`Peer - Exchange Job Mapping Page should show the correct header message
       >
         <pf-exchange-job-mapping-grid />
       </div>
-      
     </div>
-    
   </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal /><pf-file-download-security-warning-modal />
 </pf-exchange-job-mapping-page>
 `;

@@ -2,6 +2,7 @@
 
 exports[`Peer - Company Job Map Result should show a No Job Description message for the result, when there is none  1`] = `
 <pf-company-job-map-result
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
   clicked={[Function EventEmitter_]}
   companyJobToMapTo={[Function Object]}
@@ -21,11 +22,9 @@ exports[`Peer - Company Job Map Result should show a No Job Description message 
         <div
           class="mt-2"
         >
-          
           <em>
             No Job Description
           </em>
-          
         </div>
       </div>
       <div

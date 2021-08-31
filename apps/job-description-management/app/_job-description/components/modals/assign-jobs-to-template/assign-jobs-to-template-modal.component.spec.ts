@@ -47,9 +47,9 @@ describe('Job Description Management - Job Description - Assign Jobs To Template
 
   it('should dispatch LoadTemplateList action, open modal, emit current job and template id & close modal, when calling open & submit',
     () => {
-    spyOn(store, 'dispatch');
-    spyOn(modal, 'open').and.returnValue(getMockNgbModalRef());
-    spyOn(instance.templateAssignedToJob, 'emit');
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(modal, 'open').mockReturnValue(<any>getMockNgbModalRef());
+    jest.spyOn(instance.templateAssignedToJob, 'emit');
 
     const mockSelectedCompanyJob = generateMockCompanyJobViewListItem();
 

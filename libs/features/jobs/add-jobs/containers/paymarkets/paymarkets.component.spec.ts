@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
@@ -43,7 +42,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
 
   it('should dispatch a set search term action, when search term changed', () => {
     const expectedAction = new fromPaymarketActions.SetSearchTerm('test');
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleSearchChanged('test');
 
@@ -53,7 +52,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
   it('should dispatch a toggle paymarket action, when paymarket toggled', () => {
     const paymarket = generateMockJobPayMarket();
     const expectedAction = new fromPaymarketActions.TogglePaymarketSelection(paymarket.CompanyPayMarketId);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.togglePaymarket(paymarket);
 
@@ -62,7 +61,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
 
   it('should show default badge on default paymarket', () => {
     const paymarket = generateMockJobPayMarket();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.defaultPaymarket$ = of(paymarket.CompanyPayMarketId);
     instance.paymarkets$ = of([paymarket]);
@@ -76,7 +75,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
   it('should be checked if paymarket is selected', () => {
     const paymarket = generateMockJobPayMarket();
     paymarket.IsSelected = true;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.paymarkets$ = of([paymarket]);
     instance.visiblePaymarkets$ = of([paymarket]);
@@ -90,7 +89,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
   it('should not show default badge when paymarket is not default', () => {
     const paymarket = generateMockJobPayMarket();
     paymarket.CompanyPayMarketId = 1;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.defaultPaymarket$ = of(1);
     instance.paymarkets$ = of([paymarket]);
@@ -104,7 +103,7 @@ describe('Project - Add Jobs - Paymarkets Component', () => {
   it('should show no data message when no paymarkets match filter', () => {
     const paymarket = generateMockJobPayMarket();
     paymarket.IsHidden = true;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.searchTerm$ = of('zzzzz');
     instance.paymarkets$ = of([paymarket]);

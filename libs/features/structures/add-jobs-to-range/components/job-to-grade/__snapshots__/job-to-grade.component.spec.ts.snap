@@ -2,6 +2,7 @@
 
 exports[`Project - Structures - JobToGrade Component should display error message when error found loading jobs 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -43,11 +44,9 @@ exports[`Project - Structures - JobToGrade Component should display error messag
              Hide Jobs (1) 
           </div>
         </div>
-        
         <div
           class="jobs-container"
         >
-          
           <div
             class="loading-jobs-error"
           >
@@ -58,7 +57,6 @@ exports[`Project - Structures - JobToGrade Component should display error messag
              Error loading jobs. Please try again later. 
           </div>
         </div>
-        
       </div>
       <div>
         <div
@@ -66,19 +64,11 @@ exports[`Project - Structures - JobToGrade Component should display error messag
         >
           Min: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
@@ -92,6 +82,7 @@ exports[`Project - Structures - JobToGrade Component should display error messag
 
 exports[`Project - Structures - JobToGrade Component should display grade, min/mid/max 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -132,8 +123,6 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
              Show Jobs (1) 
           </div>
         </div>
-        
-        
       </div>
       <div>
         <div
@@ -141,19 +130,11 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
         >
           Min: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
@@ -167,6 +148,7 @@ exports[`Project - Structures - JobToGrade Component should display grade, min/m
 
 exports[`Project - Structures - JobToGrade Component should display jobs when jobs loaded 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -208,12 +190,9 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
              Hide Jobs (1) 
           </div>
         </div>
-        
         <div
           class="jobs-container"
         >
-          
-          
           <table
             class="jobs-table"
           >
@@ -233,7 +212,6 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
               </tr>
             </thead>
             <tbody>
-              
               <tr>
                 <td
                   class="ellipsis-text"
@@ -264,7 +242,6 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
             </tbody>
           </table>
         </div>
-        
       </div>
       <div>
         <div
@@ -272,19 +249,11 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
         >
           Min: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
@@ -298,6 +267,7 @@ exports[`Project - Structures - JobToGrade Component should display jobs when jo
 
 exports[`Project - Structures - JobToGrade Component should display loading message when loading jobs 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -339,8 +309,6 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
              Hide Jobs (1) 
           </div>
         </div>
-        
-        
         <div
           class="my-2"
         >
@@ -354,19 +322,11 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
         >
           Min: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
@@ -380,6 +340,7 @@ exports[`Project - Structures - JobToGrade Component should display loading mess
 
 exports[`Project - Structures - JobToGrade Component should display with 2 decimal precision if hourly 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -422,12 +383,9 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
              Hide Jobs (1) 
           </div>
         </div>
-        
         <div
           class="jobs-container"
         >
-          
-          
           <table
             class="jobs-table"
           >
@@ -447,7 +405,6 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
               </tr>
             </thead>
             <tbody>
-              
               <tr>
                 <td
                   class="ellipsis-text"
@@ -478,7 +435,6 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
             </tbody>
           </table>
         </div>
-        
       </div>
       <div>
         <div
@@ -486,19 +442,11 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
         >
           Min: 1.00
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1.00
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
@@ -512,6 +460,7 @@ exports[`Project - Structures - JobToGrade Component should display with 2 decim
 
 exports[`Project - Structures - JobToGrade Component should show jobs when toggle clicked 1`] = `
 <pf-job-to-grade
+  __ngContext__={[Function LRootView]}
   grade={[Function Object]}
   hideJobsLabel={[Function String]}
   jobDeleted={[Function EventEmitter_]}
@@ -553,12 +502,9 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
              Hide Jobs (1) 
           </div>
         </div>
-        
         <div
           class="jobs-container"
         >
-          
-          
           <table
             class="jobs-table"
           >
@@ -578,11 +524,9 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
               </tr>
             </thead>
             <tbody>
-              
             </tbody>
           </table>
         </div>
-        
       </div>
       <div>
         <div
@@ -590,19 +534,11 @@ exports[`Project - Structures - JobToGrade Component should show jobs when toggl
         >
           Min: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >
           Mid: 1
         </div>
-        
-        
-        
-        
         <div
           class="row"
         >

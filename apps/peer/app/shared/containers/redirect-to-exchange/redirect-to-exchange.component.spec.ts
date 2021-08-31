@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
@@ -55,7 +54,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
   });
 
   it('should navigate to the no exchanges page when there are no exchanges', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.navigateToExchange({...generateMockExchangesAndLastVisted(), Exchanges: []});
 
@@ -63,7 +62,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
   });
 
   it('should navigate to the first exchange when there is no last visited exchange Id', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.navigateToExchange({
       Exchanges: [{...generateMockExchangeListItem(), ExchangeId: 11}, {...generateMockExchangeListItem(), ExchangeId: 34}],
@@ -74,7 +73,7 @@ describe('Peer Dashboard - Redirect to Exchange', () => {
   });
 
   it('should navigate to the first exchange when the last visited exchange Id is not an exchange in the list', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.navigateToExchange({...generateMockExchangesAndLastVisted(), LastVisitedExchangeId: 43});
 

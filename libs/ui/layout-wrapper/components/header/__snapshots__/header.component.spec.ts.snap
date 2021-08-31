@@ -2,6 +2,7 @@
 
 exports[`User Menu should hide the notification badge for public sessions and non SMB clients 1`] = `
 <pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   payscaleBrandingFeatureFlag={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -10,17 +11,14 @@ exports[`User Menu should hide the notification badge for public sessions and no
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
     <span
       class="navbar-brand mr-auto"
     >
       <img
         class="logo-style"
-        src="null"
+        src=""
       />
     </span>
-    
-    
     <pf-layout-wrapper-user-menu />
   </nav>
 </pf-layout-wrapper-header>
@@ -28,6 +26,7 @@ exports[`User Menu should hide the notification badge for public sessions and no
 
 exports[`User Menu should show homepage link, when provided 1`] = `
 <pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   featureFlagService={[Function Object]}
   homePageLink={[Function Object]}
@@ -38,7 +37,6 @@ exports[`User Menu should show homepage link, when provided 1`] = `
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
     <a
       class="navbar-brand mr-auto"
       href="url"
@@ -48,8 +46,6 @@ exports[`User Menu should show homepage link, when provided 1`] = `
         src="Img Src"
       />
     </a>
-    
-    
     <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
@@ -58,6 +54,7 @@ exports[`User Menu should show homepage link, when provided 1`] = `
 
 exports[`User Menu should show the header 1`] = `
 <pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   featureFlagService={[Function Object]}
   payscaleBrandingFeatureFlag={[Function Object]}
@@ -67,18 +64,15 @@ exports[`User Menu should show the header 1`] = `
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
     <a
       class="navbar-brand mr-auto"
       href=""
     >
       <img
         class="logo-style"
-        src="null"
+        src=""
       />
     </a>
-    
-    
     <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
@@ -87,6 +81,7 @@ exports[`User Menu should show the header 1`] = `
 
 exports[`User Menu should show the notification badge for SMB clients in public sessions 1`] = `
 <pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   payscaleBrandingFeatureFlag={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -95,17 +90,14 @@ exports[`User Menu should show the notification badge for SMB clients in public 
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
     <span
       class="navbar-brand mr-auto"
     >
       <img
         class="logo-style"
-        src="null"
+        src=""
       />
     </span>
-    
-    
     <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>
@@ -114,6 +106,7 @@ exports[`User Menu should show the notification badge for SMB clients in public 
 
 exports[`User Menu should show the notifications badge for non-public sessions 1`] = `
 <pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   payscaleBrandingFeatureFlag={[Function Object]}
   unsubscribe$={[Function Subject]}
@@ -122,18 +115,15 @@ exports[`User Menu should show the notifications badge for non-public sessions 1
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
     <a
       class="navbar-brand mr-auto"
       href=""
     >
       <img
         class="logo-style"
-        src="null"
+        src=""
       />
     </a>
-    
-    
     <pf-notification-badge />
     <pf-layout-wrapper-user-menu />
   </nav>

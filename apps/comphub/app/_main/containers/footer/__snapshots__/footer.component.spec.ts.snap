@@ -2,6 +2,7 @@
 
 exports[`Comphub - Main - Footer should disable next button, when told to 1`] = `
 <pf-comphub-footer
+  __ngContext__={[Function LRootView]}
   basicGridStore={[Function Store]}
   comphubPages={[Function Object]}
   countryDataSetsLoaded$={[Function Store]}
@@ -18,7 +19,7 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
   loadingMap$={[Function Store]}
   loadingPeerMap="undefined"
   loadingPeerMapSub={[Function Subscriber]}
-  modalContent={[Function TemplateRef_]}
+  modalContent={[Function TemplateRef]}
   pricedJobsCount$={[Function Store]}
   selectedPageIdDelayed$={[Function Store]}
   smbLimitReached$={[Function Store]}
@@ -39,25 +40,16 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
       <div
         class="d-flex align-items-center"
       >
-        
-        
-        
       </div>
     </div>
-    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-      
       <span>
         Cancel
       </span>
-      
     </button>
-    
-    
-    
     <button
       class="btn btn-primary"
       data-qa-id="btn-next-Jobs"
@@ -68,15 +60,14 @@ exports[`Comphub - Main - Footer should disable next button, when told to 1`] = 
     <span
       class="d-inline-block"
     >
-      
     </span>
-    
   </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;
 
 exports[`Comphub - Main - Footer should hide the back button, when told to 1`] = `
 <pf-comphub-footer
+  __ngContext__={[Function LRootView]}
   basicGridStore={[Function Store]}
   comphubPages={[Function Object]}
   countryDataSetsLoaded$={[Function Store]}
@@ -93,7 +84,7 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
   loadingMap$={[Function Store]}
   loadingPeerMap="undefined"
   loadingPeerMapSub={[Function Subscriber]}
-  modalContent={[Function TemplateRef_]}
+  modalContent={[Function TemplateRef]}
   pricedJobsCount$={[Function Store]}
   selectedPageIdDelayed$={[Function Store]}
   smbLimitReached$={[Function Store]}
@@ -114,25 +105,16 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
       <div
         class="d-flex align-items-center"
       >
-        
-        
-        
       </div>
     </div>
-    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-      
       <span>
         Cancel
       </span>
-      
     </button>
-    
-    
-    
     <button
       class="btn btn-primary"
       data-qa-id="btn-next-Jobs"
@@ -142,15 +124,14 @@ exports[`Comphub - Main - Footer should hide the back button, when told to 1`] =
     <span
       class="d-inline-block"
     >
-      
     </span>
-    
   </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;
 
 exports[`Comphub - Main - Footer should hide the next button, when told to 1`] = `
 <pf-comphub-footer
+  __ngContext__={[Function LRootView]}
   basicGridStore={[Function Store]}
   comphubPages={[Function Object]}
   countryDataSetsLoaded$={[Function Store]}
@@ -167,7 +148,7 @@ exports[`Comphub - Main - Footer should hide the next button, when told to 1`] =
   loadingMap$={[Function Store]}
   loadingPeerMap="undefined"
   loadingPeerMapSub={[Function Subscriber]}
-  modalContent={[Function TemplateRef_]}
+  modalContent={[Function TemplateRef]}
   pricedJobsCount$={[Function Store]}
   selectedPageIdDelayed$={[Function Store]}
   smbLimitReached$={[Function Store]}
@@ -188,31 +169,20 @@ exports[`Comphub - Main - Footer should hide the next button, when told to 1`] =
       <div
         class="d-flex align-items-center"
       >
-        
-        
-        
       </div>
     </div>
-    
     <button
       class="btn borderless-blue-btn cancel-btn mt-1 mr-3"
       data-qa-id="btn-close-Jobs"
     >
-      
       <span>
         Cancel
       </span>
-      
     </button>
-    
-    
-    
     <span
       class="d-inline-block"
     >
-      
     </span>
-    
   </div><pf-save-peer-trend-modal />
 </pf-comphub-footer>
 `;

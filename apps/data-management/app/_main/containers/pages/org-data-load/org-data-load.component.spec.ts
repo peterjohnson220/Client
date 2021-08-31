@@ -57,7 +57,7 @@ describe('OrgDataLoadComponent', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(OrgDataLoadComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {
@@ -178,7 +178,7 @@ describe('OrgDataLoadComponent', () => {
 
   it('should dispatch an action to open message on link on without URL', () => {
     const openEvent: Event = new Event('open');
-    spyOn(openEvent, 'preventDefault');
+    jest.spyOn(openEvent, 'preventDefault');
     instance.goToLink(openEvent, null);
     const action = new fromOrganizationalDataActions.SetModalStateOpen(true);
     expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -186,8 +186,8 @@ describe('OrgDataLoadComponent', () => {
 
   it('should open new window with link if has url', () => {
     const openEvent: Event = new Event('open');
-    spyOn(openEvent, 'preventDefault');
-    spyOn(window, 'open');
+    jest.spyOn(openEvent, 'preventDefault');
+    jest.spyOn(window, 'open');
     const url = 'www.google.com';
     instance.goToLink(openEvent, url);
     fixture.detectChanges();

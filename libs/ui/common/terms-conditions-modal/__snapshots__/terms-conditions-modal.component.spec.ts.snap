@@ -2,6 +2,7 @@
 
 exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
 <pf-terms-conditions-modal
+  __ngContext__={[Function LRootView]}
   acceptButtonText={[Function String]}
   declineButtonText={[Function String]}
   isHardCopy="false"
@@ -11,7 +12,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   onAccept={[Function EventEmitter_]}
   onDecline={[Function EventEmitter_]}
   size={[Function String]}
-  templateRef={[Function TemplateRef_]}
+  templateRef={[Function TemplateRef]}
   title={[Function String]}
 >
   <div

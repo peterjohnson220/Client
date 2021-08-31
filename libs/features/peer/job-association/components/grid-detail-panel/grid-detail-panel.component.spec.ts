@@ -55,7 +55,7 @@ describe('GridDetailPanelComponent', () => {
   });
 
   it('should emit when the close link is clicked', () => {
-    spyOn(component.closeClick, 'emit');
+    jest.spyOn(component.closeClick, 'emit');
 
     component.isExpanded$ = of(true);
 
@@ -128,7 +128,7 @@ describe('GridDetailPanelComponent', () => {
   });
 
   it('should emit when the view full job description link is clicked', () => {
-    spyOn(component.viewJdmDescriptionClick, 'emit');
+    jest.spyOn(component.viewJdmDescriptionClick, 'emit');
 
     component.isExpanded$ = of(true);
     component.jdmDescriptionIds = [123];

@@ -45,7 +45,7 @@ describe('CommunityStartPollComponent', () => {
     store = TestBed.inject(Store);
     formBuilder = TestBed.inject(FormBuilder);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     pfLinkifyService = TestBed.inject(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityNewPollComponent);

@@ -2,6 +2,7 @@
 
 exports[`Create Exchange Modal should not show the form text and should show a required error message once a submit has been attempted 1`] = `
 <pf-create-exchange-modal
+  __ngContext__={[Function LRootView]}
   attemptedSubmit={[Function Boolean]}
   createExchangeForm={[Function FormGroup]}
   createExchangeModalOpen$={[Function Store]}
@@ -18,7 +19,6 @@ exports[`Create Exchange Modal should not show the form text and should show a r
     class="ng-untouched ng-pristine ng-invalid"
     title="Create New Exchange"
   >
-    
     <div
       class="form-group"
     >
@@ -34,19 +34,14 @@ exports[`Create Exchange Modal should not show the form text and should show a r
         id="exchange-name"
         pffocus=""
         placeholder="Exchange Name"
+        readonly=""
         type="text"
       />
-      
-      
-      
       <div
         class="invalid-feedback"
       >
         Name is required.
       </div>
-      
-      
-      
     </div>
   </pf-modal-form>
 </pf-create-exchange-modal>
@@ -54,6 +49,7 @@ exports[`Create Exchange Modal should not show the form text and should show a r
 
 exports[`Create Exchange Modal should show the form text and no error messages when a submit has not been attempted 1`] = `
 <pf-create-exchange-modal
+  __ngContext__={[Function LRootView]}
   attemptedSubmit="false"
   createExchangeForm={[Function FormGroup]}
   createExchangeModalOpen$={[Function Store]}
@@ -70,7 +66,6 @@ exports[`Create Exchange Modal should show the form text and no error messages w
     class="ng-untouched ng-pristine ng-invalid"
     title="Create New Exchange"
   >
-    
     <div
       class="form-group"
     >
@@ -88,8 +83,6 @@ exports[`Create Exchange Modal should show the form text and no error messages w
         placeholder="Exchange Name"
         type="text"
       />
-      
-      
       <span
         class="pf-placeholder"
       />

@@ -54,7 +54,7 @@ describe('User Settings - User Profile Component', () => {
   });
 
   it('should update form values when user profile is loaded', () => {
-    spyOn(instance.userProfileForm, 'patchValue');
+    jest.spyOn(instance.userProfileForm, 'patchValue');
 
     const expectedObj = {
       FirstName: 'John',
@@ -69,7 +69,7 @@ describe('User Settings - User Profile Component', () => {
   });
 
   it('should dispatch save user profile action with updated values when clicking Save', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const updatedUserProfile = {
       ...generateMockUserProfile(),

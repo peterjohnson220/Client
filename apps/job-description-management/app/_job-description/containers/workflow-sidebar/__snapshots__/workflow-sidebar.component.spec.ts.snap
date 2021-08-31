@@ -3,6 +3,7 @@
 exports[`WorkflowSidebarComponent should show workflow sidebar 1`] = `
 <pf-workflow-sidebar
   ATTACHMENT_DOWNLOAD_URL_PREFIX={[Function String]}
+  __ngContext__={[Function LRootView]}
   fileDownloadSecurityWarningModal={[Function ElementRef]}
   formBuilder={[Function FormBuilder]}
   inSystemWorkflowComplete$={[Function Store]}
@@ -39,20 +40,12 @@ exports[`WorkflowSidebarComponent should show workflow sidebar 1`] = `
             rows="6"
           />
         </div>
-        
-        
         <div
           class="workflow-button-container"
         >
-          
-          
-          
-          
-          
         </div>
       </form>
     </div>
-    
     <div
       class="workflow-content"
     >

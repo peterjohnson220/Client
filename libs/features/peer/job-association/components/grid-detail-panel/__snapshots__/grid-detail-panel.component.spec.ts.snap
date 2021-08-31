@@ -2,6 +2,7 @@
 
 exports[`GridDetailPanelComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -20,7 +21,6 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -39,15 +39,12 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
       <span>
         <a
           class="jdm-description ml-2 mr-2"
@@ -55,19 +52,12 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
         >
           View Full Job Description
         </a>
-        
-        
-        
       </span>
-      
-      
       <p
         class="font-italic"
       >
          No Job Description Available 
       </p>
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -75,6 +65,7 @@ exports[`GridDetailPanelComponent should hide a link to download the jdm descrip
 
 exports[`GridDetailPanelComponent should not render jdm controls when checkForJdmDescription is false 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -92,7 +83,6 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -111,19 +101,12 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -131,6 +114,7 @@ exports[`GridDetailPanelComponent should not render jdm controls when checkForJd
 
 exports[`GridDetailPanelComponent should render a falsy job family as No Family 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter_]}
   jdmUrl={[Function String]}
@@ -138,7 +122,7 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
   viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
-    class="slide-in-panel position-absolute collapsed invisible"
+    class="slide-in-panel position-absolute invisible collapsed"
   >
     <header>
       <a
@@ -148,7 +132,6 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -167,19 +150,12 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -187,6 +163,7 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
 
 exports[`GridDetailPanelComponent should render input props 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription="false"
   closeClick={[Function EventEmitter_]}
   jdmUrl={[Function String]}
@@ -198,7 +175,7 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
   viewJdmDescriptionClick={[Function EventEmitter_]}
 >
   <section
-    class="slide-in-panel position-absolute collapsed invisible"
+    class="slide-in-panel position-absolute invisible collapsed"
   >
     <header>
       <a
@@ -208,7 +185,6 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -227,19 +203,12 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -247,6 +216,7 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
 
 exports[`GridDetailPanelComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -265,7 +235,6 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -284,15 +253,12 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
       <span>
         <a
           class="jdm-description ml-2 mr-2 show"
@@ -300,14 +266,7 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
         >
           View Full Job Description
         </a>
-        
-        
-        
       </span>
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -315,6 +274,7 @@ exports[`GridDetailPanelComponent should show a link to download the jdm descrip
 
 exports[`GridDetailPanelComponent should show a spinner when downloading a jdm description 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -334,7 +294,6 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -353,15 +312,12 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
       <span>
         <a
           class="jdm-description ml-2 mr-2 show"
@@ -369,15 +325,8 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
         >
           View Full Job Description
         </a>
-        
-        
         <pf-loading-indicator />
-        
       </span>
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -385,6 +334,7 @@ exports[`GridDetailPanelComponent should show a spinner when downloading a jdm d
 
 exports[`GridDetailPanelComponent should show an error message if the jdm description download fails 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -405,7 +355,6 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -424,15 +373,12 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
       <span>
         <a
           class="jdm-description ml-2 mr-2 show"
@@ -440,19 +386,12 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
         >
           View Full Job Description
         </a>
-        
-        
-        
         <p
           class="jdm-description-error d-inline-block ml-0"
         >
           Unable to load job description
         </p>
       </span>
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>
@@ -460,6 +399,7 @@ exports[`GridDetailPanelComponent should show an error message if the jdm descri
 
 exports[`GridDetailPanelComponent should show an informational message when multiple jdm ids exist 1`] = `
 <pf-grid-detail-panel
+  __ngContext__={[Function LRootView]}
   checkForJdmDescription={[Function Boolean]}
   closeClick={[Function EventEmitter_]}
   isExpanded$={[Function Observable]}
@@ -478,7 +418,6 @@ exports[`GridDetailPanelComponent should show an informational message when mult
         <fa-icon />
       </a>
       <h5>
-        
       </h5>
     </header>
     <div
@@ -497,15 +436,12 @@ exports[`GridDetailPanelComponent should show an informational message when mult
         >
           No Family
         </span>
-        
-        
       </div>
       <h6
         class="primary-header mt-1 ml-2 d-inline-block"
       >
          Job Description 
       </h6>
-      
       <span>
         <a
           class="jdm-description ml-2 mr-2"
@@ -513,7 +449,6 @@ exports[`GridDetailPanelComponent should show an informational message when mult
         >
           View Full Job Description
         </a>
-        
         <p
           class="text-muted mb-1"
         >
@@ -526,13 +461,7 @@ exports[`GridDetailPanelComponent should show an informational message when mult
           </a>
            to view each description. 
         </p>
-        
-        
       </span>
-      
-      
-      
-      
     </div>
   </section>
 </pf-grid-detail-panel>

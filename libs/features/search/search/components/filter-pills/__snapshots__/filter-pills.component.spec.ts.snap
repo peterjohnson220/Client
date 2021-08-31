@@ -2,6 +2,7 @@
 
 exports[`Search Feature - Filter Pills should apply a locked class to the pill, the pill icon, and show a locked icon (fa-lock), when its locked 1`] = `
 <pf-filter-pills
+  __ngContext__={[Function LRootView]}
   clearPill={[Function EventEmitter_]}
   clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
@@ -13,14 +14,12 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
     class="pills-container ps"
     perfectscrollbar=""
   >
-    
     <div
       class="pill locked"
       container="body"
       data-qa-id="btn-pill"
       placement="bottom"
     >
-      
       <div
         class="pill-value"
       >
@@ -29,8 +28,6 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
       <div
         class="icon locked"
       >
-        
-        
         <span>
           <fa-icon
             icon="lock"
@@ -38,7 +35,6 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
         </span>
       </div>
     </div>
-    
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -65,6 +61,7 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
 
 exports[`Search Feature - Filter Pills should not add a locked class to the pill or icon, and show a (fa-angle-down) icon, when its not locked 1`] = `
 <pf-filter-pills
+  __ngContext__={[Function LRootView]}
   clearPill={[Function EventEmitter_]}
   clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
@@ -76,14 +73,12 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
     class="pills-container ps"
     perfectscrollbar=""
   >
-    
     <div
       class="pill"
       container="body"
       data-qa-id="btn-pill"
       placement="bottom"
     >
-      
       <div
         class="pill-value"
       >
@@ -92,14 +87,11 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
       <div
         class="icon"
       >
-        
         <span>
           <fa-icon />
         </span>
-        
       </div>
     </div>
-    
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -126,6 +118,7 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
 
 exports[`Search Feature - Filter Pills should show a comma separated list of multi select option values for the pill value 1`] = `
 <pf-filter-pills
+  __ngContext__={[Function LRootView]}
   clearPill={[Function EventEmitter_]}
   clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
@@ -137,14 +130,12 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
     class="pills-container ps"
     perfectscrollbar=""
   >
-    
     <div
       class="pill"
       container="body"
       data-qa-id="btn-pill"
       placement="bottom"
     >
-      
       <div
         class="pill-value"
       >
@@ -153,14 +144,11 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
       <div
         class="icon"
       >
-        
         <span>
           <fa-icon />
         </span>
-        
       </div>
     </div>
-    
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -187,6 +175,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
 
 exports[`Search Feature - Filter Pills should show a comma separated list of multi select option values with an ellipsis, when it exceeds the preview length 1`] = `
 <pf-filter-pills
+  __ngContext__={[Function LRootView]}
   clearPill={[Function EventEmitter_]}
   clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
@@ -198,14 +187,12 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
     class="pills-container ps"
     perfectscrollbar=""
   >
-    
     <div
       class="pill"
       container="body"
       data-qa-id="btn-pill"
       placement="bottom"
     >
-      
       <div
         class="pill-value"
       >
@@ -214,14 +201,11 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
       <div
         class="icon"
       >
-        
         <span>
           <fa-icon />
         </span>
-        
       </div>
     </div>
-    
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"
@@ -248,6 +232,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
 
 exports[`Search Feature - Filter Pills should show range filters selected min and max as the pill value (min - max) 1`] = `
 <pf-filter-pills
+  __ngContext__={[Function LRootView]}
   clearPill={[Function EventEmitter_]}
   clearPillGroup={[Function EventEmitter_]}
   filters={[Function Array]}
@@ -259,14 +244,12 @@ exports[`Search Feature - Filter Pills should show range filters selected min an
     class="pills-container ps"
     perfectscrollbar=""
   >
-    
     <div
       class="pill"
       container="body"
       data-qa-id="btn-pill"
       placement="bottom"
     >
-      
       <div
         class="pill-value"
       >
@@ -275,14 +258,11 @@ exports[`Search Feature - Filter Pills should show range filters selected min an
       <div
         class="icon"
       >
-        
         <span>
           <fa-icon />
         </span>
-        
       </div>
     </div>
-    
     <div
       class="ps__rail-x"
       style="left: 0px; top: 0px;"

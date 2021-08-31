@@ -45,7 +45,7 @@ pipeline {
             \'if00bldlin002\',
             \'if00bldlin003\'
             ]''']]]]), throttleJobProperty(categories: [], limitOneJobWithMatchingParams: false, maxConcurrentPerNode: 0, maxConcurrentTotal: 0, paramsToUseForLimit: '', throttleEnabled: false, throttleOption: 'project')])
-          
+
           echo "env.Select_Build_Node: " + env.Select_Build_Node
 
           if (env.Select_Build_Node == null || env.Select_Build_Node == "Any") {
@@ -233,14 +233,14 @@ pipeline {
             }
           }
           post {
-            always {
-              cobertura coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', \
-                maxNumberOfBuilds: 0, \
-                sourceEncoding: 'ASCII', \
-                zoomCoverageChart: false
-
-              junit 'output/coverage/junit/junit.xml'
-            }
+//             always {
+//               cobertura coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', \
+//                 maxNumberOfBuilds: 0, \
+//                 sourceEncoding: 'ASCII', \
+//                 zoomCoverageChart: false
+//
+//               junit 'output/coverage/junit/junit.xml'
+//             }
             failure {
               script {
                 sendSlackFail(env.lastAuthor, env.pkgVersion)
@@ -261,6 +261,8 @@ pipeline {
                     sh "KENDO_UI_LICENSE=${env.KENDO_UI_LICENSE}"
                     sh "npx kendo-ui-license activate"
 
+                    sh "npx gulp sass"
+                    
                     echo "Getting list of apps..."
                     sh 'ls apps > dirs'
                     sh """
@@ -280,7 +282,7 @@ pipeline {
 
                   while (buildRunning == true) {
                     sh 'sleep 30'
-                    
+
                     buildLogRaw = currentBuild.rawBuild.getLog(100000)
                     buildCnt = buildLogRaw.count { it.contains("build complete")}
                     // Need to subtract 'build complete' from the commandline.

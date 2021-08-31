@@ -65,7 +65,7 @@ describe('Data Insights - Create Data View Modal', () => {
   });
 
   it('should open modal using modalService when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
 
     instance.open();
 
@@ -73,7 +73,7 @@ describe('Data Insights - Create Data View Modal', () => {
   });
 
   it('should dispatch SaveUserReport action when save is called', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const baseDataView: BaseDataView = generateMockBaseDataView();
     instance.baseDataViewForm.patchValue({
