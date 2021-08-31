@@ -62,6 +62,6 @@ export class CompensableFactorsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.compensableFactorsDataSub.unsubscribe();
+    this.compensableFactorsDataSub?.unsubscribe();
   }
 }
