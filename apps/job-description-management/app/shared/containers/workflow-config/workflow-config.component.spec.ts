@@ -12,7 +12,6 @@ import { WorkflowConfigComponent } from './workflow-config.component';
 import * as fromJobDescriptionManagementReducer from '../../../_job-description/reducers';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 
-import spyOn = jest.spyOn;
 
 @Pipe({name: 'TruncateAfter'})
 class MockPipe implements PipeTransform {
@@ -45,7 +44,7 @@ describe('WorkflowConfigComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(WorkflowConfigComponent);
     instance = fixture.componentInstance;
@@ -74,7 +73,7 @@ describe('WorkflowConfigComponent', () => {
   });
 
   it('should dispatch SaveWorkflowAttachmentsState on processing success notification', () => {
-    spyOn(instance, 'saveWorkflowAttachmentState');
+    jest.spyOn(instance, 'saveWorkflowAttachmentState');
 
     const mockNotification: AppNotification<any> = {
       NotificationId: '12345',

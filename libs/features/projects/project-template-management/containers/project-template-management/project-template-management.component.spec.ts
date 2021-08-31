@@ -55,7 +55,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should close template form when canceling changes', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromProjectTemplateManagementActions.ShowProjectTemplateForm(false);
 
     instance.onCancelChanges();
@@ -64,7 +64,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should toggle the field selection when checkbox value changed', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch').mockImplementation(jest.fn());
     const field = generateMockCompositeField();
     const expectedAction = new fromProjectTemplateManagementActions.ToggleFieldSelected(field);
 
@@ -74,7 +74,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should mark the form as touched when checkbox value changed', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch').mockImplementation(jest.fn());
     const field = generateMockCompositeField();
 
     instance.handleSelectionChanged(field);
@@ -83,7 +83,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should configure the modal tabs', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
       TemplateFields: [
@@ -104,7 +104,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should set the active tab to the 1st modal tab', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
       TemplateFields: [
@@ -125,7 +125,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should expand all accordions when configuring tabs', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const templateFields: ProjectTemplateFields = {
       ...generateMockProjectTemplateFields(),
       TemplateFields: [
@@ -142,7 +142,7 @@ describe('ProjectTemplateManagementComponent', () => {
 
     instance.configureTabs(templateFields);
 
-    expect(instance.activeAccordionIds).toEqual(['Basic Data_Test', 'Company Target Pay_Test']);
+    expect(instance.activeAccordionIds).toEqual(['panel-0-0', 'panel-1-0']);
   });
 
   it.each([
@@ -160,7 +160,7 @@ describe('ProjectTemplateManagementComponent', () => {
   });
 
   it('should update the correct indexes when updating MRP reference points', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromProjectTemplateManagementActions.UpdateReferencePoints([
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     ]);

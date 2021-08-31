@@ -37,7 +37,7 @@ describe('Data Insights - Tag Workbook Modal Component', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.open();
 
     expect(ngbModal.open).toHaveBeenCalled();
@@ -50,7 +50,7 @@ describe('Data Insights - Tag Workbook Modal Component', () => {
   });
 
   it('should emit a save clicked event with the saveWorkbookTagObj, when handling a save click', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
     const mockSaveWorkbookTagObj = generateMockSaveWorkbookTagObj();
     instance.saveWorkbookTagObj = mockSaveWorkbookTagObj;
 
@@ -60,7 +60,7 @@ describe('Data Insights - Tag Workbook Modal Component', () => {
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.close();
 

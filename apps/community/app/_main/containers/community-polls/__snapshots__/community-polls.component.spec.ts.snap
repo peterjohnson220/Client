@@ -2,6 +2,7 @@
 
 exports[`ItemFormControlComponent should show the form text 1`] = `
 <pf-community-polls
+  __ngContext__={[Function LRootView]}
   communityPollRequests$={[Function Store]}
   communityPollRequestsLoaded$={[Function Store]}
   communityPollRequestsSubscription={[Function Subscriber]}
@@ -15,8 +16,6 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   <div
     class="community-payfactors-polls community-border-radius py-4"
   >
-    
-    
   </div>
 </pf-community-polls>
 `;

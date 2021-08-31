@@ -66,7 +66,7 @@ describe('Peer - Apply Mapping Button', () => {
   it('should emit an applyMapping event, when clicking a apply mapping button', () => {
     fixture.detectChanges();
 
-    spyOn(instance.applyMapping, 'emit');
+    jest.spyOn(instance.applyMapping, 'emit');
 
     const applyMappingBtn = fixture.debugElement.query(By.css('.associate'));
     applyMappingBtn.triggerEventHandler('click', null);

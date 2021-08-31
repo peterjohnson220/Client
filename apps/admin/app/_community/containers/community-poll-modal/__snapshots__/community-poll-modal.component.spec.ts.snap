@@ -2,6 +2,7 @@
 
 exports[`CommunityPollModalComponent should not show the form text and should show a required error message once a submit has been attempted 1`] = `
 <pf-community-poll-modal
+  __ngContext__={[Function LRootView]}
   addCommunityPollForm={[Function FormGroup]}
   attemptedSubmit={[Function Boolean]}
   communityPollListToEdit$={[Function Store]}
@@ -17,11 +18,9 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
     class="ng-untouched ng-pristine ng-invalid"
     title="New Poll"
   >
-    
     <div
       class="form-group"
     >
-      
       <label
         class="col-form-label"
         for="poll-question"
@@ -37,17 +36,11 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
         placeholder="Question"
         type="text"
       />
-      
-      
-      
       <div
         class="invalid-feedback"
       >
         Question is required.
       </div>
-      
-      
-      
       <br />
       <label
         class="col-form-label"
@@ -55,10 +48,7 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
       >
         Poll choices
       </label>
-      
-      
       <div>
-        
         <button
           class="btn btn-secondary offset-sm-1"
           type="button"
@@ -73,6 +63,7 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
 
 exports[`CommunityPollModalComponent should show the form text and no error messages when a submit has not been attempted 1`] = `
 <pf-community-poll-modal
+  __ngContext__={[Function LRootView]}
   addCommunityPollForm={[Function FormGroup]}
   attemptedSubmit="false"
   communityPollListToEdit$={[Function Store]}
@@ -88,11 +79,9 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
     class="ng-untouched ng-pristine ng-invalid"
     title="New Poll"
   >
-    
     <div
       class="form-group"
     >
-      
       <label
         class="col-form-label"
         for="poll-question"
@@ -108,8 +97,6 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
         placeholder="Question"
         type="text"
       />
-      
-      
       <span
         class="pf-placeholder"
       />
@@ -120,10 +107,7 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
       >
         Poll choices
       </label>
-      
-      
       <div>
-        
         <button
           class="btn btn-secondary offset-sm-1"
           type="button"

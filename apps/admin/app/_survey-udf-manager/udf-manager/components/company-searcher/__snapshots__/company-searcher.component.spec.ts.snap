@@ -2,6 +2,7 @@
 
 exports[`CompanySearcherComponent should hide the instructional message when a company is selected 1`] = `
 <pf-company-searcher
+  __ngContext__={[Function LRootView]}
   filterCompanies={[Function EventEmitter_]}
   searchTermChanged$={[Function BehaviorSubject]}
   selectCompany={[Function EventEmitter_]}
@@ -11,12 +12,10 @@ exports[`CompanySearcherComponent should hide the instructional message when a c
   <div
     class="form-container container d-flex"
   >
-    
     <kendo-combobox
       class="form-control"
       data-qa-id="txt-company"
     >
-      
     </kendo-combobox>
   </div>
 </pf-company-searcher>
@@ -24,6 +23,7 @@ exports[`CompanySearcherComponent should hide the instructional message when a c
 
 exports[`CompanySearcherComponent should show an instructional message when no company is selected 1`] = `
 <pf-company-searcher
+  __ngContext__={[Function LRootView]}
   filterCompanies={[Function EventEmitter_]}
   searchTermChanged$={[Function BehaviorSubject]}
   selectCompany={[Function EventEmitter_]}
@@ -33,7 +33,6 @@ exports[`CompanySearcherComponent should show an instructional message when no c
   <div
     class="form-container container d-flex"
   >
-    
     <h6
       class="select-company mt-2"
     >
@@ -43,7 +42,6 @@ exports[`CompanySearcherComponent should show an instructional message when no c
       class="form-control"
       data-qa-id="txt-company"
     >
-      
     </kendo-combobox>
   </div>
 </pf-company-searcher>

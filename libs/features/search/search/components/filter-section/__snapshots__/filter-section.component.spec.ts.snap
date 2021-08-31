@@ -2,6 +2,7 @@
 
 exports[`Search Feature - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
+  __ngContext__={[Function LRootView]}
   clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
@@ -30,34 +31,22 @@ exports[`Search Feature - Filter Section should display the given title in the h
           class="ellipsis-overflowing-text"
         >
            Job Title/Code 
-          
         </span>
-        
-        
       </div>
       <div
         class="header-right"
       >
-        
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
         >
-          
-          
-          
-          
           Clear
         </div>
-        
       </div>
     </div>
-    
     <div>
-      
       <div
         class="content"
       >
-        
       </div>
     </div>
   </div>
@@ -66,6 +55,7 @@ exports[`Search Feature - Filter Section should display the given title in the h
 
 exports[`Search Feature - Filter Section should display the transcluded content 1`] = `
 <ng-component
+  __ngContext__={[Function LRootView]}
   filter={[Function Object]}
 >
   <pf-filter-section>
@@ -83,37 +73,25 @@ exports[`Search Feature - Filter Section should display the transcluded content 
             class="ellipsis-overflowing-text"
           >
              Job Title/Code 
-            
           </span>
-          
-          
         </div>
         <div
           class="header-right"
         >
-          
           <div
             class="clear-link au-btn-clear-au-txt-job-title"
           >
-            
-            
-            
-            
             Clear
           </div>
-          
         </div>
       </div>
-      
       <div>
-        
         <div
           class="content"
         >
           <h1>
             Transclusion Works!
           </h1>
-          
         </div>
       </div>
     </div>
@@ -123,6 +101,7 @@ exports[`Search Feature - Filter Section should display the transcluded content 
 
 exports[`Search Feature - Filter Section should show a fa-angle-down icon in the header, when collapsed 1`] = `
 <pf-filter-section
+  __ngContext__={[Function LRootView]}
   clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
@@ -151,34 +130,22 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
           class="ellipsis-overflowing-text"
         >
            Job Title/Code 
-          
         </span>
-        
-        
       </div>
       <div
         class="header-right"
       >
-        
         <div
           class="clear-link au-btn-clear-au-txt-job-title"
         >
-          
-          
-          
-          
           Clear
         </div>
-        
       </div>
     </div>
-    
     <div>
-      
       <div
         class="content"
       >
-        
       </div>
     </div>
   </div>
@@ -188,6 +155,7 @@ exports[`Search Feature - Filter Section should show a fa-angle-down icon in the
 exports[`Search Feature - Filter Section should show a search icon and show more link, when the filter is a multi select,
       not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
+  __ngContext__={[Function LRootView]}
   clear={[Function EventEmitter_]}
   collapsed="undefined"
   cssReplacementRegex={[Function RegExp]}
@@ -217,25 +185,16 @@ exports[`Search Feature - Filter Section should show a search icon and show more
           class="ellipsis-overflowing-text"
         >
            Publisher 
-          
         </span>
-        
-        
       </div>
       <div
         class="header-right"
       >
-        
         <div
           class="clear-link au-btn-clear-au-chk-publisher"
         >
-          
-          
           Clear (5)
-          
-          
         </div>
-        
         <div
           class="search au-btn-search-au-chk-publisher"
         >
@@ -243,13 +202,10 @@ exports[`Search Feature - Filter Section should show a search icon and show more
         </div>
       </div>
     </div>
-    
     <div>
-      
       <div
         class="content"
       >
-        
         <div
           class="d-flex"
         >
@@ -258,7 +214,6 @@ exports[`Search Feature - Filter Section should show a search icon and show more
           >
             Show More
           </div>
-          
         </div>
       </div>
     </div>

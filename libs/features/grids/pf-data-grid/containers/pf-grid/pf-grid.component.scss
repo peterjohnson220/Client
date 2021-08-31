@@ -230,7 +230,20 @@ html .k-grid tr:hover {
 }
 
 .k-grid.tertiary-grid-theme {
-  @extend .k-grid.job-details-next-gen-base;
+  height: auto;
+
+  .k-grid-header {
+    th {
+      background-color: $theme-header !important;
+      color: white;
+    }
+  }
+
+  .k-grid-header .k-header .k-link > .k-icon {
+    order: 1;
+    color: white;
+    margin: 0;
+  }
 
   table {
     background-color: $sub-grid-accent-color;
@@ -252,7 +265,20 @@ html .k-grid tr:hover {
 }
 
 .k-grid.pricing-details-theme {
-  @extend .k-grid.job-details-next-gen-base;
+  height: auto;
+
+  .k-grid-header {
+    th {
+      background-color: $theme-header !important;
+      color: white;
+    }
+  }
+
+  .k-grid-header .k-header .k-link > .k-icon {
+    order: 1;
+    color: white;
+    margin: 0;
+  }
 
   // must use !important to override dynamic css in pf-grid
   .k-grid-table > tbody > tr > .pf-grid-checkbox + td {
@@ -299,7 +325,20 @@ html .k-grid tr:hover {
 }
 
 .k-grid.job-details-theme {
-  @extend .k-grid.job-details-next-gen-base;
+  height: auto;
+
+  .k-grid-header {
+    th {
+      background-color: $theme-header !important;
+      color: white;
+    }
+  }
+
+  .k-grid-header .k-header .k-link > .k-icon {
+    order: 1;
+    color: white;
+    margin: 0;
+  }
 
   .k-grid-header {
     th:first-child{

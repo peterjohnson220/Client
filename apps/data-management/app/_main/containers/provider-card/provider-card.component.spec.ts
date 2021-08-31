@@ -30,7 +30,7 @@ describe('Data Management - Main - Provider Card', () => {
     // arrange
     instance.provider = mockActiveProvider;
     fixture.detectChanges();
-    spyOn(instance.providerSelected, 'emit');
+    jest.spyOn(instance.providerSelected, 'emit');
 
     // act
     instance.selectProviderClick(null);
@@ -43,7 +43,7 @@ describe('Data Management - Main - Provider Card', () => {
     // arrange
     instance.provider = mockInactiveProvider;
     fixture.detectChanges();
-    spyOn(instance.providerSelected, 'emit');
+    jest.spyOn(instance.providerSelected, 'emit');
 
     // act
     instance.selectProviderClick(null);

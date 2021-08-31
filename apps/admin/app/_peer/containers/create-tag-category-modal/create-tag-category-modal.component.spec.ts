@@ -51,7 +51,7 @@ describe('Admin - Create Tag Category Modal', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CreateTagCategoryModalComponent);
     instance = fixture.componentInstance;
@@ -70,7 +70,7 @@ describe('Admin - Create Tag Category Modal', () => {
   });
 
   it('should call setPlaceholderOnBlur method when the textarea focus is changed', () => {
-    spyOn(instance, 'setPlaceholderOnBlur');
+    jest.spyOn(instance, 'setPlaceholderOnBlur');
 
     fixture.detectChanges();
     // Find the textarea in the template and trigger a blur event

@@ -36,7 +36,7 @@ describe('CommunityPollComponent', () => {
       });
 
       store = TestBed.inject(Store);
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       fixture = TestBed.createComponent(CommunityPollComponent);
       instance = fixture.componentInstance;
@@ -113,7 +113,7 @@ describe('CommunityPollComponent', () => {
       expect(instance.request.IsExpired).toBe(true);
     });
     it('should emit a pollHashTagClicked event, when hashtag is clicked', () => {
-      spyOn(instance.pollHashTagClicked, 'emit');
+      jest.spyOn(instance.pollHashTagClicked, 'emit');
 
       const hashtag = '#hashtag';
 

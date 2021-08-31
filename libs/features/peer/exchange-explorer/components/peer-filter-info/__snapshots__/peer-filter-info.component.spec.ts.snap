@@ -2,6 +2,7 @@
 
 exports[`Feature - Peer - Pay Market Filter Info Component should provide correct values to the pf-peer-filter-info component 1`] = `
 <pf-peer-filter-info
+  __ngContext__={[Function LRootView]}
   clearFiltersLinkClicked={[Function EventEmitter_]}
 >
   <div
@@ -14,7 +15,6 @@ exports[`Feature - Peer - Pay Market Filter Info Component should provide correc
       <span
         class="filter-info-span"
       >
-        
       </span>
     </label>
     <label
@@ -24,7 +24,6 @@ exports[`Feature - Peer - Pay Market Filter Info Component should provide correc
       <span
         class="filter-info-span"
       >
-        
       </span>
     </label>
     <div

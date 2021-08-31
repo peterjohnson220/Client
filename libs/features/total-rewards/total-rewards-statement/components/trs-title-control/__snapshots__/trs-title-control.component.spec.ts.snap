@@ -2,6 +2,7 @@
 
 exports[`TrsTitleControlComponent should add a \`background-graphics\` class to the container when graphics are enabled 1`] = `
 <pf-trs-title-control
+  __ngContext__={[Function LRootView]}
   backgroundGraphicsEnabled={[Function Boolean]}
   color={[Function Object]}
   controlData={[Function Object]}
@@ -63,13 +64,13 @@ exports[`TrsTitleControlComponent should add a \`background-graphics\` class to 
       class="line graphic circle bottom"
       pfstatementgraphicsdirective=""
     />
-    
   </div>
 </pf-trs-title-control>
 `;
 
 exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of the container 1`] = `
 <pf-trs-title-control
+  __ngContext__={[Function LRootView]}
   color={[Function Object]}
   controlData={[Function Object]}
   mode="0"
@@ -129,13 +130,13 @@ exports[`TrsTitleControlComponent should set the innerTitleWidth as the width of
       class="line graphic circle bottom"
       pfstatementgraphicsdirective=""
     />
-    
   </div>
 </pf-trs-title-control>
 `;
 
 exports[`TrsTitleControlComponent should show in edit mode 1`] = `
 <pf-trs-title-control
+  __ngContext__={[Function LRootView]}
   color={[Function Object]}
   controlData={[Function Object]}
   mode="0"
@@ -195,13 +196,13 @@ exports[`TrsTitleControlComponent should show in edit mode 1`] = `
       class="line graphic circle bottom"
       pfstatementgraphicsdirective=""
     />
-    
   </div>
 </pf-trs-title-control>
 `;
 
 exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
 <pf-trs-title-control
+  __ngContext__={[Function LRootView]}
   color={[Function Object]}
   controlData={[Function Object]}
   mode={[Function Number]}
@@ -261,7 +262,6 @@ exports[`TrsTitleControlComponent should show when in preview mode 1`] = `
       class="line graphic circle bottom"
       pfstatementgraphicsdirective=""
     />
-    
   </div>
 </pf-trs-title-control>
 `;

@@ -40,7 +40,7 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
   });
 
   it('should call exportLogic and then close the popover, when calling export', () => {
-    spyOn(instance, 'exportLogic').and.callFake(jest.fn());
+    jest.spyOn(instance, 'exportLogic').mockImplementation(jest.fn());
 
     instance.export();
 
@@ -86,7 +86,7 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
   });
 
   it('should set and select view, when calling handleViewChanged with non-default view', () => {
-    spyOn(instance.viewSelectionChanged, 'emit');
+    jest.spyOn(instance.viewSelectionChanged, 'emit');
 
     const mockedView = 'Non-Default';
 
@@ -98,7 +98,7 @@ describe('Job Description Management - Job Description - Bulk Export Popover', (
   });
 
   it('should reset view variables, when calling handleViewChanged with default view', () => {
-    spyOn(instance.viewSelectionChanged, 'emit');
+    jest.spyOn(instance.viewSelectionChanged, 'emit');
 
     const mockedView = 'Default';
 

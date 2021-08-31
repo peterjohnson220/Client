@@ -26,7 +26,7 @@ describe('CommunityBackToTopNavigationComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
   it('call onClick should emit back to top', () => {
-    spyOn(instance.backToTopClicked, 'emit');
+    jest.spyOn(instance.backToTopClicked, 'emit');
     instance.onClick();
     expect(instance.backToTopClicked.emit).toHaveBeenCalled();
   });

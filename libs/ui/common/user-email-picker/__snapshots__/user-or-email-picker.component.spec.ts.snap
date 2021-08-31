@@ -2,6 +2,7 @@
 
 exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -27,14 +28,13 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
       role="combobox"
       type="text"
     />
-    
-    
   </div>
 </pf-user-or-email-picker>
 `;
 
 exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -60,7 +60,6 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
       role="combobox"
       type="text"
     />
-    
     <div
       class="picker-searching-icon"
     >
@@ -69,13 +68,13 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
         icon="circle-notch"
       />
     </div>
-    
   </div>
 </pf-user-or-email-picker>
 `;
 
 exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -101,8 +100,6 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
       role="combobox"
       type="text"
     />
-    
-    
     <div
       class="form-control-feedback"
     >

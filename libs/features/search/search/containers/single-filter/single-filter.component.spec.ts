@@ -37,7 +37,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a SearchAggregation action upon init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     // TODO: Should this be load more?
     const scrollPayload = {
       scrollId: ScrollIdConstants.SEARCH_SINGLED_FILTER
@@ -50,7 +50,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a ToggleFilterSearch action when going back to all filters', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSearchPageActions.ToggleFilterSearch();
 
     instance.backToAllFilters();
@@ -59,7 +59,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a ToggleMultiSelectOption action for the singled filter', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const optionSelectedObj = { filterId: 'blah', option: generateMockMultiSelectOption() };
     const expectedAction = new fromSingledFilterActions.ToggleMultiSelectOption(optionSelectedObj);
 
@@ -69,7 +69,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a ToggleMultiSelectOption action for the search filters when handling an option selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const optionSelectedObj = { filterId: 'blah', option: generateMockMultiSelectOption() };
     const expectedAction = new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj);
 
@@ -79,7 +79,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a ClearFilter action for the search filters when handling a clear section', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filterId = 'blah';
     const expectedAction = new fromSearchFiltersActions.ClearFilter({filterId: filterId});
 
@@ -89,7 +89,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a ClearSelections action for the singled filter when handling a clear section', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filterId = 'blah';
     const expectedAction = new fromSingledFilterActions.ClearSelections();
 
@@ -99,7 +99,7 @@ describe('Search Feature - Single Filter', () => {
   });
 
   it('should dispatch a SearchAggregation action for the singled filter when handling a search value changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const searchValue = 'Finance';
     // TODO: Should this be load more?
     const scrollPayload = {

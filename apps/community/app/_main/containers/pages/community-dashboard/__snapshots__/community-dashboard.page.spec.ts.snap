@@ -4,6 +4,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
 <pf-community-dashboard-page
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
+  __ngContext__={[Function LRootView]}
   browserDetectionService={[Function BrowserDetectionService]}
   disableCommunityAttachments$={[Function Observable]}
   executePageScrollDown="false"
@@ -25,7 +26,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
   observerOptions={[Function Object]}
   postBatchSize={[Function Number]}
-  postsChangedObserver={[Function MutationObserver]}
+  postsChangedObserver={[Function ]}
   postsComponent={[Function ElementRef]}
   router={[Function Object]}
   settingService={[Function SettingsService]}
@@ -71,7 +72,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           <div
             class="col-9"
           >
-            
             <div
               id="discussion-wrapper"
             >
@@ -130,7 +130,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
             <div
               class="k-display-inline"
             >
-              
               <div
                 class="mb-3"
               >
@@ -153,7 +152,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
                 />
               </div>
             </div>
-            
           </div>
         </div>
       </div>

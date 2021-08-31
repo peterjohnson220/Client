@@ -41,7 +41,7 @@ describe('Data Insights - Export Popover Component', () => {
     [ExportFileExtension.Xlsx, CsvFileDelimiter.Tab, null],
     [ExportFileExtension.Csv, CsvFileDelimiter.Tab, CsvFileDelimiter.Tab]])
     ('it should emit exportClicked event with correct file extension and delimiter', (fileExtension, selectedDelimiter, csvFileDelimiter) => {
-      spyOn(instance.exportClicked, 'emit');
+      jest.spyOn(instance.exportClicked, 'emit');
 
       instance.selectedExportFileExtension = fileExtension;
       instance.selectedCsvFileDelimiter = selectedDelimiter;

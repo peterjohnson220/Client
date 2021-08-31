@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
@@ -51,7 +51,6 @@ import {
     ]),
     NgbCollapseModule,
     FontAwesomeModule,
-    NgbTabsetModule,
     AutoCompleteModule,
     ComboBoxModule,
     NgbTooltipModule,

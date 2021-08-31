@@ -2,6 +2,7 @@
 
 exports[`TransferSchedulePageComponent should show only supported entities 1`] = `
 <pf-transfer-schedule
+  __ngContext__={[Function LRootView]}
   backRoute={[Function String]}
   connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
@@ -54,7 +55,7 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
             aria-readonly="false"
             class="k-widget k-switch k-switch-off"
             dir="ltr"
-            style="width:80px;"
+            style="width: 80px;"
             title=""
           >
             <p>
@@ -66,7 +67,6 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       <div
         class="row mt-5 mb-3"
       >
-        
       </div>
       <div
         class="d-flex justify-content-end"
@@ -101,7 +101,6 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
             Back
           </button>
         </div>
-        
         <div
           class="p-2"
         >
@@ -109,8 +108,6 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
             class="btn btn-primary px-4"
             type="button"
           >
-            
-            
             <span>
               Finish
             </span>
@@ -122,7 +119,6 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
       class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
-      
       <h5
         class="mb-3 setup-complete-modal-header"
       >
@@ -137,13 +133,13 @@ exports[`TransferSchedulePageComponent should show only supported entities 1`] =
         </button>
       </div>
     </pf-modal-form>
-    
   </pf-async-container>
 </pf-transfer-schedule>
 `;
 
 exports[`TransferSchedulePageComponent should show only supported entities and overflow correctly 1`] = `
 <pf-transfer-schedule
+  __ngContext__={[Function LRootView]}
   backRoute={[Function String]}
   connectionSaving$={[Function Store]}
   connectionSummarySub={[Function Subscriber]}
@@ -196,7 +192,7 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
             aria-readonly="false"
             class="k-widget k-switch k-switch-off"
             dir="ltr"
-            style="width:80px;"
+            style="width: 80px;"
             title=""
           >
             <p>
@@ -208,7 +204,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       <div
         class="row mt-5 mb-3"
       >
-        
       </div>
       <div
         class="d-flex justify-content-end"
@@ -243,7 +238,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
             Back
           </button>
         </div>
-        
         <div
           class="p-2"
         >
@@ -251,8 +245,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
             class="btn btn-primary px-4"
             type="button"
           >
-            
-            
             <span>
               Finish
             </span>
@@ -264,7 +256,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
       class="integration-setup-complete-modal"
       title="Integration Setup Complete"
     >
-      
       <h5
         class="mb-3 setup-complete-modal-header"
       >
@@ -279,7 +270,6 @@ exports[`TransferSchedulePageComponent should show only supported entities and o
         </button>
       </div>
     </pf-modal-form>
-    
   </pf-async-container>
 </pf-transfer-schedule>
 `;

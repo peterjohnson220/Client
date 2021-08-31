@@ -2,6 +2,7 @@
 
 exports[`CommunityBackToTopNavigationComponent should show back to top button 1`] = `
 <pf-community-back-to-top-navigation
+  __ngContext__={[Function LRootView]}
   backToTopClicked={[Function EventEmitter_]}
 >
   <div

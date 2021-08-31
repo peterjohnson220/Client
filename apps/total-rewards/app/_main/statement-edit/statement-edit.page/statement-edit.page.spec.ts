@@ -64,7 +64,7 @@ describe('StatementEditPageComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
   }));
@@ -167,10 +167,10 @@ describe('StatementEditPageComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(scrollFalseAction);
   }));
 
-  each([
+  it.each([
     [true, true],
     [false, false]
-  ]).it('Download Statement Preview button should be disabled: %s while statement generating is %s', (isGenerating: boolean, expectedDisabled: boolean) => {
+  ])('Download Statement Preview button should be disabled: %s while statement generating is %s', (isGenerating: boolean, expectedDisabled: boolean) => {
     // arrange
     component.mode = StatementModeEnum.Preview;
     component.statementPreviewGenerating$ = of(isGenerating);

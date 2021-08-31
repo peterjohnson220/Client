@@ -69,10 +69,10 @@ describe('Job Description Management - Job Description - Add Job Modal', () => {
   });
 
   it('should reset variables, dispatch LoadTemplateList & SetDuplicateCompanyJobMessage and open modal, when calling open', () => {
-    spyOn(instance.addJobForm, 'reset');
-    spyOn(instance.addJobForm, 'patchValue');
-    spyOn(store, 'dispatch');
-    spyOn(modal, 'open');
+    jest.spyOn(instance.addJobForm, 'reset');
+    jest.spyOn(instance.addJobForm, 'patchValue');
+    jest.spyOn(store, 'dispatch');
+    jest.spyOn(modal, 'open');
 
     instance.companyId = 99;
 

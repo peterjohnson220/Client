@@ -43,14 +43,14 @@ describe('Admin - Exchange List Page', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeListPageComponent);
     instance = fixture.componentInstance;
   });
 
   it('should tell the Router to navigate to the exchange passed to handleCellClick', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     const exchangeListItem: ExchangeListItem = generateMockExchangeListItem();
 

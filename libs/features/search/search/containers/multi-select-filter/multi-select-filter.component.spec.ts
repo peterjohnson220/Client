@@ -32,7 +32,7 @@ describe('Search Feature - Multi Select Filter', () => {
   it('should emit an object with a filterId and an option when handling an option selected', () => {
     const mockMultiSelectFilter = generateMockMultiSelectFilter();
     const filterIdAndOption = { filterId: '23094', option: mockMultiSelectFilter.Options[0]};
-    spyOn(instance.optionSelected, 'emit');
+    jest.spyOn(instance.optionSelected, 'emit');
 
     instance.filter = mockMultiSelectFilter;
     instance.handleOptionSelected(filterIdAndOption.filterId, mockMultiSelectFilter.Options[0]);
@@ -42,7 +42,7 @@ describe('Search Feature - Multi Select Filter', () => {
 
   it('should not emit anything when the option selected is disabled', () => {
     const disabledOption = {...generateMockMultiSelectOption(), Count: 0, Selected: false};
-    spyOn(instance.optionSelected, 'emit');
+    jest.spyOn(instance.optionSelected, 'emit');
 
     instance.handleOptionSelected('23908423', disabledOption);
 

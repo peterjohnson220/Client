@@ -40,7 +40,7 @@ describe('Bulk Job Description Export Scheduler Feature - Bulk Export Schedule F
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(BulkExportSchedulerFormComponent);
     instance = fixture.componentInstance;
@@ -151,17 +151,16 @@ describe('Bulk Job Description Export Scheduler Feature - Bulk Export Schedule F
     // Need to copy the schedule because instance.schedule will be cleared in the workflow
     const scheduleCopy = instance.schedule;
 
-    spyOn(fromBulkExportScheduleActions, 'AddingSchedule');
-
     instance.submitForm();
 
     fixture.detectChanges();
 
-    expect(fromBulkExportScheduleActions.AddingSchedule).toHaveBeenCalledWith(scheduleCopy);
+    const action = new fromBulkExportScheduleActions.AddingSchedule(scheduleCopy);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should show an error alert when a schedule save is unsuccessful', () => {
-    spyOn(window, 'alert');
+    jest.spyOn(window, 'alert');
 
     instance.addingScheduleError$ = of(true);
 

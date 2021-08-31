@@ -2,11 +2,12 @@
 
 exports[`WorkflowSetupModalComponent should show workflow setup modal 1`] = `
 <pf-workflow-setup-modal
+  __ngContext__={[Function LRootView]}
   addingNonSystemUser="false"
   convertNewLinePipe={[Function NewLinePipe]}
   hasForbiddenUsers$={[Function Store]}
   modalService={[Function Object]}
-  routeForApprovalModal={[Function TemplateRef_]}
+  routeForApprovalModal={[Function TemplateRef]}
   router={[Function Object]}
   sharedJdmStore={[Function Store]}
   stepsDirty$={[Function Store]}
@@ -15,6 +16,5 @@ exports[`WorkflowSetupModalComponent should show workflow setup modal 1`] = `
   workflowSteps$={[Function Store]}
   workflowTemplatesAsync$={[Function Store]}
 >
-  
 </pf-workflow-setup-modal>
 `;

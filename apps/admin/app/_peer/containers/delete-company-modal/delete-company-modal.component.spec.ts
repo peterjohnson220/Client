@@ -42,7 +42,7 @@ describe('Delete Company Modal', () => {
     instance.selectedCompany = mockExchangeCompany;
     instance.exchangeId = 0;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it(`should match snapshot on init`, () => {

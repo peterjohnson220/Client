@@ -2,6 +2,7 @@
 
 exports[`CommunityPollComponent should show poll 1`] = `
 <pf-community-poll
+  __ngContext__={[Function LRootView]}
   communityPolResponseSubmitted$={[Function Store]}
   communityPollResponseSubmittedSubscription={[Function Subscriber]}
   communityPollResponses$={[Function Store]}
@@ -16,8 +17,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
   type="0"
 >
   <div>
-    
-    
     <div>
       <div
         class="inner-element mb-3 pt-2"
@@ -29,7 +28,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
           <div
             class="response-option-text-container pl-1"
           >
-            
             <span
               class="poll-choice-unselected-indicator"
             >
@@ -43,7 +41,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
                 />
               </fa-layers>
             </span>
-            
             <span
               class="poll-choice-label pl-1"
             >
@@ -64,7 +61,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
           <div
             class="response-option-text-container pl-1"
           >
-            
             <span
               class="poll-choice-unselected-indicator"
             >
@@ -78,7 +74,6 @@ exports[`CommunityPollComponent should show poll 1`] = `
                 />
               </fa-layers>
             </span>
-            
             <span
               class="poll-choice-label pl-1"
             >
@@ -91,14 +86,12 @@ exports[`CommunityPollComponent should show poll 1`] = `
     <div
       class="d-flex pt-3 justify-content-end"
     >
-      
       <button
         class="btn btn-secondary submit-button-container"
         data-qa-id="btn-submitPollResponse"
         type="button"
       >
          Vote 
-        
       </button>
     </div>
   </div>

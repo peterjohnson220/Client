@@ -3,6 +3,7 @@
 exports[`Job Management Feature - Job Form Should display form 1`] = `
 <pf-job-description-summary-editor
   JOB_SUMMARY_MIN_LENGTH={[Function Number]}
+  __ngContext__={[Function LRootView]}
   actionIconSize={[Function String]}
   errorMessageClass={[Function String]}
   exportClicked={[Function EventEmitter_]}
@@ -27,7 +28,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
       <div
         class="pb-3"
       >
-        
         <div
           class="d-flex"
         >
@@ -38,12 +38,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
               Job Description
             </b>
           </div>
-          
         </div>
       </div>
     </div>
     <div>
-      
       <form
         autocomplete="nope"
         class="ng-untouched ng-pristine ng-valid"
@@ -58,7 +56,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
           readonly=""
           rows="9"
         >
-              
         </textarea>
       </form>
     </div>

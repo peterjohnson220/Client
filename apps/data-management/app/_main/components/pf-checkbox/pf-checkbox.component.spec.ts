@@ -16,7 +16,7 @@ describe('PfCheckboxComponent', () => {
     fixture = TestBed.createComponent(PfCheckboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    spyOn(component.valueChange, 'emit');
+    jest.spyOn(component.valueChange, 'emit');
   });
 
   it('should create', () => {

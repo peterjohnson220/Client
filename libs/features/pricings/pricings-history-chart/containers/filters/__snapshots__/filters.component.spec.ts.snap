@@ -2,6 +2,7 @@
 
 exports[`Pricing History Chart Features - Filters Should display form 1`] = `
 <pf-filters
+  __ngContext__={[Function LRootView]}
   currencies={[Function Array]}
   currenciesSubscription={[Function Subscriber]}
   filteredCurrencies={[Function Array]}
@@ -28,7 +29,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
     <div
       formarrayname="PayMarkets"
     >
-      
       <div
         class="form-group"
       >
@@ -38,8 +38,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           textfield="Name"
           valuefield="Id"
         >
-          
-          
         </kendo-dropdownlist>
       </div>
       <div
@@ -51,8 +49,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           textfield="Name"
           valuefield="Id"
         >
-          
-          
         </kendo-dropdownlist>
       </div>
       <div
@@ -64,8 +60,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           textfield="Name"
           valuefield="Id"
         >
-          
-          
         </kendo-dropdownlist>
       </div>
       <div
@@ -77,8 +71,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           textfield="Name"
           valuefield="Id"
         >
-          
-          
         </kendo-dropdownlist>
       </div>
       <div
@@ -90,8 +82,6 @@ exports[`Pricing History Chart Features - Filters Should display form 1`] = `
           textfield="Name"
           valuefield="Id"
         >
-          
-          
         </kendo-dropdownlist>
       </div>
     </div>

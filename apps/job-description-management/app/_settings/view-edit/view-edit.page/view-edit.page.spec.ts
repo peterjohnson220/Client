@@ -46,7 +46,7 @@ describe('Job Description Management - Settings - View Edit Page', () => {
   });
 
   it('should navigate up a route relative to this route, when handling a cancel click', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.handleCancelClicked();
 
@@ -54,7 +54,7 @@ describe('Job Description Management - Settings - View Edit Page', () => {
   });
 
   it('should dispatch an action to the store to save the template views, when handling a save click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromViewEditActions.SaveTemplateViews();
 
     instance.handleSaveClicked();
@@ -63,7 +63,7 @@ describe('Job Description Management - Settings - View Edit Page', () => {
   });
 
   it('should dispatch an action to the store to add the hidden element Id, when handling a hidden elementId added', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockElementViewToggleObj = generateMockElementViewToggleObj();
     const expectedAction = new fromViewEditActions.AddHiddenElementId(mockElementViewToggleObj);
 
@@ -73,7 +73,7 @@ describe('Job Description Management - Settings - View Edit Page', () => {
   });
 
   it('should dispatch an action to the store to remove the hidden element Id, when handling a hidden elementId removed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockElementViewToggleObj = generateMockElementViewToggleObj();
     const expectedAction = new fromViewEditActions.RemoveHiddenElementId(mockElementViewToggleObj);
 
@@ -83,7 +83,7 @@ describe('Job Description Management - Settings - View Edit Page', () => {
   });
 
   it('should dispatch an action to the store to reset, upon destroy', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromViewEditActions.Reset();
 
     instance.ngOnDestroy();

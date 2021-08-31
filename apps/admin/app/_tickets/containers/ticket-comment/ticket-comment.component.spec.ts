@@ -24,7 +24,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Should emit a remove event on remove click', () => {
-    spyOn(instance.removeCommentEvent, 'emit');
+    jest.spyOn(instance.removeCommentEvent, 'emit');
 
     const comment = generateMockTicketComment();
 
@@ -34,7 +34,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Should emit a save event on save button click', () => {
-    spyOn(instance.saveCommentEvent, 'emit');
+    jest.spyOn(instance.saveCommentEvent, 'emit');
 
     const comment = generateMockTicketComment();
     instance.commentText = comment.Content + ' test';
@@ -45,7 +45,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Should not emit a save event on save button click when ticket has no value', () => {
-    spyOn(instance.saveCommentEvent, 'emit');
+    jest.spyOn(instance.saveCommentEvent, 'emit');
 
     const comment = generateMockTicketComment();
     instance.commentText = '';

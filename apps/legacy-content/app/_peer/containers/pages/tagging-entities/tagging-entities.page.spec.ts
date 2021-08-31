@@ -48,7 +48,7 @@ describe('Legacy Content - Tags - Tagging Entities', () => {
     routeIdParam = activatedRoute.snapshot.queryParams.id;
     routeEtParam = activatedRoute.snapshot.queryParams.et;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(TaggingEntitiesPageComponent);
     instance = fixture.componentInstance;

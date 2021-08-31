@@ -35,7 +35,7 @@ describe('Create Exchange Modal', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CreateExchangeModalComponent);
     instance = fixture.componentInstance;

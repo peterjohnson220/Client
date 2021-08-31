@@ -39,7 +39,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should dispatch an update grid search action if company changes to value', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromLoaderDashboardPageActions.UpdateGridSearchPayload([{
       key: 'Company_ID',
       value: 3
@@ -54,7 +54,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should dispatch an update grid search action if company is cleared', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromLoaderDashboardPageActions.UpdateGridSearchPayload([{
       key: 'Company_ID',
       value: null
@@ -69,7 +69,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should dispatch an update grid search action if start date is set', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const date = new Date();
     date.setDate(date.getDate());
     const expectedAction = new fromLoaderDashboardPageActions.UpdateGridSearchPayload([{
@@ -86,7 +86,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should dispatch an update grid search action if end date is set', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const date = new Date();
     date.setDate(date.getDate());
     const expectedAction = new fromLoaderDashboardPageActions.UpdateGridSearchPayload([{
@@ -103,7 +103,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should not dispatch on a bad changeDate operation', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const date = new Date();
     date.setDate(date.getDate());
 
@@ -116,7 +116,7 @@ describe('LoaderDashboardFilterComponent', () => {
 
   it('should dispatch an update grid search action on manual refresh', () => {
     // arrange
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromLoaderDashboardPageActions.UpdateGridSearchPayload([]);
 
     // act

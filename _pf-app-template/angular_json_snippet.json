@@ -45,7 +45,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/appName/styles.scss"
             ],
             "scripts": [
@@ -58,7 +58,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -75,7 +74,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -96,7 +94,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -150,7 +147,7 @@
               "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/appName/styles.scss"
             ],
             "assets": [

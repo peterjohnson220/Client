@@ -2,6 +2,7 @@
 
 exports[`Delete Company Modal should match snapshot on init 1`] = `
 <pf-delete-company-modal
+  __ngContext__={[Function LRootView]}
   deleteCompanyModalOpen$={[Function Store]}
   deletingCompany$={[Function Store]}
   exchange$={[Function Observable]}
@@ -17,7 +18,6 @@ exports[`Delete Company Modal should match snapshot on init 1`] = `
     size=""
     title="Remove Company"
   >
-    
      You are about to remove 
     <strong>
       Mock Company

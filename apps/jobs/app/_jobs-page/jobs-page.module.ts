@@ -8,7 +8,7 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
-import { NgbTooltipModule, NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
@@ -91,7 +91,6 @@ import {
         SwitchModule,
         NgbModule,
         NgbTooltipModule,
-        NgbTabsetModule,
         StoreModule.forFeature('jobsPageMain', reducers),
         EffectsModule.forFeature([
             JobsPageEffects,

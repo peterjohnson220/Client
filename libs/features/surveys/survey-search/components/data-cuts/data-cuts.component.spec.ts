@@ -80,7 +80,7 @@ describe('Project - Survey Search - Data Cuts', () => {
     const dataCut: DataCut = generateMockDataCut();
     const mouseEnterEvent: MouseEvent = new MouseEvent('mouseenter');
 
-    spyOn(instance.matchesMouseEnter, 'emit');
+    jest.spyOn(instance.matchesMouseEnter, 'emit');
     instance.handleMatchesMouseEnter(mouseEnterEvent, dataCut);
 
     expect(instance.matchesMouseEnter.emit).toHaveBeenCalled();
@@ -89,7 +89,7 @@ describe('Project - Survey Search - Data Cuts', () => {
   it('should emit matchesMouseLeave event when mouse leave Matches field', fakeAsync(() => {
     const mouseLeaveEvent: MouseEvent = new MouseEvent('mouseleave');
 
-    spyOn(instance.matchesMouseLeave, 'emit');
+    jest.spyOn(instance.matchesMouseLeave, 'emit');
     instance.handleMatchesMouseLeave(mouseLeaveEvent);
     tick(100);
 
