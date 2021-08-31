@@ -46,6 +46,7 @@ export abstract class AbstractJobInsightsComponent implements OnInit, OnDestroy 
 
   ngOnDestroy(): void {
     this.jobInsightsAsyncSubscription.unsubscribe();
+    this.jobInsightsMainStore.dispatch(new fromJobInsightsActions.ResetJobInsights());
   }
 
   protected loadJobInsights(): void {

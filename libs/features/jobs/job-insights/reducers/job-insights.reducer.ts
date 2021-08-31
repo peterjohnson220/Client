@@ -35,6 +35,12 @@ export function reducer(state = initialState, action: fromJobInsightsActions.Act
     case fromJobInsightsActions.LOAD_CUSTOM_JOB_FIELDS_ERROR: {
       return AsyncStateObjHelper.loadingError(state, 'udfFields');
     }
+    case fromJobInsightsActions.RESET_JOB_INSIGHTS: {
+      return {
+        ...state,
+        jobInsights: generateDefaultAsyncStateObj<JobInsights>(null)
+      };
+    }
     default: {
       return state;
     }
