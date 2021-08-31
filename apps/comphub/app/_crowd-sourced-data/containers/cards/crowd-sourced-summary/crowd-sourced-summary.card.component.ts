@@ -107,7 +107,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       this.jobResults = jr;
       // update selected job data
       this.selectedJob = jr.Data.find(r => r?.JobTitle === this.selectedJob?.JobTitle);
-      this.mapJobDataToPayGraphData(this.selectedJob);
+      this.mapJobDataToPayGraphData();
     });
 
     this.selectedRateSub = this.store.select(fromComphubSharedReducer.getSelectedRate).subscribe(r => this.selectedRate = r);
@@ -159,36 +159,36 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   handleRateSelectionChange(type: KendoDropDownItem) {
     const selectedRateType = RateType[type.Value];
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRateType));
-    this.mapJobDataToPayGraphData(this.selectedJob);
+    this.mapJobDataToPayGraphData();
   }
 
-  mapJobDataToPayGraphData(selectedJob: JobData) {
-    if (!!selectedJob) {
+  mapJobDataToPayGraphData() {
+    if (!!this.selectedJob) {
       this.basePayGraph = {
-        Pay10: this.getPricingDisplayValue(selectedJob.Base10),
-        Pay25: this.getPricingDisplayValue(selectedJob.Base25),
-        Pay50: this.getPricingDisplayValue(selectedJob.Base50),
-        Pay75: this.getPricingDisplayValue(selectedJob.Base75),
-        Pay90: this.getPricingDisplayValue(selectedJob.Base90),
-        PayAvg: this.getPricingDisplayValue(selectedJob.BaseAvg),
+        Pay10: this.getPricingDisplayValue(this.selectedJob.Base10),
+        Pay25: this.getPricingDisplayValue(this.selectedJob.Base25),
+        Pay50: this.getPricingDisplayValue(this.selectedJob.Base50),
+        Pay75: this.getPricingDisplayValue(this.selectedJob.Base75),
+        Pay90: this.getPricingDisplayValue(this.selectedJob.Base90),
+        PayAvg: this.getPricingDisplayValue(this.selectedJob.BaseAvg),
         Currency: this.selectedPaymarket?.CurrencyCode,
         Rate: this.selectedRate.toString(),
-        OverallMin: this.getPricingDisplayValue(selectedJob.Base10),
-        OverallMax: this.getPricingDisplayValue(selectedJob.Tcc90)
+        OverallMin: this.getPricingDisplayValue(this.selectedJob.Base10),
+        OverallMax: this.getPricingDisplayValue(this.selectedJob.Tcc90)
       };
 
 
       this.tccPayGraph = {
-        Pay10: this.getPricingDisplayValue(selectedJob.Tcc10),
-        Pay25: this.getPricingDisplayValue(selectedJob.Tcc25),
-        Pay50: this.getPricingDisplayValue(selectedJob.Tcc50),
-        Pay75: this.getPricingDisplayValue(selectedJob.Tcc75),
-        Pay90: this.getPricingDisplayValue(selectedJob.Tcc90),
-        PayAvg: this.getPricingDisplayValue(selectedJob.TccAvg),
+        Pay10: this.getPricingDisplayValue(this.selectedJob.Tcc10),
+        Pay25: this.getPricingDisplayValue(this.selectedJob.Tcc25),
+        Pay50: this.getPricingDisplayValue(this.selectedJob.Tcc50),
+        Pay75: this.getPricingDisplayValue(this.selectedJob.Tcc75),
+        Pay90: this.getPricingDisplayValue(this.selectedJob.Tcc90),
+        PayAvg: this.getPricingDisplayValue(this.selectedJob.TccAvg),
         Currency: this.selectedPaymarket?.CurrencyCode,
         Rate: this.selectedRate.toString(),
-        OverallMin: this.getPricingDisplayValue(selectedJob.Base10),
-        OverallMax: this.getPricingDisplayValue(selectedJob.Tcc90)
+        OverallMin: this.getPricingDisplayValue(this.selectedJob.Base10),
+        OverallMax: this.getPricingDisplayValue(this.selectedJob.Tcc90)
       };
 
       this.setSelectedValues(this.selectedDisplayRate);
@@ -220,13 +220,13 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.jobResultsSub.unsubscribe();
-    this.workflowContextSub.unsubscribe();
-    this.selectedPaymarketSub.unsubscribe();
-    this.selectedJobSub.unsubscribe();
-    this.selectedRateSub.unsubscribe();
-    this.marketDataScopeSub.unsubscribe();
-    this.selectedFactorsSub.unsubscribe();
-    this.initJobInitialPricingSub.unsubscribe();
+    this.jobResultsSub?.unsubscribe();
+    this.workflowContextSub?.unsubscribe();
+    this.selectedPaymarketSub?.unsubscribe();
+    this.selectedJobSub?.unsubscribe();
+    this.selectedRateSub?.unsubscribe();
+    this.marketDataScopeSub?.unsubscribe();
+    this.selectedFactorsSub?.unsubscribe();
+    this.initJobInitialPricingSub?.unsubscribe();
   }
 }
