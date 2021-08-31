@@ -33,7 +33,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
 
   it('should stop propagation on the mouse event, when handling a select all click', () => {
     const mouseEvent = new MouseEvent('click');
-    spyOn(mouseEvent, 'stopPropagation');
+    jest.spyOn(mouseEvent, 'stopPropagation');
 
     instance.handleSelectAllClicked(mouseEvent);
 
@@ -41,7 +41,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to the set the status of all fields, when handling a select all click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mouseEvent = new MouseEvent('click');
     const expectedAction = new fromJobInfoViewEditorActions.SetAllJobInfoViewFields({ checked: true });
 
@@ -51,7 +51,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should do nothing if the job info field is locked, when handling a job info view field clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockJobInfoViewField = {...generateMockJobInfoViewField(), Locked: true };
 
     instance.handleJobInfoViewFieldClicked(mockJobInfoViewField);
@@ -60,7 +60,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to toggle the job info view field, when handling a job info view field clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockJobInfoViewField = generateMockJobInfoViewField();
     const expectedAction = new fromJobInfoViewEditorActions.ToggleJobInfoViewField(mockJobInfoViewField);
 
@@ -70,7 +70,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to toggle the job info view field, when handling a job info view field clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const mockJobInfoViewField = generateMockJobInfoViewField();
     const expectedAction = new fromJobInfoViewEditorActions.ToggleJobInfoViewField(mockJobInfoViewField);
 
@@ -119,7 +119,7 @@ describe('Job Description Management - Settings - Job Info View Editor', () => {
   });
 
   it('should dispatch an action to reset, upon destroy', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromJobInfoViewEditorActions.Reset();
 
     // Init

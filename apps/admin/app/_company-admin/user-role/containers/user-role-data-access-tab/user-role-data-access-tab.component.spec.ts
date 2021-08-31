@@ -33,7 +33,7 @@ describe('UserRoleDataAccessTabComponent', () => {
     });
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UserRoleDataAccessTabComponent);
     component = fixture.componentInstance;  // to access properties and methods

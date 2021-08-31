@@ -49,7 +49,7 @@ describe('CommunityPostsComponent', () => {
     store = TestBed.inject(Store);
     route = TestBed.inject(ActivatedRoute);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityPostsComponent);
     instance = fixture.componentInstance;

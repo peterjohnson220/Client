@@ -25,7 +25,7 @@ describe('PricingLoadersComponent', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(PricingLoadersComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should create', () => {

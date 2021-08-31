@@ -2,6 +2,7 @@
 
 exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\` input is true 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -20,10 +21,8 @@ exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\`
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
         <pf-string-editor />
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -42,7 +41,6 @@ exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\`
           field="value"
           type="donut"
         >
-          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>
@@ -52,6 +50,7 @@ exports[`TrsChartControlComponent should add a \`mt-3\` class when \`showTitle\`
 
 exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class when \`showTitle\` input is false 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -70,9 +69,7 @@ exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class w
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -91,7 +88,6 @@ exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class w
           field="value"
           type="donut"
         >
-          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>
@@ -101,6 +97,7 @@ exports[`TrsChartControlComponent should add a negative margin/\`mt-n3\` class w
 
 exports[`TrsChartControlComponent should omit the chart series labels from the dom when \`showChartSeriesLabels\` is false 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -119,9 +116,7 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -140,7 +135,6 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
           field="value"
           type="donut"
         >
-          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>
@@ -150,6 +144,7 @@ exports[`TrsChartControlComponent should omit the chart series labels from the d
 
 exports[`TrsChartControlComponent should set the \`height\` input on the kendo-chart element 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -168,9 +163,7 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -191,7 +184,6 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
           field="value"
           type="donut"
         >
-          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>
@@ -201,6 +193,7 @@ exports[`TrsChartControlComponent should set the \`height\` input on the kendo-c
 
 exports[`TrsChartControlComponent should show chart series labels when \`showChartSeriesLabels\` is true 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -219,9 +212,7 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -240,7 +231,6 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
           field="value"
           type="donut"
         >
-          
           <kendo-chart-series-item-labels
             color="#333333"
             position="outsideEnd"
@@ -254,6 +244,7 @@ exports[`TrsChartControlComponent should show chart series labels when \`showCha
 
 exports[`TrsChartControlComponent should show the title component and a settings link 1`] = `
 <pf-trs-chart-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   chartRender={[Function EventEmitter_]}
   controlData={[Function Object]}
@@ -271,9 +262,7 @@ exports[`TrsChartControlComponent should show the title component and a settings
       <h4
         class="primary-control-heading mb-1 mr-2 d-inline-block"
       >
-        
       </h4>
-      
       <a
         class="settings position-relative align-top"
         href="javascript:void(0)"
@@ -292,7 +281,6 @@ exports[`TrsChartControlComponent should show the title component and a settings
           field="value"
           type="donut"
         >
-          
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>

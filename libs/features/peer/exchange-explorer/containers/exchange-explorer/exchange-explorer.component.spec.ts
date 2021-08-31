@@ -159,7 +159,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
   it('should dispatch a ToggleLimitToPayMarket action when handleLimitToPayMarketToggled called', () => {
     const expectedAction = new fromExchangeFilterContextActions.ToggleLimitToPayMarket();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLimitToPayMarketToggled();
 
@@ -169,7 +169,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
   it('should dispatch a ToggleExcludeIndirectJobMatches action when handleIncludeAdditionalJobLevelsToggled called', () => {
     const expectedAction = new fromExchangeFilterContextActions.ToggleExcludeIndirectJobMatches();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleIncludeAdditionalJobLevelsToggled();
 
@@ -179,7 +179,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
   it('should dispatch a ClearFilters action when handleClearFilters called', () => {
     const expectedAction = new fromSearchFiltersActions.ClearFilters();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleClearFilters();
 
@@ -189,7 +189,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
   it('should dispatch a ClearResults action when onResetApp called', () => {
     const expectedAction = new fromSearchResultsActions.ClearResults();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onResetApp();
 
@@ -209,7 +209,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleExchangeJobSelected(payload);
 
@@ -230,7 +230,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerContextInfoActions.RefreshPayMarketContext(systemFilterRequest);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleExchangeJobSelected(payload);
 
@@ -243,7 +243,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeFilterContextActions.SetExchangeJobSelection(payload);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleExchangeJobSelected(payload);
 
@@ -255,7 +255,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromSearchPageActions.ToggleChildFilterSearch();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleMapClicked();
 
@@ -267,7 +267,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromChildSearchFilterActions.ClearChildFilter();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleMapClicked();
 
@@ -284,7 +284,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerDataCutsActions.LoadExchangeDataCut(systemFilterRequest);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -310,7 +310,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerContextInfoActions.LoadContextInfo(request);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -332,7 +332,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerContextInfoActions.LoadContextInfo(request);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 
@@ -353,7 +353,7 @@ describe('Libs - Features - Peer - Exchange Explorer', () => {
 
     const expectedAction = new fromExchangeExplorerContextInfoActions.LoadContextInfo(systemFilterRequest);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onSetContext(payload);
 

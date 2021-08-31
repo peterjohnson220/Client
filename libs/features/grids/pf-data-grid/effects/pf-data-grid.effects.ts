@@ -209,7 +209,7 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSaveSort, saveFilterAction.pageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig, saveFilterAction.pageViewId)),
             (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor, saveSort, gridConfig) =>
               ({ action, baseEntity, fields, sortDescriptor, saveSort, gridConfig })
           )

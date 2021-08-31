@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Exchange Job Selector Component should disable exchange job selector button when there is only one exchange job 1`] = `
 <pf-exchange-job-selector
+  __ngContext__={[Function LRootView]}
   exchangeJobSelected={[Function EventEmitter_]}
   exchangeJobSelectorItems={[Function Array]}
   popover={[Function NgbPopover]}
@@ -12,8 +13,6 @@ exports[`Features - Peer - Exchange Job Selector Component should disable exchan
   <div
     class="exchange-job-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       disabled=""
@@ -21,52 +20,29 @@ exports[`Features - Peer - Exchange Job Selector Component should disable exchan
       popovertitle="Select an Exchange Job"
       type="button"
     >
-      
-  
-      
-      
-      
-  
-      
       <span
         class="selection"
         title="MockExchangeJobTitle"
       >
-        
-        
         <span
           class="ellipsis-overflowing-text"
         >
-          
           MockExchangeJobTitle
-        
         </span>
-        
-        
         <i
           class="ellipsis-overflowing-text text-muted"
         >
           MockExchangeName
         </i>
-        
-      
       </span>
-      
-  
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-job-selector>
 `;
 
 exports[`Features - Peer - Exchange Job Selector Component should display exchange as INACTIVE when the exchange is inactive 1`] = `
 <pf-exchange-job-selector
+  __ngContext__={[Function LRootView]}
   exchangeJobSelected={[Function EventEmitter_]}
   exchangeJobSelectorItems={[Function Array]}
   popover={[Function NgbPopover]}
@@ -77,71 +53,42 @@ exports[`Features - Peer - Exchange Job Selector Component should display exchan
   <div
     class="exchange-job-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
     >
-      
-  
-      
-      
       <span
         class="selector-caret"
       >
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selection"
         title="MockExchangeJobTitle"
       >
-        
-        
         <span
           class="ellipsis-overflowing-text"
         >
-          
           MockExchangeJobTitle
-        
         </span>
-        
-        
         <i
           class="ellipsis-overflowing-text text-muted"
         >
           MockExchangeName (Inactive)
         </i>
-        
-      
       </span>
-      
-  
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-job-selector>
 `;
 
 exports[`Features - Peer - Exchange Job Selector Component should display job title short if shouldDisplayJobTitleShort is true 1`] = `
 <pf-exchange-job-selector
+  __ngContext__={[Function LRootView]}
   exchangeJobSelected={[Function EventEmitter_]}
   exchangeJobSelectorItems={[Function Array]}
   popover={[Function NgbPopover]}
@@ -152,71 +99,42 @@ exports[`Features - Peer - Exchange Job Selector Component should display job ti
   <div
     class="exchange-job-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
     >
-      
-  
-      
-      
       <span
         class="selector-caret"
       >
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selection"
         title="MockExchangeJobTitleShort"
       >
-        
-        
         <span
           class="ellipsis-overflowing-text"
         >
-          
           MockExchangeJobTitleShort
-        
         </span>
-        
-        
         <i
           class="ellipsis-overflowing-text text-muted"
         >
           MockExchangeName
         </i>
-        
-      
       </span>
-      
-  
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-job-selector>
 `;
 
 exports[`Features - Peer - Exchange Job Selector Component should display the currently selected exchange job 1`] = `
 <pf-exchange-job-selector
+  __ngContext__={[Function LRootView]}
   exchangeJobSelected={[Function EventEmitter_]}
   exchangeJobSelectorItems={[Function Array]}
   popover={[Function NgbPopover]}
@@ -227,65 +145,35 @@ exports[`Features - Peer - Exchange Job Selector Component should display the cu
   <div
     class="exchange-job-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       placement="right"
       popovertitle="Select an Exchange Job"
       type="button"
     >
-      
-  
-      
-      
       <span
         class="selector-caret"
       >
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selection"
         title="MockExchangeJobTitle"
       >
-        
-        
         <span
           class="ellipsis-overflowing-text"
         >
-          
           MockExchangeJobTitle
-        
         </span>
-        
-        
         <i
           class="ellipsis-overflowing-text text-muted"
         >
           MockExchangeName
         </i>
-        
-      
       </span>
-      
-  
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-job-selector>
 `;

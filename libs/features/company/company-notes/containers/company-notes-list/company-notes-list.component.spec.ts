@@ -53,7 +53,7 @@ describe('CompanyNotesListComponent', () => {
     });
 
     it('should dispatch SaveCompanyNote action on delete', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromCompanyNotesModalActions.SaveCompanyNote({note, actionType: 'Delete'});
         component.delete(note);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);

@@ -2,6 +2,7 @@
 
 exports[`Comphub - Salary Bar Chart Component should display values to 1 decimal place when using annual 1`] = `
 <pf-salary-bar-chart
+  __ngContext__={[Function LRootView]}
   isHourly="false"
   salary25={[Function Number]}
   salary50={[Function Number]}
@@ -58,6 +59,7 @@ exports[`Comphub - Salary Bar Chart Component should display values to 1 decimal
 
 exports[`Comphub - Salary Bar Chart Component should values to 2 decimal places when using hourly 1`] = `
 <pf-salary-bar-chart
+  __ngContext__={[Function LRootView]}
   isHourly={[Function Boolean]}
   salary25={[Function Number]}
   salary50={[Function Number]}

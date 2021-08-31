@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Location } from '@angular/common';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
@@ -56,7 +55,7 @@ describe('Project - Add Jobs - Create New Job Page', () => {
   it('should dispatch an action to close the search page, when handling cancel being clicked', () => {
     const expectedAction = new fromSearchPageActions.CloseSearchPage();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();
 
@@ -64,7 +63,7 @@ describe('Project - Add Jobs - Create New Job Page', () => {
   });
 
   it('should go back to the previous location, when handling back to search clicked', () => {
-    spyOn(location, 'back');
+    jest.spyOn(location, 'back');
 
     instance.handleBackToSearchClicked();
 
@@ -73,7 +72,7 @@ describe('Project - Add Jobs - Create New Job Page', () => {
 
   it('should dispatch an action to clear the job code exists error, when handling job code changed, ' +
     'and there is an error message showing', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromCreateNewJobPageActions.ClearJobCodeExistsError();
     instance.jobCodeExists = true;
 
@@ -84,7 +83,7 @@ describe('Project - Add Jobs - Create New Job Page', () => {
 
   it('should NOT dispatch an action to clear the job code exists error, when handling job code changed, ' +
     'and there is no error message showing', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.jobCodeExists = false;
 
     instance.handleJobCodeChanged();
@@ -93,7 +92,7 @@ describe('Project - Add Jobs - Create New Job Page', () => {
   });
 
   it('should dispatch an action to create a job with form data, when handling create clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromCreateNewJobPageActions.CreateJob({
       jobCode: '',
       jobDescription: '',

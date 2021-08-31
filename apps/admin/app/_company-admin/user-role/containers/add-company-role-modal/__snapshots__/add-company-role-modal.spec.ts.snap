@@ -3,6 +3,7 @@
 exports[`AddCompanyRoleModalComponent should match snapshot 1`] = `
 <pf-add-company-role-modal
   AddCompanyRoleError="undefined"
+  __ngContext__={[Function LRootView]}
   addCompanyRoleErrorSubscription={[Function Subscriber]}
   addCompanyRoleForm={[Function FormGroup]}
   addCompanyRoleFormSubscription={[Function Subscriber]}
@@ -16,9 +17,6 @@ exports[`AddCompanyRoleModalComponent should match snapshot 1`] = `
   validationService={[Function UserRoleValidationService]}
 >
   <pf-modal-form>
-    
-    
-    
     <div
       class="modal-container"
       id="au-modal-add-company-role"

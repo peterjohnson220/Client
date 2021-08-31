@@ -29,7 +29,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
   }));
 
   it('should emit an event on updateDateRange', () => {
-    spyOn(instance.valueChange, 'emit');
+    jest.spyOn(instance.valueChange, 'emit');
     instance.toDateInput = {} as NgModel;
     instance.fromDateInput = {} as NgModel;
 
@@ -40,7 +40,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
   });
 
   it('should emit an event on clearValue when valid range', () => {
-    spyOn(instance.valueChange, 'emit');
+    jest.spyOn(instance.valueChange, 'emit');
 
     instance.toDateInput = {} as NgModel;
     instance.fromDateInput = {} as NgModel;

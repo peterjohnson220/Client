@@ -99,7 +99,7 @@ describe('LoaderDashboardGridComponent', () => {
     fixture = TestBed.createComponent(LoaderDashboardGridComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     fixture.detectChanges();
   }));
 

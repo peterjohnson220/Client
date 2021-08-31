@@ -34,7 +34,7 @@ describe('Search Feature Child Filter', () => {
   });
 
   it('should dispatch an infinite scroll Load action upon init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER});
 
     fixture.detectChanges();

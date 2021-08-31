@@ -90,7 +90,7 @@ export class JobDescriptionAppliesToModalComponent implements OnInit, OnDestroy 
     this.jobDescriptionId = jobDescriptionId;
     this.companyJobId = companyJobId;
 
-    this.appliesToform.reset();
+    this.appliesToform?.reset();
     this.resetFlags('All');
 
     this.initializeFormValues(appliesTo);

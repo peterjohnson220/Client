@@ -28,7 +28,7 @@ describe( 'MatchesDetailsComponent', () => {
     .compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   }));
 
   beforeEach( () => {

@@ -63,7 +63,7 @@ describe('SwitchRegressionFlagsModalComponent', () => {
   });
 
   it('should dispatch CloseModal on dismiss', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromSwitchRegressionFlagsActions.CloseModal();
 
     instance.handleDismiss();
@@ -72,7 +72,7 @@ describe('SwitchRegressionFlagsModalComponent', () => {
   });
 
   it('should dispatch SwitchRegressionFlags on submit', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const request: SwitchRegressionFlagsRequest = { CompanyStructuresRangeGroupId: instance.rangeGroupId,
       CompanyJobStructuresIds: []} ;
     const expectedAction = new fromSwitchRegressionFlagsActions.SwitchRegressionFlags(request);
@@ -83,7 +83,7 @@ describe('SwitchRegressionFlagsModalComponent', () => {
   });
 
   it('should selectAll when selectAll is called', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     instance.gradePoints = [];
     instance.gradePoints.push({ CompanyJobsStructuresId: 1, Mrp: 10000, IncludeInRegression: false, Selected: false, JobTitle: 'some title'});
     instance.gradePoints.push({ CompanyJobsStructuresId: 2, Mrp: 20000, IncludeInRegression: false, Selected: false, JobTitle: 'some other title'});
@@ -96,7 +96,7 @@ describe('SwitchRegressionFlagsModalComponent', () => {
   });
 
   it('should select an individual gradePoint (and not any others) when selectGradePoint is called', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     instance.gradePoints = [];
     instance.gradePoints.push({ CompanyJobsStructuresId: 1, Mrp: 10000, IncludeInRegression: false, Selected: false, JobTitle: 'some title'});
     instance.gradePoints.push({ CompanyJobsStructuresId: 2, Mrp: 20000, IncludeInRegression: false, Selected: false, JobTitle: 'some other title'});

@@ -24,7 +24,7 @@
   cursor: not-allowed;
 }
 
-:host /deep/ .ql-editor  {
+:host ::ng-deep .ql-editor  {
   min-height: inherit;
 }
 

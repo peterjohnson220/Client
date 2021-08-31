@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
@@ -26,7 +26,6 @@ import { BrowserDetectionService } from 'libs/core/services';
 
     // 3rd Party
     NgbModalModule,
-    NgbTabsetModule,
     LayoutModule,
 
     // PF Modules

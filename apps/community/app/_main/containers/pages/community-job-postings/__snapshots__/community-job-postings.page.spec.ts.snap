@@ -2,13 +2,11 @@
 
 exports[`CommunityJobPostingsPageComponent should show community job postings page 1`] = `
 <pf-community-job-postings-page
+  __ngContext__={[Function LRootView]}
   showSearchContainer="false"
 >
   <pf-page-with-title-bar>
-    
      Job Postings 
-    
-    
     <div
       class="search-results-container-full-height"
     >

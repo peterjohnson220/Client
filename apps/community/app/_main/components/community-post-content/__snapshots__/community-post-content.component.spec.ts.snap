@@ -2,6 +2,7 @@
 
 exports[`CommunityPostContentComponent should show community post content 1`] = `
 <pf-community-post-content
+  __ngContext__={[Function LRootView]}
   content={[Function String]}
   hashTagClicked={[Function EventEmitter_]}
 >

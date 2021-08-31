@@ -87,33 +87,33 @@ describe('CompanyNotesModalComponent', () => {
     });
 
     it('should use modal service to open modal when open is called', () => {
-        spyOn(ngbModal, 'open');
+        jest.spyOn(ngbModal, 'open');
         component.open(1, 'TestCompany', false);
         expect(ngbModal.open).toHaveBeenCalled();
     });
 
     it('should use modal service to dismiss modal when close is called', () => {
-        spyOn(ngbModal, 'dismissAll');
+        jest.spyOn(ngbModal, 'dismissAll');
         component.close();
         expect(ngbModal.dismissAll).toHaveBeenCalled();
     });
 
     it('should dispatch LoadCompanyNotes action on open', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromCompanyNotesModalActions.LoadCompanyNotes({ companyId: 1});
         component.open(1, 'TestCompany', false);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     it('should dispatch ResetCompanyNotes action on close', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromCompanyNotesModalActions.ResetCompanyNotes();
         component.close();
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     it('should dispatch SaveCompanyNote action on submit', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         note.CreateDate = new Date(Date.now());
         const expectedAction = new fromCompanyNotesModalActions.SaveCompanyNote({note: note, actionType: 'Insert'});
         component.companyId = 1;

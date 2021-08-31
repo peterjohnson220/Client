@@ -35,7 +35,7 @@ describe('Comphub - Main - Trending Job Group', () => {
   });
 
   it('should NOT emit a trendingJobClicked event when handling a trending job click, and there is selected text', () => {
-    spyOn(instance.trendingJobClicked, 'emit');
+    jest.spyOn(instance.trendingJobClicked, 'emit');
 
     instance.handleTrendingJobClicked('Accountant');
 
@@ -44,7 +44,7 @@ describe('Comphub - Main - Trending Job Group', () => {
 
 
   it('should NOT emit a trendingJobClicked event when handling a trending job click, and the group is disabled', () => {
-    spyOn(instance.trendingJobClicked, 'emit');
+    jest.spyOn(instance.trendingJobClicked, 'emit');
     instance.disabled = true;
 
     instance.handleTrendingJobClicked('Accountant');
@@ -58,7 +58,7 @@ describe('Comphub - Main - Trending Job Group', () => {
         getSelection: () => ''
       }
     };
-    spyOn(instance.trendingJobClicked, 'emit');
+    jest.spyOn(instance.trendingJobClicked, 'emit');
 
     instance.handleTrendingJobClicked('Accountant');
 

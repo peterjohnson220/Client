@@ -34,7 +34,7 @@ describe('Exchange Access Requests Info', () => {
 
   it('should emit a closeClicked event, when the close button is clicked', () => {
     // Spy on the emit method for the closeClicked EventEmitter
-    spyOn(instance.closeClicked, 'emit');
+    jest.spyOn(instance.closeClicked, 'emit');
 
     fixture.detectChanges();
 

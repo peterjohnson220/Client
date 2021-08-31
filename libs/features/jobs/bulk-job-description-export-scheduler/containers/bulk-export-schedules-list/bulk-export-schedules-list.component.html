@@ -1,11 +1,11 @@
 <div class="d-flex flex-column">
   <ngb-accordion #savedSchedulesAccordion #savedSchedulesAcc="ngbAccordion">
-    <ngb-panel *ngFor="let existingSchedule of schedules" [id]="'Schedule_' + existingSchedule.FileName">
+    <ngb-panel *ngFor="let existingSchedule of schedules;let i = index">
       <ng-template ngbPanelHeader>
         <div class="group-header w-100 d-flex align-items-center">
-          <span class="col" (click)="savedSchedulesAcc.toggle('Schedule_' + existingSchedule.FileName)">
-            <fa-icon icon="caret-down" *ngIf="savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
-            <fa-icon icon="caret-right" *ngIf="!savedSchedulesAcc.isExpanded('Schedule_' + existingSchedule.FileName)"></fa-icon>
+          <span class="col" (click)="savedSchedulesAcc.toggle('ngb-panel-'+(i+1))">
+            <fa-icon icon="caret-down" *ngIf="savedSchedulesAcc.isExpanded('ngb-panel-'+(i+1))"></fa-icon>
+            <fa-icon icon="caret-right" *ngIf="!savedSchedulesAcc.isExpanded('ngb-panel-'+(i+1))"></fa-icon>
             <span pfEllipsisActive class="col font-weight-bold flex-fill ellipsis-overflowing-text report-name">
               {{existingSchedule.FileName}}
             </span>
@@ -56,7 +56,7 @@
                [isOpen$]="showBulkScheduleDeleteModal$"
                (onDismiss)="closeBulkScheduleDeleteModal()"
                (onSubmit)="removeSchedule(filename)">
-               
+
                <ng-container basic-content>
                  Are you sure you want to delete the schedule {{filename}}?
                </ng-container>

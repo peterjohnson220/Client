@@ -2,16 +2,17 @@
 
 exports[`UnsavedChangesWarningComponent should not render when isVisible is false 1`] = `
 <pf-unsaved-changes-warning
+  __ngContext__={[Function LRootView]}
   cancelClick={[Function EventEmitter_]}
   isVisible="false"
   leaveClick={[Function EventEmitter_]}
 >
-  
 </pf-unsaved-changes-warning>
 `;
 
 exports[`UnsavedChangesWarningComponent should render when isVisible is true 1`] = `
 <pf-unsaved-changes-warning
+  __ngContext__={[Function LRootView]}
   cancelClick={[Function EventEmitter_]}
   isVisible={[Function Boolean]}
   leaveClick={[Function EventEmitter_]}

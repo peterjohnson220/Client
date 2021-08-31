@@ -2,6 +2,7 @@
 
 exports[`Admin - Tickets - Attachment Detail Card Should display details about a ticket 1`] = `
 <pf-attachment-detail-card
+  __ngContext__={[Function LRootView]}
   deleteRequest="null"
   deletingAttachmentModalOpen$={[Function Store]}
   isDeleting$={[Function Store]}
@@ -11,12 +12,12 @@ exports[`Admin - Tickets - Attachment Detail Card Should display details about a
   unsubscribe$={[Function Subject]}
   uploadedAttachments={[Function Array]}
 >
-  
 </pf-attachment-detail-card>
 `;
 
 exports[`Admin - Tickets - Attachment Detail Card should dispatch a model open action on a delete request 1`] = `
 <pf-attachment-detail-card
+  __ngContext__={[Function LRootView]}
   deleteRequest={[Function Object]}
   deletingAttachmentModalOpen$={[Function Store]}
   isDeleting$={[Function Store]}
@@ -26,6 +27,5 @@ exports[`Admin - Tickets - Attachment Detail Card should dispatch a model open a
   unsubscribe$={[Function Subject]}
   uploadedAttachments={[Function Array]}
 >
-  
 </pf-attachment-detail-card>
 `;

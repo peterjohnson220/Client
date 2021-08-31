@@ -79,7 +79,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should open edit workbook modal when handling edit clicked', () => {
     instance.userDataView = generateMockUserDataView();
-    spyOn(instance.editDataViewModal, 'open');
+    jest.spyOn(instance.editDataViewModal, 'open');
 
     instance.handleEditClicked();
 
@@ -88,7 +88,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should open duplicate workbook modal when handling duplicate clicked', () => {
     instance.userDataView = generateMockUserDataView();
-    spyOn(instance.duplicateDataViewModal, 'open');
+    jest.spyOn(instance.duplicateDataViewModal, 'open');
 
     instance.handleDuplicateClicked();
 
@@ -97,7 +97,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should open delete workbook modal when handling delete clicked', () => {
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
-    spyOn(instance.deleteUserWorkbookModalComponent, 'open');
+    jest.spyOn(instance.deleteUserWorkbookModalComponent, 'open');
 
     instance.handleDeleteClicked();
 
@@ -106,7 +106,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should dispatch DeleteUserReport action when handling delete save clicked', () => {
     const expectedAction = new fromDataViewActions.DeleteUserReport();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDeleteSaveClicked();
 
@@ -116,7 +116,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   it('should dispatch ExportUserReport action when handling export clicked and enableFileDownloadSecurityWarning is false', () => {
     const data = { fileExtension: ExportFileExtension.Csv, csvFileDelimiter: CsvFileDelimiter.Pipe };
     const expectedAction = new fromDataViewActions.ExportUserReport(data);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleExportClicked(data);
 
@@ -126,7 +126,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   it('should dispatch SaveSharePermissions action when handling share save clicked', () => {
     const sharedDataUserList = [generateMockSharedDataViewUser()];
     const expectedAction = new fromDataViewActions.SaveSharePermissions(sharedDataUserList);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleShareSavedClicked(sharedDataUserList);
 
@@ -136,7 +136,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   it('should dispatch RemoveSharePermission action when handling user removed event', () => {
     const sharedDataUser: SharedDataViewUser = generateMockSharedDataViewUser();
     const expectedAction = new fromDataViewActions.RemoveSharePermission(sharedDataUser);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleUserRemoved(sharedDataUser);
 
@@ -144,9 +144,9 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should dispatch GetSharePermission action when handling share clicked and permissions not loaded', () => {
-    spyOn(instance.shareReportModalComponent, 'open');
+    jest.spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetSharePermissions();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     instance.sharedUserPermissionsLoaded = false;
     instance.shareableUsersLoaded = true;
@@ -157,9 +157,9 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should NOT dispatch GetSharePermission action when handling share clicked and permissions loaded', () => {
-    spyOn(instance.shareReportModalComponent, 'open');
+    jest.spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetSharePermissions();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     instance.sharedUserPermissionsLoaded = true;
     instance.shareableUsersLoaded = true;
@@ -170,9 +170,9 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should NOT dispatch GetSharePermission action when handling share clicked and shareable users not loaded', () => {
-    spyOn(instance.shareReportModalComponent, 'open');
+    jest.spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetSharePermissions();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     instance.sharedUserPermissionsLoaded = false;
     instance.shareableUsersLoaded = false;
@@ -184,7 +184,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should NOT dispatch GetSharePermission action when handling share clicked but user not owner', () => {
     const expectedAction = new fromDataViewActions.GetSharePermissions();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.ReadOnly;
 
     instance.handleShareClicked();
@@ -193,9 +193,9 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should dispatch GetShareableUsers action when handling share clicked', () => {
-    spyOn(instance.shareReportModalComponent, 'open');
+    jest.spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetShareableUsers();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
 
     instance.handleShareClicked();
@@ -205,7 +205,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should NOT dispatch GetShareableUsers action when handling share clicked but user not owner', () => {
     const expectedAction = new fromDataViewActions.GetShareableUsers();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.ReadOnly;
 
     instance.handleShareClicked();
@@ -214,9 +214,9 @@ describe('Data Insights - Custom Report View Comopnent', () => {
   });
 
   it('should NOT dispatch GetShareableUsers action when handling share clicked but users already loaded', () => {
-    spyOn(instance.shareReportModalComponent, 'open');
+    jest.spyOn(instance.shareReportModalComponent, 'open');
     const expectedAction = new fromDataViewActions.GetShareableUsers();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.shareableUsersLoaded = true;
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
 
@@ -227,7 +227,7 @@ describe('Data Insights - Custom Report View Comopnent', () => {
 
   it('should NOT dispatch GetShareableUsers action when handling share clicked but not a personal report', () => {
     const expectedAction = new fromDataViewActions.GetShareableUsers();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.dataViewAccessLevel = DataViewAccessLevel.Owner;
     instance.userDataView.Scope = DataViewScope.Standard;
 

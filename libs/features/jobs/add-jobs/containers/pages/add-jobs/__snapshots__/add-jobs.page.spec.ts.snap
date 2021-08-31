@@ -3,6 +3,7 @@
 exports[`Project - Add Jobs - Jobs Page should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
 <pf-add-jobs-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   addJobsConfig={[Function Object]}
   addingData$={[Function Store]}
   addingDataError$={[Function Store]}
@@ -34,8 +35,6 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
   userFilterTypeData={[Function Object]}
 >
   <pf-search-layout>
-    
-    
     <div
       class="create-new-job"
       data-qa-id="btn-createNewJobNav"
@@ -48,16 +47,9 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       </div>
     </div>
     <pf-search-filters />
-    
-    
     <pf-results-header />
-    
     <pf-job-search-results />
-    
     <pf-paymarkets />
-    
-    
-    
     <span>
       <button
         class="btn btn-sm btn-secondary mr-3 clear-selections"
@@ -65,28 +57,20 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       >
          Clear Selections 
       </button>
-      
       <button
         class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
         data-qa-id="btn-addJobs"
         disabled=""
       >
-        
-        
          Add 
-        
-        
       </button>
-      
       <button
         class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
         data-qa-id="btn-cancelAddJobs"
       >
          Cancel 
       </button>
-      
     </span>
-    
   </pf-search-layout>
 </pf-add-jobs-page>
 `;

@@ -2,6 +2,7 @@
 
 exports[`Add Survey Titles modal should show a disabled copy button when the survey company has survey UDFs 1`] = `
 <pf-survey
+  __ngContext__={[Function LRootView]}
   activeRoute={[Function Object]}
   deleteFailed="false"
   enumSurveyDelete={[Function Object]}
@@ -21,9 +22,6 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
   userContext$={[Function Observable]}
 >
   <pf-page-with-title-bar>
-    
-      
-    
     <pf-async-container>
       <pf-input-debounce />
       <table
@@ -31,7 +29,6 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
       >
         <thead>
           <tr>
-            
             <th>
               Survey
             </th>
@@ -66,41 +63,29 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
               <u>
-                
               </u>
             </td>
             <td>
               <u>
-                
               </u>
             </td>
             <td>
@@ -112,26 +97,16 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
               >
                  Copy Survey 
               </button>
-                 
-              
-              
-              
-              
-                 
-              
-              
             </td>
           </tr>
         </tbody>
       </table>
-      
       <button
         class="btn btn-sm"
         type="button"
       >
         Add Survey
       </button>
-         
       <button
         class="btn btn-sm"
         type="button"
@@ -145,6 +120,7 @@ exports[`Add Survey Titles modal should show a disabled copy button when the sur
 
 exports[`Add Survey Titles modal should show an enabled copy button when the survey company does not have survey UDFs 1`] = `
 <pf-survey
+  __ngContext__={[Function LRootView]}
   activeRoute={[Function Object]}
   deleteFailed="false"
   enumSurveyDelete={[Function Object]}
@@ -164,9 +140,6 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
   userContext$={[Function Observable]}
 >
   <pf-page-with-title-bar>
-    
-      
-    
     <pf-async-container>
       <pf-input-debounce />
       <table
@@ -174,7 +147,6 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
       >
         <thead>
           <tr>
-            
             <th>
               Survey
             </th>
@@ -209,41 +181,29 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
           </tr>
         </thead>
         <tbody>
-          
           <tr>
-            
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
-              
             </td>
             <td>
               <u>
-                
               </u>
             </td>
             <td>
               <u>
-                
               </u>
             </td>
             <td>
@@ -254,26 +214,16 @@ exports[`Add Survey Titles modal should show an enabled copy button when the sur
               >
                  Copy Survey 
               </button>
-                 
-              
-              
-              
-              
-                 
-              
-              
             </td>
           </tr>
         </tbody>
       </table>
-      
       <button
         class="btn btn-sm"
         type="button"
       >
         Add Survey
       </button>
-         
       <button
         class="btn btn-sm"
         type="button"

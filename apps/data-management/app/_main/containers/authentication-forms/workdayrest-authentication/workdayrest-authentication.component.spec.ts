@@ -35,7 +35,7 @@ describe('Data Management - Main - Workday REST Authentication Form', () => {
   });
 
   it('Should emit event when submit button is clicked', () => {
-    spyOn(instance.submitClick, 'emit');
+    jest.spyOn(instance.submitClick, 'emit');
 
     instance.workdayRestForm.controls.employeeReportUrl.setValue(
       'https://wd5-impl-services1.workday.com/ccx/service/customreport2/mock_preview/ISU_INT103/INT103_-_Payfactor_API');
@@ -50,7 +50,7 @@ describe('Data Management - Main - Workday REST Authentication Form', () => {
   });
 
   it('Should emit event when cancel button is clicked', () => {
-    spyOn(instance.cancelClick, 'emit');
+    jest.spyOn(instance.cancelClick, 'emit');
 
     instance.cancelAuthenticationClick();
 

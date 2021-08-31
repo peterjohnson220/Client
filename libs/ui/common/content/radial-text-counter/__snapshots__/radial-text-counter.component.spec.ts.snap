@@ -6,6 +6,7 @@ exports[`RadialTextCounterComponent should set radialCounterClass to radial-coun
   DangerStartNumber={[Function Number]}
   DisplayWarningColors="false"
   WarningStartNumber={[Function Number]}
+  __ngContext__={[Function LRootView]}
   radialCounterClass={[Function String]}
   radialStartValue={[Function Number]}
   radialStrokeDashOffsetValue={[Function Number]}
@@ -46,6 +47,7 @@ exports[`RadialTextCounterComponent should set radialCounterClass to radial-coun
   DangerStartNumber={[Function Number]}
   DisplayWarningColors="false"
   WarningStartNumber={[Function Number]}
+  __ngContext__={[Function LRootView]}
   radialCounterClass={[Function String]}
   radialStartValue={[Function Number]}
   radialStrokeDashOffsetValue={[Function Number]}
@@ -85,6 +87,7 @@ exports[`RadialTextCounterComponent should show radial text counter 1`] = `
   DangerStartNumber={[Function Number]}
   DisplayWarningColors="false"
   WarningStartNumber={[Function Number]}
+  __ngContext__={[Function LRootView]}
   radialCounterClass={[Function String]}
   radialStartValue={[Function Number]}
   radialStrokeDashOffsetValue={[Function Number]}

@@ -43,7 +43,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Remove click on a new comment should remove the comment from the current list', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance._comments = [];
     instance.addNewComment();
@@ -54,7 +54,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Remove click on an existing comment should dispatch a remove action', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance._comments = [generateMockTicketComment()];
     const expectedAction = new fromTicketActions.DeleteComment({
@@ -68,7 +68,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Upsert should dispatcgith an update event for an existing ticket', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const commentRequest = generateMockUserTicketCommentRequest();
     const expectedAction = new fromTicketActions.UpdateComment(commentRequest);
@@ -81,7 +81,7 @@ describe('Admin - Tickets - Comments Detail', () => {
   });
 
   it('Upsert should dispatch a create event for a new ticket', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const commentRequest = generateCreateNewMockUserTicketCommentRequest();
     const unexpectedAction = new fromTicketActions.UpdateComment(commentRequest);

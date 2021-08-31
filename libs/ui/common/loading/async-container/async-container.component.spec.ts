@@ -97,7 +97,7 @@ describe('Async Container', () => {
     instance.loadingError = true;
 
     // Spy on the emit method for the reload EventEmitter
-    spyOn(instance.reload, 'emit');
+    jest.spyOn(instance.reload, 'emit');
 
     fixture.detectChanges();
 

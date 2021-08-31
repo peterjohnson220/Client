@@ -2,6 +2,7 @@
 
 exports[`Auth - First Time Login should disable Submit password button when password is not valid 1`] = `
 <pf-first-login-page
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
@@ -42,7 +43,6 @@ exports[`Auth - First Time Login should disable Submit password button when pass
       </span>
       . Please set a new password before continuing.
     </h1>
-    
     <pf-confirm-password />
     <div
       class="text-center"
@@ -60,6 +60,7 @@ exports[`Auth - First Time Login should disable Submit password button when pass
 
 exports[`Auth - First Time Login should show error notification on updatingPasswordError 1`] = `
 <pf-first-login-page
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
@@ -100,7 +101,6 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
       </span>
       . Please set a new password before continuing.
     </h1>
-    
     <p
       class="alert-danger p-4"
     >
@@ -123,6 +123,7 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
 
 exports[`Auth - First Time Login should show reset password section when page is loaded 1`] = `
 <pf-first-login-page
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
@@ -162,7 +163,6 @@ exports[`Auth - First Time Login should show reset password section when page is
       </span>
       . Please set a new password before continuing.
     </h1>
-    
     <pf-confirm-password />
     <div
       class="text-center"
@@ -180,6 +180,7 @@ exports[`Auth - First Time Login should show reset password section when page is
 
 exports[`Auth - First Time Login should show the loading message when the page is loading 1`] = `
 <pf-first-login-page
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   formIsValid="false"
   isFirstLogin="false"

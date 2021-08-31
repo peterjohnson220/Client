@@ -98,7 +98,7 @@ describe('GradeBasedModelSettingsContentComponent', () => {
   });
 
   it('should dispatch getCurrencies and getControlPoints on init', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction1 = new fromModelSettingsModalActions.GetCurrencies();
     const expectedAction2 = new fromModelSettingsModalActions.GetControlPoints();
 

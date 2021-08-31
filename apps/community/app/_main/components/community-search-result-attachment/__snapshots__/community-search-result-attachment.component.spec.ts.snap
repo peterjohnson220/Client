@@ -2,6 +2,7 @@
 
 exports[`CommunitySearchResultContentComponent should display 1`] = `
 <pf-community-search-result-attachment
+  __ngContext__={[Function LRootView]}
   attachmentType={[Function String]}
   attachments={[Function Array]}
   searchTerm={[Function String]}
@@ -14,7 +15,6 @@ exports[`CommunitySearchResultContentComponent should display 1`] = `
     >
       Attachments
     </span>
-    
   </div>
 </pf-community-search-result-attachment>
 `;

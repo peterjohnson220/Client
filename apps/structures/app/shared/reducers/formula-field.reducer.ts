@@ -167,17 +167,17 @@ export function reducer(state = INITIAL_STATE, action: fromFormulaFieldActions.A
   }
 }
 
-export const getWaitingForValidation = (state: State, formulaFieldId: string) =>
+export const getWaitingForValidation = (state: State, formulaFieldId?: string) =>
   state.fields[formulaFieldId] ? state.fields[formulaFieldId].waitingForValidation : null;
-export const getValidating = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].validating : null;
-export const getFormulaValid = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaValid : null;
-export const getSaving = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].saving : null;
-export const getSavingSuccess = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].savingSuccess : null;
-export const getSavingError = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].savingError : null;
-export const getSavingErrorMessage = (state: State, formulaFieldId: string) =>
+export const getValidating = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].validating : null;
+export const getFormulaValid = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaValid : null;
+export const getSaving = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].saving : null;
+export const getSavingSuccess = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].savingSuccess : null;
+export const getSavingError = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].savingError : null;
+export const getSavingErrorMessage = (state: State, formulaFieldId?: string) =>
   state.fields[formulaFieldId] ? state.fields[formulaFieldId].savingErrorMessage : null;
-export const getFormulaDataType = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaDataType : null;
-export const getFormulaField = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaField : null;
-export const getResetFormula = (state: State, formulaFieldId: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].resetFormula : null;
+export const getFormulaDataType = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaDataType : null;
+export const getFormulaField = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].formulaField : null;
+export const getResetFormula = (state: State, formulaFieldId?: string) => state.fields[formulaFieldId] ? state.fields[formulaFieldId].resetFormula : null;
 export const getAllFields = (state: State) => state.fields;
 

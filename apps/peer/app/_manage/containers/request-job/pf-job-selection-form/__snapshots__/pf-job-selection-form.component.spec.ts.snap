@@ -2,6 +2,7 @@
 
 exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should provide correct values to the pf-modal-form component 1`] = `
 <pf-payfactors-job-selection-form
+  __ngContext__={[Function LRootView]}
   cardSelector={[Function Object]}
   exchangeJobRequestForm={[Function FormGroup]}
   exchangeRequestModalOpen$={[Function Store]}
@@ -25,7 +26,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
     class="ng-untouched ng-pristine ng-invalid"
   >
     <pf-card-selector>
-      
       <div
         class="filter"
       >
@@ -57,7 +57,6 @@ exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should prov
         value="[object Object]"
       />
     </div>
-    
   </div>
 </pf-payfactors-job-selection-form>
 `;

@@ -175,12 +175,18 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     template.Fields.TemplateFields.forEach(t => {
       this.templateConfiguration[t.ModalTab] = this.templateConfiguration[t.ModalTab] || {};
       this.templateConfiguration[t.ModalTab][t.Category] = t;
-      allAccordionIds.push(`${t.ModalTab}_${t.Category}`);
     });
-    if (!this.activeAccordionIds.length) {
-      this.activeAccordionIds = allAccordionIds;
-    }
+
     this.modalTabs = this.getKeys(this.templateConfiguration);
+
+    if (!this.activeAccordionIds.length) {
+        this.modalTabs.map((mt, tabIndex) => {
+          this.getKeys(this.templateConfiguration[mt]).map((p, panelIndex) => {
+            this.activeAccordionIds.push(`panel-${tabIndex}-${panelIndex}`);
+        });
+      });
+    }
+
     this.activeTab = this.modalTabs[0];
   }
 

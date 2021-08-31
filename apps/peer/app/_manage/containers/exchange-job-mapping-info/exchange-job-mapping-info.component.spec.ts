@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockCompanyJobMapping, generateMockExchangeJobMapping, UpsertExchangeJobMapRequest } from 'libs/models/peer';
@@ -54,7 +53,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
   it('should emit a closeClicked event, when the close button is clicked', () => {
     // Spy on the emit method for the closeClicked EventEmitter
-    spyOn(instance.closeClicked, 'emit');
+    jest.spyOn(instance.closeClicked, 'emit');
 
     fixture.detectChanges();
 
@@ -86,7 +85,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
   it('should dispatch a LoadCompanyJobsToMapToByQuery action when a exchange job mapping that is not mapped is selected', () => {
     // Still need the actual implementation since we are making a setup call
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.exchangeId = 1;
     fixture.detectChanges();
@@ -118,7 +117,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
     instance.exchangeId = 1;
     instance.companyJobQuery = 'Accountant';
     instance.companyDescriptionQuery = 'Job Description';
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const payload = { exchangeId: instance.exchangeId, jobTitleAndCodeQuery: 'Accountant', jobDescriptionQuery: 'Job Description' };
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery(payload);
@@ -130,7 +129,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it('should dispatch a ApplyMapping action, when handling an apply mapping event', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const payload: UpsertExchangeJobMapRequest = {
       ExchangeId: instance.exchangeId,
@@ -149,7 +148,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     store.dispatch(new fromExchangeJobMappingInfoActions.AddMapping());
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Find the cancel editing button in the template and trigger a click
     const cancelEditingBtn = fixture.debugElement.query(By.css('.card-header #add-mapping-button'));
@@ -162,7 +161,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
   it('should dispatch a AddMapping action, when clicking the add mapping button', () => {
     fixture.detectChanges();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Find the edit mapping button in the template and trigger a click
     const editMappingBtn = fixture.debugElement.query(By.css('.card-header #add-mapping-button'));
@@ -176,7 +175,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it('should dispatch a LoadCompanyJobsToMapToByQuery action, when clicking the add mapping button', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Find the edit mapping button in the template and trigger a click
     const editMappingBtn = fixture.debugElement.query(By.css('.card-header #add-mapping-button'));
@@ -235,7 +234,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
       store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingWithMultipleMappingsMock));
 
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       fixture.detectChanges();
 
@@ -253,7 +252,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   //     instance.selectedCompanyJob = mockCompanyJobMapping;
   //     store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingWithMultipleMappingsMock));
   //
-  //     spyOn(store, 'dispatch');
+  //     jest.spyOn(store, 'dispatch');
   //
   //     fixture.detectChanges();
   //
@@ -281,7 +280,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it(`should dispatch an OpenDeleteConfirmationModal action when handleDeleteClick is triggered`, () => {
     const expectedAction = new fromExchangeJobMappingInfoActions.OpenDeleteConfirmationModal();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -291,7 +290,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   });
 
   it(`should call carousel.next when handleControlRightClick is triggered`, () => {
-    spyOn(instance.carousel, 'next');
+    jest.spyOn(instance.carousel, 'next');
 
     fixture.detectChanges();
 
@@ -303,7 +302,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   });
 
   it(`should call carousel.prev when handleControlLeftClick is triggered`, () => {
-    spyOn(instance.carousel, 'prev');
+    jest.spyOn(instance.carousel, 'prev');
 
     fixture.detectChanges();
 
@@ -317,7 +316,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it(`should call carousel.select when handleIndicatorClick is triggered`, () => {
     const expectedSlideId = exchangeJobMappingMock.CompanyJobMappings[0].ExchangeJobToCompanyJobId.toString();
 
-    spyOn(instance.carousel, 'select');
+    jest.spyOn(instance.carousel, 'select');
 
     fixture.detectChanges();
 
@@ -338,7 +337,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
       prev: '0'
     };
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

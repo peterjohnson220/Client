@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Manage Exchange Section Header should provide correct values to the pf-manage-exchange-section-header 1`] = `
-<pf-manage-exchange-section-header>
+<pf-manage-exchange-section-header
+  __ngContext__={[Function LRootView]}
+>
   <div
     class="section-header d-flex justify-content-between align-items-center"
   >
     <div>
       <h4>
-        
       </h4>
       <p>
-          
       </p>
     </div>
     <div

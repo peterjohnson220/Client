@@ -2,6 +2,7 @@
 
 exports[`Libs - Peer - RelationalExchangeJobSearch - RelationalExchangeJobResultComponent should display exchange job info when available 1`] = `
 <pf-relational-exchange-job-result
+  __ngContext__={[Function LRootView]}
   exchangeJob={[Function Object]}
   exchangeJobClicked={[Function EventEmitter_]}
 >
@@ -18,7 +19,6 @@ exports[`Libs - Peer - RelationalExchangeJobSearch - RelationalExchangeJobResult
         <h4
           class="d-flex"
         >
-          
           <span
             class="exchange-job-title font-weight-bold pr-2"
           >

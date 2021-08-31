@@ -30,7 +30,7 @@ describe('CompanySelectorComponent', () => {
     fixture = TestBed.createComponent(CompanySelectorComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
   });

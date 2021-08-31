@@ -19,7 +19,7 @@ describe('ShareableUserComponent', () => {
 
   it('should emit toggleSelectedUser when selectUserToggle has been called', () => {
     instance.user = { ...generateMockAutoShareUser(), IsSelected: true};
-    spyOn(instance.toggleSelectedUser, 'emit');
+    jest.spyOn(instance.toggleSelectedUser, 'emit');
 
     instance.selectUserToggle(instance.user);
 
