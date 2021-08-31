@@ -147,7 +147,8 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
     if (!this.chartData?.RangeDistributionTypeId) {
       return null;
     }
-    const isValidMinMidMax = this.isAscending([this.chartData.Min, this.chartData.Mid, this.chartData.Max]);
+    const isValidMinMidMax = this.isAscending([this.chartData.Min, this.chartData.Mid, this.chartData.Max])
+      && !this.allEqual([this.chartData.Min, this.chartData.Mid, this.chartData.Max]);
     if (!isValidMinMidMax) {
       return null;
     }
@@ -192,6 +193,10 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
     return values
       .slice(1)
       .every((num, i) => num !== null && values[i] !== null && num >= values[i]);
+  }
+
+  private allEqual(values: number[]): boolean {
+    return values.every((num) => num !== null && values[0] !== null && num === values[0]);
   }
 
 }
