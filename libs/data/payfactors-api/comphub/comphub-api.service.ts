@@ -76,6 +76,10 @@ export class ComphubApiService {
     return this.payfactorsApiService.get<ExchangeDataSet[]>(`${this.endpoint}/GetExchangeDataSets`);
   }
 
+  getUnrestrictedExchangeDataSets(): Observable<ExchangeDataSet[]> {
+    return this.payfactorsApiService.get<ExchangeDataSet[]>(`${this.endpoint}/GetUnrestrictedExchangeDataSets`);
+  }
+
   persistActiveCountryDataSet(countryCode: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/PersistActiveCountryDataSet`, { countryCode: countryCode});
   }

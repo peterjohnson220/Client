@@ -14,6 +14,8 @@ import * as fromComphubSharedReducer from '../../reducers';
 import { ComphubFooterComponent } from './footer.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { generateMockFooterContext, generateMockPeerWorkflowContext, generateMockWorkflowContext } from '../../models';
+import * as fromLibsExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
+import * as fromLibsFeatureBasicDataGrid from 'libs/features/grids/basic-data-grid/reducers';
 
 class DojGuidelinesStub {
   passing = true;
@@ -27,7 +29,7 @@ class DojGuidelinesStub {
   }
 }
 
-describe('Comphub - Main - Footer', () => {
+describe('Comphub - Shared - Footer', () => {
   let instance: ComphubFooterComponent;
   let fixture: ComponentFixture<ComphubFooterComponent>;
   let store: Store<fromComphubSharedReducer.State>;
@@ -40,6 +42,8 @@ describe('Comphub - Main - Footer', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
+          feature_peer_exchangeExplorer: combineReducers(fromLibsExchangeExplorerReducers.reducers),
+          feature_basic_data_grid: combineReducers(fromLibsFeatureBasicDataGrid.reducers)
         })
       ],
       providers: [

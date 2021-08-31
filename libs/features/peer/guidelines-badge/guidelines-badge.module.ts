@@ -9,10 +9,9 @@ import {reducers} from './reducers';
 import {GuidelinesBadgeComponent} from './components/guidelines-badge';
 import {DojGuidelinesService} from './services/doj-guidelines.service';
 import {ExchangeExplorerContextService} from '../exchange-explorer/services';
-import {SearchFilterMappingDataObj} from '../../search/search/models';
 import {PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper} from '../../search/search/helpers';
 import * as fromFaIcons from './fa-icons';
-import {DataCutValidationEffects} from './effects/data-cut-validation.effects';
+import { DataCutValidationEffects } from './effects';
 import { TempDataCutModule } from '../../temp-data-cut/temp-data-cut.module';
 
 @NgModule({

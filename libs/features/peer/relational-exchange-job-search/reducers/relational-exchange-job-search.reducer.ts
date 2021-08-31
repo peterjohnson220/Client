@@ -1,7 +1,7 @@
 import { RelationalExchangeJobResult } from 'libs/models';
 
 import * as fromRelationalExchangeJobSearchActions from '../actions/relational-exchange-job-search.actions';
-import { RelationalExchangeJobSearchSelectorService } from '../services';
+import { RelationalExchangeJobSearchSelectorHelper } from '../helpers';
 
 export interface State {
   exchangeId: number;
@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: fromRelationalExchangeJobS
     case fromRelationalExchangeJobSearchActions.REPLACE_EXCHANGE_JOB_RESULTS: {
       return {
         ...state,
-        exchangeJobResults: RelationalExchangeJobSearchSelectorService.applyExchangeJobSelections(
+        exchangeJobResults: RelationalExchangeJobSearchSelectorHelper.applyExchangeJobSelections(
           action.payload.exchangeJobResults,
           state.selectedExchangeJobs
         ),
@@ -41,7 +41,7 @@ export function reducer(state = initialState, action: fromRelationalExchangeJobS
       };
     }
     case fromRelationalExchangeJobSearchActions.ADD_EXCHANGE_JOB_RESULTS: {
-      const newExchangeJobResults = RelationalExchangeJobSearchSelectorService.applyExchangeJobSelections(
+      const newExchangeJobResults = RelationalExchangeJobSearchSelectorHelper.applyExchangeJobSelections(
         action.payload.exchangeJobResults,
         state.selectedExchangeJobs
       );
@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: fromRelationalExchangeJobS
       };
     }
     case fromRelationalExchangeJobSearchActions.TOGGLE_EXCHANGE_JOB_SELECTION: {
-      const selectionToggledResults = RelationalExchangeJobSearchSelectorService.toggleExchangeJobSelection(
+      const selectionToggledResults = RelationalExchangeJobSearchSelectorHelper.toggleExchangeJobSelection(
         action.payload.exchangeJob,
         state.exchangeJobResults,
         state.selectedExchangeJobs
@@ -74,7 +74,7 @@ export function reducer(state = initialState, action: fromRelationalExchangeJobS
     case fromRelationalExchangeJobSearchActions.CLEAR_SELECTED_EXCHANGE_JOBS: {
       return {
         ...state,
-        exchangeJobResults: RelationalExchangeJobSearchSelectorService.clearSelectedExchangeJobResults(state.exchangeJobResults),
+        exchangeJobResults: RelationalExchangeJobSearchSelectorHelper.clearSelectedExchangeJobResults(state.exchangeJobResults),
         selectedExchangeJobs: []
       };
     }

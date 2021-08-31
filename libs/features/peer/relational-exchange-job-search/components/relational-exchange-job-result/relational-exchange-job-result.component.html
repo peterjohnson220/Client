@@ -1,26 +1,25 @@
-<a href="javascript:void(0)" class="exchange-job-result-row">
+<div class="exchange-job-result-row">
   <div class="result position-relative" [class.selected]="exchangeJob.IsSelected" (click)="handleExchangeJobClicked()">
     <div class="d-flex justify-content-between">
-      <h4 class="d-flex">
-      <span *ngIf="exchangeJob.ExchangeJobId" class="exchange-job-title font-weight-bold pr-2">
-        {{exchangeJob.ExchangeJobTitle}} {{exchangeJob.ExchangeJobCode}}
-      </span>
-        <span class="exchange-job-id">
-        ({{exchangeJob.ExchangeJobId}})
-        </span>
-        <span class="relational-job-code">
-          {{exchangeJob.RelationalJobCode}}
-        </span>
-      </h4>
+      <div class="job-result-left">
+        <div class="exchange-job-title-container">
+          <h5>
+            <span class="exchange-job-title">{{exchangeJob.ExchangeJobTitle}}</span>
+            <span class="text-muted">({{exchangeJob.ExchangeJobCode}})</span>
+          </h5>
+        </div>
+        <div class="text-muted">
+          {{exchangeJob.ExchangeJobTitleShort}}
+        </div>
+      </div>
+      <div class="job-result-right">
+        <div>
+          <h5><span class="text-muted">{{exchangeJob.RelationalJobCode}}</span></h5>
+        </div>
+        <div class="text-muted">
+          {{exchangeJob.ExchangeJobFamily}}
+        </div>
+      </div>
     </div>
-
-    <h5 class="flex-column exchange-job-title-short my-1">
-      {{exchangeJob.ExchangeJobTitleShort}}
-      <span class="exchange-job-family text-right">
-        {{exchangeJob.ExchangeJobFamily}}
-      </span>
-    </h5>
-
   </div>
-
-</a>
+</div>

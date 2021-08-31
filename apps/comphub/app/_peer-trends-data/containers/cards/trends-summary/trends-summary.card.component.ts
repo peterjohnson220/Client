@@ -39,7 +39,6 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   peerTrends$: Observable<AsyncStateObj<PayRateDate[]>>;
   peerTrendsSubscription: Subscription;
 
-  filterContext$: Observable<BaseExchangeDataSearchRequest>;
   filterContext: BaseExchangeDataSearchRequest;
   filterContextSubscription: Subscription;
   filterContextHasFilters: boolean;
@@ -115,8 +114,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
 
     this.selectedPeerTrendIdSubscription = this.selectedPeerTrendId$.subscribe( x => this.selectedPeerTrendId = x);
 
-    this.filterContext$ = this.exchangeExplorerContextService.selectFilterContext();
-    this.filterContextSubscription = this.filterContext$.subscribe(fc => {
+    this.filterContextSubscription = this.exchangeExplorerContextService.selectFilterContext().subscribe(fc => {
       this.filterContext = fc;
       this.filterContextHasFilters = fc.Filters.filter(x => x.Options.length > 0).length > 0;
     });
@@ -220,26 +218,26 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
         Items: [
           {
             Name: 'Category Groups',
-            Value: [...new Set(this.smartCodeMaps?.map(x => x.CategoryGroupName))]
+            Value: [...Array.from(new Set(this.smartCodeMaps?.map(x => x.CategoryGroupName)))]
               .sort()
               .join(', ')
           },
           {
             Name: 'Family Groups',
-            Value: [...new Set(this.smartCodeMaps?.map(x => x.FamilyGroupCode))]
+            Value: [...Array.from(new Set(this.smartCodeMaps?.map(x => x.FamilyGroupCode)))]
               .sort()
               .join(', ')
           },
           {
             Name: 'Categories',
-            Value: [...new Set(this.smartCodeMaps?.map(x => x.Category1Code)
-                  .concat(this.smartCodeMaps?.map(x => x.Category2Code)))]
+            Value: [...Array.from(new Set(this.smartCodeMaps?.map(x => x.Category1Code)
+                  .concat(this.smartCodeMaps?.map(x => x.Category2Code))))]
                   .sort()
                   .join(', ')
           },
           {
             Name: 'Levels',
-            Value: [...new Set(this.smartCodeMaps?.map(x => x.TypeLevel))]
+            Value: [...Array.from(new Set(this.smartCodeMaps?.map(x => x.TypeLevel)))]
               .sort()
               .join(', ')
           }

@@ -10,6 +10,7 @@ import * as fromDataCardReducer from './data-card.reducer';
 import * as fromSummaryCardReducer from './summary-card.reducer';
 import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromJobGridReducer from './job-grid.reducer';
+import * as fromQuickPriceHistoryReducer from './quick-price-history.reducer';
 
 
 export interface ComphubSharedState {
@@ -20,6 +21,7 @@ export interface ComphubSharedState {
   summaryCard: fromSummaryCardReducer.State;
   addPayMarketForm: fromAddPayMarketFormReducer.State;
   jobGrid: fromJobGridReducer.State;
+  quickPriceHistory: fromQuickPriceHistoryReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -34,6 +36,7 @@ export const reducers = {
   summaryCard: fromSummaryCardReducer.reducer,
   addPayMarketForm: fromAddPayMarketFormReducer.reducer,
   jobGrid: fromJobGridReducer.reducer,
+  quickPriceHistory: fromQuickPriceHistoryReducer.reducer
 };
 
 // Select Feature Area
@@ -74,6 +77,11 @@ export const selectAddPayMarketFormState = createSelector(
 export const selectJobGridState = createSelector(
   selectFeatureAreaState,
   (state: ComphubSharedState) => state.jobGrid
+);
+
+export const selectQuickPriceHistoryState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubSharedState) => state.quickPriceHistory
 );
 
 // Jobs Card
@@ -423,4 +431,16 @@ export const getLoadingJobGridResults = createSelector(
 export const getLoadingJobGridResultsError = createSelector(
   selectJobGridState,
   fromJobGridReducer.getLoadingJobGridResultsError
+);
+
+
+// Quick Price History
+export const getLoadingJobDataHistory = createSelector(
+  selectQuickPriceHistoryState,
+  fromQuickPriceHistoryReducer.getLoadingJobDataHistory
+);
+
+export const getLoadingJobDataHistoryErrorMessage = createSelector(
+  selectQuickPriceHistoryState,
+  fromQuickPriceHistoryReducer.getLoadingJobDataHistoryErrorMessage
 );

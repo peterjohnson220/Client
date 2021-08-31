@@ -15,6 +15,7 @@ import {
   PositionType
 } from 'libs/features/grids/pf-data-grid/models';
 import * as fromDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 
 import * as fromComphubPageActions from '../../../_shared/actions/comphub-page.actions';
 
@@ -33,14 +34,15 @@ export class PeerTrendGridComponent implements OnInit, OnDestroy, AfterViewInit 
 
   fields$: Observable<BasicDataViewField[]>;
   loadingMoreData$: Observable<boolean>;
-
   selectedTrendId$: Observable<number>;
+
   selectedTrendIdSubscription: Subscription;
 
   gridConfig: GridConfig;
   pageViewId = PageViewIds.Trends;
   actionBarConfig: any;
   gridRowActionsConfig: GridRowActionsConfig = getDefaultGridRowActionsConfig();
+  pageTheme: PfThemeType = PfThemeType.NextGen;
 
   defaultSort: SortDescriptor[] = [{
     dir: 'desc',

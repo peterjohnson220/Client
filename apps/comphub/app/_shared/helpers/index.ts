@@ -3,3 +3,4 @@ export * from './payfactors-api-model-mapper';
 export * from './smb-client-helper';
 export * from './markets-card.helper';
 export * from './map.helper';
+export * from './comphub-page-effects.helper';

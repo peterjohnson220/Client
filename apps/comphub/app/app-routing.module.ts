@@ -12,7 +12,9 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: 'csd', loadChildren: () => import('apps/comphub/app/_crowd-sourced-data/crowd-sourced-data.module').then(m => m.CrowdSourcedDataModule) },
+      { path: 'csd',
+        loadChildren: () => import('apps/comphub/app/_crowd-sourced-data/crowd-sourced-data.module').then(m => m.CrowdSourcedDataModule)
+      },
       { path: 'trends',
         canActivate: [PfAdminGuard, FeatureFlagGuard],
         data: {
@@ -25,6 +27,7 @@ export const routes: Routes = [
       },
       {
         path: '',
+        pathMatch: 'full',
         canActivate: [TileEnabledGuard],
         loadChildren: () => import('apps/comphub/app/_main/main.module').then(m => m.MainModule)
       }

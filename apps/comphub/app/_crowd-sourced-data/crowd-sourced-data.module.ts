@@ -21,10 +21,9 @@ import {
   CrowdSourcedJobResultsComponent,
   CrowdSourcedDataPageComponent,
   CrowdSourcedSummaryCardComponent } from './containers';
-import { MainModule } from '../_main/main.module';
 import { CrowdSourcedDataPageGuard } from './guards';
 import { SharedModule } from '../_shared/shared.module';
-import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-job-grid-content';
+import { CrowdSourcedJobGridContentComponent } from './components';
 
 @NgModule({
   imports: [
@@ -33,7 +32,6 @@ import { CrowdSourcedJobGridContentComponent } from './components/crowd-sourced-
     ReactiveFormsModule,
 
     CrowdSourcedDataRoutingModule,
-    MainModule,
 
     // 3rd Party
     DropDownsModule,

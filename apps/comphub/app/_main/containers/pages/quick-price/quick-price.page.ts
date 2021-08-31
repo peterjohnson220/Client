@@ -12,8 +12,7 @@ import { CompanyClientTypeConstants, ComphubType } from 'libs/constants';
 import * as fromComphubSharedReducer from '../../../../_shared/reducers';
 import * as fromComphubPageActions from '../../../../_shared/actions/comphub-page.actions';
 import { QuickPriceHistoryContext } from '../../../../_shared/models';
-
-import { ComphubBasePageDirective } from '../../../../_shared/containers/pages/comphub-base';
+import { ComphubBasePageDirective } from '../../../../_shared/containers/pages';
 
 @Component({
   selector: 'pf-quick-price-page',

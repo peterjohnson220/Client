@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CrowdSourcedDataPageComponent } from './containers/pages/crowd-sourced-data';
+import { CrowdSourcedDataPageComponent } from './containers';
 import { CrowdSourcedDataPageGuard } from './guards';
 
 const routes: Routes = [

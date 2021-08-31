@@ -9,8 +9,8 @@ import * as fromSearchReducer from 'libs/features/search/search/reducers';
 
 import * as fromExchangeExplorerReducer from '../reducers';
 import { Filter, MultiSelectFilter } from '../../../search/search/models';
-import { BaseExchangeDataSearchRequest } from '../../../../models/payfactors-api/peer/exchange-data-search/request';
-import { ExchangeDataSearchFilterContext } from '../../../../models/peer';
+import { BaseExchangeDataSearchRequest } from '../../../../models/payfactors-api';
+import { ExchangeDataSearchFilterContext } from '../../../../models';
 import { PayfactorsSearchApiHelper } from '../../../search/search/helpers';
 
 @Injectable()
