@@ -34,7 +34,6 @@ export interface EmployeeSalaryRangeChartData {
   PlotBands?: YAxisPlotBandsOptions[];
   ChartTickPositions?: number[];
   ChartEmployeeNameAndId?: string;
-  TickInterval?: number;
 }
 
 export class EmployeeSalaryRangeChartConfig {

@@ -1,7 +1,9 @@
 import * as Highcharts from 'highcharts';
 import { YAxisPlotBandsOptions } from 'highcharts';
 
+import { allEqual, isAscending } from 'libs/core/functions';
 import { FormattersService } from 'libs/core/services';
+import { PricingForPayGraph } from 'libs/models/payfactors-api';
 
 export class JobPricingGraphService {
 
@@ -257,5 +259,13 @@ export class JobPricingGraphService {
     chart.setSize(null, 100, false);
     chart.yAxis[0].setExtremes(min, max, true);
     chart.redraw(false);
+  }
+
+  static validatePricingForPayGraph(pricing: PricingForPayGraph): boolean {
+    if (pricing === null) {
+      return false;
+    }
+    const values = [pricing.Pay10, pricing.Pay25, pricing.Pay50, pricing.Pay75, pricing.Pay90];
+    return isAscending(values) && !allEqual(values);
   }
 }

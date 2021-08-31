@@ -9,6 +9,7 @@ import * as fromBasicDataGridActions from 'libs/features/grids/basic-data-grid/a
 import { BasicDataViewField, DataViewFilter, EmployeeModalStructuresResponse } from 'libs/models/payfactors-api';
 import { AsyncStateObj } from 'libs/models';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { allEqual, isAscending } from 'libs/core/functions';
 
 import * as fromEmployeeSalaryRangeChartReducer from '../../reducers';
 import * as fromEmployeeSalaryRangeChartActions from '../../actions/employee-salary-range-chart.actions';
@@ -147,14 +148,14 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
     if (!this.chartData?.RangeDistributionTypeId) {
       return null;
     }
-    const isValidMinMidMax = this.isAscending([this.chartData.Min, this.chartData.Mid, this.chartData.Max])
-      && !this.allEqual([this.chartData.Min, this.chartData.Mid, this.chartData.Max]);
+    const isValidMinMidMax = isAscending([this.chartData.Min, this.chartData.Mid, this.chartData.Max])
+      && !allEqual([this.chartData.Min, this.chartData.Mid, this.chartData.Max]);
     if (!isValidMinMidMax) {
       return null;
     }
     switch (this.chartData.RangeDistributionTypeId) {
       case RangeDistributionTypeIds.Tertile: {
-        const isValidTertile = this.isAscending([
+        const isValidTertile = isAscending([
           this.chartData.Min,
           this.chartData.TertileFirst,
           this.chartData.TertileSecond,
@@ -163,7 +164,7 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
         return isValidTertile ? RangeDistributionTypeIds.Tertile : RangeDistributionTypeIds.MinMidMax;
       }
       case RangeDistributionTypeIds.Quartile: {
-        const isValidQuartile = this.isAscending([
+        const isValidQuartile = isAscending([
           this.chartData.Min,
           this.chartData.QuartileFirst,
           this.chartData.Mid,
@@ -173,7 +174,7 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
         return isValidQuartile ? RangeDistributionTypeIds.Quartile : RangeDistributionTypeIds.MinMidMax;
       }
       case RangeDistributionTypeIds.Quintile: {
-        const isValidQuintile = this.isAscending([
+        const isValidQuintile = isAscending([
           this.chartData.Min,
           this.chartData.QuintileFirst,
           this.chartData.QuintileSecond,
@@ -187,16 +188,6 @@ export class EmployeeSalaryRangeChartComponent implements OnChanges, OnInit, OnD
         return RangeDistributionTypeIds.MinMidMax;
       }
     }
-  }
-
-  private isAscending(values: number[]): boolean {
-    return values
-      .slice(1)
-      .every((num, i) => num !== null && values[i] !== null && num >= values[i]);
-  }
-
-  private allEqual(values: number[]): boolean {
-    return values.every((num) => num !== null && values[0] !== null && num === values[0]);
   }
 
 }
