@@ -31,7 +31,11 @@
     </textarea>
   </div>
 </div>
-<pf-approval-workflow-config [jobIds]="jobIds" (onShowNameFormClicked)="handleShowNameFormClicked($event)"></pf-approval-workflow-config>
+<pf-approval-workflow-config 
+  [jobIds]="jobIds" 
+  [showAttachmentsUpload]="true"
+  (onShowNameFormClicked)="handleShowNameFormClicked($event)">
+</pf-approval-workflow-config>
 <div class="d-flex justify-content-end pt-2">
   <button type="button" class="btn btn-secondary"
     (click)="close()">Cancel
