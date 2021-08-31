@@ -14,7 +14,7 @@
            placeholder="Name"
            formControlName="exchangeScopeName"
            id="exchange-scope-name"
-           maxlength="50"
+           [maxlength]="isStandardScope ? 100 : 50"
            [readonly]="upsertingExchangeScope$ | async"
            [pfValidatable]="!validatingScopeName"
            pfFocus>
