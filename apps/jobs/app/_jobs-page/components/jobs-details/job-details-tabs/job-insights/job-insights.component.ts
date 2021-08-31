@@ -110,6 +110,7 @@ export class JobInsightsComponent extends AbstractJobInsightsComponent implement
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.forkJoinSubscription.unsubscribe();
     this.jobCustomFieldsAsyncSubscription.unsubscribe();
     this.saveJobSuccessSubscription.unsubscribe();

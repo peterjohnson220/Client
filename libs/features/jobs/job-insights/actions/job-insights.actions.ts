@@ -11,6 +11,7 @@ export const LOAD_JOB_INSIGHTS_ERROR = '[Jobs / Job Insights] Load Job Insights 
 export const LOAD_CUSTOM_JOB_FIELDS = '[Jobs / Job Insights] Load Custom Job Fields';
 export const LOAD_CUSTOM_JOB_FIELDS_SUCCESS = '[Jobs / Job Insights] Load Custom Job Fields Success';
 export const LOAD_CUSTOM_JOB_FIELDS_ERROR = '[Jobs / Job Insights] Load Custom Job Fields Error';
+export const RESET_JOB_INSIGHTS = '[Jobs / Job Insights] Reset Job Insights';
 
 export class LoadJobInsights implements Action {
   readonly type = LOAD_JOB_INSIGHTS;
@@ -47,6 +48,11 @@ export class LoadCustomJobFieldsError implements Action {
   constructor() {}
 }
 
+export class ResetJobInsights implements Action {
+  readonly type = RESET_JOB_INSIGHTS;
+  constructor() {}
+}
+
 export type Actions
   = LoadJobInsights
   | LoadJobInsightsForPrint
@@ -54,5 +60,6 @@ export type Actions
   | LoadJobInsightsError
   | LoadCustomJobFields
   | LoadCustomJobFieldsSuccess
-  | LoadCustomJobFieldsError;
+  | LoadCustomJobFieldsError
+  | ResetJobInsights;
 
