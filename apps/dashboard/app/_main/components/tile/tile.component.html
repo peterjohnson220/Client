@@ -32,7 +32,8 @@
     </pf-tile-preview-place-holder>
 
     <pf-tile-preview-calendar-with-chart *ngSwitchCase="tilePreviewType.ChartWithCalendar"
-                                        [model]="previewModel">
+                                         [model]="previewModel"
+                                         [payscaleBrandingFeatureFlag]="payscaleBrandingFeatureFlag.value">
     </pf-tile-preview-calendar-with-chart>
 
     <pf-tile-preview-chart-with-list *ngSwitchCase="tilePreviewType.ChartWithList"
