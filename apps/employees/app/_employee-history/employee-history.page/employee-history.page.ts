@@ -51,7 +51,9 @@ export class EmployeeHistoryPageComponent implements OnInit, OnDestroy, AfterVie
       AllowExport: true,
       AllowSaveFilter: true,
       ExportSourceName: 'Employee History',
-      ColumnChooserType: ColumnChooserType.ColumnGroup
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.ColumnGroup
+      }
     };
     this.gridConfig = {
       PersistColumnWidth: true,

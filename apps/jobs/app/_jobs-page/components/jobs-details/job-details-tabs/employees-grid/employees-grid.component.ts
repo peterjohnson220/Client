@@ -13,7 +13,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { GroupedListItem } from 'libs/models/list';
 

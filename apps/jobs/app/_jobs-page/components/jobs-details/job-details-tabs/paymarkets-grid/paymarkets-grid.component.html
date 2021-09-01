@@ -11,7 +11,6 @@
   [defaultSort]="defaultSort"
   [customSortOptions]="customSortOptions"
   [preserveSelectionsOnGetConfig]="true"
-  [applyUserDefaultCompensationFields]="true"
   [headerClassName]="'jobs-page-sub-grid-header'"
   [pageTheme]="pfThemeType.PricingDetails"
   [gridConfig]="gridConfig"
@@ -19,7 +18,8 @@
   [hasColDividers]="true"
   [pageable]="!gridConfig.EnableInfiniteScroll"
   [noRecordsFound]="'There are no results for the filter criteria you have selected.'"
-  [enableRowFade]="true">
+  [enableRowFade]="true"
+  [viewConfigurationStrategy]="viewConfigurationStrategy">
 </pf-data-grid>
 
 <ng-template #pricingMatchesGrid let-dataRow="dataRow">

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Optional} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -28,6 +28,8 @@ import { ADD_JOBS_CONFIG_DEFAULT_TRUE } from '../../../constants';
   styleUrls: ['./add-jobs.page.scss']
 })
 export class AddJobsPageComponent extends SearchBaseDirective implements OnInit, OnDestroy {
+  @Input() display: 'component' | 'modal' = 'component';
+  @Input() legacyImplementation = true;
   // Observables
   searchingFilter$: Observable<boolean>;
   numberOfSearchResults$: Observable<number>;
@@ -37,6 +39,9 @@ export class AddJobsPageComponent extends SearchBaseDirective implements OnInit,
   addingDataError$: Observable<boolean>;
   addingDataErrorMessage$: Observable<any>;
   userContext: Observable<UserContext>;
+  loadingResults$: Observable<boolean>;
+  searchError$: Observable<boolean>;
+  isAddJobsModalOpen$: Observable<boolean>;
   _Permissions = null;
 
   // Subscriptions
@@ -69,8 +74,11 @@ export class AddJobsPageComponent extends SearchBaseDirective implements OnInit,
     this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);
     this.addingDataError$ = this.store.select(fromAddJobsReducer.getAddingDataError);
     this.addingDataErrorMessage$ = this.store.select(fromAddJobsReducer.getAddingDataErrorMessage);
+    this.isAddJobsModalOpen$ =  this.store.select(fromAddJobsReducer.getIsAddJobsModalOpen);
     this.userContext = store.select(fromRootState.getUserContext);
     this._Permissions = Permissions;
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
+    this.searchError$ = this.store.select(fromSearchReducer.getSearchResultsError);
   }
 
   onSetContext(payload: any): void {
@@ -98,6 +106,14 @@ export class AddJobsPageComponent extends SearchBaseDirective implements OnInit,
 
   handleClearSelectionsClicked(): void {
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+  }
+
+  handleCancelClicked(): void {
+    super.handleCancelClicked();
+    super.resetApp();
+    if (this.display === 'modal') {
+      this.store.dispatch(new fromAddJobsPageActions.SetAddJobsModalStatus(false));
+    }
   }
 
   handleCreateNewJobClicked(): void {

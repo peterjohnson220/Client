@@ -50,8 +50,7 @@
           <pf-async-container
             [loading]="loadingResults$ | async"
             [loadingError]="searchError$ | async"
-            [hideReloadButton]="true"
-          >
+            [hideReloadButton]="true">
             <ng-container [ngTemplateOutlet]="searchResults"></ng-container>
           </pf-async-container>
         </ng-container>

@@ -6,6 +6,7 @@ import { faEllipsisH } from '@fortawesome/pro-regular-svg-icons/faEllipsisH';
 import { faCopy } from '@fortawesome/pro-regular-svg-icons/faCopy';
 import { faDownload } from '@fortawesome/pro-solid-svg-icons';
 import { faEquals } from '@fortawesome/pro-regular-svg-icons/faEquals';
+import { faTable } from '@fortawesome/pro-solid-svg-icons/faTable';
 
 export const faIcons = [
   farTimes,
@@ -15,5 +16,6 @@ export const faIcons = [
   faEllipsisH,
   faCopy,
   faDownload,
-  faEquals
+  faEquals,
+  faTable
 ];

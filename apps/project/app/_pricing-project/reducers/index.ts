@@ -23,4 +23,4 @@ export const selectPricingProjectPageMainState =
 export const selectPricingProjectPageState =
     createSelector(selectPricingProjectPageMainState, (state: PricingProjectPageStateMain) => state.pricingProjectPage);
 
-export const getPricingProject = createSelector(selectPricingProjectPageState, fromPricingProjectPageReducer.getPricingProject);
+export const getPricingProject = createSelector(selectPricingProjectPageState, fromPricingProjectPageReducer.getProjectContext);

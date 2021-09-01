@@ -6,6 +6,7 @@ export interface State {
   addingData: boolean;
   addingDataError: boolean;
   addingDataErrorMessage: any;
+  isAddJobsModalOpen: boolean;
 }
 
 const initialState: State = {
@@ -13,7 +14,8 @@ const initialState: State = {
   contextStructureRangeGroupId: null,
   addingData: false,
   addingDataError: false,
-  addingDataErrorMessage: null
+  addingDataErrorMessage: null,
+  isAddJobsModalOpen: false
 };
 
 // Reducer function
@@ -57,6 +59,12 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
         addingDataErrorMessage: action.error
       };
     }
+    case fromAddJobsPageActions.SET_ADD_JOBS_MODAL_STATUS: {
+      return {
+        ...state,
+        isAddJobsModalOpen: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -69,3 +77,4 @@ export const getContextStructureRangeGroupId = (state: State) => state.contextSt
 export const getAddingData = (state: State) => state.addingData;
 export const getAddingDataError = (state: State) => state.addingDataError;
 export const getAddingDataErrorMessage = (state: State) => state.addingDataErrorMessage;
+export const getIsAddJobsModalOpen = (state: State) => state.isAddJobsModalOpen;

@@ -14,7 +14,7 @@ import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { AsyncStateObj, GroupedListItem } from 'libs/models';
 
 import * as fromModifyPricingsActions from '../../../../actions';

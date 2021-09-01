@@ -1,0 +1,18 @@
+<ng-container *ngIf="getColumnHeaderType(field) === colType.sharedTemplate"
+              [ngTemplateOutlet]="columnHeaderTemplates[field.HeaderTemplate].Template"
+              [ngTemplateOutletContext]="{column: column}">
+</ng-container>
+<ng-container *ngIf="getColumnHeaderType(field) === colType.template"
+              [ngTemplateOutlet]="columnHeaderTemplates[field.SourceName].Template"
+              [ngTemplateOutletContext]="{column: column}">
+</ng-container>
+<ng-container *ngIf="getColumnHeaderType(field) === colType.default">
+  <div *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
+    {{column.title}}
+  </div>
+</ng-container>
+
+
+<ng-template #blankCellTemplate>
+  <div class="empty-row"></div>
+</ng-template>

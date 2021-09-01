@@ -10,7 +10,7 @@ export interface ActionBarConfig {
   CustomExportType?: string;
   ExportSelectionRequired?: boolean;
   ExportSelectionRequiredTooltip?: string;
-  ColumnChooserType?: ColumnChooserType;
+  ColumnChooserConfig?: ColumnChooserConfig;
   ActionBarClassName?: string;
   GlobalActionsTemplate?: ElementRef<any>;
   GlobalFiltersTemplates?: { [key: string]: ElementRef<any> };
@@ -19,12 +19,17 @@ export interface ActionBarConfig {
   EnableGroupSelectAll: boolean;
 }
 
+export interface ColumnChooserConfig {
+  ColumnChooserType?: ColumnChooserType;
+  ColumnChooserTemplate?: ElementRef<any>;
+}
 
 
 export enum ColumnChooserType {
   Column,
   ColumnGroup,
-  Hybrid
+  Hybrid,
+  Custom
 }
 
 export function getDefaultActionBarConfig(): ActionBarConfig {
@@ -35,7 +40,9 @@ export function getDefaultActionBarConfig(): ActionBarConfig {
     AllowExport: false,
     AllowSaveFilter: true,
     ExportSourceName: '',
-    ColumnChooserType: ColumnChooserType.Column,
+    ColumnChooserConfig: {
+      ColumnChooserType: ColumnChooserType.Column
+    },
     ColumnChooserSubmitText: 'Save',
     ShowSelectAllColumns: false,
     EnableGroupSelectAll: false

@@ -15,7 +15,7 @@ import {
   GridRowActionsConfig,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
@@ -142,7 +142,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Grade Range Structures',
       CustomExportType: 'GradeRangeStructures',
-      ColumnChooserType: ColumnChooserType.Hybrid,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      },
       EnableGroupSelectAll: true
     };
     this.gridConfig = {

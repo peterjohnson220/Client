@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,22 +13,26 @@ import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent {
+export class SearchResultsComponent implements OnInit {
   @Input() canSelectJobs: boolean;
   @Input() useSmallBizStyles: boolean;
   @Input() customSearchResultsStyle: any;
   @Input() showJobBasedRangesJobMetadata = false;
   @Input() showJobSourceOrTitle = true;
+  @Input() implementation: string;
 
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
   spinnerType = 'GIF';
+  legacyIframeImplementation: boolean;
 
   constructor(private store: Store<fromAddJobsReducer.State>) {
     this.jobResults$ = this.store.select(fromAddJobsReducer.getJobs);
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
   }
-
+  ngOnInit() {
+    this.legacyIframeImplementation = this.implementation === 'component';
+  }
   handleJobSelectionToggle(job: JobResult): void {
     if (!this.canSelectJobs && !job.IsSelected) {
       // do nothing
