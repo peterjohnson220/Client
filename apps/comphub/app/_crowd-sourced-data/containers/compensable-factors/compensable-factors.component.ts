@@ -7,7 +7,7 @@ import { CompensableFactorModel } from 'libs/models/comphub';
 import { CompensableFactorsResponse, GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import * as fromComphubCsdReducer from '../../reducers';
-import { CompensableFactorsConstants } from '../../constants/compensable-factors-constants';
+import { CompensableFactorsConstants } from '../../../_shared/constants/compensable-factors-constants';
 import { CompensableFactorTypes } from '../../constants';
 import * as fromJobGridActions from '../../../_shared/actions/job-grid.actions';
 import { CompensableFactorDataMapper } from '../../helpers';
@@ -58,7 +58,7 @@ export class CompensableFactorsComponent implements OnDestroy {
       IncludeExportData: true
     };
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
-    this.store.dispatch(new fromExportDataActions.GetExportData());
+    this.store.dispatch(new fromExportDataActions.SetExportData());
   }
 
   ngOnDestroy(): void {

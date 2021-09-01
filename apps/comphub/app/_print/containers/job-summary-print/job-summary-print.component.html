@@ -1,8 +1,8 @@
-<div class="container prints position-relative" *ngIf="selectedJobTitle" #CoverPage>
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData" #CoverPage>
   <pf-async-container [loading]="loadingData"></pf-async-container>
   <div class="pb-4 js-page position-relative main cover-page">
     <div class="header">
-      <h2>{{selectedJobTitle}}</h2>
+      <h2>{{jobSummaryPrintData.JobTitle}}</h2>
       <h1>Payscale</h1>
       <h1>Market Report</h1>
     </div>
@@ -12,23 +12,23 @@
     </div>
     <div class="footer">
       <p>
-        Report Date: Friday, November 13, 2021
+        Report Date: {{jobSummaryPrintData.ReportDate | date:'fullDate'}}
       </p>
     </div>
   </div>
 </div>
 
-<div class="container prints position-relative" *ngIf="selectedJobTitle">
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData">
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="1"
       (renderComplete)="handleRenderComplete($event)">
 
-      <ng-conainer content>
+      <ng-container content>
         <section class="border-bottom padding-bottom">
-          <h3><b>{{selectedJobTitle}} ({{jobData.JobCode}})</b></h3>
-          <h4>Paymarket: {{selectedPaymarket}}</h4>
-          <h4>Generated: {{date}} by Brittany Innes</h4>
+          <h3><b>{{jobSummaryPrintData.JobTitle}}</b></h3>
+          <h4>Paymarket: {{jobSummaryPrintData.SelectedPayMarket}}</h4>
+          <h4>Generated: {{jobSummaryPrintData.ReportDate | date:'shortDate'}} by {{jobSummaryPrintData.UserName}}</h4>
         </section>
         <section class="border-bottom">
           <h2 class="page-header-padding">Pricing Details</h2>
@@ -37,9 +37,8 @@
         <section>
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Payscale <span style="float: right">{{jobData.JobTitle}} ({{jobData.JobId}})</span></h5>
-              <h6 class="card-subtitle mb-2 text-muted">Crowd Sourced Data ({{date}})</h6>
-              <p class="card-text">{{jobData.JobDescription}}</p>
+              <h5 class="card-title">Payscale <span style="float: right">{{jobSummaryPrintData.JobTitle}}</span></h5>
+              <h6 class="card-subtitle mb-2 text-muted">Crowd Sourced Data ({{jobSummaryPrintData.ReportDate | date:'shortDate'}})</h6>
               <table align="center" border="1">
                 <thead align="center" class="tableheader">
                 <tr>
@@ -71,39 +70,39 @@
                 </tr>
                 </thead>
                 <tr>
-                  <td align="center">{{jobData.Base10}}</td>
-                  <td align="center">{{jobData.Base25}}</td>
-                  <td align="center">{{jobData.Base50}}</td>
-                  <td align="center">{{jobData.Base75}}</td>
-                  <td align="center">{{jobData.Base90}}</td>
+                  <td align="center">{{jobSummaryPrintData.Base10}}</td>
+                  <td align="center">{{jobSummaryPrintData.Base25}}</td>
+                  <td align="center">{{jobSummaryPrintData.Base50}}</td>
+                  <td align="center">{{jobSummaryPrintData.Base75}}</td>
+                  <td align="center">{{jobSummaryPrintData.Base90}}</td>
                   <td align="center">&nbsp;</td>
                   <td align="center">&nbsp;</td>
-                  <td align="center">{{jobData.Tcc10}}</td>
-                  <td align="center">{{jobData.Tcc25}}</td>
-                  <td align="center">{{jobData.Tcc50}}</td>
-                  <td align="center">{{jobData.Tcc75}}</td>
-                  <td align="center">{{jobData.Tcc90}}</td>
+                  <td align="center">{{jobSummaryPrintData.Total10}}</td>
+                  <td align="center">{{jobSummaryPrintData.Total25}}</td>
+                  <td align="center">{{jobSummaryPrintData.Total50}}</td>
+                  <td align="center">{{jobSummaryPrintData.Total75}}</td>
+                  <td align="center">{{jobSummaryPrintData.Total90}}</td>
                 </tr>
               </table>
             </div>
           </div>
         </section>
-      </ng-conainer>
+      </ng-container>
     </pf-job-summary-report-print-template>
   </div>
 </div>
 
-<div class="container prints position-relative" *ngIf="selectedJobTitle">
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData">
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="2"
       (renderComplete)="handleRenderComplete($event)">
 
-    <ng-container content>
+      <ng-container content>
         <section class="border-bottom padding-bottom">
-          <h3><b>{{selectedJobTitle}} ({{jobData.JobCode}})</b></h3>
-          <h4>Paymarket: {{selectedPaymarket}}</h4>
-          <h4>Generated: {{date}} by Brittany Innes</h4>
+          <h3><b>{{jobSummaryPrintData.JobTitle}}</b></h3>
+          <h4>Paymarket: {{jobSummaryPrintData.SelectedPayMarket}}</h4>
+          <h4>Generated: {{jobSummaryPrintData.ReportDate | date:'shortDate'}} by {{jobSummaryPrintData.UserName}}</h4>
         </section>
 
         <section class="comp-factors">
@@ -115,8 +114,8 @@
                   Location
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.Location;else noData">
-                {{compensableFactorData.Location}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.City || !!jobSummaryPrintData.State || !!jobSummaryPrintData.Country;else noData">
+                {{getLocation()}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -125,8 +124,8 @@
                   Industry
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.Industry;else noData">
-                {{compensableFactorData.Industry}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.Industry;else noData">
+                {{jobSummaryPrintData.Industry}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -135,8 +134,8 @@
                   Organization Type
                 </li>
               </div>
-              <div class="col-6"  *ngIf="!!compensableFactorData.OrgType;else noData">
-                {{compensableFactorData.OrgType}}
+              <div class="col-6"  *ngIf="!!jobSummaryPrintData.OrganizationType;else noData">
+                {{jobSummaryPrintData.OrganizationType}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -145,19 +144,18 @@
                   Employee Count
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.EmployeeCount;else noData">
-                {{compensableFactorData.EmployeeCount}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.AverageSizeCompetitor;else noData">
+                {{jobSummaryPrintData.AverageSizeCompetitor}}
               </div>
             </div>
-
             <div class="row justify-content-start">
               <div class="col-6">
                 <li>
                   Government Contractor
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.GovContractor;else noData">
-                {{compensableFactorData.GovContractor}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.GovernmentContractor;else noData">
+                {{jobSummaryPrintData.GovernmentContractor}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -166,8 +164,8 @@
                   Years Experience
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.YearsExperience;else noData">
-                {{compensableFactorData.YearsExperience}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.YearsExperience;else noData">
+                {{jobSummaryPrintData.YearsExperience}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -176,8 +174,8 @@
                   Degree Requirements
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.DegreeRequirements;else noData">
-                {{compensableFactorData.DegreeRequirements}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.Education;else noData">
+                {{jobSummaryPrintData.Education}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -186,8 +184,8 @@
                   Management Role
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.ManagementRole;else noData">
-                {{compensableFactorData.ManagementRole}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.SupervisoryRole;else noData">
+                {{jobSummaryPrintData.SupervisoryRole}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -196,8 +194,8 @@
                   Skills
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.Skills && compensableFactorData.Skills.length;else noData">
-                {{compensableFactorData.Skills}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.Skills && jobSummaryPrintData.Skills.length > 0;else noData">
+                {{getSkills()}}
               </div>
             </div>
             <div class="row justify-content-start">
@@ -206,8 +204,8 @@
                   Certifications
                 </li>
               </div>
-              <div class="col-6" *ngIf="!!compensableFactorData.Certs && compensableFactorData.Certs.length;else noData">
-                {{compensableFactorData.Certs}}
+              <div class="col-6" *ngIf="!!jobSummaryPrintData.Certs && jobSummaryPrintData.Certs.length > 0;else noData">
+                {{getCerts()}}
               </div>
             </div>
           </ul>
@@ -217,13 +215,13 @@
   </div>
 </div>
 
-<div class="container prints position-relative" *ngIf="selectedJobTitle">
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData">
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="3"
       (renderComplete)="handleRenderComplete($event)">
 
-    <ng-container content>
+      <ng-container content>
         <section>
           <h2 class="page-header-padding">Data Summary</h2>
           <p>
@@ -232,83 +230,18 @@
           </p>
           <div class="container data-summary">
             <div class="row">
-              <div class="col">
-                  <div class="card">
-                    <div class="card-header">
-                      Organization's Product\Business:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['ProductBusiness']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
 
-                  <div class="card">
-                    <div class="card-header">
-                      Organization Types:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['Types']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card">
-                    <div class="card-header">
-                      Data Ranges:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['DataRanges']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="card">
-                    <div class="card-header">
-                      Years Experience Ranges:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['JobTitles']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
+              <div class="card col-6" *ngFor="let dataSummaryReport of jobSummaryPrintData.DataSummaryReports">
+                <div class="card-header">
+                  {{dataSummaryReport.Name}}
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item" *ngFor="let dataRow of dataSummaryReport.Rows">
+                    {{dataRow.Answer}} <span style="float: right">{{dataRow.PercentMatch | number:'1.0-2'}}%</span>
+                  </li>
+                </ul>
               </div>
 
-              <div class="col">
-                  <div class="card">
-                    <div class="card-header">
-                      Organization Sizes:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['YearsExperience']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card">
-                    <div class="card-header">
-                      Cities:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['OrgSize']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card">
-                    <div class="card-header">
-                      Cities:
-                    </div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item" *ngFor="let data of dataSummary['Cities']">
-                        {{data.Answer}} <span style="float: right">{{data.PercentMatch}}%</span>
-                      </li>
-                    </ul>
-                  </div>
-              </div>
             </div>
           </div>
 
@@ -319,13 +252,13 @@
   </div>
 </div>
 
-<div class="container prints position-relative" *ngIf="selectedJobTitle">
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData">
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="4"
       (renderComplete)="handleRenderComplete($event)">
 
-    <ng-container content>
+      <ng-container content>
         <section class="border-bottom data-methodology data-methodology-heading">
           <h2 class="padding-bottom">Payscale Crowd Sourced<br> Data & Methodology</h2>
           <h6 class="padding-bottom"><b>Real time data to keep a pulse on the market, backed by validation, data science & machine learning.</b></h6>
@@ -427,13 +360,13 @@
   </div>
 </div>
 
-<div class="container prints position-relative" *ngIf="selectedJobTitle">
+<div class="container prints position-relative" *ngIf="!!jobSummaryPrintData">
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="5"
       (renderComplete)="handleRenderComplete($event)">
 
-    <ng-container content>
+      <ng-container content>
         <section>
           <h2 class="page-header-padding">The Process</h2>
         </section>

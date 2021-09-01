@@ -50,7 +50,7 @@ export class GetEducationTypesError implements Action {
 export class ToggleSelectedCompensableFactor implements Action {
   readonly type = TOGGLE_SELECTED_COMPENSABLE_FACTOR;
 
-  constructor(public payload: { compensableFactor: string, Name: string }) {}
+  constructor(public payload: { compensableFactor: string, name: string }) {}
 }
 
 export class AddDataToCompensableFactorsList implements Action {

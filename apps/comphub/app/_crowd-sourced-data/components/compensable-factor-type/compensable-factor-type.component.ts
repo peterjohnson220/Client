@@ -92,7 +92,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
   topFactorChecked(factor: CompensableFactorModel) {
     this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
       compensableFactor: this.compensableFactorName,
-      Name: factor.Name
+      name: factor.Name
     }));
     this.maxSelectionValidation();
   }
@@ -120,7 +120,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
     }
     this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
       compensableFactor: this.compensableFactorName,
-      Name: factorName
+      name: factorName
     }));
     this.maxSelectionValidation();
   }
@@ -129,7 +129,7 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
     if (factorName !== '') {
       this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
         compensableFactor: this.compensableFactorName,
-        Name: factorName
+        name: factorName
       }));
     }
     this.maxSelectionValidation();
@@ -140,12 +140,12 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
       if (this.selectedFactors.length) {
         this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
           compensableFactor: this.compensableFactorName,
-          Name: this.selectedFactors[0].Name
+          name: this.selectedFactors[0].Name
         }));
       }
       this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
         compensableFactor: this.compensableFactorName,
-        Name: factorName
+        name: factorName
       }));
     }
   }

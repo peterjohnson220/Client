@@ -55,7 +55,7 @@ describe('Comphub - Crowd Sourced Data - Jobs Card Component', () => {
     };
 
     const expectedAction1 = new fromJobGridActions.GetCrowdSourcedJobPricing(request);
-    const expectedAction2 = new fromExportDataActions.GetExportData();
+    const expectedAction2 = new fromExportDataActions.SetExportData();
     instance.handleSubmitClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction1);

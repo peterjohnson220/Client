@@ -18,7 +18,7 @@ import { PrintConstants } from '../../_print/constants';
 export class ExportDataEffect {
 
   @Effect()
-  saveExportData = this.actions$
+  saveExportData$ = this.actions$
     .pipe(
       ofType(
         fromExportDataActions.SAVE_EXPORT_DATA
@@ -49,7 +49,7 @@ export class ExportDataEffect {
       ));
 
   @Effect()
-  fromExportDataActions = this.actions$
+  generatePdfExport$ = this.actions$
     .pipe(
       ofType(
         fromExportDataActions.GENERATE_PDF_EXPORT

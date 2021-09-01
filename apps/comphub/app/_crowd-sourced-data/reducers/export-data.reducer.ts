@@ -14,11 +14,11 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: fromExportDataActions.Actions): State {
   switch (action.type) {
-    case fromExportDataActions.GET_EXPORT_DATA:
+    case fromExportDataActions.SET_EXPORT_DATA:
       return AsyncStateObjHelper.loading(state, 'exportDataAsyncObj');
-    case fromExportDataActions.GET_EXPORT_DATA_SUCCESS:
+    case fromExportDataActions.SET_EXPORT_DATA_SUCCESS:
       return AsyncStateObjHelper.loadingSuccess(state, 'exportDataAsyncObj', action.payload);
-    case fromExportDataActions.GET_EXPORT_DATA_ERROR:
+    case fromExportDataActions.SET_EXPORT_DATA_ERROR:
       return AsyncStateObjHelper.loadingError(state, 'exportDataAsyncObj');
     case fromExportDataActions.SAVE_EXPORT_DATA:
       return AsyncStateObjHelper.saving(state, 'exportDataAsyncObj');

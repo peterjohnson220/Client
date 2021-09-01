@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
     }
     case fromCompensableFactorsActions.TOGGLE_SELECTED_COMPENSABLE_FACTOR: {
       const factorResults = cloneDeep(state.compensableFactors[action.payload.compensableFactor]);
-      const factorToUpdate = factorResults.find(x => x.Name === action.payload.Name);
+      const factorToUpdate = factorResults.find(x => x.Name === action.payload.name);
       if (factorToUpdate != null) {
         factorToUpdate.Selected = !factorToUpdate.Selected;
       }
