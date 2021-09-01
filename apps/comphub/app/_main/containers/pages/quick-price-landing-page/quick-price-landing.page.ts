@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -65,7 +66,8 @@ export class QuickPriceLandingPageComponent implements OnInit, OnDestroy {
     private store: Store<fromComphubSharedReducer.State>,
     private basicGridStore: Store<fromBasicDataGridReducer.State>,
     private layoutWrapperStore: Store<fromLayoutWrapperReducer.State>,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {
     this.cards$ = this.store.select(fromComphubSharedReducer.getCards);
     this.enabledPages$ = this.store.select(fromComphubSharedReducer.getEnabledPages);
@@ -106,7 +108,10 @@ export class QuickPriceLandingPageComponent implements OnInit, OnDestroy {
       } else if (uc.CompanySystemUserGroupsGroupName === this.systemUserGroupNames.SmallBusiness) {
         this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.SMALL_BUSINESS));
         this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
-      } else {
+      } else if (this.router.url.endsWith('csd')) {
+        this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.CROWD_SOURCED_DATA));
+        this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
+    } else {
         this.store.dispatch(new fromComphubPageActions.SetComphubTypeInWorkflowContext(ComphubType.ENTERPRISE));
         this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
       }
@@ -133,13 +138,13 @@ export class QuickPriceLandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.enabledPagesSub.unsubscribe();
-    this.cardsSub.unsubscribe();
-    this.workflowContextSub.unsubscribe();
-    this.userContextSub.unsubscribe();
-    this.historyGridInitializedSubscription.unsubscribe();
-    this.showJobHistorySummarySubscription.unsubscribe();
-    this.leftSidebarOpenSubscription.unsubscribe();
+    this.enabledPagesSub?.unsubscribe();
+    this.cardsSub?.unsubscribe();
+    this.workflowContextSub?.unsubscribe();
+    this.userContextSub?.unsubscribe();
+    this.historyGridInitializedSubscription?.unsubscribe();
+    this.showJobHistorySummarySubscription?.unsubscribe();
+    this.leftSidebarOpenSubscription?.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {
