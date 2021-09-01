@@ -3,9 +3,9 @@ import { Action } from '@ngrx/store';
 import { ExportData } from 'libs/models/comphub';
 
 
-export const GET_EXPORT_DATA = '[Comphub/Export Job Report] Get Export Data';
-export const GET_EXPORT_DATA_SUCCESS = '[Comphub/Export Job Report] Get Export Data Success';
-export const GET_EXPORT_DATA_ERROR = '[Comphub/Export Job Report] Get Export Data Error';
+export const SET_EXPORT_DATA = '[Comphub/Export Job Report] Set Export Data';
+export const SET_EXPORT_DATA_SUCCESS = '[Comphub/Export Job Report] Set Export Data Success';
+export const SET_EXPORT_DATA_ERROR = '[Comphub/Export Job Report] Set Export Data Error';
 export const SAVE_EXPORT_DATA = '[Comphub/Export Data] Save Export Data';
 export const SAVE_EXPORT_DATA_SUCCESS = '[Comphub/Export Data] Save Export Data Success';
 export const SAVE_EXPORT_DATA_ERROR = '[Comphub/Export Data] Save Export Data Error';
@@ -13,20 +13,20 @@ export const GENERATE_PDF_EXPORT = '[Comphub/Export Data] Generate Pdf Export';
 export const GENERATE_PDF_EXPORT_SUCCESS = '[Comphub/Export Data] Generate Pdf Export Success';
 export const GENERATE_PDF_EXPORT_ERROR = '[Comphub/Export Data] Generate Pdf Export Error';
 
-export class GetExportData implements Action {
-  readonly type = GET_EXPORT_DATA;
+export class SetExportData implements Action {
+  readonly type = SET_EXPORT_DATA;
 
   constructor() {}
 }
 
-export class GetExportDataSuccess implements Action {
-  readonly type = GET_EXPORT_DATA_SUCCESS;
+export class SetExportDataSuccess implements Action {
+  readonly type = SET_EXPORT_DATA_SUCCESS;
 
   constructor(public payload: ExportData) {}
 }
 
-export class GetExportDataError implements Action {
-  readonly type = GET_EXPORT_DATA_ERROR;
+export class SetExportDataError implements Action {
+  readonly type = SET_EXPORT_DATA_ERROR;
 
   constructor() {}
 }
@@ -69,12 +69,12 @@ export class GeneratePdfExportError implements Action {
 
 
 export type Actions
-  = GetExportData
-  | GetExportDataSuccess
-  | GetExportDataError
+  = SetExportData
+  | SetExportDataSuccess
+  | SetExportDataError
   | SaveExportData
   | SaveExportDataSuccess
   | SaveExportDataError
   | GeneratePdfExport
   | GeneratePdfExportSuccess
-  | GeneratePdfExportError;;
+  | GeneratePdfExportError;

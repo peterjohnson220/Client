@@ -186,14 +186,14 @@ export class JobGridEffects {
                     JsonRequest: JSON.stringify(data.action.payload),
                     JsonResponse: JSON.stringify(response)
                   };
-                  actions.push(new fromExportDataActions.GetExportDataSuccess(exportData));
+                  actions.push(new fromExportDataActions.SetExportDataSuccess(exportData));
                 }
 
                 return actions;
               }),
               catchError(error => of(
                 new fromJobGridActions.GetCrowdSourcedJobPricingError(),
-                new fromExportDataActions.GetExportDataError(),
+                new fromExportDataActions.SetExportDataError(),
                 new fromComphubPageActions.HandleApiError(error)))
             );
         }

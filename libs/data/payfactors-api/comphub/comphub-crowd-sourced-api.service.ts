@@ -9,6 +9,7 @@ import {
   GetCrowdSourcedEducationTypesResponse,
   GetCrowdSourcedJobPricingRequest,
   GetCrowdSourcedJobPricingResponse,
+  GetJobSummaryPrintDataResponse,
   SaveExportDataRequest,
   SearchCrowdSourcedJobsResponse
 } from '../../../models/payfactors-api';
@@ -40,5 +41,10 @@ export class ComphubCrowdSourcedApiService {
 
   saveExportData(request: SaveExportDataRequest): Observable<string> {
     return this.payfactorsApiService.post<string>(`${this.endpoint}/SaveExportData`, request);
+  }
+
+  getJobSummaryPrintData(reportId: string): Observable<GetJobSummaryPrintDataResponse> {
+    return this.payfactorsApiService.get<GetJobSummaryPrintDataResponse>(`${this.endpoint}/GetJobSummaryPrintData`,
+      { params: { reportId: reportId } });
   }
 }

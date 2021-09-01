@@ -137,7 +137,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
       IncludeExportData: true
     };
     this.store.dispatch(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
-    this.store.dispatch(new fromExportDataActions.GetExportData());
+    this.store.dispatch(new fromExportDataActions.SetExportData());
   }
 
   getOrganizationType(id: number) {
