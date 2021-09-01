@@ -74,7 +74,7 @@ export class JobDescriptionCollaborationPageComponent implements OnDestroy, OnIn
 
     // https://docs.yjs.dev/ecosystem/connection-provider/y-websocket
     // we have the possibility to use a signalR Yjs backend project for this instead: https://github.com/yjs/ycs
-    const provider = new WebsocketProvider('ws://localhost:1234', 'yjs-test-demo', this.ydoc);
+    const provider = new WebsocketProvider('wss://ps-yjs-websockets-server.herokuapp.com/', 'yjs-test-demo', this.ydoc);
 
     // https://docs.yjs.dev/getting-started/adding-awareness
     this.awareness = provider.awareness;
