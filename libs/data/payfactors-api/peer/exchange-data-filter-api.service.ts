@@ -16,9 +16,9 @@ export class ExchangeDataFilterApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getExchangeScopeFilterContext(exchangeDataSearchRequest: BaseExchangeDataSearchRequest): Observable<ExchangeExplorerScopeResponse> {
+  getExchangeScopeFilterContext(exchangeDataSearchRequest: BaseExchangeDataSearchRequest, isStandardScope: boolean): Observable<ExchangeExplorerScopeResponse> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/GetExchangeScopeFilterContext`,
-      exchangeDataSearchRequest
+      { exchangeDataSearchRequest: exchangeDataSearchRequest, isStandardScope: isStandardScope }
     );
   }
 
@@ -39,5 +39,4 @@ export class ExchangeDataFilterApiService {
   getTempExchangeDataCutFilterContextFromEntity(payload: TempDataCutIdentity): Observable<ExchangeExplorerDataCutResponse> {
     return this.payfactorsApiService.post<ExchangeExplorerDataCutResponse>(`${this.endpoint}/GetTempExchangeDataCutFilterContextFromEntity`, payload);
   }
-
 }

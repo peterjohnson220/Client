@@ -44,10 +44,12 @@
 .popover-content {
   max-height: 300px;
   min-width: 270px;
-  overflow-y: auto;
-  padding-bottom: .5rem;
-}
 
+
+}
+:host ::ng-deep .scroll-results {
+  max-height:300px;
+}
 .scope-selector-no-padding {
   padding-right: 0;
 }
@@ -149,4 +151,8 @@
 
 :host ::ng-deep .popover-body {
   padding: 0;
+}
+
+:host ::ng-deep pf-infinite-scroll{
+  position: relative;
 }

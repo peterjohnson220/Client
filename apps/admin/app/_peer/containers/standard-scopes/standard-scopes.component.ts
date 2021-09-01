@@ -35,6 +35,9 @@ export class StandardScopesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.SetIncludeCompanyScopes(false));
+    this.store.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.SetIncludeStandardScopes(true));
+
     const setContextMessage: MessageEvent = {
       data: {
         payfactorsMessage: {

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -11,7 +11,7 @@ import { RemoteDataSourceService } from 'libs/core/services';
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss']
 })
-export class MultiSelectComponent implements OnInit, OnDestroy {
+export class MultiSelectComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
 
   @Input() options: GenericMenuItem[];
@@ -28,6 +28,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   @Input() selectedValues: any[] = [];
   @Input() disabled = false;
   @Input() disabledMessage = '';
+  @Input() additionalOptions: GenericMenuItem[];
 
   @Output() selectFacadeClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
@@ -47,6 +48,18 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
         o.IsSelected =  o.Value && (this.selectedValues.indexOf(o.Value) > -1 || this.selectedValues.indexOf(o.Value.toString())  > -1);
       });
       this.refreshSelected();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (!!changes.selectedOptions) {
+      this.options = this.options.map(o => (
+        {
+          ...o,
+          IsSelected: changes.selectedOptions.currentValue.map(cv => cv.Value.toString()).some(v => v === o.Value.toString())
+        })
+      );
     }
   }
 
@@ -134,9 +147,15 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   filteredOptions() {
-    return this.searchTerm ?
+    let menuItems = this.searchTerm ?
       this.options.filter(option => option.DisplayName.toLowerCase().includes(this.searchTerm.toLowerCase()))
       : this.options ? this.options : [];
+
+    if (!!this.additionalOptions && this.additionalOptions.length > 0) {
+      menuItems = menuItems.concat(this.additionalOptions);
+    }
+
+    return menuItems.sort(item => (+item.FeaturedOption ) * -1);
   }
 
   selectionsHeight() {

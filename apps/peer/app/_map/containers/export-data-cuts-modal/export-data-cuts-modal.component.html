@@ -161,12 +161,18 @@
                                   (weightingTypeChanged)="handleWeightingTypeChanged($event)">
       </pf-weighting-type-dropdown>
       <label class="mb-0 ml-3 mr-2" for="ddm-scopes">Scopes: </label>
+
       <pf-multi-select id="ddm-scopes"
                        [attr.data-qa-id]="'ddm-scopes'"
                        [displayNamePreview]="true"
                        [(selectedOptions)]="selectedScopesToExport"
-                       [options]="scopesToExportOptions">
+                       [endpointName]="buildEndpointName()"
+                       [valueField]="'ExchangeScopeId'"
+                       [textField]="'Name'"
+                       [additionalOptions]="additionalOptions"
+      >
       </pf-multi-select>
+
       <label class="mb-0 ml-3 mr-2" for="ddm-currency">Currency: </label>
       <kendo-dropdownlist id="ddm-currency"
                           class="currency-dropdown k-dropdown-white"
@@ -190,7 +196,7 @@
 </pf-modal-form>
 
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

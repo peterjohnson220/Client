@@ -37,51 +37,57 @@
       </pf-input-debounce>
     </div>
     <div class="popover-content">
-      <ng-container *ngIf="filteredExchangeScopeItems.length; else noExchangeScopeItemsMessage">
-        <div *ngFor="let exchangeScopeItem of filteredExchangeScopeItems trackBy: trackByFn"
-               (click)="handleExchangeScopeClicked($event, exchangeScopeItem)"
-               class="exchange-scope-selection"
-               [class.selected-scope]="itemSelected(exchangeScopeItem) && !deleteMode"
-               [class.disabled-scope]="deleteMode"
-               [class.highlight-scope]="highlightScope(exchangeScopeItem)">
 
-          <div class="d-flex justify-content-between pl-2">
-            <div class="ellipsis-overflowing-text" style="flex-shrink: 10">
-              <div [title]="exchangeScopeItem.Name" class="ellipsis-overflowing-text">
-                {{exchangeScopeItem.Name}}
-              </div>
+      <pf-infinite-scroll [scrollId]="scrollId" [numberOfCurrentResults]="numberOfCurrentResults" [spinnerType]="'SVG'" position="relative" class="py-2">
+        <ng-container *ngIf="numberOfCurrentResults > 0; else noExchangeScopeItemsMessage">
+                  <div *ngFor="let exchangeScopeItem of exchangeScopeItems trackBy: trackByFn"
+                         (click)="handleExchangeScopeClicked($event, exchangeScopeItem)"
+                         class="exchange-scope-selection"
+                         [class.selected-scope]="itemSelected(exchangeScopeItem) && !deleteMode"
+                         [class.disabled-scope]="deleteMode"
+                         [class.highlight-scope]="highlightScope(exchangeScopeItem)">
 
-              <div [title]="exchangeScopeItem.Description == null ? '' : exchangeScopeItem.Description"  class="scope-description small">
-                {{(exchangeScopeItem.Description == "" || exchangeScopeItem.Description == null) ? "No Description Provided" : exchangeScopeItem.Description}}
-              </div>
-            </div>
-            <div class="action-buttons">
-              <button class="btn btn-sm btn-secondary favorite-button"
-                      *ngIf="!isExchangeJobSpecific && (!deleteMode || exchangeScopeItem?.IsDefault)"
-                      [title]="!exchangeScopeItem?.IsDefault ? 'Make this your default scope' : 'Clear default scope'"
-                      [disabled]="deleteMode"
-                      [ngClass]="{'is-default': exchangeScopeItem?.IsDefault}"
-                      [attr.data-qa-id]="'btn-favorite'"
-                      (click)="handleDefaultClicked(exchangeScopeItem, $event)">
-                <fa-icon *ngIf="exchangeScopeItem.IsDefault" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
-                <fa-icon *ngIf="!exchangeScopeItem.IsDefault" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
-              </button>
-              <button *ngIf="!isExchangeJobSpecific"
-                      [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
-                      class="btn btn-sm btn-secondary delete-btn"
-                      [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
-                      (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
-                      [class.disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)">
-                <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-      </ng-container>
+                    <div class="d-flex justify-content-between pl-2">
+                      <div class="ellipsis-overflowing-text" style="flex-shrink: 10">
+                        <div [title]="exchangeScopeItem.Name" class="ellipsis-overflowing-text">
+                          {{exchangeScopeItem.Name}}
+                        </div>
+
+                        <div [title]="exchangeScopeItem.Description == null ? '' : exchangeScopeItem.Description"  class="scope-description small">
+                          {{(exchangeScopeItem.Description == "" || exchangeScopeItem.Description == null) ? "No Description Provided" : exchangeScopeItem.Description}}
+                        </div>
+                      </div>
+                      <div class="action-buttons" >
+                        <button class="btn btn-sm btn-secondary favorite-button"
+                                *ngIf="!isExchangeJobSpecific && (!deleteMode || exchangeScopeItem?.IsDefault) && !exchangeScopeItem.IsStandardScope"
+                                [title]="!exchangeScopeItem?.IsDefault ? 'Make this your default scope' : 'Clear default scope'"
+                                [disabled]="deleteMode"
+                                [ngClass]="{'is-default': exchangeScopeItem?.IsDefault}"
+                                [attr.data-qa-id]="'btn-favorite'"
+                                (click)="handleDefaultClicked(exchangeScopeItem, $event)">
+                          <fa-icon *ngIf="exchangeScopeItem.IsDefault" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
+                          <fa-icon *ngIf="!exchangeScopeItem.IsDefault" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
+                        </button>
+                        <button *ngIf="!isExchangeJobSpecific"
+                                [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
+                                class="btn btn-sm btn-secondary delete-btn"
+                                [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
+                                (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
+                                [class.disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)">
+                          <fa-icon icon="trash-alt" aria-hidden="true"></fa-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+      </pf-infinite-scroll>
       <ng-template #noExchangeScopeItemsMessage>
         <div class="d-flex justify-content-center font-italic align-items-center p-4">No Exchange Scopes</div>
       </ng-template>
+
     </div>
+
     <div *ngIf="deleteMode" class="popover-footer">
       <button type="button" class="btn btn-sm btn-secondary mr-2" [disabled]="(deletingExchangeScope$ | async)" (click)="cancelDeleteScope($event)">Cancel</button>
       <button type="button" class="btn btn-sm btn-danger" [disabled]="(deletingExchangeScope$ | async)" (click)="deleteScope($event)">
@@ -92,4 +98,5 @@
       </button>
     </div>
   </div>
+
 </ng-template>
