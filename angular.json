@@ -55,7 +55,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -281,7 +282,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -517,7 +519,8 @@
               "assets/js/drift.js",
               "assets/js/pendo.js",
               "assets/js/new-relic.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -758,7 +761,8 @@
               "assets/js/pendo.js",
               "assets/js/drift.js",
               "assets/js/tableau-2.2.0.min.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1000,7 +1004,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1476,7 +1481,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1714,7 +1720,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/uservoice.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1948,7 +1955,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2236,7 +2244,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2478,7 +2487,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2715,7 +2725,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2951,7 +2962,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/tableau-2.2.0.min.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -3192,7 +3204,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js",
-              "apps/job-description-management/assets/js/quill.min.js"
+              "apps/job-description-management/assets/js/quill.min.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -3427,7 +3440,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -3669,7 +3683,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -3903,7 +3918,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -4137,7 +4153,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -4373,7 +4390,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -4608,7 +4626,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -4843,7 +4862,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -5077,7 +5097,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -5537,7 +5558,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
