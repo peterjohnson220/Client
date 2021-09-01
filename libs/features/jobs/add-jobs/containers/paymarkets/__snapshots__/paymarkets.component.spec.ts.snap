@@ -4,6 +4,7 @@ exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarke
 <pf-paymarkets
   __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Store]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -54,6 +55,7 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
 <pf-paymarkets
   __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -109,6 +111,7 @@ exports[`Project - Add Jobs - Paymarkets Component should show default badge on 
 <pf-paymarkets
   __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -165,6 +168,7 @@ exports[`Project - Add Jobs - Paymarkets Component should show no data message w
   __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Store]}
   filterString={[Function String]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}

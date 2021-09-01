@@ -12,7 +12,7 @@
   <div class="paymarket-results" [class.smallBiz]="useSmallBizStyles">
     <pf-async-container
       [loading]="loadingPaymarkets$ | async"
-      [spinnerType]="'GIF'"
+      [spinnerType]= "implementation ===  'component' ? 'GIF' : 'SVG'"
       [loadingError]="loadingPaymarketsError$ | async"
       [loadingErrorMessage]="'Error.'"
       [hideReloadButton]="true">

@@ -9,7 +9,8 @@ import { BulkProjectShareRequest } from 'libs/models/share-modal/bulk-project-sh
 import { ProjectListTooltipRequest, ProjectListTooltipResponse } from 'libs/models/projects/tooltips';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ProjectExportRequest } from '../../../models/projects/project-export-manager/project-export-request.model';
+import { CompositeFieldHierarchy, SaveProjectFieldRequest, ProjectExportRequest } from '../../../models';
+import { SaveProjectFieldsResponse } from '../../../models/projects/api/response/save-project-fields-response';
 
 
 @Injectable({
@@ -48,6 +49,14 @@ export class PricingProjectApiService {
 
   getTooltipContent(request: ProjectListTooltipRequest): Observable<ProjectListTooltipResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetTooltipContent`, request);
+  }
+
+  getProjectFieldsForColumnChooser(payload: {ProjectId: number, PageViewId: string}): Observable<CompositeFieldHierarchy[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetProjectFieldsForColumnChooser?projectId=${payload.ProjectId}&pageViewId=${payload.PageViewId}`);
+  }
+
+  saveProjectFields(request: SaveProjectFieldRequest): Observable<SaveProjectFieldsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveProjectFields`, request);
   }
 }
 

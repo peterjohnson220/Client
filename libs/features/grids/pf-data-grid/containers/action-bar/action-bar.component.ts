@@ -15,7 +15,7 @@ import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 
 import * as fromReducer from '../../reducers';
 import * as fromActions from '../../actions';
-import { ActionBarConfig, GridConfig } from '../../models';
+import { ActionBarConfig, ColumnChooserType, GridConfig } from '../../models';
 import { GridDataHelper } from '../../helpers';
 
 @Component({
@@ -48,6 +48,8 @@ export class ActionBarComponent implements OnChanges, OnInit, OnDestroy {
   enableFileDownloadSecurityWarning$: Observable<boolean>;
   enableFileDownloadSecurityWarningSub: Subscription;
   enableFileDownloadSecurityWarning = false;
+
+  columnChooserTypes = ColumnChooserType;
 
   constructor(private store: Store<fromReducer.State>, private settingService: SettingsService) {
     this.enableFileDownloadSecurityWarning$ = this.settingService.selectCompanySetting<boolean>(CompanySettingsEnum.FileDownloadSecurityWarning);

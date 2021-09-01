@@ -2,20 +2,22 @@ import { Action } from '@ngrx/store';
 
 import { ProjectExportModalData } from 'libs/models/projects/project-export-manager/project-export-modal-data.model';
 
-export const GET_PRICING_PROJECT = '[Pricing Project Page] Get Pricing Project';
-export const GET_PRICING_PROJECT_SUCCESS = '[Pricing Project Page] Get Pricing Project Success';
+export const GET_PRICING_PROJECT_CONTEXT = '[Pricing Project Page] Get Pricing Project Context';
+export const GET_PRICING_PROJECT_CONTEXT_SUCCESS = '[Pricing Project Page] Get Pricing Project Context Success';
 export const QUEUE_PRICING_PROJECT_EXPORT = '[Pricing Project Page] Queue Pricing Project Export';
 export const QUEUE_PRICING_PROJECT_EXPORT_SUCCESS = '[Pricing Project Page] Queue Pricing Project Export Success';
 export const QUEUE_PRICING_PROJECT_EXPORT_ERROR = '[Pricing Project Page] Queue Pricing Project Export Error';
+export const GET_PROJECT_FIELDS_FOR_COLUMN_CHOOSER = '[Pricing Project Page] Get Project Fields for Column Chooser';
+export const UPDATE_PROJECT = '[Pricing Project Page] Update Project';
 
 
-export class GetPricingProject implements Action {
-  readonly type = GET_PRICING_PROJECT;
+export class GetPricingProjectContext implements Action {
+  readonly type = GET_PRICING_PROJECT_CONTEXT;
   constructor(public payload: number) {}
 }
 
-export class GetPricingProjectSuccess implements Action {
-  readonly type = GET_PRICING_PROJECT_SUCCESS;
+export class GetPricingProjectContextSuccess implements Action {
+  readonly type = GET_PRICING_PROJECT_CONTEXT_SUCCESS;
   constructor(public payload: any) {}
 }
 
@@ -37,9 +39,24 @@ export class QueuePricingProjectExportError implements Action {
   }
 }
 
+export class GetProjectFieldsForColumnChooser implements Action {
+  readonly type = GET_PROJECT_FIELDS_FOR_COLUMN_CHOOSER;
+  constructor(public payload: {
+    ProjectId: number,
+    PageViewId: string
+  }) {}
+}
+
+export class UpdateProject implements Action {
+  readonly type = UPDATE_PROJECT;
+  constructor(public payload: any) {}
+}
+
 export type PricingProjectPageActions
-  = GetPricingProject
-  | GetPricingProjectSuccess
+  = GetPricingProjectContext
+  | GetPricingProjectContextSuccess
   | QueuePricingProjectExport
   | QueuePricingProjectExportSuccess
-  | QueuePricingProjectExportError;
+  | QueuePricingProjectExportError
+  | GetProjectFieldsForColumnChooser
+  | UpdateProject;

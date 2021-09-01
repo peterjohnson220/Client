@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';

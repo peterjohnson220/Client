@@ -196,3 +196,4 @@ export const getSelectedJobs = (state: State) => filterSelectedJobs(state);
 export const getSelectedPayfactorsJobCodes = (state: State) => state.selectedPayfactorsJobCodes;
 export const getAllLoadedJobs = (state: State) => state.allLoadedJobs;
 export const getSelectedAllLoadedJobs = (state: State) => filterSelectedAllLoadedJobs(state);
+

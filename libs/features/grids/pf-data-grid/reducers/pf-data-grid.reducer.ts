@@ -30,7 +30,6 @@ export interface DataGridState {
   filterPanelOpen: boolean;
   pagingOptions: PagingOptions;
   applyDefaultFilters: boolean;
-  applyUserDefaultCompensationFields: boolean;
   useReportingDB: boolean;
   defaultSortDescriptor: SortDescriptor[];
   sortDescriptor: SortDescriptor[];
@@ -140,10 +139,7 @@ export const getData = (state: DataGridStoreState, pageViewId?: string) => state
 export const getApplyDefaultFilters = (state: DataGridStoreState, pageViewId?: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].applyDefaultFilters : null;
 };
-export const getApplyUserDefaultCompensationFields = (state: DataGridStoreState, pageViewId?: string) => {
-  return state.grids[pageViewId] ? state.grids[pageViewId].applyUserDefaultCompensationFields : null;
-};
-export const getUseReportingDB = (state: DataGridStoreState, pageViewId?: string) => {
+export const getUseReportingDB = (state: DataGridStoreState, pageViewId: string) => {
   return state.grids[pageViewId] ? state.grids[pageViewId].useReportingDB : null;
 };
 export const getInboundFilters = (state: DataGridStoreState, pageViewId?: string) => state.grids[pageViewId] ? state.grids[pageViewId].inboundFilters : [];
@@ -191,6 +187,7 @@ export const getSplitViewHidden = (state: DataGridStoreState, pageViewId: string
 
 export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGridActions): DataGridStoreState {
   switch (action.type) {
+    case fromPfGridActions.LOAD_VIEW_CONFIG_WITH_STRATEGY:
     case fromPfGridActions.LOAD_VIEW_CONFIG:
       const gridState = state.grids[action.pageViewId];
       const pagingOptions = gridState && gridState.pagingOptions
@@ -474,17 +471,6 @@ export function reducer(state = INITIAL_STATE, action: fromPfGridActions.DataGri
           [action.pageViewId]: {
             ...state.grids[action.pageViewId],
             applyDefaultFilters: action.value,
-          },
-        }
-      };
-    case fromPfGridActions.UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS:
-      return {
-        ...state,
-        grids: {
-          ...state.grids,
-          [action.pageViewId]: {
-            ...state.grids[action.pageViewId],
-            applyUserDefaultCompensationFields: action.value,
           },
         }
       };

@@ -37,8 +37,8 @@ export class ProjectTemplateFieldsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.templateFieldsSubscription = this.templateFieldsAsync$.subscribe(asyncObj => {
-      if (asyncObj?.obj?.TemplateFields?.length) {
-        this.selectedGroups = asyncObj.obj.TemplateFields.filter(g => g.Fields.some(f => f.Checked));
+      if (asyncObj?.obj?.Fields?.TemplateFields?.length) {
+        this.selectedGroups = asyncObj.obj.Fields.TemplateFields.filter(g => g.Fields.some(f => f.Checked));
         this.updatePanelActiveController();
         this.setReferencePoints(asyncObj.obj);
       }
@@ -77,10 +77,10 @@ export class ProjectTemplateFieldsComponent implements OnInit, OnDestroy {
 
   setReferencePoints(template: ProjectTemplateFields) {
     this.referencePoints = {};
-    template.TemplateFields.forEach(t => {
+    template.Fields.TemplateFields.forEach(t => {
       t.Fields.forEach(f => {
         if (f.Checked) {
-          this.referencePoints[f.FieldName] = this.getReferencePoint(f, template.ReferencePoints);
+          this.referencePoints[f.FieldName] = this.getReferencePoint(f, template.Fields.ReferencePoints);
         }
       });
     });
