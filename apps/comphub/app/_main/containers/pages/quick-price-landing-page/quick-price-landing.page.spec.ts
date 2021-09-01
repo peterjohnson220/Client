@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -14,23 +15,32 @@ describe('Quick Price - Main - Quick Price Page', () => {
   let instance: QuickPriceLandingPageComponent;
   let fixture: ComponentFixture<QuickPriceLandingPageComponent>;
   let store: Store<fromComphubSharedReducer.State>;
-
+  let router: Router;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
           comphub_shared: combineReducers(fromComphubSharedReducer.reducers),
+
         })
       ],
       declarations: [ QuickPriceLandingPageComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [ NO_ERRORS_SCHEMA ],
+      providers: [
+        {
+          provide: Router,
+          useValue: router
+        }
+      ]
+
     });
 
     fixture = TestBed.createComponent(QuickPriceLandingPageComponent);
     instance = fixture.componentInstance;
 
     store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   it('should dispatch a NavigateToCard action, when handling a card change and the page is enabled', () => {
