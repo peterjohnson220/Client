@@ -6,7 +6,6 @@ import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { of } from 'rxjs';
 
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum, generateMockExchangeJobMapping } from 'libs/models';
@@ -59,7 +58,7 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     fixture = TestBed.createComponent(ExchangeJobMappingGridComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should call loadExchangeJobMappings with the exchangeId when the component is initialized', () => {

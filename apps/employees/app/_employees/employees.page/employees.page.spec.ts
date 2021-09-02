@@ -63,7 +63,7 @@ describe('Employees - Employees Page', () => {
   });
 
   it('should dispatch PriceJobs action when handling price jobs clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     instance.selectedCompanyEmployeeIds = [ 1, 2, 3 ];
     const expectedAction = new fromEmployeesPageActions.PriceJobs({ companyEmployeeIds: instance.selectedCompanyEmployeeIds });
 
@@ -73,7 +73,7 @@ describe('Employees - Employees Page', () => {
   });
 
   it('should dispatch ResetPricingJobsStatus when handling pricing jobs error Close button clicked', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromEmployeesPageActions.ResetPricingJobsStatus();
 
     instance.handlePricingJobsMessageCloseClicked();
@@ -82,7 +82,7 @@ describe('Employees - Employees Page', () => {
   });
 
   it('should use the modal service to open the pricing jobs message modal when pricingJobs is true', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.pricingJobs$ = of(true);
 
     fixture.detectChanges();
@@ -91,7 +91,7 @@ describe('Employees - Employees Page', () => {
   });
 
   it('should use the modal service to dismiss the modal when handling pricing jobs error Close button clicked', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.handlePricingJobsMessageCloseClicked();
 
@@ -119,7 +119,7 @@ describe('Employees - Employees Page', () => {
   });
 
   it('should navigate to the employee history page when date changed', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.handleEmployeeHistoryDateChange('2005-2-2');
 

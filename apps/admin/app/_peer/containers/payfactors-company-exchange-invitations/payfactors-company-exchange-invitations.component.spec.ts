@@ -47,7 +47,7 @@ describe('Payfactors Company Exchange Invitations', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.parent.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(PayfactorsCompanyExchangeInvitationsComponent);
     instance = fixture.componentInstance;

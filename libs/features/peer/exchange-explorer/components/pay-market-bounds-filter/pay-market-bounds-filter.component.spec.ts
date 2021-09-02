@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { SwitchModule } from '@progress/kendo-angular-inputs';
-import spyOn = jest.spyOn;
 
 import { generateMockPayMarket } from 'libs/models';
 
@@ -42,7 +41,7 @@ describe('Features - Peer - Pay Market Bounds Filter', () => {
   });
 
   it('should emit a limitToPayMarketToggled event when handling the switch toggle', () => {
-    spyOn(instance.limitToPayMarketToggled, 'emit');
+    jest.spyOn(instance.limitToPayMarketToggled, 'emit');
 
     instance.handleSwitchToggled();
 

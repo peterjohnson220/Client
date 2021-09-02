@@ -28,14 +28,14 @@ describe('SurveyLoaderTabComponent', () => {
   });
 
   it('should emit value when value is changed', function () {
-    spyOn(instance.updateSurveySheetNameEvent, 'emit');
+    jest.spyOn(instance.updateSurveySheetNameEvent, 'emit');
     const value = 'test';
     instance.onChange(value);
     expect(instance.updateSurveySheetNameEvent.emit).toHaveBeenCalledWith(value);
   });
 
   it('should emit value when dropdown is removed', function () {
-    spyOn(instance.removeAdditionalDropdownEvent, 'emit');
+    jest.spyOn(instance.removeAdditionalDropdownEvent, 'emit');
     instance.onClick();
     expect(instance.removeAdditionalDropdownEvent.emit).toBeCalled();
   });

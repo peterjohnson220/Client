@@ -5,7 +5,6 @@ import { AbstractControl, AsyncValidatorFn, FormGroup, FormControl,
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, Exchange, generateMockExchange, RequestExchangeRequest } from 'libs/models/index';
@@ -95,7 +94,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
     instance.newCompanyFormEnabled = true;
     instance.requestCompanyForm.addControl('newCompanyForm', mockNewJobForm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -123,7 +122,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
 
     instance.requestCompanyForm.addControl('companySelectionForm', mockExistingCompanySelectionForm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -137,7 +136,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
     const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
     instance.newCompanyFormEnabled = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -151,7 +150,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
     const expectedAction = new fromExchangeRequestActions.ResetExchangeRequest(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
     instance.newCompanyFormEnabled = true;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -163,7 +162,7 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
   it(`should not dispatch ResetExchangeRequest action of type ReferPayfactorsCompany when newCompanyFormEnabled is toggled on`, () => {
     const expectedAction = new fromExchangeRequestActions.ResetExchangeRequest(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

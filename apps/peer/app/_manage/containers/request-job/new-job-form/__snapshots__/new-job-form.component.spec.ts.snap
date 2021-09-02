@@ -2,6 +2,7 @@
 
 exports[`Peer - Manage - Request Job - New Job Form should provide correct values to the pf-modal-form component 1`] = `
 <pf-new-job-form
+  __ngContext__={[Function LRootView]}
   exchangeCompanyApiService={[Function Object]}
   exchangeJobRequestForm={[Function FormGroup]}
   fb={[Function FormBuilder]}
@@ -46,11 +47,6 @@ exports[`Peer - Manage - Request Job - New Job Form should provide correct value
               id="job-title"
               type="text"
             />
-            
-            
-            
-            
-            
             <span
               class="pf-placeholder"
             />

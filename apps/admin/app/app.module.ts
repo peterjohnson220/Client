@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgbModalModule, NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 
@@ -27,7 +27,6 @@ import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform
 
     // 3rd Party
     NgbModalModule,
-    NgbTabsetModule,
     LayoutModule,
     NotificationModule,
     JobAssociationMatchModule,

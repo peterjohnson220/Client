@@ -50,7 +50,7 @@ describe('Admin - Tickets - Ticket List', () => {
   });
 
   it('should dispatch a InitTickets action upon init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromTicketListActions.InitTickets();
 
     fixture.detectChanges();
@@ -59,7 +59,7 @@ describe('Admin - Tickets - Ticket List', () => {
   });
 
   it('should dispatch an OpenTicket action when handleCellClick is triggered', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const userTicketGridItem: UserTicketGridItem = mockUserTicketGridItem;
     const mockUserTicketTabItem: UserTicketTabItem = { UserTicketId: userTicketGridItem.Id, Title: userTicketGridItem.Description };

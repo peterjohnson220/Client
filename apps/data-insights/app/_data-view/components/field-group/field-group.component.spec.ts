@@ -31,7 +31,7 @@ describe('Data Insights - Field Group Component', () => {
 
   it('should emit field selected with correct field when handling field selected', () => {
     const field = generateMockField();
-    spyOn(instance.fieldSelected, 'emit');
+    jest.spyOn(instance.fieldSelected, 'emit');
 
     instance.handleFieldClicked(field);
 

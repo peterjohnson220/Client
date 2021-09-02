@@ -40,8 +40,8 @@ describe('Common UI - PF Grid - Column Chooser Popover', () => {
   });
 
   it('should emit array of PfGridColumns and close the popover, when calling saveButtonClicked', () => {
-    spyOn(instance.saveColumns, 'emit');
-    spyOn(instance.p, 'close');
+    jest.spyOn(instance.saveColumns, 'emit');
+    jest.spyOn(instance.p, 'close');
     instance.columnChooserType = ColumnChooserType.Column;
 
     const mockedListAreaColumns = [generateMockViewField(1), generateMockViewField(2)];

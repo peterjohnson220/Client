@@ -2,6 +2,7 @@
 
 exports[`CommunityCategoriesComponent should show community categories 1`] = `
 <pf-community-categories
+  __ngContext__={[Function LRootView]}
   categories$={[Function Store]}
   filterOptionsStore={[Function Store]}
   filteredByPost="false"
@@ -19,7 +20,6 @@ exports[`CommunityCategoriesComponent should show community categories 1`] = `
       <h5>
          ALL DISCUSSIONS 
       </h5>
-      
     </div>
   </div>
 </pf-community-categories>

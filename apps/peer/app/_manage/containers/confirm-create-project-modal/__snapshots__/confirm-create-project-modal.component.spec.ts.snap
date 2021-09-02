@@ -2,6 +2,7 @@
 
 exports[`ConfirmUnmatchModalComponent should not render job details if the exchange and company jobs are falsy 1`] = `
 <pf-confirm-create-project-modal
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   createProjectError$={[Function Store]}
   creatingProject$={[Function Store]}
@@ -19,13 +20,13 @@ exports[`ConfirmUnmatchModalComponent should not render job details if the excha
     secondarybuttontext="No"
     title="Create New Project"
   >
-    
   </pf-modal-form>
 </pf-confirm-create-project-modal>
 `;
 
 exports[`ConfirmUnmatchModalComponent should render job details if the exchange job and company job are truthy 1`] = `
 <pf-confirm-create-project-modal
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   createProjectError$={[Function Store]}
   creatingProject$={[Function Store]}
@@ -43,8 +44,6 @@ exports[`ConfirmUnmatchModalComponent should render job details if the exchange 
     secondarybuttontext="No"
     title="Create New Project"
   >
-    
-    
     <p
       class="mb-2"
     >
@@ -58,8 +57,6 @@ exports[`ConfirmUnmatchModalComponent should render job details if the exchange 
       </strong>
       ? 
     </p>
-    
-    
   </pf-modal-form>
 </pf-confirm-create-project-modal>
 `;

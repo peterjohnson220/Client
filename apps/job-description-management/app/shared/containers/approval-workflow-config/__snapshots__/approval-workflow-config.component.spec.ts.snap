@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApprovalWorkflowConfigComponent should show workflow setup modal 1`] = `
-<pf-approval-workflow-config
+exports[`WorkflowConfigComponent should show workflow setup modal 1`] = `
+<pf-workflow-config
+  __ngContext__={[Function LRootView]}
   appNotificationStore={[Function Store]}
   attachments$={[Function Store]}
   displayNameThreshold={[Function Number]}
@@ -30,15 +31,12 @@ exports[`ApprovalWorkflowConfigComponent should show workflow setup modal 1`] = 
     <p
       class="m-3"
     >
-      Attachments - 
     </p>
-    
     <kendo-upload>
       <kendo-upload-messages
         select="Browse"
       />
-      
     </kendo-upload>
   </pf-async-container>
-</pf-approval-workflow-config>
+</pf-workflow-config>
 `;

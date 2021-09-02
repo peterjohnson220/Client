@@ -3,6 +3,7 @@
 exports[`TrsCalculationControlComponent calculation control should sum properly if CompensationField does not exist within BenefitsData 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -29,7 +30,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -39,7 +40,6 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -55,12 +55,10 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -68,11 +66,9 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
           <th
             class="secondary-header align-middle text-right font-weight-normal mb-1"
             scope="col"
@@ -81,13 +77,10 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
               Employee
             </span>
           </th>
-          
           <th
             class="secondary-header align-middle text-right font-weight-normal mb-1"
             scope="col"
           >
-            
-            
             <span>
               Company
             </span>
@@ -95,16 +88,13 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -112,14 +102,11 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
                   401k Match
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               100
             </span>
@@ -127,11 +114,9 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               1000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -140,9 +125,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -150,14 +133,11 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
                   Pension Plan
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               100
             </span>
@@ -165,11 +145,9 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               1000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -182,22 +160,17 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               200
             </span>
@@ -205,16 +178,13 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               2000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -222,6 +192,7 @@ exports[`TrsCalculationControlComponent calculation control should sum properly 
 exports[`TrsCalculationControlComponent should display contribution values and total when in preview mode 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -245,6 +216,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -254,7 +226,6 @@ exports[`TrsCalculationControlComponent should display contribution values and t
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -267,12 +238,10 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -280,25 +249,19 @@ exports[`TrsCalculationControlComponent should display contribution values and t
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -306,18 +269,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -326,9 +285,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -336,18 +293,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -356,9 +309,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -366,18 +317,14 @@ exports[`TrsCalculationControlComponent should display contribution values and t
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -390,31 +337,24 @@ exports[`TrsCalculationControlComponent should display contribution values and t
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -422,6 +362,7 @@ exports[`TrsCalculationControlComponent should display contribution values and t
 exports[`TrsCalculationControlComponent should display field if employer does not have a value and employee has a value with showEmployeeContributions enabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -447,7 +388,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -457,7 +398,6 @@ exports[`TrsCalculationControlComponent should display field if employer does no
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -473,12 +413,10 @@ exports[`TrsCalculationControlComponent should display field if employer does no
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -486,25 +424,19 @@ exports[`TrsCalculationControlComponent should display field if employer does no
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -512,26 +444,20 @@ exports[`TrsCalculationControlComponent should display field if employer does no
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -540,9 +466,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -550,26 +474,20 @@ exports[`TrsCalculationControlComponent should display field if employer does no
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -578,9 +496,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -588,26 +504,20 @@ exports[`TrsCalculationControlComponent should display field if employer does no
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -620,39 +530,30 @@ exports[`TrsCalculationControlComponent should display field if employer does no
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -660,6 +561,7 @@ exports[`TrsCalculationControlComponent should display field if employer does no
 exports[`TrsCalculationControlComponent should display field if employer has a value and employee does not have a value with showEmployeeContributions disabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -685,7 +587,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -695,7 +597,6 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -708,12 +609,10 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -721,25 +620,19 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -747,18 +640,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -767,9 +656,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -777,18 +664,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -797,9 +680,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -807,18 +688,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -831,31 +708,24 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -863,6 +733,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
 exports[`TrsCalculationControlComponent should display field if employer has a value and employee does not have a value with showEmployeeContributions enabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -888,7 +759,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -898,7 +769,6 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -914,12 +784,10 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -927,25 +795,19 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -953,26 +815,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -981,9 +837,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -991,26 +845,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1019,9 +867,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1029,26 +875,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -1061,39 +901,30 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -1101,6 +932,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
 exports[`TrsCalculationControlComponent should display field if employer has a value and employee has a value with CanHaveEmployeeContribution is false 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -1126,7 +958,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1136,7 +968,6 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -1152,12 +983,10 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -1165,25 +994,19 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1191,26 +1014,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1219,9 +1036,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1229,26 +1044,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1257,9 +1066,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1267,26 +1074,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -1299,39 +1100,30 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -1339,6 +1131,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
 exports[`TrsCalculationControlComponent should display field if employer has a value and employee has a value with showEmployeeContributions disabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -1364,7 +1157,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1374,7 +1167,6 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -1387,12 +1179,10 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -1400,25 +1190,19 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1426,18 +1210,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1446,9 +1226,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1456,18 +1234,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1476,9 +1250,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1486,18 +1258,14 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -1510,31 +1278,24 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -1542,6 +1303,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
 exports[`TrsCalculationControlComponent should display field if employer has a value and employee has a value with showEmployeeContributions enabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -1567,7 +1329,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1577,7 +1339,6 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -1593,12 +1354,10 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -1606,25 +1365,19 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1632,26 +1385,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1660,9 +1407,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1670,26 +1415,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1698,9 +1437,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1708,26 +1445,20 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -1740,39 +1471,30 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -1780,6 +1502,7 @@ exports[`TrsCalculationControlComponent should display field if employer has a v
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is 0 for a given field 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -1803,6 +1526,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1812,7 +1536,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -1825,12 +1548,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -1838,25 +1559,19 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1864,18 +1579,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -1884,9 +1595,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -1894,18 +1603,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -1918,31 +1623,24 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               160000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -1950,6 +1648,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 exports[`TrsCalculationControlComponent should exclude fields in preview mode if employee data is null for a given field 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -1973,6 +1672,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -1982,7 +1682,6 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -1995,12 +1694,10 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -2008,25 +1705,19 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2034,18 +1725,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2054,9 +1741,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2064,18 +1749,14 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -2088,31 +1769,24 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               160000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -2120,6 +1794,7 @@ exports[`TrsCalculationControlComponent should exclude fields in preview mode if
 exports[`TrsCalculationControlComponent should hide all content in the table head when ShowTitle is false 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -2143,6 +1818,7 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2152,7 +1828,6 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -2165,14 +1840,10 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
       </tbody>
       <tfoot>
         <tr
@@ -2183,31 +1854,23 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -2215,6 +1878,7 @@ exports[`TrsCalculationControlComponent should hide all content in the table hea
 exports[`TrsCalculationControlComponent should not display field if BenefitsData is null 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -2240,7 +1904,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2250,7 +1914,6 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -2263,12 +1926,10 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -2276,25 +1937,19 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2302,18 +1957,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2322,9 +1973,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2332,18 +1981,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2352,9 +1997,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2362,18 +2005,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -2386,31 +2025,24 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -2418,6 +2050,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
 exports[`TrsCalculationControlComponent should not display field if BenefitsData is undefined 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -2443,7 +2076,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2453,7 +2086,6 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -2466,12 +2098,10 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -2479,25 +2109,19 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2505,18 +2129,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2525,9 +2145,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2535,18 +2153,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2555,9 +2169,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2565,18 +2177,14 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -2589,31 +2197,24 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -2621,6 +2222,7 @@ exports[`TrsCalculationControlComponent should not display field if BenefitsData
 exports[`TrsCalculationControlComponent should not display field if employer and employee do not have values with showEmployeeContributions disabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -2646,7 +2248,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2656,7 +2258,6 @@ exports[`TrsCalculationControlComponent should not display field if employer and
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -2669,12 +2270,10 @@ exports[`TrsCalculationControlComponent should not display field if employer and
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -2682,25 +2281,19 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2708,18 +2301,14 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2728,9 +2317,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2738,18 +2325,14 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2758,9 +2341,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2768,18 +2349,14 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -2792,31 +2369,24 @@ exports[`TrsCalculationControlComponent should not display field if employer and
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -2824,6 +2394,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
 exports[`TrsCalculationControlComponent should not display field if employer and employee do not have values with showEmployeeContributions enabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -2849,7 +2420,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -2859,7 +2430,6 @@ exports[`TrsCalculationControlComponent should not display field if employer and
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -2875,12 +2445,10 @@ exports[`TrsCalculationControlComponent should not display field if employer and
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -2888,25 +2456,19 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2914,26 +2476,20 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2942,9 +2498,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2952,26 +2506,20 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -2980,9 +2528,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -2990,26 +2536,20 @@ exports[`TrsCalculationControlComponent should not display field if employer and
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -3022,39 +2562,30 @@ exports[`TrsCalculationControlComponent should not display field if employer and
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -3062,6 +2593,7 @@ exports[`TrsCalculationControlComponent should not display field if employer and
 exports[`TrsCalculationControlComponent should not display field if employer does not have a value and employee has a value with CanHaveEmployeeContribution set false 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -3087,7 +2619,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   visibleFields={[Function Array]}
 >
   <div
-    class="employee-contributions-decimals-enabled"
+    class="trs-calculation py-2 px-1 employee-contributions-decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3097,7 +2629,6 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
         <col
           class="field-column"
         />
-        
         <col
           class="employee-contribution-column"
         />
@@ -3113,12 +2644,10 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -3126,25 +2655,19 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3152,26 +2675,20 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -3180,9 +2697,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3190,26 +2705,20 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -3218,9 +2727,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3228,26 +2735,20 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -3260,39 +2761,30 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
           </td>
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -3300,6 +2792,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
 exports[`TrsCalculationControlComponent should not display field if employer does not have a value and employee has a value with showEmployeeContributions disabled 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -3325,7 +2818,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
   visibleFields={[Function Array]}
 >
   <div
-    class="decimals-enabled"
+    class="trs-calculation py-2 px-1 decimals-enabled"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3335,7 +2828,6 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -3348,12 +2840,10 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -3361,25 +2851,19 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                     Cash Compensation
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3387,18 +2871,14 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Base Salary
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               150000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -3407,9 +2887,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3417,18 +2895,14 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Bonus
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               10000
             </span>
-            
           </td>
         </tr>
         <tr
@@ -3437,9 +2911,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
           <td
             class="pr-0"
           >
-            
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
@@ -3447,18 +2919,14 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
                   Short Term Incentive
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right preview-mode-animation"
           >
-            
             <span>
               5000
             </span>
-            
           </td>
         </tr>
       </tbody>
@@ -3471,31 +2939,24 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
               165000
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -3503,6 +2964,7 @@ exports[`TrsCalculationControlComponent should not display field if employer doe
 exports[`TrsCalculationControlComponent should render additional content in the table head when ShowTitle is true 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -3526,6 +2988,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3535,7 +2998,6 @@ exports[`TrsCalculationControlComponent should render additional content in the 
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -3548,12 +3010,10 @@ exports[`TrsCalculationControlComponent should render additional content in the 
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
             <h4
               class="primary-control-heading mb-1"
             >
               <pf-string-editor>
-                
                 <span
                   class="wrapper overflow-hidden w-100 d-inline-block"
                 >
@@ -3561,16 +3021,12 @@ exports[`TrsCalculationControlComponent should render additional content in the 
                     test title
                   </span>
                 </span>
-                
               </pf-string-editor>
             </h4>
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
       </tbody>
       <tfoot>
         <tr
@@ -3581,31 +3037,23 @@ exports[`TrsCalculationControlComponent should render additional content in the 
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper overflow-hidden w-100 d-inline-block"
               >
                 <span>
-                  
                 </span>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right preview-mode-animation"
           >
-            
             <span>
-              
             </span>
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -3613,6 +3061,7 @@ exports[`TrsCalculationControlComponent should render additional content in the 
 exports[`TrsCalculationControlComponent should render the supplied Summary 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -3635,6 +3084,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3644,7 +3094,6 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -3657,14 +3106,10 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
       </tbody>
       <tfoot>
         <tr
@@ -3675,7 +3120,6 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper w-100 d-inline-block overflow-hidden"
               >
@@ -3687,7 +3131,6 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                   tabindex="-1"
                   type="text"
                 />
-                
                 <a
                   class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
@@ -3708,21 +3151,16 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
                   </span>
                 </a>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right"
           >
-            
             <pf-compensation-value-placeholder />
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;
@@ -3730,6 +3168,7 @@ exports[`TrsCalculationControlComponent should render the supplied Summary 1`] =
 exports[`TrsCalculationControlComponent should render the supplied data fields 1`] = `
 <pf-trs-calculation-control
   MAX_VISIBLE_FIELDS={[Function Number]}
+  __ngContext__={[Function LRootView]}
   consolidated={[Function Number]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -3753,6 +3192,7 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
   visibleFields={[Function Array]}
 >
   <div
+    class="trs-calculation py-2 px-1"
     pfmodeclassifierdirective=""
   >
     <table
@@ -3762,7 +3202,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
         <col
           class="field-column"
         />
-        
         <col
           class="employer-contribution-column"
         />
@@ -3775,27 +3214,21 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             class="font-weight-normal pr-0"
             scope="col"
           >
-            
           </th>
-          
-          
         </tr>
       </thead>
       <tbody>
-        
         <tr
           class="trs-calculation-row w-100"
         >
           <td
             class="pr-0"
           >
-            
             <fa-icon
               aria-hidden="true"
               class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
-              
               <span
                 class="wrapper w-100 d-inline-block overflow-hidden"
               >
@@ -3807,7 +3240,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   tabindex="-1"
                   type="text"
                 />
-                
                 <a
                   class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
@@ -3828,16 +3260,12 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   </span>
                 </a>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
-            
             <pf-compensation-value-placeholder />
-            
             <button
               class="remove-btn btn btn-sm btn-outline-danger position-absolute"
               type="button"
@@ -3854,13 +3282,11 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="pr-0"
           >
-            
             <fa-icon
               aria-hidden="true"
               class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
-              
               <span
                 class="wrapper w-100 d-inline-block overflow-hidden"
               >
@@ -3872,7 +3298,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   tabindex="-1"
                   type="text"
                 />
-                
                 <a
                   class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
@@ -3893,16 +3318,12 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   </span>
                 </a>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
-            
             <pf-compensation-value-placeholder />
-            
             <button
               class="remove-btn btn btn-sm btn-outline-danger position-absolute"
               type="button"
@@ -3919,13 +3340,11 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
           <td
             class="pr-0"
           >
-            
             <fa-icon
               aria-hidden="true"
               class="calculation-control-drag-icon position-absolute text-muted invisible"
             />
             <pf-string-editor>
-              
               <span
                 class="wrapper w-100 d-inline-block overflow-hidden"
               >
@@ -3937,7 +3356,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   tabindex="-1"
                   type="text"
                 />
-                
                 <a
                   class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
@@ -3958,16 +3376,12 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   </span>
                 </a>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field text-right"
           >
-            
             <pf-compensation-value-placeholder />
-            
             <button
               class="remove-btn btn btn-sm btn-outline-danger position-absolute"
               type="button"
@@ -3988,7 +3402,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
             pfstatementgraphicsdirective=""
           >
             <pf-string-editor>
-              
               <span
                 class="wrapper w-100 d-inline-block overflow-hidden"
               >
@@ -4000,7 +3413,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   tabindex="-1"
                   type="text"
                 />
-                
                 <a
                   class="editable d-flex cursor-pointer show-icon-on-hover"
                   href="javascript:void(0)"
@@ -4009,7 +3421,6 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   <span
                     class="edit-text overflow-hidden d-inline-block mw-100"
                   >
-                    
                   </span>
                   <span
                     class="edit-icon position-relative"
@@ -4021,21 +3432,16 @@ exports[`TrsCalculationControlComponent should render the supplied data fields 1
                   </span>
                 </a>
               </span>
-              
             </pf-string-editor>
           </td>
-          
           <td
             class="contribution-field summary text-right"
           >
-            
             <pf-compensation-value-placeholder />
-            
           </td>
         </tr>
       </tfoot>
     </table>
-    
   </div>
 </pf-trs-calculation-control>
 `;

@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfModalFormComponent } from './pf-modal-form.component';
-import spyOn = jest.spyOn;
 
 
 describe('Pf Modal Form', () => {
@@ -49,7 +48,7 @@ describe('Pf Modal Form', () => {
 
   it('should emit a onDismiss event, when dismiss is triggered', () => {
     // Spy on the emit method for the onDismiss EventEmitter
-    spyOn(instance.onDismiss, 'emit');
+    jest.spyOn(instance.onDismiss, 'emit');
 
     fixture.detectChanges();
 
@@ -61,7 +60,7 @@ describe('Pf Modal Form', () => {
 
   it('should emit a onSubmit event, when submit is triggered', () => {
     // Spy on the emit method for the onSubmit EventEmitter
-    spyOn(instance.onSubmit, 'emit');
+    jest.spyOn(instance.onSubmit, 'emit');
 
     fixture.detectChanges();
 
@@ -100,7 +99,7 @@ describe('Pf Modal Form', () => {
   // TODO: This doesn't work due to issue with NgbModal
   /*it('should emit \'onDismiss\' event when cancel button is clicked', () => {
     // Spy on the emit method for the onDismiss EventEmitter
-    spyOn(instance.onDismiss, 'emit');
+    jest.spyOn(instance.onDismiss, 'emit');
 
     fixture.detectChanges();
 
@@ -119,7 +118,7 @@ describe('Pf Modal Form', () => {
   // TODO: This doesn't work due to issue with NgbModal
   /*it('should emit \'onDismiss\' event when dismiss button is clicked', () => {
     // Spy on the emit method for the onDismiss EventEmitter
-    spyOn(instance.onDismiss, 'emit');
+    jest.spyOn(instance.onDismiss, 'emit');
 
     fixture.detectChanges();
 
@@ -141,7 +140,7 @@ describe('Pf Modal Form', () => {
     instance.formGroup.markAsDirty();
 
     // Spy on the emit method for the onSubmit EventEmitter
-    spyOn(instance.onSubmit, 'emit');
+    jest.spyOn(instance.onSubmit, 'emit');
 
     fixture.detectChanges();
 

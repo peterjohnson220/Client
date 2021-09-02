@@ -2,6 +2,7 @@
 
 exports[`Peer Dashboard - Chart Detail should NOT show card body header when detailChartType$ is Company 1`] = `
 <pf-chart-detail-component
+  __ngContext__={[Function LRootView]}
   clearSearch={[Function BehaviorSubject]}
   clearSearch$={[Function Observable]}
   detailChartCategory="null"
@@ -38,22 +39,16 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
     <div
       class="p-2"
     >
-      
       <pf-input-debounce />
     </div>
     <div
       class="card-body"
     >
-      
-      
-      
       <div
         class="no-detail-items"
       >
         No companies associated to Participating Companies by Contribution. 
       </div>
-      
-      
     </div>
   </div>
 </pf-chart-detail-component>
@@ -61,6 +56,7 @@ exports[`Peer Dashboard - Chart Detail should NOT show card body header when det
 
 exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Job Orgs' when the detailCharType$ is ExchangeJobOrgs 1`] = `
 <pf-chart-detail-component
+  __ngContext__={[Function LRootView]}
   clearSearch={[Function BehaviorSubject]}
   clearSearch$={[Function Observable]}
   detailChartCategory="null"
@@ -97,27 +93,20 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
     <div
       class="p-2"
     >
-      
       <h4
         class="mb-2 p-2"
       >
-          
       </h4>
       <pf-input-debounce />
     </div>
     <div
       class="card-body"
     >
-      
-      
       <div
         class="no-detail-items"
       >
         No companies associated to . 
       </div>
-      
-      
-      
     </div>
   </div>
 </pf-chart-detail-component>
@@ -125,6 +114,7 @@ exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Jo
 
 exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`] = `
 <pf-chart-detail-component
+  __ngContext__={[Function LRootView]}
   clearSearch={[Function BehaviorSubject]}
   clearSearch$={[Function Observable]}
   detailChartCategory="null"
@@ -161,27 +151,20 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
     <div
       class="p-2"
     >
-      
       <h4
         class="mb-2 p-2"
       >
-          
       </h4>
       <pf-input-debounce />
     </div>
     <div
       class="card-body"
     >
-      
-      
       <div
         class="no-detail-items"
       >
         No companies associated to . 
       </div>
-      
-      
-      
     </div>
   </div>
 </pf-chart-detail-component>

@@ -15,6 +15,7 @@ import { JobPayMarket } from 'libs/features/jobs/add-jobs/models';
 })
 export class PaymarketsComponent implements OnInit, OnDestroy {
   @Input() useSmallBizStyles: boolean;
+  @Input() implementation: 'component' | 'modal' = 'component';
 
   // Subscriptions
   searchTermSubscription: Subscription;

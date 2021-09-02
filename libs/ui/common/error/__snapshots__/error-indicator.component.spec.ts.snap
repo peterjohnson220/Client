@@ -2,6 +2,7 @@
 
 exports[`Error Indicator should show the error message 1`] = `
 <pf-error-indicator
+  __ngContext__={[Function LRootView]}
   message={[Function String]}
 >
   <span

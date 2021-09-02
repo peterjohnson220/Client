@@ -4,7 +4,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { CardSelectorComponent } from './card-selector.component';
-import spyOn = jest.spyOn;
 
 // Host Component for testing templates
 @Component({
@@ -65,7 +64,7 @@ describe('UI/Common/Content - CardSelector', () => {
   });
 
   it('should emit an onReload event when handleReloadEvent is triggered', () => {
-    spyOn(instance.onReload, 'emit');
+    jest.spyOn(instance.onReload, 'emit');
     instance.cardData$ = of([{Id: 1}]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;
@@ -78,7 +77,7 @@ describe('UI/Common/Content - CardSelector', () => {
   });
 
   it('should emit an onCardSelection event when setCardSelection is triggered', () => {
-    spyOn(instance.onCardSelection, 'emit');
+    jest.spyOn(instance.onCardSelection, 'emit');
     instance.cardData$ = of([]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;
@@ -91,7 +90,7 @@ describe('UI/Common/Content - CardSelector', () => {
   });
 
   it('should not clear card selection on cardData$ change when there is no card selection', () => {
-    spyOn(instance, 'setCardSelection');
+    jest.spyOn(instance, 'setCardSelection');
     instance.cardData$ = of([{Id: 1}, {Id: 2}]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;
@@ -102,7 +101,7 @@ describe('UI/Common/Content - CardSelector', () => {
   });
 
   it('should not clear card selection on cardData$ change when cardDataLoading$', () => {
-    spyOn(instance, 'setCardSelection');
+    jest.spyOn(instance, 'setCardSelection');
     instance.cardData$ = of([{Id: 1}, {Id: 2}]);
     instance.cardDataLoading$ = of(true);
     instance.cardIsDisabled = card => false;
@@ -114,7 +113,7 @@ describe('UI/Common/Content - CardSelector', () => {
   });
 
   it('should clear card selection on cardData$ change selection not in cardData$', () => {
-    spyOn(instance, 'setCardSelection');
+    jest.spyOn(instance, 'setCardSelection');
     instance.cardData$ = of([{Id: 1}, {Id: 2}]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;

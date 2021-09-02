@@ -55,7 +55,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
 
   it('should emit selectedDashboardViewChanged with correct selected view', () => {
     const view = DashboardView.All;
-    spyOn(instance.selectedDashboardViewChanged, 'emit');
+    jest.spyOn(instance.selectedDashboardViewChanged, 'emit');
 
     instance.handleViewChanged(view);
 
@@ -67,7 +67,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
     instance.baseEntitiesAsync$ = of(generateDefaultAsyncStateObj([generateMockEntity()]));
     fixture.detectChanges();
 
-    spyOn(instance.createDataViewModal, 'open');
+    jest.spyOn(instance.createDataViewModal, 'open').mockImplementation(jest.fn());
     instance.handleNewReportClicked();
 
     expect(instance.createDataViewModal.open).toHaveBeenCalled();

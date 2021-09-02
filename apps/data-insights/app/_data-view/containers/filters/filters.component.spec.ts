@@ -46,7 +46,7 @@ describe('Data Insights - Filters Comopnent', () => {
     };
     instance.availableFieldsForFilters = [firstSelectedfield];
     const expectedAction = new fromFiltersActions.AddFilter(filter);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleAddFilterClicked();
 
@@ -54,7 +54,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should dispatch UpdateFilter with correct data when handling filter changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filter: Filter = generateMockFilter();
     const filterIndex = 2;
     const data = {
@@ -69,7 +69,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should dispatch GetFilterOptions with correct data when handling search options changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const data: GetFilterOptionsData = {
       FilterIndex: 2,
       Query: 'Acc',
@@ -88,7 +88,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should dispatch RemovePendingFilterByIndex with correct index when handling delete filter', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filterIndex = 2;
     const expectedAction = new fromFiltersActions.RemovePendingFilterByIndex({ index: filterIndex });
 
@@ -98,7 +98,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should dispatch RemoveActiveFilterByIndex if index is in the range when handling delete filter', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filterIndex = 2;
     const expectedAction = new fromFiltersActions.RemoveActiveFilterByIndex({ index: filterIndex });
     instance.activeFiltersCount = 3;
@@ -109,7 +109,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should NOT dispatch RemoveActiveFilterByIndex if index is out of range when handling delete filter', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const filterIndex = 3;
     const expectedAction = new fromFiltersActions.RemoveActiveFilterByIndex({ index: filterIndex });
     instance.activeFiltersCount = 3;
@@ -120,7 +120,7 @@ describe('Data Insights - Filters Comopnent', () => {
   });
 
   it('should dispatch ApplyFilters when handling apply filters clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromFiltersActions.ApplyFilters();
 
     instance.handleApplyFilterClicked();

@@ -68,7 +68,7 @@ describe('DataManagementLandingPageComponent', () => {
   });
 
   it('should dispatch a get connection summary action on init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

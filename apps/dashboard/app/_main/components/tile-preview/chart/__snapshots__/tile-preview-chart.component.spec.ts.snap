@@ -2,6 +2,7 @@
 
 exports[`Tile Preview Chart should not show kendo chart when model.ChartComponentData.length = 0 1`] = `
 <pf-tile-preview-chart
+  __ngContext__={[Function LRootView]}
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
@@ -17,6 +18,7 @@ exports[`Tile Preview Chart should not show kendo chart when model.ChartComponen
 
 exports[`Tile Preview Chart should show chart label 1`] = `
 <pf-tile-preview-chart
+  __ngContext__={[Function LRootView]}
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
@@ -32,6 +34,7 @@ exports[`Tile Preview Chart should show chart label 1`] = `
 
 exports[`Tile Preview Chart should show kendo chart when model.ChartComponentData.length > 0 1`] = `
 <pf-tile-preview-chart
+  __ngContext__={[Function LRootView]}
   chartData={[Function Array]}
   model={[Function Object]}
   payscaleBrandingFeatureFlag="false"
@@ -50,15 +53,12 @@ exports[`Tile Preview Chart should show kendo chart when model.ChartComponentDat
           field="CategoryValue"
         >
           <kendo-chart-series-item-tooltip>
-            
           </kendo-chart-series-item-tooltip>
         </kendo-chart-series-item>
       </kendo-chart-series>
-      
       <kendo-chart-legend
         position="left"
       />
-      
     </kendo-chart>
   </div><h2
     class="pr-5 chart-label"

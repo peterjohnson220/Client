@@ -48,7 +48,7 @@ describe('CompensableFactorTypeComponent', () => {
 
 
   it('should dispatch SaveSelectedPercentChange on topFactorClick()', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedFactors = [];
     instance.disabledCheckBox = [];
@@ -62,7 +62,7 @@ describe('CompensableFactorTypeComponent', () => {
   });
 
   it('should dispatch SaveSelectedPercentChange on pillClicked()', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedFactors = [];
     instance.topFactors = [generateMockCompensableFactorModel()];
@@ -77,7 +77,7 @@ describe('CompensableFactorTypeComponent', () => {
   });
 
   it('should dispatch SaveSelectedPercentChange on handleSearchValueSelected()', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.compensableFactors = [generateMockCompensableFactorModel()];
     instance.selectedFactors = [];

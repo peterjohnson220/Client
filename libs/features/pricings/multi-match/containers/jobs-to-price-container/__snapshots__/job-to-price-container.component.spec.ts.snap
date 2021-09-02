@@ -2,6 +2,7 @@
 
 exports[`Project - MultiMatch - JobToPrice Container Component should get job match cuts when load cuts clicked 1`] = `
 <pf-jobs-to-price-container
+  __ngContext__={[Function LRootView]}
   dragEnd$={[Function AnonymousSubject]}
   dragStart$={[Function AnonymousSubject]}
   dragSubs={[Function Subscription]}
@@ -25,14 +26,11 @@ exports[`Project - MultiMatch - JobToPrice Container Component should get job ma
     class="jobs-to-price-container"
   >
     <pf-async-container>
-      
-      
       <div
         class="no-results-message-container"
       >
          No valid jobs selected. Please try again. 
       </div>
-      
     </pf-async-container>
   </div>
 </pf-jobs-to-price-container>
@@ -40,6 +38,7 @@ exports[`Project - MultiMatch - JobToPrice Container Component should get job ma
 
 exports[`Project - MultiMatch - JobToPrice Container Component should not get job match cuts when load cuts clicked but job has no cuts 1`] = `
 <pf-jobs-to-price-container
+  __ngContext__={[Function LRootView]}
   dragEnd$={[Function AnonymousSubject]}
   dragStart$={[Function AnonymousSubject]}
   dragSubs={[Function Subscription]}
@@ -63,14 +62,11 @@ exports[`Project - MultiMatch - JobToPrice Container Component should not get jo
     class="jobs-to-price-container"
   >
     <pf-async-container>
-      
-      
       <div
         class="no-results-message-container"
       >
          No valid jobs selected. Please try again. 
       </div>
-      
     </pf-async-container>
   </div>
 </pf-jobs-to-price-container>

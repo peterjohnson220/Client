@@ -22,7 +22,7 @@ describe('FormulaCardComponent', () => {
 
   it('should emit editFormulaClicked when handling edit formula', () => {
     const field = generateMockField();
-    spyOn(instance.editFormulaClicked, 'emit');
+    jest.spyOn(instance.editFormulaClicked, 'emit');
 
     instance.handleEditFormulaClick(field);
 
@@ -31,7 +31,7 @@ describe('FormulaCardComponent', () => {
 
   it('should emit deleteFormulaClick when handling delete formula', () => {
     const field = generateMockField();
-    spyOn(instance.deleteClicked, 'emit');
+    jest.spyOn(instance.deleteClicked, 'emit');
 
     instance.handleDeleteFormulaClick(field);
 

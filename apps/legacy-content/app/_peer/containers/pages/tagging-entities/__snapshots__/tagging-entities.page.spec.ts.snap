@@ -2,6 +2,7 @@
 
 exports[`Legacy Content - Tags - Tagging Entities should match snapshot of page 1`] = `
 <pf-tagging-entities
+  __ngContext__={[Function LRootView]}
   addedTags={[Function Array]}
   addedTags$={[Function Store]}
   addedTagsSubscription={[Function Subscriber]}
@@ -31,8 +32,6 @@ exports[`Legacy Content - Tags - Tagging Entities should match snapshot of page 
     class="te-outer-container"
   >
     <pf-async-container>
-      
-      
       <span
         class="pf-link-underline link-override"
       >
@@ -47,8 +46,6 @@ exports[`Legacy Content - Tags - Tagging Entities should match snapshot of page 
       disabled=""
       type="button"
     >
-      
-      
       <span>
         Save
       </span>

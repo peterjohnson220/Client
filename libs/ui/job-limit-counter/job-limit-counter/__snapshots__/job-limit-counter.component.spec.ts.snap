@@ -2,6 +2,7 @@
 
 exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when job count is at the max limit 1`] = `
 <pf-job-limit-counter
+  __ngContext__={[Function LRootView]}
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -18,14 +19,11 @@ exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when
     class="top-container"
   >
     <div>
-      
       <span
         class="job-usage-message"
       >
          Using 5 out of 100 available jobs 
-        
       </span>
-      
     </div>
     <div
       class="search-results-count"
@@ -38,7 +36,6 @@ exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when
   </div><div
     class="middle-container"
   >
-    
     <div
       class="job-count-bar"
     >
@@ -51,7 +48,6 @@ exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when
       <ngb-progressbar
         data-qa-id="pgb-jobsUsed"
       >
-          
       </ngb-progressbar>
       <div
         class="max-job-count"
@@ -59,13 +55,13 @@ exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when
          100 jobs 
       </div>
     </div>
-    
   </div>
 </pf-job-limit-counter>
 `;
 
 exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job count is at or over the warning threshold but under the max limit 1`] = `
 <pf-job-limit-counter
+  __ngContext__={[Function LRootView]}
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -82,14 +78,11 @@ exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job
     class="top-container"
   >
     <div>
-      
       <span
         class="job-usage-message"
       >
          Using 91 out of 100 available jobs 
-        
       </span>
-      
     </div>
     <div
       class="search-results-count"
@@ -102,7 +95,6 @@ exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job
   </div><div
     class="middle-container"
   >
-    
     <div
       class="job-count-bar"
     >
@@ -115,7 +107,6 @@ exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job
       <ngb-progressbar
         data-qa-id="pgb-jobsUsed"
       >
-          
       </ngb-progressbar>
       <div
         class="max-job-count"
@@ -123,13 +114,13 @@ exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job
          100 jobs 
       </div>
     </div>
-    
   </div>
 </pf-job-limit-counter>
 `;
 
 exports[`Project - Add Jobs - Job Counter should hide the job count and progress bar, and show "hit max allowed jobs, contact your service rep" message for small biz companies when job limit is reached 1`] = `
 <pf-job-limit-counter
+  __ngContext__={[Function LRootView]}
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   maxAllowedJobsSetting={[Function Number]}
@@ -145,13 +136,10 @@ exports[`Project - Add Jobs - Job Counter should hide the job count and progress
     class="top-container"
   >
     <div>
-      
-      
       <span
         class="job-limit-reached-message"
       >
          Sorry, it looks like you've reached your job limit. 
-        
       </span>
     </div>
     <div
@@ -165,8 +153,6 @@ exports[`Project - Add Jobs - Job Counter should hide the job count and progress
   </div><div
     class="middle-container"
   >
-    
-    
     <div
       class="max-job-count-reached-message"
     >
@@ -183,6 +169,7 @@ exports[`Project - Add Jobs - Job Counter should hide the job count and progress
 
 exports[`Project - Add Jobs - Job Counter should show the job count and progress bar should be green when job count is under the warning threshold 1`] = `
 <pf-job-limit-counter
+  __ngContext__={[Function LRootView]}
   currentJobCountSetting="0"
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -199,14 +186,11 @@ exports[`Project - Add Jobs - Job Counter should show the job count and progress
     class="top-container"
   >
     <div>
-      
       <span
         class="job-usage-message"
       >
          Using 1 out of 100 available jobs 
-        
       </span>
-      
     </div>
     <div
       class="search-results-count"
@@ -219,7 +203,6 @@ exports[`Project - Add Jobs - Job Counter should show the job count and progress
   </div><div
     class="middle-container"
   >
-    
     <div
       class="job-count-bar"
     >
@@ -232,7 +215,6 @@ exports[`Project - Add Jobs - Job Counter should show the job count and progress
       <ngb-progressbar
         data-qa-id="pgb-jobsUsed"
       >
-          
       </ngb-progressbar>
       <div
         class="max-job-count"
@@ -240,7 +222,6 @@ exports[`Project - Add Jobs - Job Counter should show the job count and progress
          100 jobs 
       </div>
     </div>
-    
   </div>
 </pf-job-limit-counter>
 `;

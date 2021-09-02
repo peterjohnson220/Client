@@ -25,7 +25,7 @@ describe('Data Management - Main - Transfer Method Dropdown', () => {
   });
 
   it('Should emit an event on change on transfermethod change event', () => {
-    spyOn(instance.transferMethodSelected, 'emit');
+    jest.spyOn(instance.transferMethodSelected, 'emit');
     const event = {
       target: {
         value: 1

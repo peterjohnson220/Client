@@ -3,6 +3,7 @@
 exports[`CompanyJobAndExchangeDetailComponent should render the exchange job detail panel when the selected company job is associated 1`] = `
 <pf-company-job-and-exchange-detail
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   exchangeId="null"
   exchangeStatus$={[Function Store]}
@@ -56,9 +57,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
       <div
         class="w-50 pt-3 pl-3 h-100"
       >
-        
         <pf-exchange-job-detail />
-        
       </div>
     </div>
   </section><pf-confirm-unmatch-modal /><pf-confirm-create-project-modal />
@@ -68,6 +67,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job det
 exports[`CompanyJobAndExchangeDetailComponent should render the exchange job search panel when the selected company job is not associated 1`] = `
 <pf-company-job-and-exchange-detail
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   allSubscriptions={[Function Subscription]}
   exchangeId="null"
   exchangeStatus$={[Function Store]}
@@ -121,9 +121,7 @@ exports[`CompanyJobAndExchangeDetailComponent should render the exchange job sea
       <div
         class="w-50 pt-3 pl-3 h-100"
       >
-        
         <pf-exchange-job-search />
-        
       </div>
     </div>
   </section><pf-confirm-unmatch-modal /><pf-confirm-create-project-modal />

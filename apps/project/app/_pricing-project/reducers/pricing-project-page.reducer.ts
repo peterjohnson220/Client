@@ -1,19 +1,28 @@
 import * as fromPricingProjectPageActions from '../actions';
 
 export interface State {
-  project: any;
+  projectContext: any;
 }
 
 export const initialState: State = {
-  project: null
+  projectContext: null
 };
 
 export function reducer(state = initialState, action: fromPricingProjectPageActions.PricingProjectPageActions): State {
   switch (action.type) {
-    case fromPricingProjectPageActions.GET_PRICING_PROJECT_SUCCESS: {
+    case fromPricingProjectPageActions.GET_PRICING_PROJECT_CONTEXT_SUCCESS: {
       return {
         ...state,
-        project: action.payload
+        projectContext: action.payload
+      };
+    }
+    case fromPricingProjectPageActions.UPDATE_PROJECT: {
+      return {
+        ...state,
+        projectContext: {
+          ...state.projectContext,
+          Project: action.payload
+        }
       };
     }
     default: {
@@ -22,4 +31,4 @@ export function reducer(state = initialState, action: fromPricingProjectPageActi
   }
 }
 
-export const getPricingProject =  (state: State) => state.project;
+export const getProjectContext =  (state: State) => state.projectContext;

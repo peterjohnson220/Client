@@ -19,6 +19,7 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { FormulaEditorModule } from 'libs/ui/formula-editor';
 import { RangeFieldEditorComponent } from 'libs/features/structures/range-editor/containers/range-field-editor';
 import { PfAddJobsModule } from 'libs/features/jobs/add-jobs';
+import { AddJobsModuleConfig } from 'libs/features/jobs/add-jobs/models';
 import { PfSearchModule } from 'libs/features/search/search';
 import { PfAddJobsToRangeModule } from 'libs/features/structures/add-jobs-to-range';
 import { WindowCommunicationService } from 'libs/core/services';
@@ -136,7 +137,8 @@ import {
     RangeGroupExistsGuard,
     StructuresPagesService,
     UrlService,
-    WindowCommunicationService
+    WindowCommunicationService,
+    { provide: AddJobsModuleConfig, useValue: { OverriddenEffects: true } },
   ]
 })
 export class SharedModule {

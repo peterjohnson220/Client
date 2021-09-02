@@ -36,7 +36,7 @@ describe ('Approve Request Modal', () => {
 
   it('should emit a closeClicked event, when the handleModalDismissed method is called', () => {
     // Spy on the emit method for the closeClicked EventEmitter
-    spyOn(instance.closeClicked, 'emit');
+    jest.spyOn(instance.closeClicked, 'emit');
 
     instance.handleModalDismissed();
 
@@ -45,7 +45,7 @@ describe ('Approve Request Modal', () => {
 
   it('should emit a approveClicked event, when the approve button is clicked', () => {
     // Spy on the emit method for the approveClicked EventEmitter
-    spyOn(instance.approveClicked, 'emit');
+    jest.spyOn(instance.approveClicked, 'emit');
 
     instance.reason.setValue('test');
     instance.peopleToNotify.setValue('NoOne');
@@ -66,7 +66,7 @@ describe ('Approve Request Modal', () => {
   });
 
   it('should call setPlaceholderOnBlur method, when the textarea focus is changed', () => {
-    spyOn(instance, 'setPlaceholderOnBlur');
+    jest.spyOn(instance, 'setPlaceholderOnBlur');
 
     fixture.detectChanges();
 

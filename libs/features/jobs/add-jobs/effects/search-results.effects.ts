@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -18,18 +18,25 @@ import * as fromAddJobsSearchResultsActions from 'libs/features/jobs/add-jobs/ac
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 
+import { AddJobsModuleConfig } from '../models/add-jobs-module-config.model';
+
 @Injectable()
 export class SearchResultsEffects {
 
   @Effect()
-  getResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_RESULTS)));
+  getResults$ = this.searchJobs(this.actions$.pipe(
+    filter(() => !this.addJobsModuleConfig?.OverriddenEffects),
+    ofType(fromSearchResultsActions.GET_RESULTS)));
 
   @Effect()
-  getMoreResults$ = this.searchJobs(this.actions$.pipe(ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
+  getMoreResults$ = this.searchJobs(this.actions$.pipe(
+    filter(() => !this.addJobsModuleConfig?.OverriddenEffects),
+    ofType(fromSearchResultsActions.GET_MORE_RESULTS)));
 
   @Effect()
   loadPricingData$ = this.actions$
     .pipe(
+      filter(() => !this.addJobsModuleConfig?.OverriddenEffects),
       ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA),
       withLatestFrom(
         this.store.select(fromAddJobsReducer.getContext),
@@ -130,6 +137,7 @@ export class SearchResultsEffects {
     private jobSearchApiService: JobSearchApiService,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private actions$: Actions
+    private actions$: Actions,
+    @Optional() private addJobsModuleConfig: AddJobsModuleConfig
   ) {}
 }

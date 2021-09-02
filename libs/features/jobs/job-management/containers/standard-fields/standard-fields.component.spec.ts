@@ -59,7 +59,7 @@ describe('Job Management Feature - Job Form', () => {
     store = TestBed.inject(MockStore);
     store.overrideSelector(fromReducer.getCompanyJobUdfs, initialState.companyJobUdfs);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
   });

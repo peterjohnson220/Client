@@ -2,6 +2,7 @@
 
 exports[`New Company Exchange Invitations should match snapshot 1`] = `
 <pf-new-company-exchange-invitations
+  __ngContext__={[Function LRootView]}
   companyInvitationInfoOpen$={[Function Store]}
   exchangeId={[Function Number]}
   newCompanyExchangeInvitationsGrid$={[Function Store]}
@@ -33,7 +34,6 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
             field="RequestCompany"
             title="Request Company"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="RequestUser"
@@ -43,13 +43,11 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
             field="CompanyName"
             title="New Company Name"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="CompanyIndustry"
             title="Industry"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="ContactName"
@@ -59,7 +57,6 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
             field="ContactEmailAddress"
             title="Contact Email Address"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="ContactJobTitle"
@@ -73,12 +70,10 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
             field="RequestDate"
             title="Request Date"
           >
-            
           </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-new-company-exchange-invitations>
 `;

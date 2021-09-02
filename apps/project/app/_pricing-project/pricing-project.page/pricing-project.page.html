@@ -1,10 +1,11 @@
 <pf-data-grid
   [pageViewId]="pageViewId"
   [reorderable]="false"
-  [title]="(project$ | async)?.Name || ((project$ | async)?.CreateDate | date : 'MM/dd/yy')"
+  [title]="projectContext?.Project?.Name || (projectContext?.Project?.CreateDate | date : 'MM/dd/yy')"
   [enableSelection]="true"
   [inboundFilters]="filter"
-  [columnTemplates]="colTemplates"
+  [columnTemplates]="columnDataTemplates"
+  [columnHeaderTemplates]="columnHeaderTemplates"
   [groupedColumnHeaderTemplates]="groupedColumnHeaderTemplates"
   [selectionField]="'UserJobListTemp_ID'"
   [gridConfig]="gridConfig"
@@ -17,24 +18,28 @@
   [hideKendoGrid] = "viewingJobSummary"
   [gridReplacementTemplate] = "jobSummary"
   [displaySelectAllWarning] = "!viewingJobSummary"
-  [noRecordsFound]="'No jobs available in this project.'">
+  [noRecordsFound]="'No jobs available in this project.'"
+  [viewConfigurationStrategy]="projectViewConfigurationStrategy">
 </pf-data-grid>
 
 <ng-template #aboveGridTemplate>
-  <div><label [innerText]="(project$ | async)?.Rate"></label> data effective <label [innerText]="(project$ | async)?.EffectiveDate | date : 'longDate'"></label> </div>
+  <div><label [innerText]="projectContext?.Project?.Rate"></label> data effective <label [innerText]="projectContext?.Project?.EffectiveDate | date : 'longDate'"></label> </div>
   <div class="d-flex flex-column content-wrapper pb-2">
     <div class=" d-flex align-items-center">
-    <div class="card pf-card flex-fill m-2">
-      <div class="card-body">
-      Add Jobs
+    <div class="card pf-card flex-fill m-5 btn text-left">
+      <div class="card-body" (click)="addJobClickHandler()">
+        <b>Add Jobs</b>
+        <ul class="nav nav-pills flex-column">
+          <li *ngFor="let job of projectContext?.Jobs">{{job.JobTitle}}</li>
+        </ul>
       </div>
     </div>
-    <div class="card pf-card flex-fill m-2">
+    <div class="card pf-card flex-fill m-5">
       <div class="card-body">
       Select Market
       </div>
     </div>
-    <div class="card pf-card flex-fill m-2">
+    <div class="card pf-card flex-fill m-5">
       <div class="card-body">
       Analyze
         <div>
@@ -58,7 +63,7 @@
     </div>
     <div>
       <div>
-        <label><i> {{dataRow['vw_ProjectJobPayMarketMetadata_Paymarket']}}</i></label>
+        <label><i> {{dataRow['vw_ProjectJobPayMarketMetadata_PayMarket']}}</i></label>
       </div>
       <div [pfSecuredResource]="permissions.PRICING_PROJECTS_DATA_CUTS"
            *ngIf="!dataRow['vw_ProjectJobPayMarketMetadata_IsPayfactorsJob']">
@@ -135,11 +140,11 @@
 ></pf-multi-match-component>
 
 <ng-template #compColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate | emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[fieldName] | comp: projectContext?.Project?.Rate | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #percentageColumn let-dataRow="dataRow" let-fieldName="fieldName">
-  <span [innerHTML]="dataRow[fieldName] | comp: (project$ | async)?.Rate : 'full' | emptyPlaceholder"></span>
+  <span [innerHTML]="dataRow[fieldName] | comp: projectContext?.Project?.Rate : 'full' | emptyPlaceholder"></span>
 </ng-template>
 
 <ng-template #companyColumn let-column="column">
@@ -149,16 +154,48 @@
 <ng-template #jobSummary>
   <ng-container *ngIf="viewingJobSummary">
     <pf-job-summary
-      [projectRate]="(project$ | async)?.Rate"
-      [baseMrp] = "(project$ | async)?.BaseReferencePoint"
-      [tccMrp] = "(project$ | async)?.TCCReferencePoint"
+      [projectRate]="projectContext?.Project?.Rate"
+      [baseMrp] = "projectContext?.Project?.BaseReferencePoint"
+      [tccMrp] = "projectContext?.Project?.TCCReferencePoint"
       [(showJobSummary)]="viewingJobSummary"
       [projectId]="projectId"
       [projectJobIds]="selectedRowIds"
-      [defaultPaymarket] = "(project$ | async)?.PayMarketProjectMap?.PayMarket?.Name">
+      [defaultPaymarket] = "projectContext?.ProjectPayMarket?.Name">
     </pf-job-summary>
   </ng-container>
 </ng-template>
 
 <pf-add-data [display]="'modal'">
 </pf-add-data>
+
+<!--TODO: update viewingJobSummary/disabled logic when more reports/pages get added -->
+<ng-template #customColumnChooser>
+  <button
+    #columnChooserButton
+    title="Choose Columns"
+    type="button"
+    class="btn btn-secondary"
+    (click)="handleColumnChooserClicked(columnChooserButton)"
+    [disabled]="viewingJobSummary">
+    <fa-icon icon="table"></fa-icon>
+  </button>
+</ng-template>
+
+<ng-template #mrpColumnHeader let-column="column">
+  <div pfEllipsisActive class="ellipsis-text k-column-title">
+    <!--
+      This string split logic is to get the category off of the field source name
+      column.Field = vw_ProjectJobMetaData_BaseMRP (...TCCMRP, BonusMRP, etc.)
+      From that we need the 'Base' part of that string to get the projectContext.Project[stringSplit + 'ReferencePoint']
+    -->
+    ({{projectContext?.Project[column.field.split('_')[2].split('MRP')[0] + 'ReferencePoint'] || 50 | ordinalNumber}}) MRP
+  </div>
+</ng-template>
+
+<pf-project-template-management
+  [featureImplementation]="projectFieldFeatureImplementations.PRICING_PROJECTS"
+></pf-project-template-management>
+
+<pf-add-jobs-page [display]="'modal'" [legacyImplementation]="false" >
+
+</pf-add-jobs-page>

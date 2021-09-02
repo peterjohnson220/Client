@@ -3,6 +3,8 @@ import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { NgbConfig } from '@ng-bootstrap/ng-bootstrap';
+
 
 import * as fromRootState from '../../../state/state';
 import * as fromCompanySettingsActions from '../../../state/app-context/actions/company-settings.actions';
@@ -47,11 +49,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store<fromRootState.State>,
     // Initializing the route tracking service to start tracking on app startup by requesting it here
     private routeTrackingService: RouteTrackingService,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private ngbConfig: NgbConfig
   ) {
     this.hasUserContext$ = this.store.select(fromRootState.hasUserContext);
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.forbidden$ = this.store.select(fromRootState.getForbidden);
+
+    ngbConfig.animation = false;
   }
 
   ngOnInit(): void {

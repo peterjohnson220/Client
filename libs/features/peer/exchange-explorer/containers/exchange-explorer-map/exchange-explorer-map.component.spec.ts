@@ -12,10 +12,6 @@ import { ExchangeExplorerMapComponent } from './exchange-explorer-map.component'
 import * as fromMapActions from '../../actions/map.actions';
 
 
-jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
-  LngLatBounds: () => ({})
-}));
-
 describe('Features - Peer - Map Component', () => {
   let fixture: ComponentFixture<ExchangeExplorerMapComponent>;
   let instance: ExchangeExplorerMapComponent;
@@ -97,7 +93,7 @@ describe('Features - Peer - Map Component', () => {
 
     const expectedAction = new fromMapActions.InitialZoomComplete();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleZoomEnd(null); // e event is not used in method.
 
@@ -110,7 +106,7 @@ describe('Features - Peer - Map Component', () => {
 
     const expectedAction = new fromMapActions.AutoZoomComplete();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleZoomEnd(null); // e event is not used in method.
 
@@ -120,7 +116,7 @@ describe('Features - Peer - Map Component', () => {
   it('should dispatch a MapLoaded action when handleLoadEvent is called', () => {
     const expectedAction = new fromMapActions.MapLoaded();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadEvent(null);
 
@@ -149,7 +145,7 @@ describe('Features - Peer - Map Component', () => {
 
     const expectedAction = new fromMapActions.MoveEnd(payload);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadEvent(null);
 

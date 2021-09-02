@@ -20,7 +20,7 @@ describe('Data Insights - Bit Filter Component', () => {
   });
 
   it('should emit selectedValueChanged when handling selected value changed', () => {
-    spyOn(instance.selectedValueChanged, 'emit');
+    jest.spyOn(instance.selectedValueChanged, 'emit');
 
     instance.handleSelectedValueChanged('false');
 

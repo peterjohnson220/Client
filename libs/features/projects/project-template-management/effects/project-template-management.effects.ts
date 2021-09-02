@@ -51,11 +51,14 @@ export class ProjectTemplateManagementEffects {
       switchMap((data) => {
         return this.projectTemplateApiService.getProjectTemplateFields(data.action.payload)
           .pipe(
-            map((response) =>
-              new fromProjectTemplateActions
+            map((response) => {
+              const companyNameDisplay = data.userContext.CompanyNameShort.length > 0 ? data.userContext.CompanyNameShort : data.userContext.CompanyName;
+              return new fromProjectTemplateActions
                 .GetProjectTemplateFieldsSuccess(
-                  ProjectTemplateHelper.setTemplateFieldsCompanyName(response, data.userContext.CompanyName)
-                )),
+                  ProjectTemplateHelper.setTemplateFieldsCompanyName(response, companyNameDisplay)
+                );
+              }
+            ),
             catchError(() => of(new fromProjectTemplateActions.GetProjectTemplateFieldsError()))
           );
       })

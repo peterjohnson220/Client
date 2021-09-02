@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeJobMapping } from 'libs/models/peer';
@@ -42,7 +41,7 @@ describe('Peer - Manage - Delete Confirmation Modal', () => {
     instance = fixture.componentInstance;
     instance.selectedExchangeJobTitle = mockExchangeJobMapping.ExchangeJobTitle;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Trigger ngOnInit
     fixture.detectChanges();

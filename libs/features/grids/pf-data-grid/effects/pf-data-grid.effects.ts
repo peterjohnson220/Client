@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { map, switchMap, catchError, withLatestFrom, mergeMap, groupBy, debounceTime, concatMap } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 
-import { DataViewConfig, DataViewEntityResponseWithCount, PagingOptions, DataViewType, ExportGridRequest, DataView } from 'libs/models/payfactors-api';
+import {
+  DataViewConfig,
+  DataViewEntityResponseWithCount,
+  PagingOptions,
+  DataViewType,
+  ExportGridRequest,
+  DataView,
+  ViewField
+} from 'libs/models/payfactors-api';
 import { DataViewApiService } from 'libs/data/payfactors-api';
 
 import * as fromPfDataGridActions from '../actions';
@@ -23,38 +31,35 @@ export class PfDataGridEffects {
   @Effect()
   loadViewConfig$: Observable<Action> = this.actions$
     .pipe(
-      ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG),
+      ofType(fromPfDataGridActions.LOAD_VIEW_CONFIG, fromPfDataGridActions.LOAD_VIEW_CONFIG_WITH_STRATEGY),
       groupBy((action: fromPfDataGridActions.LoadViewConfig) => action.pageViewId),
       mergeMap(pageViewIdGroup => pageViewIdGroup.pipe(
-        mergeMap((loadViewConfigAction: fromPfDataGridActions.LoadViewConfig) =>
-          of(loadViewConfigAction).pipe(
-            withLatestFrom(
-              this.store.pipe(select(fromPfDataGridReducer.getApplyUserDefaultCompensationFields, loadViewConfigAction.pageViewId)),
-              (action: fromPfDataGridActions.LoadViewConfig, applyUserDefaultCompensationFields) =>
-                ({ action, applyUserDefaultCompensationFields })
-            )
-          ),
-        ),
         switchMap(
-          (data) =>
-            this.dataViewApiService.getDataViewConfig(
-              PfDataGridEffects.parsePageViewId(data.action.pageViewId),
-              data.action.name,
-              data.applyUserDefaultCompensationFields
-            ).pipe(
+          (action: any) => {
+            const result = action.type.indexOf('Strategy') > -1 ?
+              this.dataViewApiService.getDataViewConfigWithStrategy(PfDataGridEffects.parsePageViewId(action.pageViewId), action.strategy)
+              : this.dataViewApiService.getDataViewConfig(
+                PfDataGridEffects.parsePageViewId(action.pageViewId),
+                action.name
+              );
+
+            return result.pipe(
               mergeMap((viewConfig: DataViewConfig) => {
                 return [
-                  new fromPfDataGridActions.LoadViewConfigSuccess(data.action.pageViewId, viewConfig),
-                  new fromPfDataGridActions.LoadData(data.action.pageViewId)
+                  new fromPfDataGridActions.LoadViewConfigSuccess(action.pageViewId, viewConfig),
+                  new fromPfDataGridActions.LoadData(action.pageViewId)
                 ];
               }),
               catchError(error => {
                 const msg = 'We encountered an error while loading the data fields.';
-                return of(new fromPfDataGridActions.HandleApiError(data.action.pageViewId, msg));
+                return of(new fromPfDataGridActions.HandleApiError(action.pageViewId, msg));
               })
-            )
-        )))
-    );
+            );
+          }
+        )
+      )
+    )
+  );
 
   @Effect()
   loadData$: Observable<Action> = this.actions$
@@ -204,7 +209,7 @@ export class PfDataGridEffects {
             this.store.pipe(select(fromPfDataGridReducer.getFields, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSortDescriptor, saveFilterAction.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getSaveSort, saveFilterAction.pageViewId)),
-            this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+            this.store.pipe(select(fromPfDataGridReducer.getGridConfig, saveFilterAction.pageViewId)),
             (action: fromPfDataGridActions.SaveView, baseEntity, fields, sortDescriptor, saveSort, gridConfig) =>
               ({ action, baseEntity, fields, sortDescriptor, saveSort, gridConfig })
           )
@@ -362,11 +367,16 @@ export class PfDataGridEffects {
         )
       ),
       switchMap((data) => {
-        let fields = data.fields.filter(f => !data.fieldsExcludedFromExport || data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1);
+        const fields: ViewField[]  = data.fields.filter(f =>
+          (!data.fieldsExcludedFromExport || data.fieldsExcludedFromExport.indexOf(f.SourceName) === -1) && f.IsSelected);
 
-        if (!data.action.exportAllFields) {
-          fields = fields.filter(x => x.IsSelected);
-        }
+        data.action.exportHiddenFields.forEach(sourceName => {
+          const isMissingField = fields.find(x => x.SourceName === sourceName) === undefined;
+
+          if (isMissingField) {
+            fields.push(data.fields.find(x => x.SourceName === sourceName));
+          }
+        });
 
         const dataViewFields = DataGridToDataViewsHelper.mapFieldsToDataViewFields(fields, data.sortDescriptor, null, false, true);
         const filters = DataGridToDataViewsHelper.getFiltersForExportView(data.fields, data.selectionField, data.selectedKeys, data.primaryKey);

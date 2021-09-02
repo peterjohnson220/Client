@@ -250,7 +250,7 @@ describe('JobBasedModelSettingsContentComponent', () => {
   });
 
   it('should dispatch GetStructureNameSuggestions when structure name changed', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromModelSettingsModalActions.GetStructureNameSuggestions({ filter: 'test' });
     instance.handleStructureNameChanged('test');
 
@@ -259,7 +259,7 @@ describe('JobBasedModelSettingsContentComponent', () => {
   });
 
   it('should dispatch ClearModelNameExistsFailure when modelNameExistsFailure is true', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromModelSettingsModalActions.ClearModelNameExistsFailure();
     instance.modelNameExistsFailure = true;
 
@@ -269,7 +269,7 @@ describe('JobBasedModelSettingsContentComponent', () => {
   });
 
   it('should NOT dispatch ClearModelNameExistsFailure when modelNameExistsFailure is false', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromModelSettingsModalActions.ClearModelNameExistsFailure();
     instance.modelNameExistsFailure = false;
 
@@ -336,7 +336,7 @@ describe('JobBasedModelSettingsContentComponent', () => {
   });
 
   it('should dispatch getCurrencies and getControlPoints on init', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction1 = new fromModelSettingsModalActions.GetCurrencies();
     const expectedAction2 = new fromModelSettingsModalActions.GetControlPoints();
 
@@ -355,7 +355,7 @@ describe('JobBasedModelSettingsContentComponent', () => {
   });
 
   it('should dispatch SaveModelSettings and reset attemptedSubmit if submit is called when form is valid', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
 
     instance.ngOnInit();
     instance.allFormulas = {};

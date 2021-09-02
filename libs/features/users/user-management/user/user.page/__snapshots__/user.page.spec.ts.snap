@@ -2,6 +2,7 @@
 
 exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 <pf-user-page
+  __ngContext__={[Function LRootView]}
   apiError$={[Function Store]}
   companyId={[Function Number]}
   companySubsidiaryInfo$={[Function Store]}
@@ -20,9 +21,7 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
   userSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
-    
      Edit User 
-    
     <button
       class="btn btn-primary"
       id="user-page-save"
@@ -35,7 +34,6 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
     >
       Cancel
     </button>
-    
     <pf-async-container>
       <div
         class="row no-gutters"
@@ -48,7 +46,6 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
         <div
           class="col-lg-6 px-3 mt-4"
         >
-          
           <div
             class="card"
           >
@@ -76,6 +73,7 @@ exports[`Admin - Company Admin - User Page Should show the add user page 1`] = `
 
 exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = `
 <pf-user-page
+  __ngContext__={[Function LRootView]}
   apiError$={[Function Store]}
   companyId={[Function Number]}
   companySubsidiaryInfo$={[Function Store]}
@@ -94,9 +92,7 @@ exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = 
   userSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
-    
      Edit User 
-    
     <button
       class="btn btn-primary"
       id="user-page-save"
@@ -109,7 +105,6 @@ exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = 
     >
       Cancel
     </button>
-    
     <pf-async-container>
       <div
         class="row no-gutters"
@@ -122,7 +117,6 @@ exports[`Admin - Company Admin - User Page Should show the edit user page 1`] = 
         <div
           class="col-lg-6 px-3 mt-4"
         >
-          
           <div
             class="card"
           >

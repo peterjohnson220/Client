@@ -55,7 +55,7 @@ describe('Pf-Admin - Companies - Companies List Component', () => {
     });
 
     it('Should dispatch a GetGridSkipAmount Action when the grid page is changed', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
         const pageChangeEvent = {skip: 15, take: 15 };
         const expectedAction = new fromCompaniesGridActions.GetGridSkipAmount(pageChangeEvent.skip);
 
@@ -66,7 +66,7 @@ describe('Pf-Admin - Companies - Companies List Component', () => {
     });
 
     it('Should navigate to the company page when the row is clicked', () => {
-        spyOn(router, 'navigate');
+        jest.spyOn(router, 'navigate');
 
         instance.gridSelectionChange(
             {

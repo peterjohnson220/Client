@@ -2,6 +2,7 @@
 
 exports[`Exchange Access Requests should match snapshot 1`] = `
 <pf-exchange-access-requests
+  __ngContext__={[Function LRootView]}
   collapse="false"
   exchangeAccessRequestsGrid$={[Function Store]}
   exchangeAccessRequestsLoading$={[Function Store]}
@@ -28,13 +29,11 @@ exports[`Exchange Access Requests should match snapshot 1`] = `
             field="CompanyName"
             title="Company Name"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="CompanyIndustry"
             title="Industry"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="CompanyLocation"
@@ -48,12 +47,10 @@ exports[`Exchange Access Requests should match snapshot 1`] = `
             field="RequestDate"
             title="Request Date"
           >
-            
           </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
-    
   </div>
 </pf-exchange-access-requests>
 `;

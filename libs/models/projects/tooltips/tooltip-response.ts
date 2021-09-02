@@ -1,3 +1,5 @@
+// TODO: Move these Response models to the api/response directory
+
 export interface ProjectListTooltipResponse {
   ProjectId: number;
 }

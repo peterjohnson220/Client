@@ -2,13 +2,13 @@
 
 exports[`CommunityFiltersDropdownComponent should show community filters 1`] = `
 <pf-community-filters-dropdown
+  __ngContext__={[Function LRootView]}
   filtersSelected={[Function EventEmitter_]}
 >
   <div
     class="py-2"
   >
     <kendo-multiselect>
-      
     </kendo-multiselect>
     <div
       class="dropdown-arrow"

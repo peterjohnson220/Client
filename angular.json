@@ -11,7 +11,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/notifications",
             "index": "apps/notifications/index.html",
             "main": "apps/notifications/main.ts",
@@ -51,7 +50,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/notifications/styles.scss"
             ],
             "scripts": [
@@ -62,14 +61,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -78,7 +83,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -97,7 +101,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -106,7 +110,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -132,7 +135,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -143,7 +145,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -180,7 +183,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/notifications/styles.scss"
             ],
             "assets": [
@@ -234,7 +237,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/admin",
             "index": "apps/admin/index.html",
             "main": "apps/admin/main.ts",
@@ -274,7 +276,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/admin/styles.scss"
             ],
             "scripts": [
@@ -285,14 +287,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.73mb",
+                  "baseline": "2.93mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -301,7 +309,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -320,7 +327,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.73mb",
+                  "baseline": "2.93mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -329,7 +336,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -359,7 +365,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -374,7 +379,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -411,7 +417,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/admin/styles.scss"
             ],
             "assets": [
@@ -465,7 +471,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/dashboard",
             "index": "apps/dashboard/index.html",
             "main": "apps/dashboard/main.ts",
@@ -505,7 +510,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/dashboard/styles.scss"
             ],
             "scripts": [
@@ -519,14 +524,20 @@
               "jwt-decode",
               "dragula",
               "hammerjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -535,7 +546,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -554,7 +564,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -563,7 +573,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -593,7 +602,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -608,7 +616,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -646,7 +655,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/dashboard/styles.scss"
             ],
             "assets": [
@@ -700,7 +709,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/peer",
             "index": "apps/peer/index.html",
             "main": "apps/peer/main.ts",
@@ -740,7 +748,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/peer/styles.scss",
               "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -758,14 +766,20 @@
               "dragula",
               "hammerjs",
               "@mapbox/mapbox-gl-geocoder"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.90mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -774,7 +788,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -793,7 +806,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.90mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -802,7 +815,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -832,7 +844,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -847,7 +858,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -884,7 +896,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/peer/styles.scss",
               "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -941,7 +953,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/legacy-content",
             "index": "apps/legacy-content/index.html",
             "main": "apps/legacy-content/main.ts",
@@ -981,7 +992,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/legacy-content/styles.scss",
               "libs/features/peer/job-association/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -997,14 +1008,20 @@
               "dragula",
               "dom-autoscroller",
               "@mapbox/mapbox-gl-geocoder"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.49mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1013,7 +1030,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1032,7 +1048,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.49mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1041,7 +1057,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1071,7 +1086,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1086,7 +1100,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1123,7 +1138,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/legacy-content/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
@@ -1179,7 +1194,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/auth",
             "index": "apps/auth/index.html",
             "main": "apps/auth/main.ts",
@@ -1220,7 +1234,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "scripts": [
@@ -1232,14 +1246,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1248,7 +1268,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1267,7 +1286,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1276,7 +1295,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1306,7 +1324,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1321,7 +1338,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1358,7 +1376,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "assets": [
@@ -1412,7 +1430,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/project",
             "index": "apps/project/index.html",
             "main": "apps/project/main.ts",
@@ -1452,7 +1469,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/project/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
@@ -1464,15 +1481,23 @@
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
-              "dragula"
-            ]
+              "dragula",
+              "dom-autoscroller",
+              "@mapbox/mapbox-gl-geocoder"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.58mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1481,7 +1506,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1500,7 +1524,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.58mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1509,7 +1533,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1539,7 +1562,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1554,7 +1576,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1591,7 +1614,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "assets": [
@@ -1645,7 +1668,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/community",
             "index": "apps/community/index.html",
             "main": "apps/community/main.ts",
@@ -1686,7 +1708,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/community/styles.scss"
             ],
             "scripts": [
@@ -1699,14 +1721,20 @@
               "jwt-decode",
               "dragula",
               "linkifyjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.41mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1715,7 +1743,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1734,7 +1761,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.41mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1743,7 +1770,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1773,7 +1799,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1788,7 +1813,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1825,7 +1851,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/community/styles.scss"
             ],
             "assets": [
@@ -1879,7 +1905,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/smallbiz/browser",
             "index": "apps/smallbiz/index.html",
             "main": "apps/smallbiz/main.ts",
@@ -1929,7 +1954,13 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "local-universal": {
@@ -1944,7 +1975,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -1960,7 +1990,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1987,7 +2016,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2018,7 +2046,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2033,14 +2060,17 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/smallbiz/server",
             "main": "apps/smallbiz/main.server.ts",
-            "tsConfig": "apps/smallbiz/tsconfig.server.json"
+            "tsConfig": "apps/smallbiz/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "staging": {
@@ -2069,7 +2099,8 @@
               ],
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2159,7 +2190,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/jobs",
             "index": "apps/jobs/index.html",
             "main": "apps/jobs/main.ts",
@@ -2199,7 +2229,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/jobs/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
@@ -2216,14 +2246,20 @@
               "hammerjs",
               "highcharts",
               "dom-autoscroller"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.5mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2232,7 +2268,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2251,7 +2286,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.5mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2260,7 +2295,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2290,7 +2324,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2305,7 +2338,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2342,7 +2376,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/jobs/styles.scss"
             ],
             "assets": [
@@ -2396,7 +2430,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/comphub",
             "index": "apps/comphub/index.html",
             "main": "apps/comphub/main.ts",
@@ -2436,7 +2469,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/comphub/styles.scss",
               "apps/comphub/outside-view-encapsulation.scss",
               "apps/comphub/assets/css/flags.min.css",
@@ -2454,14 +2487,20 @@
               "hammerjs",
               "@mapbox/mapbox-gl-geocoder",
               "highcharts"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2470,7 +2509,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2489,7 +2527,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2498,7 +2536,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2528,7 +2565,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2543,7 +2579,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2580,7 +2617,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/comphub/styles.scss"
             ],
             "assets": [
@@ -2634,7 +2671,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/pf-admin",
             "index": "apps/pf-admin/index.html",
             "main": "apps/pf-admin/main.ts",
@@ -2674,7 +2710,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/pf-admin/styles.scss"
             ],
             "scripts": [
@@ -2685,14 +2721,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2701,7 +2743,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2720,7 +2761,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2729,7 +2770,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2759,7 +2799,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2774,7 +2813,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2811,7 +2851,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/pf-admin/styles.scss"
             ],
             "assets": [
@@ -2865,7 +2905,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/data-insights",
             "index": "apps/data-insights/index.html",
             "main": "apps/data-insights/main.ts",
@@ -2905,7 +2944,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-insights/styles.scss",
               "apps/data-insights/outside-view-encapsulation.scss"
             ],
@@ -2923,14 +2962,20 @@
               "codemirror/addon/edit/matchbrackets",
               "codemirror/addon/display/placeholder",
               "codemirror/mode/spreadsheet/spreadsheet"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.8mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2939,7 +2984,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2958,7 +3002,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.8mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2967,7 +3011,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2997,7 +3040,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3012,7 +3054,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3050,7 +3093,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-insights/styles.scss"
             ],
             "assets": [
@@ -3104,7 +3147,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/job-description-management",
             "index": "apps/job-description-management/index.html",
             "main": "apps/job-description-management/main.ts",
@@ -3144,7 +3186,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/job-description-management/styles.scss"
             ],
             "scripts": [
@@ -3156,14 +3198,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "4.2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3172,7 +3220,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3191,7 +3238,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "4.2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3200,7 +3247,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3230,7 +3276,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3245,7 +3290,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3282,7 +3328,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/job-description-management/styles.scss"
             ],
             "assets": [
@@ -3336,7 +3382,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/structures",
             "index": "apps/structures/index.html",
             "main": "apps/structures/main.ts",
@@ -3376,7 +3421,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/structures/styles.scss",
               "apps/structures/outside-view-encapsulation.scss"
             ],
@@ -3396,14 +3441,20 @@
               "codemirror/addon/edit/matchbrackets",
               "codemirror/addon/display/placeholder",
               "codemirror/mode/spreadsheet/spreadsheet"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.65mb",
+                  "baseline": "2.85mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3412,7 +3463,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3431,7 +3481,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.65mb",
+                  "baseline": "2.85mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3440,7 +3490,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3470,7 +3519,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3485,7 +3533,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3522,7 +3571,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/structures/styles.scss"
             ],
             "assets": [
@@ -3576,7 +3625,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/data-management",
             "index": "apps/data-management/index.html",
             "main": "apps/data-management/main.ts",
@@ -3616,7 +3664,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-management/styles.scss"
             ],
             "scripts": [
@@ -3627,14 +3675,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.64mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3643,7 +3697,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3662,7 +3715,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.64mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3671,7 +3724,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3701,7 +3753,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3716,7 +3767,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3753,7 +3805,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-management/styles.scss"
             ],
             "assets": [
@@ -3807,7 +3859,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/resources",
             "index": "apps/resources/index.html",
             "main": "apps/resources/main.ts",
@@ -3847,7 +3898,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/resources/styles.scss"
             ],
             "scripts": [
@@ -3858,14 +3909,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3874,7 +3931,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3893,7 +3949,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3902,7 +3958,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3932,7 +3987,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3947,7 +4001,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3984,7 +4039,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/resources/styles.scss"
             ],
             "assets": [
@@ -4038,7 +4093,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/employees",
             "index": "apps/employees/index.html",
             "main": "apps/employees/main.ts",
@@ -4078,7 +4132,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/employees/styles.scss"
             ],
             "scripts": [
@@ -4091,14 +4145,20 @@
               "dragula",
               "hammerjs",
               "highcharts"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4107,7 +4167,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4126,7 +4185,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4135,7 +4194,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4165,7 +4223,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4180,7 +4237,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4217,7 +4275,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/employees/styles.scss"
             ],
             "assets": [
@@ -4271,7 +4329,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/total-rewards",
             "index": "apps/total-rewards/index.html",
             "main": "apps/total-rewards/main.ts",
@@ -4311,7 +4368,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/total-rewards/styles.scss"
             ],
             "scripts": [
@@ -4323,14 +4380,20 @@
               "jwt-decode",
               "dragula",
               "hammerjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.62mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4339,7 +4402,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4358,7 +4420,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.62mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4367,7 +4429,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4397,7 +4458,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4412,7 +4472,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4449,7 +4510,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/total-rewards/styles.scss"
             ],
             "assets": [
@@ -4503,7 +4564,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/service",
             "index": "apps/service/index.html",
             "main": "apps/service/main.ts",
@@ -4543,7 +4603,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/service/styles.scss"
             ],
             "scripts": [
@@ -4554,14 +4614,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.53mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4570,7 +4636,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4589,7 +4654,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.53mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4598,7 +4663,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4628,7 +4692,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4643,7 +4706,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4681,7 +4745,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/service/styles.scss"
             ],
             "assets": [
@@ -4735,7 +4799,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/paymarkets",
             "index": "apps/paymarkets/index.html",
             "main": "apps/paymarkets/main.ts",
@@ -4775,7 +4838,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/paymarkets/styles.scss"
             ],
             "scripts": [
@@ -4786,14 +4849,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4802,7 +4871,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4821,7 +4889,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4830,7 +4898,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4860,7 +4927,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4875,7 +4941,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4912,7 +4979,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/paymarkets/styles.scss"
             ],
             "assets": [
@@ -4966,7 +5033,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/user-settings",
             "index": "apps/user-settings/index.html",
             "main": "apps/user-settings/main.ts",
@@ -5006,7 +5072,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/user-settings/styles.scss"
             ],
             "scripts": [
@@ -5017,14 +5083,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.25mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5033,7 +5105,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5048,7 +5119,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.25mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5057,7 +5128,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5087,7 +5157,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5102,7 +5171,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5139,7 +5209,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/user-settings/styles.scss"
             ],
             "assets": [
@@ -5232,7 +5302,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/form/styles.scss"
             ],
             "scripts": [
@@ -5244,14 +5314,21 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "6mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5275,7 +5352,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "6mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5323,7 +5400,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5361,7 +5439,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/form/styles.scss"
             ],
             "assets": [
@@ -5415,7 +5493,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/surveys",
             "index": "apps/surveys/index.html",
             "main": "apps/surveys/main.ts",
@@ -5455,20 +5532,30 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/surveys/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js"
-            ]
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5476,9 +5563,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5497,7 +5582,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5505,9 +5590,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5536,9 +5619,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5553,7 +5634,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5590,7 +5672,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/surveys/styles.scss"
             ],
             "assets": [
