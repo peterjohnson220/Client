@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { HighchartsChartModule } from 'highcharts-angular';
 import 'hammerjs';
@@ -18,37 +15,24 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
-import { HumanizeNumberPipe, PfCommonModule, WindowCommunicationService } from 'libs/core';
-import { WindowRef } from 'libs/core/services';
+import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guidelines-badge.module';
 import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
-import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 
 import { SharedModule } from '../_shared/shared.module';
 
 import {
-  JobsCardWrapperComponent,
   JobsCardComponent,
-  SummaryCardComponent,
   PeerDataCardComponent,
   ParentDataCardComponent,
-  QuickPriceHistoryComponent,
   MarketDataJobResultsComponent,
   PeerJobResultsComponent,
-  QuickPriceLandingPageComponent,
   QuickPricePageComponent
 } from './containers';
-import {
-  QuickPriceHistoryEffects
-} from './effects';
-import { reducers } from './reducers';
-import {  TrendingJobGroupComponent, SalaryBarChartComponent,
-          SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent,
-          JobsGridContentComponent
-} from './components';
+import {  TrendingJobGroupComponent, JobsGridContentComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 import * as fromFaIcons from './fa-icons';
 
@@ -60,12 +44,7 @@ import * as fromFaIcons from './fa-icons';
     ReactiveFormsModule,
 
     // 3rd Party
-    StoreModule.forFeature('comphub_main', reducers),
-    EffectsModule.forFeature([
-      QuickPriceHistoryEffects
-    ]),
     PerfectScrollbarModule,
-    PDFExportModule,
     FontAwesomeModule,
 
     // Routing
@@ -85,47 +64,24 @@ import * as fromFaIcons from './fa-icons';
     PfCommonUIModule,
     PfFormsModule,
     PfExchangeExplorerModule,
-    GuidelinesBadgeModule,
     BasicDataGridModule,
     SharedModule,
-    BasicDataGridModule,
-    // PfDataGridModule // TODO: [JP] Do we still need this here?
+    PfDataGridModule
   ],
   declarations: [
     // Components
     TrendingJobGroupComponent,
-    SalaryBarChartComponent,
-    SalaryTrendChartComponent,
-    SharePricingSummaryModalComponent,
-    GlossaryOfTermsComponent,
 
     // Pages
     JobsCardComponent,
-    SummaryCardComponent,
     PeerDataCardComponent,
     ParentDataCardComponent,
-    QuickPriceHistoryComponent,
     MarketDataJobResultsComponent,
     PeerJobResultsComponent,
-    JobsCardWrapperComponent,
-    QuickPriceLandingPageComponent,
     JobsGridContentComponent,
-    QuickPriceLandingPageComponent,
     QuickPricePageComponent
   ],
-  providers: [
-    WindowRef,
-    CurrencyPipe, // TODO: [JP] Do we still need this here?
-    DatePipe, // TODO: [JP] Do we still need this here?
-    WindowCommunicationService,
-    DojGuidelinesService,
-    PercentPipe, // TODO: [JP] Do we still need this here?
-    HumanizeNumberPipe // TODO: [JP] Do we still need this here?
-  ],
-  exports: [
-    JobsCardWrapperComponent,
-    QuickPriceLandingPageComponent,
-  ]
+  exports: []
 })
 export class MainModule {
   constructor(library: FaIconLibrary) {

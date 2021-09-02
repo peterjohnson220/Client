@@ -33,7 +33,7 @@ export const selectFeatureAreaState = createFeatureSelector<ComphubPeerTrendsDat
 // Feature Selectors
 export const selectTrendsLandingCardState = createSelector(
   selectFeatureAreaState,
-  (state: ComphubPeerTrendsDataState) => state.trendsLandingCard
+  (state: ComphubPeerTrendsDataState) => !!state ? state.trendsLandingCard : {}
 );
 
 export const selectTrendsJobsCardState = createSelector(
@@ -68,6 +68,10 @@ export const getSelectedExchangeJobs = createSelector(
   fromTrendsJobsCardReducer.getSelectedExchangeJobs
 );
 
+export const getSelectedExchangeJobCount = createSelector(
+  getSelectedExchangeJobs,
+  (ejs) => ejs?.length ?? 0
+);
 
 // Trends Summary Card
 export const getPeerTrends = createSelector(

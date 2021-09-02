@@ -21,25 +21,21 @@
       </div>
     </div>
     <br>
-    <div class="row flex-nowrap">
-      <div class="fixed pr-3">
+    <div class="d-flex flex-row justify-content-between align-items-center h-100">
+      <div class="card">
         <pf-new-exchange-participants [companyNames]="(newCompanies$ | async)"></pf-new-exchange-participants>
       </div>
-      <div class="fixed pr-3">
-        <div class="card">
-          <pf-historical-org-inc-count-chart
-            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
-            [countType]="'Org'">
-          </pf-historical-org-inc-count-chart>
-        </div>
+      <div class="card">
+        <pf-historical-org-inc-count-chart
+          [orgIncCountData]="(orgIncCountHistory$ | async).obj"
+          [countType]="'Org'">
+        </pf-historical-org-inc-count-chart>
       </div>
-      <div class="fixed">
-        <div class="card">
-          <pf-historical-org-inc-count-chart
-            [orgIncCountData]="(orgIncCountHistory$ | async).obj"
-            [countType]="'Inc'">
-          </pf-historical-org-inc-count-chart>
-        </div>
+      <div class="card">
+        <pf-historical-org-inc-count-chart
+          [orgIncCountData]="(orgIncCountHistory$ | async).obj"
+          [countType]="'Inc'">
+        </pf-historical-org-inc-count-chart>
       </div>
     </div>
 

@@ -70,12 +70,6 @@ export class RelationalExchangeJobSearchComponent extends SearchBaseDirective im
   ngOnInit(): void {
     this.selectedExchangeJobCountSubscription = this.selectedExchangeJobCount$.subscribe(count => this.selectedExchangeJobCount = count);
     this.searchResultsCountSubscription = this.searchResultsCount$.subscribe(count => this.searchResultsCount = count);
-    this.exchangeIdSubscription = this.exchangeId$.subscribe(exchangeId => {
-      this.exchangeId = exchangeId;
-      if (!!exchangeId) {
-        this.initExchangeJobSearch();
-      }
-    });
   }
 
   ngOnDestroy(): void {
@@ -84,8 +78,8 @@ export class RelationalExchangeJobSearchComponent extends SearchBaseDirective im
     this.exchangeIdSubscription.unsubscribe();
   }
 
-  initExchangeJobSearch(): void {
-    if (!this.exchangeId) {
+  initExchangeJobSearch(exchangeId: number): void {
+    if (!exchangeId || exchangeId < 1) {
       return;
     }
 
@@ -94,12 +88,16 @@ export class RelationalExchangeJobSearchComponent extends SearchBaseDirective im
         payfactorsMessage: {
           type: 'Set Context',
           payload: {
-            exchangeId: this.exchangeId
+            exchangeId: exchangeId
           }
         }
       }
     } as MessageEvent;
     this.onMessage(setContextMessage);
+  }
+
+  clear(): void {
+    this.resetApp();
   }
 
   onSetContext(payload: any): void {

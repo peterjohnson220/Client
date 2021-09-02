@@ -19,10 +19,7 @@ import * as fromComphubSharedReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { ComphubPages } from '../data';
 import { FooterContextRequest, FooterHelper } from '../models';
-import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
-
-import * as fromPeerTrendsDataReducers from '../../_peer-trends-data/reducers'; // TODO: [JP] Remove this dependency
-import * as fromPeerTrendsDataLandingCardActions from '../../_peer-trends-data/actions/trends-landing-card.actions'; // TODO: [JP] Remove this dependency
+import { ComphubPageEffectsService, PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
 
 @Injectable()
 export class ComphubPageEffects {
@@ -118,6 +115,7 @@ export class ComphubPageEffects {
   updateFooterContext$ = this.actions$
     .pipe(
       ofType(fromComphubPageActions.UPDATE_FOOTER_CONTEXT),
+      this.comphubPageEffectsService.actionOverrideFilter(),
       withLatestFrom(
         this.store.select(fromComphubSharedReducer.getSelectedPageId),
         this.store.select(fromComphubSharedReducer.getJobPricingBlocked),
@@ -126,11 +124,8 @@ export class ComphubPageEffects {
         this.store.select(fromComphubSharedReducer.getSelectedJobData),
         this.store.select(fromComphubSharedReducer.getShowJobPricedHistorySummary),
         this.store.select(fromComphubSharedReducer.getSmbLimitReached),
-        this.store.select(fromPeerTrendsDataReducers.getSelectedTrendId), // TODO: [JP] Remove this dependency
-        (action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached,
-         selectedTrendId) =>
-          ({ action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached,
-            selectedTrendId })
+        (action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached) =>
+          ({ action, selectedPageId, jobPricingBlocked, selectedJob, workflowContext, selectedJobData, showJobPricedHistorySummary, smbLimitReached })
       ),
       map((data) => {
         const footerContextRequest: FooterContextRequest = {
@@ -141,7 +136,7 @@ export class ComphubPageEffects {
           IsPeerComphubType: data.workflowContext.comphubType === ComphubType.PEER,
           ShowJobPricedHistorySummary: data.showJobPricedHistorySummary,
           SmbLimitReached: data.smbLimitReached,
-          SelectedTrendId: data.selectedTrendId // TODO: [JP] We need to get this another way, DI?.
+          SelectedTrendId: null
         };
         const footerContext = FooterHelper.getFooterContext(footerContextRequest);
         return new fromComphubPageActions.SetFooterContext(footerContext);
@@ -169,10 +164,12 @@ export class ComphubPageEffects {
           );
       })
     );
+
   @Effect()
   getExchangeDataSets$ = this.actions$
     .pipe(
       ofType(fromComphubPageActions.GET_EXCHANGE_DATA_SETS),
+      this.comphubPageEffectsService.actionOverrideFilter(),
       withLatestFrom(
         this.store.select(fromComphubSharedReducer.getWorkflowContext),
         (action: fromComphubPageActions.GetExchangeDataSets, workflow) =>
@@ -183,31 +180,24 @@ export class ComphubPageEffects {
           .pipe(
             mergeMap((response) => {
               const actions = [];
-              actions.push(new fromComphubPageActions.GetExchangeDataSetsSuccess(
-                response));
+              actions.push(new fromComphubPageActions.GetExchangeDataSetsSuccess(response));
 
-              if (data.workflow.comphubType === ComphubType.TRENDS) {
-                const activeExchange = response.filter(x => x.Active)[0];
-                if (!!activeExchange) {
-                  // TODO: [JP] Remove this dependency
-                  actions.push( new fromPeerTrendsDataLandingCardActions.GetNewExchangeParticipants(activeExchange.ExchangeId));
-                  actions.push( new fromPeerTrendsDataLandingCardActions.GetOrgIncCountHistory(activeExchange.ExchangeId));
-                }
-              } else {
-                if (response.length) {
-                  actions.push(new fromMarketsCardActions.InitMarketsCard());
-                  actions.push(new fromJobsCardActions.GetTrendingJobs());
-                }
+              if (response.length) {
+                actions.push(new fromMarketsCardActions.InitMarketsCard());
+                actions.push(new fromJobsCardActions.GetTrendingJobs());
               }
+
               return actions;
             })
           );
       })
     );
+
   @Effect()
   updateActiveDataset$ = this.actions$
     .pipe(
       ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET, fromComphubPageActions.UPDATE_ACTIVE_EXCHANGE_DATA_SET),
+      this.comphubPageEffectsService.actionOverrideFilter(),
       withLatestFrom(
         this.store.select(fromComphubSharedReducer.getActiveExchangeDataSet),
         this.store.select(fromComphubSharedReducer.getWorkflowContext),
@@ -216,28 +206,21 @@ export class ComphubPageEffects {
       mergeMap((data) => {
 
         let actions: Action[];
-        if (data.workflow.comphubType === ComphubType.TRENDS) {
-          actions = [
-            new fromPeerTrendsDataLandingCardActions.GetNewExchangeParticipants(data.exchange.ExchangeId), // TODO: [JP] Remove this dependency
-            new fromPeerTrendsDataLandingCardActions.GetOrgIncCountHistory(data.exchange.ExchangeId)
-          ];
-        } else {
-          actions = [
-            new fromJobsCardActions.GetTrendingJobs(),
-            new fromComphubPageActions.ClearSelectedJobData(),
-            new fromComphubPageActions.ResetAccessiblePages(),
-            new fromComphubPageActions.ResetPagesAccessed(),
-            new fromJobsCardActions.ClearSelectedJob(),
-            new fromMarketsCardActions.InitMarketsCard(),
-            new fromJobsCardActions.ClearJobSearchOptions()
-          ];
+        actions = [
+          new fromJobsCardActions.GetTrendingJobs(),
+          new fromComphubPageActions.ClearSelectedJobData(),
+          new fromComphubPageActions.ResetAccessiblePages(),
+          new fromComphubPageActions.ResetPagesAccessed(),
+          new fromJobsCardActions.ClearSelectedJob(),
+          new fromMarketsCardActions.InitMarketsCard(),
+          new fromJobsCardActions.ClearJobSearchOptions()
+        ];
 
-          if (data.action.type === fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET) {
-            actions.push(new fromMarketsCardActions.SetToDefaultPaymarket());
-            actions.push(new fromJobsCardActions.PersistActiveCountryDataSet());
-          } else {
-            actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
-          }
+        if (data.action.type === fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET) {
+          actions.push(new fromMarketsCardActions.SetToDefaultPaymarket());
+          actions.push(new fromJobsCardActions.PersistActiveCountryDataSet());
+        } else {
+          actions.push(new fromMarketsCardActions.SetDefaultPaymarketAsSelected());
         }
         return actions;
       })
@@ -290,5 +273,6 @@ export class ComphubPageEffects {
     private actions$: Actions,
     private store: Store<fromComphubSharedReducer.State>,
     private comphubApiService: ComphubApiService,
+    private comphubPageEffectsService: ComphubPageEffectsService
   ) {}
 }

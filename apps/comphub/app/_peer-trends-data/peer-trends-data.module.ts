@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe, PercentPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -10,18 +10,17 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HighchartsChartModule } from 'highcharts-angular';
 
-import { HumanizeNumberPipe, PfCommonModule, WindowCommunicationService, WindowRef } from 'libs/core';
+import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
 import { PfPeerRelationalExchangeJobSearchModule } from 'libs/features/peer/relational-exchange-job-search/relational-exchange-job-search.module';
 import { PfSideBarInfoModule } from 'libs/features/side-bar-info/side-bar-info.module';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
-import { DojGuidelinesService } from 'libs/features/peer/guidelines-badge/services/doj-guidelines.service';
 import { PfExchangeExplorerModule } from 'libs/features/peer';
 
 import { SharedModule } from '../_shared/shared.module';
+import { COMPHUB_PAGE_EFFECTS_CONFIGURATION } from '../_shared/helpers';
 
 import { PeerTrendsDataRoutingModule } from './peer-trends-data-routing.module';
 import {
@@ -36,8 +35,9 @@ import {
   HistoricalOrgIncCountChartComponent
 } from './containers';
 import { NewExchangeParticipantsComponent } from './components';
-import { TrendsLandingCardEffects, TrendsSummaryCardEffects } from './effects';
+import { ComphubPageOverridesEffects, TrendsLandingCardEffects, TrendsSummaryCardEffects } from './effects';
 import { reducers } from './reducers';
+import { PeerTrendsComphubPageEffectsConfiguration } from './config';
 
 @NgModule({
   imports: [
@@ -50,7 +50,8 @@ import { reducers } from './reducers';
     StoreModule.forFeature('comphub_peerTrendsData', reducers),
     EffectsModule.forFeature([
       TrendsLandingCardEffects,
-      TrendsSummaryCardEffects
+      TrendsSummaryCardEffects,
+      ComphubPageOverridesEffects
     ]),
     DropDownsModule,
     GridModule,
@@ -65,13 +66,11 @@ import { reducers } from './reducers';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    BasicDataGridModule, // TODO: [JP] Do we still need this here?
     PfDataGridModule,
     PfSideBarInfoModule,
 
     // Payfactors PEER
     PfExchangeExplorerModule,
-    GuidelinesBadgeModule,
     PfPeerRelationalExchangeJobSearchModule,
 
     // Local
@@ -93,15 +92,9 @@ import { reducers } from './reducers';
     HistoricalTrendChartComponent,
     HistoricalOrgIncCountChartComponent
   ],
-  providers: [  // TODO: [JP] Do we need all of these for trends?
-    WindowRef,
-    CurrencyPipe,
-    DatePipe,
-    WindowCommunicationService,
-    DojGuidelinesService,
-    PercentPipe,
-    HumanizeNumberPipe
-  ],
+  providers: [
+    [{ provide: COMPHUB_PAGE_EFFECTS_CONFIGURATION, useClass: PeerTrendsComphubPageEffectsConfiguration }]
+  ]
 })
 export class PeerTrendsDataModule {
   constructor() { }

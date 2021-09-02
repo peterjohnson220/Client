@@ -5,9 +5,8 @@ exports[`Libs - Peer - RelationalExchangeJobSearch - RelationalExchangeJobResult
   exchangeJob={[Function Object]}
   exchangeJobClicked={[Function EventEmitter_]}
 >
-  <a
+  <div
     class="exchange-job-result-row"
-    href="javascript:void(0)"
   >
     <div
       class="result position-relative"
@@ -15,38 +14,51 @@ exports[`Libs - Peer - RelationalExchangeJobSearch - RelationalExchangeJobResult
       <div
         class="d-flex justify-content-between"
       >
-        <h4
-          class="d-flex"
+        <div
+          class="job-result-left"
         >
-          
-          <span
-            class="exchange-job-title font-weight-bold pr-2"
+          <div
+            class="exchange-job-title-container"
           >
-             MOCK_EXCHANGE_JOB_TITLE MOCK_EXCHANGE_JOB_CODE 
-          </span>
-          <span
-            class="exchange-job-id"
+            <h5>
+              <span
+                class="exchange-job-title"
+              >
+                MOCK_EXCHANGE_JOB_TITLE
+              </span>
+              <span
+                class="text-muted"
+              >
+                (MOCK_EXCHANGE_JOB_CODE)
+              </span>
+            </h5>
+          </div>
+          <div
+            class="text-muted"
           >
-             (1) 
-          </span>
-          <span
-            class="relational-job-code"
+             MOCK_EXCHANGE_JOB_TITLE_SHORT 
+          </div>
+        </div>
+        <div
+          class="job-result-right"
+        >
+          <div>
+            <h5>
+              <span
+                class="text-muted"
+              >
+                MOCK_RELATIONAL_JOB_CODE
+              </span>
+            </h5>
+          </div>
+          <div
+            class="text-muted"
           >
-             MOCK_RELATIONAL_JOB_CODE 
-          </span>
-        </h4>
+             MOCK_EXCHANGE_JOB_FAMILY 
+          </div>
+        </div>
       </div>
-      <h5
-        class="flex-column exchange-job-title-short my-1"
-      >
-         MOCK_EXCHANGE_JOB_TITLE_SHORT 
-        <span
-          class="exchange-job-family text-right"
-        >
-           MOCK_EXCHANGE_JOB_FAMILY 
-        </span>
-      </h5>
     </div>
-  </a>
+  </div>
 </pf-relational-exchange-job-result>
 `;
