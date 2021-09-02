@@ -23,7 +23,7 @@ html, body {
   height: 47px;
 }
 
-.loading-logo img {
+.loading-logo img, .ps-loading-logo {
   animation: show 1.25s;
 }
 
