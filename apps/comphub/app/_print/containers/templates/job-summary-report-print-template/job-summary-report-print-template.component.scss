@@ -11,28 +11,3 @@
   }
 }
 
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  border-top: 1px solid #979797;
-
-  .message{
-    margin-right: 300px;
-  }
-
-  .circle {
-    background: #22067A;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    color: white;
-    display: inline-block;
-    font-weight: bold;
-    line-height: 40px;
-    margin-right: 5px;
-    text-align: center;
-    width: 40px;
-  }
-
-}

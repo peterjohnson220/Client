@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { JobSummaryPrintData } from 'libs/models/comphub';
+import { DataSummaryReportData, JobSummaryPrintData } from 'libs/models/comphub';
 
 import { PrintConstants } from '../../constants';
 import * as fromComphubPrintReducer from '../../reducers';
@@ -22,9 +22,15 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy, AfterViewIni
   reportId: string;
   loadingData: boolean;
   fullRenderComplete = false;
+  dataSummaryRenderComplete = false;
+  dataSummaryReports: DataSummaryReportData[];
+  leftDataSummaryReports: DataSummaryReportData[];
+  rightDataSummaryReports: DataSummaryReportData[];
   pageTotal = 5;
   renderCount = 0;
+  renderedCards = 0;
   readyForPdfGenerationSelector = PrintConstants.READY_FOR_PDF_GENERATION_SELECTOR;
+  currentYear: number;
 
   constructor(
     private store: Store<fromComphubPrintReducer.State>,
@@ -66,11 +72,26 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy, AfterViewIni
     return this.jobSummaryPrintData.Certs.join(', ');
   }
 
+  onDataSummaryRenderComplete() {
+    this.renderedCards++;
+    if (this.renderedCards === this.dataSummaryReports.length) {
+      this.dataSummaryRenderComplete = true;
+    }
+  }
+
   ngOnInit(): void {
+    const today = new Date();
+    this.currentYear = today.getFullYear();
     this.loadingData = false;
     this.jobSummaryPrintDataSub = this.store.select(fromComphubPrintReducer.getJobSummaryPrintDataAsyncObj).subscribe(data => {
       if (data && data.obj) {
         this.jobSummaryPrintData = data.obj;
+        this.dataSummaryReports = this.jobSummaryPrintData.DataSummaryReports;
+        if (this.dataSummaryReports) {
+          const mid = this.dataSummaryReports.length / 2;
+          this.leftDataSummaryReports = this.dataSummaryReports.slice(0, mid + 1);
+          this.rightDataSummaryReports = this.dataSummaryReports.slice(mid + 1);
+        }
       }
     });
   }
