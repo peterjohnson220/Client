@@ -110,7 +110,7 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
       });
 
       this.chartMin = RangeGraphHelper.getChartMin(basePayValues, this.chartMin);
-      this.chartMax = RangeGraphHelper.getChartMax(basePayValues, this.chartMin);
+      this.chartMax = RangeGraphHelper.getChartMax(basePayValues, this.chartMax);
     }
     if (scatterData.length === 0) {
       scatterData.push({
