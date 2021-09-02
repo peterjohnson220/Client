@@ -21,21 +21,21 @@ export class CrowdSourcedDataPageGuard implements CanActivate, OnDestroy {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
-    const hasAccess = this.waitForCompanySettingsLoadAttempt().pipe(
+    return this.waitForCompanySettingsLoadAttempt().pipe(
       switchMap(() =>
         this.settingsService.selectCompanySetting<boolean>(
           CompanySettingsEnum.CrowdSourcedData
         ).pipe(
-          map(setting => !!setting),
-          take(1)
+          map(setting => {
+            if (!setting) {
+              this.router.navigate(['/access-denied']);
+              return false;
+            }
+            return true;
+          })
         )
       )
     );
-    if (!hasAccess) {
-      this.router.navigate(['/access-denied']);
-      return false;
-    }
-    return true;
   }
 
   private waitForCompanySettingsLoadAttempt() {
