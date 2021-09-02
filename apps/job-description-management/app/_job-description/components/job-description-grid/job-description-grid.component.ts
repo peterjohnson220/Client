@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './../../services/job-description-sharing.service';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -102,6 +103,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private permissionService: PermissionService,
     private featureFlagService: AbstractFeatureFlagService,
+    private jobDescriptionSharingService: JobDescriptionSharingService
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
@@ -146,12 +148,15 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.getSelectedJobDescriptionsSubscription = this.getSelectedJobDescriptions$.subscribe((selectedJobDescriptions) => {
       this.selectedJobDescriptions = selectedJobDescriptions;
     });
+
+    this.jobDescriptionSharingService.init();
   }
 
   ngOnDestroy() {
     this.creatingJobDescriptionSubscription.unsubscribe();
     this.getSelectedJobDescriptionsSubscription.unsubscribe();
     this.unsubscribe$.next();
+    this.jobDescriptionSharingService.destroy();
   }
 
   handleSelectionChange(selection: any): void {
@@ -387,6 +392,10 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       }
     });
     return canExport;
+  }
+
+  showShareButton(): boolean {
+    return this.jobDescriptionSharingService.allowSharing();
   }
 
   canShareJobDescriptions(): boolean {

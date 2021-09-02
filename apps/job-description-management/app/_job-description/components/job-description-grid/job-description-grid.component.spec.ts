@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './../../services/job-description-sharing.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -48,6 +49,10 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
+          provide: JobDescriptionSharingService,
+          useValue: { allowSharing: () => true, init: () => {}, destroy: () => {}}
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
