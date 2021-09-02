@@ -47,7 +47,7 @@ export class DashboardsHelper {
     if (workbooktag && workbooktag !== 'All') {
       filteredWorkbooks = filter(filteredWorkbooks, w => (w.Tag === workbooktag || (w.DefaultTag === workbooktag && w.Tag === null)));
     }
-    if (scope && scope !== 'All Scopes') {
+    if (scope && scope !== 'All Access') {
       filteredWorkbooks = filter(filteredWorkbooks, w => (w.Scope === scope ));
     }
     return filteredWorkbooks;

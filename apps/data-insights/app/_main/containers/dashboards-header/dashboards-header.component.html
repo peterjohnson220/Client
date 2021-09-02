@@ -19,7 +19,7 @@
             <kendo-dropdownlist class="tag-dropdown"
                                 [attr.data-qa-id]="'ddm-scope'"
                                 [data]="distinctScopesByView$ | async"
-                                [defaultItem]="'All Scopes'"
+                                [defaultItem]="'All Access'"
                                 [value]="scopeFilter$ | async"
                                 [popupSettings]="{width: 200}"
                                 (valueChange)="handleScopeChanged($event)">
