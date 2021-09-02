@@ -31,7 +31,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="column">
+  <div class="column col-6">
     <ng-container *ngIf="!!skills" #SkillsFactor>
       <pf-compensable-factor-type
         [compensableFactorName]="compensableFactorsConstants.SKILLS"
@@ -46,7 +46,7 @@
       </pf-compensable-factor-type>
     </ng-container>
   </div>
-  <div class="column">
+  <div class="column col-6">
     <ng-container *ngIf="!!certs" #CertificateFactor>
       <pf-compensable-factor-type
         [compensableFactorName]="compensableFactorsConstants.CERTS"
@@ -61,9 +61,9 @@
       </pf-compensable-factor-type>
     </ng-container>
   </div>
-
+</div>
+<div class="row">
   <div class="column">
-
     <ng-container #EducationFactor>
       <pf-compensable-factor-type
         [compensableFactorName]="compensableFactorsConstants.EDUCATION"
@@ -76,5 +76,4 @@
       </pf-compensable-factor-type>
     </ng-container>
   </div>
-
 </div>
