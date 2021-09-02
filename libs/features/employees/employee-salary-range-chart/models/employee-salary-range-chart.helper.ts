@@ -6,6 +6,7 @@ import { getUserLocale } from 'get-user-locale';
 
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 import { RateType } from 'libs/data/data-sets';
+import { RangeGraphHelper } from 'libs/core/helpers';
 
 import { EmployeeSalaryRangeChartConfig, EmployeeSalaryRangeChartData } from './salary-range-chart-config.model';
 
@@ -45,8 +46,7 @@ export class EmployeeSalaryRangeChartHelper {
       QuintileFirst: gridResult[`${baseEntity}_Quintile_First`],
       QuintileSecond: gridResult[`${baseEntity}_Quintile_Second`],
       QuintileThird: gridResult[`${baseEntity}_Quintile_Third`],
-      QuintileFourth: gridResult[`${baseEntity}_Quintile_Fourth`],
-      TickInterval: this.getTickInterval(min, max)
+      QuintileFourth: gridResult[`${baseEntity}_Quintile_Fourth`]
     };
   }
 
@@ -55,7 +55,7 @@ export class EmployeeSalaryRangeChartHelper {
   }
 
   static getChartOptions(chartData: EmployeeSalaryRangeChartData): Highcharts.Options {
-    const employeePositionValue = this.getBaseSalaryYPosition(chartData);
+    const employeePositionValue = this.getScatterDataCustomYValue(chartData.BaseSalary, chartData.Min, chartData.Max);
     return {
       chart: {
         inverted: true,
@@ -114,7 +114,7 @@ export class EmployeeSalaryRangeChartHelper {
         plotBands: chartData.PlotBands,
         min: this.getChartMin(chartData),
         max: this.getChartMax(chartData),
-        tickInterval: chartData.TickInterval,
+        tickInterval: this.getTickInterval(chartData.Min, chartData.Max),
         tickPositioner: function () {
           return chartData.ChartTickPositions;
         },
@@ -139,8 +139,8 @@ export class EmployeeSalaryRangeChartHelper {
       borderWidth: 0,
       borderColor: 'transparent',
       data: [{
-        y: this.getBaseSalaryYPosition(chartData),
-        target: this.getBaseSalaryYPosition(chartData)
+        y: this.getScatterDataCustomYValue(chartData.BaseSalary, chartData.Min, chartData.Max),
+        target: this.getScatterDataCustomYValue(chartData.BaseSalary, chartData.Min, chartData.Max)
       }]
     };
   }
@@ -152,7 +152,7 @@ export class EmployeeSalaryRangeChartHelper {
       color: '#23CAEF',
       data: [{
         x: 0,
-        y: this.getBaseSalaryYPosition(chartData)
+        y: this.getScatterDataCustomYValue(chartData.BaseSalary, chartData.Min, chartData.Max)
       }],
       marker: {
         radius: 6
@@ -161,24 +161,27 @@ export class EmployeeSalaryRangeChartHelper {
   }
 
   static getChartMin(chartData: EmployeeSalaryRangeChartData): number {
+    const tickInterval = this.getTickInterval(chartData.Min, chartData.Max);
     return chartData.BaseSalary < chartData.Min
-      ? chartData.Min - chartData.TickInterval
+      ? chartData.Min - tickInterval
       : chartData.Min;
   }
 
   static getChartMax(chartData: EmployeeSalaryRangeChartData): number {
+    const tickInterval = this.getTickInterval(chartData.Min, chartData.Max);
     return chartData.BaseSalary > chartData.Max
-      ? chartData.Max + chartData.TickInterval
+      ? chartData.Max + tickInterval
       : chartData.Max;
   }
 
-  static getBaseSalaryYPosition(chartData: EmployeeSalaryRangeChartData): number {
-    const fixedYPosition = chartData.BaseSalary >= chartData.Min && chartData.BaseSalary <= chartData.Max
-      ? chartData.BaseSalary
-      : chartData.BaseSalary < chartData.Min
-        ? chartData.Min - chartData.TickInterval
-        : chartData.Max + chartData.TickInterval;
-    return fixedYPosition;
+  static getScatterDataCustomYValue(scatterDataValue: number, min: number, max: number): number {
+    const tickInterval = this.getTickInterval(min, max);
+    const yValue = scatterDataValue >= min && scatterDataValue <= max
+      ? scatterDataValue
+      : scatterDataValue < min
+        ? min - tickInterval
+        : max + tickInterval;
+    return yValue;
   }
 
   static getTickInterval(min: number, max: number): number {
@@ -224,7 +227,8 @@ export class EmployeeSalaryRangeChartHelper {
         break;
       }
     }
-    const positions = [this.getBaseSalaryYPosition(chartData), chartData.Min, chartData.Max];
+    const employeePosition = this.getScatterDataCustomYValue(chartData.BaseSalary, chartData.Min, chartData.Max);
+    const positions = [employeePosition, chartData.Min, chartData.Max];
     positions.sort(function(a, b) {
       return a - b;
     });

@@ -9,8 +9,10 @@ import { getUserLocale } from 'get-user-locale';
 
 import { AsyncStateObj } from 'libs/models/state';
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
-import { JobPricingGraphService } from '../services/job-pricing-graph.service';
+import { EmployeesBasePayModel } from 'libs/models/payfactors-api';
+import { RangeGraphHelper } from 'libs/core';
 
+import { JobPricingGraphService } from '../services/job-pricing-graph.service';
 import * as fromBasePayGraphActions from '../actions';
 import * as fromBasePayGraphReducer from '../reducers';
 
@@ -37,6 +39,9 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   showChart: true;
 
   pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
+  isValidPricingData: boolean;
+  pricingData: PricingForPayGraph;
+  basePay: EmployeesBasePayModel[];
 
   constructor(
     private store: Store<fromBasePayGraphReducer.State>,
@@ -52,10 +57,11 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
 
     this.dataUpdatedSubscription = this.actionsSubject.pipe(
       ofType(fromBasePayGraphActions.LOAD_BASE_PAY_DATA_SUCCESS)
-    ).subscribe(data => {
-      if (data) {
-        this.updateChartData(data, this.userLocale);
-      }
+    ).subscribe((action: fromBasePayGraphActions.LoadBasePayDataSuccess) => {
+      this.isValidPricingData = JobPricingGraphService.validatePricingForPayGraph(action.pricing);
+      this.pricingData = action.pricing;
+      this.basePay = action.basePay;
+      this.updateChartData();
     });
 
   }
@@ -69,52 +75,48 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
-    this.chartRef = chart;
+    if (!this.chartRef?.axes?.length) {
+      this.chartRef = chart;
+      this.updateChartData();
+    }
   }
 
-  updateChartData(data: any, userLocale: string): void {
-
-    JobPricingGraphService.resetGraph(this.chartRef);
-
-    if (data.pricing === null ) {
+  updateChartData(): void {
+    if (!this.chartRef?.axes?.length || !this.isValidPricingData) {
       return;
     }
 
-    this.chartMin = (data.pricing.Pay10);
-    this.chartMax = (data.pricing.Pay90);
+    JobPricingGraphService.resetGraph(this.chartRef);
 
-    const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data.pricing, 'Base');
+    this.chartMin = (this.pricingData.Pay10);
+    this.chartMax = (this.pricingData.Pay90);
+
+    const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(this.pricingData, 'Base');
 
     plotBands.forEach(x => this.chartRef.yAxis[0].addPlotBand(x));
 
     const scatterData = [];
     const counts = {};
 
-    if (data.basePay) {
-      data.basePay.forEach(function (x) {
+    if (this.basePay?.length) {
+      const basePayValues = this.basePay.map(a => a.Base / 1000);
+
+      this.basePay.forEach(function (x) {
         counts[x.Base] = (counts[x.Base] || 0) + 1;
       });
 
-      data.basePay.forEach(x => {
-        scatterData.push(JobPricingGraphService.formatScatterData(x, data.pricing, counts[x.Base], userLocale));
+      this.basePay.forEach(x => {
+        scatterData.push(JobPricingGraphService.formatScatterData(x, this.pricingData, counts[x.Base], this.userLocale));
       });
 
-      const basePayValues = data.basePay.map(a => a.Base);
-      const maxValue = Math.max(...basePayValues) / 1000;
-      const minValue = Math.min(...basePayValues) / 1000;
-
-      if (maxValue > this.chartMax) {
-        this.chartMax = maxValue;
-      }
-      if (minValue < this.chartMin) {
-        this.chartMin = minValue;
-      }
+      this.chartMin = RangeGraphHelper.getChartMin(basePayValues, this.chartMin);
+      this.chartMax = RangeGraphHelper.getChartMax(basePayValues, this.chartMin);
     }
     if (scatterData.length === 0) {
       scatterData.push({
         x: 0,
       });
     }
-    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, data.pricing.PayAvg, scatterData, 'Base Pay');
+    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, this.pricingData.PayAvg, scatterData, 'Base Pay');
   }
 }
