@@ -39,7 +39,7 @@ describe('UserRolePageComponent', () => {
     store = TestBed.inject(Store);
     userRoleService = TestBed.inject(UserRoleService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UserRolePageComponent);
     component = fixture.componentInstance;  // to access properties and methods
@@ -77,7 +77,7 @@ describe('UserRolePageComponent', () => {
   });
 
   it('should call UpdateUserTabCurrentUserRole and dispatch UpdateUserTabCurrentUserRole when click role', () => {
-    spyOn(userRoleService, 'updateCurrentUserRole');
+    jest.spyOn(userRoleService, 'updateCurrentUserRole');
     const mockUserAssignedRole = generateMockUserAssignedRole();
 
     fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('UserRolePageComponent', () => {
   });
 
   it('should call UpdateCurrentUserRoleViewTabState and dispatch UpdateUserRoleTabState when tab click', () => {
-    spyOn(userRoleService, 'updateCurrentUserRoleViewTabState');
+    jest.spyOn(userRoleService, 'updateCurrentUserRoleViewTabState');
     const mockUserRoleTabState = UserRoleTabState.USERS;
     const expectedAction = new fromUserRoleActions.UpdateUserRoleTabState(mockUserRoleTabState);
 
@@ -113,7 +113,7 @@ describe('UserRolePageComponent', () => {
     const mockRole = generateMockUserAssignedRole();
     const deleteAction = new fromUserRoleActions.DeleteRole(mockRole.RoleId);
     component.currentRole = mockRole;
-    spyOn(window, 'confirm').and.returnValue(true);
+    jest.spyOn(window, 'confirm').mockReturnValue(true);
     fixture.detectChanges();
     component.deleteRole();
     expect(store.dispatch).toHaveBeenCalledWith(deleteAction);
@@ -122,7 +122,7 @@ describe('UserRolePageComponent', () => {
     const mockRole = generateMockUserAssignedRole();
     const deleteAction = new fromUserRoleActions.DeleteRole(mockRole.RoleId);
     component.currentRole = mockRole;
-    spyOn(window, 'confirm').and.returnValue(false);
+    jest.spyOn(window, 'confirm').mockReturnValue(false);
     fixture.detectChanges();
     component.deleteRole();
     expect(store.dispatch).not.toHaveBeenCalledWith(deleteAction);

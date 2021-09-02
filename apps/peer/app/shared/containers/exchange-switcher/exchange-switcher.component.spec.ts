@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeListItem, ExchangeRequestTypeEnum, generateMockExchange } from 'libs/models';
@@ -63,14 +62,14 @@ describe('Peer Dashboard - Exchange Selector', () => {
     fixture = TestBed.createComponent(ExchangeSwitcherComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Need to fire of init for every test so that the ngOnDestroy can clean up properly
     fixture.detectChanges();
   });
 
   it('should dispatch OpenExchangeAccessModal action when openRequestAccessModal is called', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.Access);
 
@@ -80,7 +79,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
   });
 
   it('should close the popover when clicking on an exchange', () => {
-    spyOn(instance.popover, 'close');
+    jest.spyOn(instance.popover, 'close');
 
     instance.handleExchangeClicked(generateMockExchangeListItem());
 
@@ -101,7 +100,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
   });
 
   it('should navigate to the exchangeId of the exchange that was clicked on', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
     const exchangeListItem = generateMockExchangeListItem();
 
     instance.handleExchangeClicked(exchangeListItem);
@@ -110,7 +109,7 @@ describe('Peer Dashboard - Exchange Selector', () => {
   });
 
   it('should close the popover when opening the request access modal', () => {
-    spyOn(instance.popover, 'close');
+    jest.spyOn(instance.popover, 'close');
 
     instance.openRequestAccessModal();
 

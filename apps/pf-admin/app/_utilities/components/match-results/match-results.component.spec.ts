@@ -22,7 +22,7 @@ describe('Pf-Admin - Utilities - Match Results', () => {
   });
 
   it('Should emit that a filter was clicked with the type, when handling a filter click', () => {
-    spyOn(instance.filterClicked, 'emit');
+    jest.spyOn(instance.filterClicked, 'emit');
     const type = 'Exact';
 
     instance.handleFilterClicked(type);
@@ -31,7 +31,7 @@ describe('Pf-Admin - Utilities - Match Results', () => {
   });
 
   it('Should emit that a match result was selected with the value, when handling a match result being clicked', () => {
-    spyOn(instance.matchResultSelected, 'emit');
+    jest.spyOn(instance.matchResultSelected, 'emit');
     const matchResult = generateMockMatchResult();
 
     instance.handleMatchResultClicked(matchResult);
@@ -48,7 +48,7 @@ describe('Pf-Admin - Utilities - Match Results', () => {
   });
 
   it('Should emit that a apply exact match was clicked with the value, when handling a apply exact match being clicked', () => {
-    spyOn(instance.applyExactMatchClicked, 'emit');
+    jest.spyOn(instance.applyExactMatchClicked, 'emit');
     const matchResult = generateMockMatchResult();
     const mouseEvent = new MouseEvent('click');
 
@@ -60,7 +60,7 @@ describe('Pf-Admin - Utilities - Match Results', () => {
   it('Should stop propagation on the mouse event, when handling a apply exact match being clicked', () => {
     const matchResult = generateMockMatchResult();
     const mouseEvent = new MouseEvent('click');
-    spyOn(mouseEvent, 'stopPropagation');
+    jest.spyOn(mouseEvent, 'stopPropagation');
 
     instance.handleApplyExactMatchClicked(matchResult, mouseEvent);
 

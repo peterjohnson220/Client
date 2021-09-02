@@ -103,7 +103,7 @@ describe('ManageFieldMapperPageComponent', () => {
       .compileComponents();
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
     component.selectedCompany = {CompanyId: 13, CompanyName: 'Test', CombinedDetail: 'Test (13)'};

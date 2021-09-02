@@ -51,7 +51,7 @@ describe('SavePasswordSettingsModalComponent', () => {
     };
     component.request = saveRequest;
     const expectedAction = new fromPasswordSettingActions.SaveCompanyAdminPasswordSettings(saveRequest);
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
 
     component.handleSaveConfirmed();
     fixture.detectChanges();
@@ -62,7 +62,7 @@ describe('SavePasswordSettingsModalComponent', () => {
 
   it ('SavePasswordSettingsModalComponent - should dispatch SaveCompanyAdminPasswordSettingsPromptClose on cancel', () => {
     const expectedAction = new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsPromptClose();
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
 
     component.handleSaveDenied();
     fixture.detectChanges();

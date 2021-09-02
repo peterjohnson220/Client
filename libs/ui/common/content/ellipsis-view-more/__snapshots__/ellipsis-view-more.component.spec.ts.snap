@@ -2,6 +2,7 @@
 
 exports[`UI/Common/Content - Ellipsis View More should ellipsis the content and show a view more link, when the length exceeds the max length 1`] = `
 <pf-ellipsis-view-more
+  __ngContext__={[Function LRootView]}
   content={[Function String]}
   maxLength={[Function Number]}
   showTextInline="false"
@@ -18,19 +19,18 @@ exports[`UI/Common/Content - Ellipsis View More should ellipsis the content and 
   </span><div
     class="d-flex"
   >
-    
     <div
       class="toggle-view-link link"
     >
        View More 
     </div>
-    
   </div>
 </pf-ellipsis-view-more>
 `;
 
 exports[`UI/Common/Content - Ellipsis View More should show the full content and a view less link, when we are showing full 1`] = `
 <pf-ellipsis-view-more
+  __ngContext__={[Function LRootView]}
   content={[Function String]}
   maxLength={[Function Number]}
   showFull={[Function Boolean]}
@@ -46,19 +46,18 @@ exports[`UI/Common/Content - Ellipsis View More should show the full content and
   </span><div
     class="d-flex"
   >
-    
     <div
       class="toggle-view-link link"
     >
        View Less 
     </div>
-    
   </div>
 </pf-ellipsis-view-more>
 `;
 
 exports[`UI/Common/Content - Ellipsis View More should show the full content, when its length is less than the max 1`] = `
 <pf-ellipsis-view-more
+  __ngContext__={[Function LRootView]}
   content={[Function String]}
   maxLength={[Function Number]}
   showTextInline="false"

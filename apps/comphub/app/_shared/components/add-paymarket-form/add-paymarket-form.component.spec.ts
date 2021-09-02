@@ -48,7 +48,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should emit saveClick event when handling submit clicked', () => {
-    spyOn(instance.saveClick, 'emit');
+    jest.spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
     instance.countryDataSet = generateMockCountryDataSet();
     instance.locations = [{
@@ -84,7 +84,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should emit skipClick event when handling skip clicked', () => {
-    spyOn(instance.skipClick, 'emit');
+    jest.spyOn(instance.skipClick, 'emit');
 
     instance.handleSkipClicked();
 
@@ -92,7 +92,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should emit that the location filter has changed on change', () => {
-    spyOn(instance.locationFilterChanged, 'emit');
+    jest.spyOn(instance.locationFilterChanged, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
 
     instance.handleLocationFilter('MA');
@@ -120,7 +120,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should emit dismissInfoBannerClick event when handling dismiss info banner', () => {
-    spyOn(instance.dismissInfoBannerClick, 'emit');
+    jest.spyOn(instance.dismissInfoBannerClick, 'emit');
 
     instance.handleDismissInfoBanner();
 
@@ -128,7 +128,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should emit cancelClick event when cancel button clicked', () => {
-    spyOn(instance.cancelClick, 'emit');
+    jest.spyOn(instance.cancelClick, 'emit');
 
     instance.handleCancelClicked();
 
@@ -136,7 +136,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should use All for location when submitting invalid location', () => {
-    spyOn(instance.saveClick, 'emit');
+    jest.spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
     instance.countryDataSet = generateMockCountryDataSet();
 
@@ -167,7 +167,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should use default values for Industry and Size when none is selected', () => {
-    spyOn(instance.saveClick, 'emit');
+    jest.spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
     instance.countryDataSet = generateMockCountryDataSet();
 

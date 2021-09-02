@@ -2,6 +2,7 @@
 
 exports[`Admin - Tickets - Company Detail Card Should display details about a company 1`] = `
 <pf-company-detail-card
+  __ngContext__={[Function LRootView]}
   companyDetail={[Function Object]}
   companyNotesModal={[Function CompanyNotesModalComponent]}
   store={[Function Store]}
@@ -37,7 +38,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
           class="detail-text mb-2"
         >
            MockCompanyDetailName 
-          
           <fa-icon
             class="pl-2 note-modal-icon"
             ngbtooltip="Company Notes"
@@ -46,7 +46,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         </div>
       </div>
     </div>
-    
     <div
       class="row"
     >
@@ -65,7 +64,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         </div>
       </div>
     </div>
-    
     <div
       class="row"
     >
@@ -101,7 +99,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
           >
             1
           </span>
-           
           <span
             class="detail-label"
           >
@@ -127,7 +124,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
           >
             1
           </span>
-           
           <span
             class="detail-label"
           >
@@ -136,11 +132,9 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         </div>
       </div>
     </div>
-    
     <hr
       class="my-1"
     />
-    
     <div
       class="row"
     >
@@ -152,11 +146,10 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         >
           Recent Tickets
         </div>
-        
         <div>
           <a
             href="javascript:void(0)"
-            style="font-weight: 600"
+            style="font-weight: 600;"
           >
             1
           </a>
@@ -164,7 +157,7 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         <div>
           <a
             href="javascript:void(0)"
-            style="font-weight: 600"
+            style="font-weight: 600;"
           >
             2
           </a>
@@ -172,7 +165,7 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
         <div>
           <a
             href="javascript:void(0)"
-            style="font-weight: 600"
+            style="font-weight: 600;"
           >
             3
           </a>
@@ -180,7 +173,6 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
       </div>
     </div>
   </div><pf-company-notes-modal>
-    
   </pf-company-notes-modal>
 </pf-company-detail-card>
 `;

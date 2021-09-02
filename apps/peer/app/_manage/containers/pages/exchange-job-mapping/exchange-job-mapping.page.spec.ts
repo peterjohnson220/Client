@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum } from 'libs/models/common';
@@ -77,7 +76,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
     instance = fixture.componentInstance;
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     // Trigger ngOnInit
     fixture.detectChanges();
@@ -104,7 +103,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
   });
 
   it('should call loadExchangeJobMappings with the exchangeId when handleSearchBoxValueChanged is called', () => {
-    spyOn(exchangeJobMappingGridService, 'loadExchangeJobMappings');
+    jest.spyOn(exchangeJobMappingGridService, 'loadExchangeJobMappings');
 
     instance.handleSearchChanged('New Search');
 

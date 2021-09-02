@@ -33,7 +33,7 @@ describe('ApprovalsWorkflowSetupComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ApprovalsWorkflowSetupComponent);
     component = fixture.componentInstance;

@@ -26,7 +26,7 @@ describe('Data Insights - Add Report Field Component', () => {
 
   it('should emit fieldAdded with the selected field when handling value changed', () => {
     instance.fields = [ generateMockField() ];
-    spyOn(instance.fieldAdded, 'emit');
+    jest.spyOn(instance.fieldAdded, 'emit');
 
     instance.handleValueChanged('DataElement_1');
 

@@ -68,7 +68,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
   it('should dispatch SaveWorkbookTag when handling save tag clicked', () => {
     const saveObj: SaveWorkbookTagObj = generateMockSaveWorkbookTagObj();
     const expectedAction = new fromDashboardsActions.SaveWorkbookTag(saveObj);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleSaveTagClicked(saveObj);
 
@@ -78,7 +78,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
   it('should dispatch SetDashboardView with correct dashboard view', () => {
     const dashboardViewSettingValue = 'Favorites';
     const expectedAction = new fromDashboardsActions.SetDashboardView(DashboardView.Favorites);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 
@@ -88,7 +88,7 @@ describe('Data Insights - Dashboards Comopnent', () => {
   it('should dispatch SetDashboardView with default dashboard view if the setting value does not match', () => {
     const dashboardViewSettingValue = 'Random View';
     const expectedAction = new fromDashboardsActions.SetDashboardView(DashboardView.All);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleDashboardViewSettingChanged(dashboardViewSettingValue);
 

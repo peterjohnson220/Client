@@ -2,6 +2,7 @@
 
 exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
+  __ngContext__={[Function LRootView]}
   actionsSubject={[Function ActionsSubject]}
   clientAppRoot={[Function String]}
   companyName={[Function String]}
@@ -18,15 +19,12 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
   >
-    
   </ul><div
     class="left-sidebar-footer left-sidebar-footer-close"
   >
     <div
       class="left-sidebar-icon-close"
     >
-      
-      
       <span>
         <fa-icon
           size="lg"
@@ -39,6 +37,7 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 
 exports[`Left Sidebar should show ul of sidebar open 1`] = `
 <pf-layout-wrapper-left-sidebar
+  __ngContext__={[Function LRootView]}
   actionsSubject={[Function ActionsSubject]}
   clientAppRoot={[Function String]}
   companyName={[Function String]}
@@ -55,15 +54,12 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
   >
-    
   </ul><div
     class="left-sidebar-footer left-sidebar-footer-close"
   >
     <div
       class="left-sidebar-icon-close"
     >
-      
-      
       <span>
         <fa-icon
           size="lg"

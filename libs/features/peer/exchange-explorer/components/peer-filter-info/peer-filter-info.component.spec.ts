@@ -1,7 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import spyOn = jest.spyOn;
 
 import { PeerFilterInfoComponent } from './peer-filter-info.component';
 
@@ -30,7 +29,7 @@ describe('Feature - Peer - Pay Market Filter Info Component', () => {
   });
 
   it( 'should emit a clearFiltersLinkClicked event when we have selections, and handling ClearFiltersLinkClicked', () => {
-    spyOn(instance.clearFiltersLinkClicked, 'emit');
+    jest.spyOn(instance.clearFiltersLinkClicked, 'emit');
     instance.hasSelections = true;
 
     instance.handleClearFiltersLinkClicked();

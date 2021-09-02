@@ -2,6 +2,7 @@
 
 exports[`Admin - Peer - Editable Tag Category Display Name should match snapshot 1`] = `
 <pf-editable-tag-category-display-name
+  __ngContext__={[Function LRootView]}
   editDisplayNameForm={[Function FormGroup]}
   errorSaving$={[Function Observable]}
   fb={[Function FormBuilder]}
@@ -29,6 +30,7 @@ exports[`Admin - Peer - Editable Tag Category Display Name should match snapshot
 
 exports[`Admin - Peer - Editable Tag Category Display Name should show edit form when toggleEdit is triggered 1`] = `
 <pf-editable-tag-category-display-name
+  __ngContext__={[Function LRootView]}
   editDisplayNameForm={[Function FormGroup]}
   errorSaving$={[Function Observable]}
   fb={[Function FormBuilder]}
@@ -79,7 +81,6 @@ exports[`Admin - Peer - Editable Tag Category Display Name should show edit form
         </span>
       </div>
     </div>
-    
   </form>
 </pf-editable-tag-category-display-name>
 `;

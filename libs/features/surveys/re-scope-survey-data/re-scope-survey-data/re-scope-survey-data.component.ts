@@ -17,7 +17,7 @@ import { ActionBarConfig, getDefaultActionBarConfig, PfDataGridFilter } from 'li
 import * as fromRescopeActions from 'libs/features/surveys/re-scope-survey-data/actions';
 import * as fromGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromGridReducer from 'libs/features/grids/pf-data-grid/reducers';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 

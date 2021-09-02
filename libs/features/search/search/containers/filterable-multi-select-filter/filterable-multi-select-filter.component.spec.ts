@@ -29,7 +29,7 @@ describe('Search Feature - Filterable Multi Select Filter', () => {
   it('should emit an object with a filterId and an option when handling an option selected', () => {
     const mockMultiSelectFilter = generateMockFilterableMultiSelectFilter();
     const filterIdAndOption = { filterId: '23094', option: mockMultiSelectFilter.Options[0]};
-    spyOn(instance.optionSelected, 'emit');
+    jest.spyOn(instance.optionSelected, 'emit');
 
     instance.filter = mockMultiSelectFilter;
     instance.handleOptionSelected(filterIdAndOption.filterId, mockMultiSelectFilter.Options[0]);

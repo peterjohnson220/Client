@@ -2,6 +2,7 @@
 
 exports[`Add Tag Categories Modal should show a modal with a search bar and a tag categories grid when addTagCategoriesModalOpen$ is true 1`] = `
 <pf-add-tag-categories-modal
+  __ngContext__={[Function LRootView]}
   addTagCategoriesForm={[Function FormGroup]}
   addTagCategoriesModalOpen$={[Function Observable]}
   addTagCategoriesModalOpenSubscription={[Function Subscriber]}
@@ -22,19 +23,15 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
     class="ng-untouched ng-pristine ng-invalid"
     title="Add Exchange Filter"
   >
-    
     <div
       class="form-group"
     >
       <pf-input-debounce
         class="ng-untouched ng-pristine ng-valid"
       >
-        
-        
         <div
           class="input-group"
         >
-          
           <input
             autocomplete="off"
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -71,7 +68,6 @@ exports[`Add Tag Categories Modal should show a modal with a search bar and a ta
         type="hidden"
         value=""
       />
-      
     </div>
   </pf-modal-form>
 </pf-add-tag-categories-modal>

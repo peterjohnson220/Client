@@ -58,7 +58,7 @@ describe('Admin - Company Admin - Users List Component', () => {
     expect(fixture).toMatchSnapshot();
   });
   it('Should navigate to the user page when the row is clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.userSelectionChange(
       {

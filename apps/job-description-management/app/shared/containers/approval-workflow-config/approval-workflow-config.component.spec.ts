@@ -15,6 +15,7 @@ import spyOn = jest.spyOn;
 import { generateMockJobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 import { ApprovalWorkflowConfigComponent } from './approval-workflow-config.component';
 
+
 @Pipe({name: 'TruncateAfter'})
 class MockPipe implements PipeTransform {
   transform = (value: any) => value;
@@ -46,7 +47,7 @@ describe('ApprovalWorkflowConfigComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ApprovalWorkflowConfigComponent);
     instance = fixture.componentInstance;
@@ -75,7 +76,7 @@ describe('ApprovalWorkflowConfigComponent', () => {
   });
 
   it('should dispatch SaveWorkflowAttachmentsState on processing success notification', () => {
-    spyOn(instance, 'saveWorkflowAttachmentState');
+    jest.spyOn(instance, 'saveWorkflowAttachmentState');
 
     const mockNotification: AppNotification<any> = {
       NotificationId: '12345',

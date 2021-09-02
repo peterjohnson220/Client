@@ -29,6 +29,8 @@ import {
   GetAvailableFieldsByTableRequest,
   ExportDataViewRequest
 } from 'libs/models/payfactors-api';
+import { ViewConfigurationStrategy } from 'libs/features/grids/pf-data-grid/models';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable({
@@ -111,7 +113,7 @@ export class DataViewApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/RemoveSharePermission`, request);
   }
 
-  getDataViewConfig(pageViewId: string, name: string, applyUserDefaultCompensationFields: boolean): Observable<DataViewConfig> {
+  getDataViewConfig(pageViewId: string, name: string): Observable<DataViewConfig> {
     const params = {
       pageViewId: pageViewId
     };
@@ -119,10 +121,16 @@ export class DataViewApiService {
       params['viewName'] = encodeURIComponent(name);
     }
 
-    if (applyUserDefaultCompensationFields != null) {
-      params['applyUserDefaultCompensationFields'] = applyUserDefaultCompensationFields;
-    }
     return this.payfactorsApiService.get(`${this.endpoint}/GetViewConfig`, { params: params });
+  }
+
+  getDataViewConfigWithStrategy(pageViewId: string, strategy: ViewConfigurationStrategy): Observable<DataViewConfig> {
+    const params = {
+      PageViewId: pageViewId,
+      Strategy: strategy
+    };
+
+    return this.payfactorsApiService.post(`${this.endpoint}/GetViewConfigWithStrategy`, params);
   }
 
   updateDataView(request: DataView) {

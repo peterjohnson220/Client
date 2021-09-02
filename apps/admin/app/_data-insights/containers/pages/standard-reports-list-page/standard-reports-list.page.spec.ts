@@ -42,7 +42,7 @@ describe('Data Insights Management - Standard Reports List Page', () => {
 
   it('sync standard reports', () => {
     const expectedAction = new fromStandardReportsListPageActions.SyncStandardReports();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.syncStandardReports();
 
@@ -51,7 +51,7 @@ describe('Data Insights Management - Standard Reports List Page', () => {
 
   it('onInit fetches list of standard reports', () => {
     const expectedAction = new fromStandardReportsListPageActions.GetStandardReportDetails();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.ngOnInit();
 

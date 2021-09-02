@@ -2,6 +2,7 @@
 
 exports[`UdfManagerPageComponent hide the udf picker when no company is selected 1`] = `
 <pf-udf-manager
+  __ngContext__={[Function LRootView]}
   companiesList$={[Function Store]}
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
@@ -18,20 +19,13 @@ exports[`UdfManagerPageComponent hide the udf picker when no company is selected
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Survey Custom Field Manager 
-    
-    
-    
-    
     <div>
       <pf-company-searcher />
     </div>
-    
     <pf-modal-form
       title="Confirm Survey Custom Fields"
     >
-      
       <p>
         Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
       </p>
@@ -42,6 +36,7 @@ exports[`UdfManagerPageComponent hide the udf picker when no company is selected
 
 exports[`UdfManagerPageComponent show one company searcher when a company is selected 1`] = `
 <pf-udf-manager
+  __ngContext__={[Function LRootView]}
   companiesList$={[Function Store]}
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
@@ -58,25 +53,18 @@ exports[`UdfManagerPageComponent show one company searcher when a company is sel
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Survey Custom Field Manager 
-    
-    
     <div
       class="actions-company-searcher"
     >
       <pf-company-searcher />
     </div>
-    
-    
-    
     <div>
       <pf-udf-picker />
     </div>
     <pf-modal-form
       title="Confirm Survey Custom Fields"
     >
-      
       <p>
         Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
       </p>
@@ -87,6 +75,7 @@ exports[`UdfManagerPageComponent show one company searcher when a company is sel
 
 exports[`UdfManagerPageComponent show one company searcher when no company is selected 1`] = `
 <pf-udf-manager
+  __ngContext__={[Function LRootView]}
   companiesList$={[Function Store]}
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
@@ -103,20 +92,13 @@ exports[`UdfManagerPageComponent show one company searcher when no company is se
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Survey Custom Field Manager 
-    
-    
-    
-    
     <div>
       <pf-company-searcher />
     </div>
-    
     <pf-modal-form
       title="Confirm Survey Custom Fields"
     >
-      
       <p>
         Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
       </p>
@@ -127,6 +109,7 @@ exports[`UdfManagerPageComponent show one company searcher when no company is se
 
 exports[`UdfManagerPageComponent show the udf picker when a company is selected 1`] = `
 <pf-udf-manager
+  __ngContext__={[Function LRootView]}
   companiesList$={[Function Store]}
   companiesListLoading$={[Function Store]}
   companiesListLoadingError$={[Function Store]}
@@ -143,25 +126,18 @@ exports[`UdfManagerPageComponent show the udf picker when a company is selected 
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Survey Custom Field Manager 
-    
-    
     <div
       class="actions-company-searcher"
     >
       <pf-company-searcher />
     </div>
-    
-    
-    
     <div>
       <pf-udf-picker />
     </div>
     <pf-modal-form
       title="Confirm Survey Custom Fields"
     >
-      
       <p>
         Custom survey fields cannot be edited or removed after saving. Would you like to proceed?
       </p>

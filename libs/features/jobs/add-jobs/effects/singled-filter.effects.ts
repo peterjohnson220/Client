@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 import { Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -16,11 +16,14 @@ import * as fromSingledFilterActions from 'libs/features/search/search/actions/s
 import * as fromSearchReducer from 'libs/features/search/search/reducers';
 import * as fromAddJobsReducer from 'libs/features/jobs/add-jobs/reducers';
 
+import { AddJobsModuleConfig } from '../models/add-jobs-module-config.model';
+
 @Injectable()
 export class SingledFilterEffects {
 
   @Effect()
   searchSurveyAggregations = this.infiniteScrollEffectsService.infiniteScrollActions$(ScrollIdConstants.SEARCH_SINGLED_FILTER).pipe(
+    filter(() => !this.addJobsModuleConfig?.OverriddenEffects),
       withLatestFrom(
         this.store.select(fromSearchReducer.getSingledFilter),
         this.store.select(fromSearchReducer.getParentFilters),
@@ -69,7 +72,8 @@ export class SingledFilterEffects {
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
     private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
     private jobSearchApiService: JobSearchApiService,
-    private infiniteScrollEffectsService: InfiniteScrollEffectsService
+    private infiniteScrollEffectsService: InfiniteScrollEffectsService,
+    @Optional() private addJobsModuleConfig: AddJobsModuleConfig
   ) {
   }
 }

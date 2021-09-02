@@ -38,7 +38,7 @@ describe('CommunityPostReplyComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
   it('should emit a replyHashTagClicked event, when hashtag is clicked', () => {
-    spyOn(instance.replyHashTagClicked, 'emit');
+    jest.spyOn(instance.replyHashTagClicked, 'emit');
 
     instance.reply = generateMockCommunityReply();
     const hashtag = '#hashtag';

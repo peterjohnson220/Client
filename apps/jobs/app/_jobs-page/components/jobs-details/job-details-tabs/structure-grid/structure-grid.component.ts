@@ -10,7 +10,7 @@ import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, GridConfi
 import { ViewField } from 'libs/models/payfactors-api/reports/request';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromActions from 'libs/features/grids/pf-data-grid/actions';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services/feature-flags';
 import { GroupedListItem } from 'libs/models/list';

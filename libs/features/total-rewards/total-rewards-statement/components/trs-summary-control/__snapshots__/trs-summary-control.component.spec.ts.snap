@@ -2,6 +2,7 @@
 
 exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   mode="0"
@@ -11,7 +12,6 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -21,21 +21,19 @@ exports[`TrsSummaryControlComponent should display in edit mode 1`] = `
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
   mode={[Function Number]}
@@ -45,7 +43,6 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -55,21 +52,19 @@ exports[`TrsSummaryControlComponent should display in preview mode 1`] = `
       >
         <pf-string-editor />
       </h3>
-      
-      
       <h4
         class="position-relative preview-mode-animation"
       >
          $0 
       </h4>
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -81,7 +76,6 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -91,21 +85,19 @@ exports[`TrsSummaryControlComponent should display in preview mode w/ data 1`] =
       >
         <pf-string-editor />
       </h3>
-      
-      
       <h4
         class="position-relative preview-mode-animation"
       >
          $165000 
       </h4>
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 1`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -117,7 +109,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -127,21 +118,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 2`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -153,7 +142,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -163,21 +151,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 3`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -189,7 +175,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -199,21 +184,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 4`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -225,7 +208,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -235,21 +217,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 5`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -261,7 +241,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -271,21 +250,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display italicised when enabled in all modes 6`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -297,7 +274,6 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <div
       class="text-center"
     >
@@ -307,21 +283,19 @@ exports[`TrsSummaryControlComponent should display italicised when enabled in al
       >
         <pf-string-editor />
       </h3>
-      
       <h4
         class="position-relative"
       >
         <pf-compensation-value-placeholder />
       </h4>
-      
     </div>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 1`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -333,7 +307,6 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <table
       class="table table-borderless table-sm m-0 w-100"
     >
@@ -360,22 +333,20 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
           <td
             class="value-column"
           >
-            
             <h4>
               <pf-compensation-value-placeholder />
             </h4>
-            
           </td>
         </tr>
       </tbody>
     </table>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 2`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -387,7 +358,6 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <table
       class="table table-borderless table-sm m-0 w-100"
     >
@@ -414,22 +384,20 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
           <td
             class="value-column"
           >
-            
             <h4>
               <pf-compensation-value-placeholder />
             </h4>
-            
           </td>
         </tr>
       </tbody>
     </table>
-    
   </div>
 </pf-trs-summary-control>
 `;
 
 exports[`TrsSummaryControlComponent should display tabular mode properly in all modes 3`] = `
 <pf-trs-summary-control
+  __ngContext__={[Function LRootView]}
   calculationControls={[Function Array]}
   controlData={[Function Object]}
   currencyPipe={[Function Object]}
@@ -441,7 +409,6 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
     class="summary-control px-1 mt-3"
     pfmodeclassifierdirective=""
   >
-    
     <table
       class="table table-borderless table-sm m-0 w-100"
     >
@@ -468,16 +435,13 @@ exports[`TrsSummaryControlComponent should display tabular mode properly in all 
           <td
             class="value-column"
           >
-            
             <h4>
               <pf-compensation-value-placeholder />
             </h4>
-            
           </td>
         </tr>
       </tbody>
     </table>
-    
   </div>
 </pf-trs-summary-control>
 `;

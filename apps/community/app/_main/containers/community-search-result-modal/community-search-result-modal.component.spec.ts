@@ -42,7 +42,7 @@ describe('CommunityPostSearchResultComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     settings = TestBed.inject(SettingsService);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunitySearchResultModalComponent);
     instance = fixture.componentInstance;
@@ -81,7 +81,7 @@ describe('CommunityPostSearchResultComponent', () => {
   });
   it('should dismiss modal when hash tag clicked', () => {
 
-    spyOn(instance, 'handleModalDismissed');
+    jest.spyOn(instance, 'handleModalDismissed');
     fixture.detectChanges();
     const hashTagName = '#hashtag';
 
@@ -91,7 +91,7 @@ describe('CommunityPostSearchResultComponent', () => {
 
   });
   it('should route to community dashboard when hash tag clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     fixture.detectChanges();
     const hashTagName = '#hashtag';
@@ -102,7 +102,7 @@ describe('CommunityPostSearchResultComponent', () => {
 
   });
   it('should not route to community dashboard if hash is null', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     fixture.detectChanges();
     const hashTagName = null;
@@ -113,7 +113,7 @@ describe('CommunityPostSearchResultComponent', () => {
 
   });
   it('should not route to community dashboard if hash is empty', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     fixture.detectChanges();
     const hashTagName = '';
@@ -124,7 +124,7 @@ describe('CommunityPostSearchResultComponent', () => {
 
   });
   it('should not route to community dashboard if hash string does not contain hashtag', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     fixture.detectChanges();
     const hashTagName = 'hashtag';

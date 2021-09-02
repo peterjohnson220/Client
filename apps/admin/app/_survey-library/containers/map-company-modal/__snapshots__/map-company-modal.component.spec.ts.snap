@@ -2,6 +2,7 @@
 
 exports[`Custom Survey Title Component should not show map companies list when survey has UDFs 1`] = `
 <pf-map-company-modal
+  __ngContext__={[Function LRootView]}
   companiesList={[Function Array]}
   getMapModalDataFailed$={[Function Store]}
   hasCompanySurveyUDFs={[Function Boolean]}
@@ -17,29 +18,24 @@ exports[`Custom Survey Title Component should not show map companies list when s
     size="lg"
     title="Map Companies"
   >
-    
     <div>
       <pf-input-debounce />
     </div>
     <pf-async-container>
       <div
-        class="row pt-3 "
+        class="row pt-3"
       >
-        
         <div
           class="col-5 pb-2 pr-5 text-danger"
         >
            Mapping functionality is not available for this survey as it contains company specific custom fields. 
         </div>
-        
         <div
           class="col-7 pb-2"
         >
           <h5>
             Companies Mapped: 
-            
           </h5>
-          
         </div>
       </div>
     </pf-async-container>
@@ -49,6 +45,7 @@ exports[`Custom Survey Title Component should not show map companies list when s
 
 exports[`Custom Survey Title Component should show map companies list when survey does not have UDFs 1`] = `
 <pf-map-company-modal
+  __ngContext__={[Function LRootView]}
   companiesList={[Function Array]}
   getMapModalDataFailed$={[Function Store]}
   hasCompanySurveyUDFs="false"
@@ -64,43 +61,33 @@ exports[`Custom Survey Title Component should show map companies list when surve
     size="lg"
     title="Map Companies"
   >
-    
     <div>
       <pf-input-debounce />
     </div>
     <pf-async-container>
       <div
-        class="row pt-3 "
+        class="row pt-3"
       >
-        
         <div
-          class="col-5
-             pb-2 pr-5"
+          class="col-5 pb-2 pr-5"
         >
           <h5>
             Companies not Mapped:
           </h5>
-          
-          
-          
           <div>
             No companies found
           </div>
           <div
             class="pt-2"
           >
-            
           </div>
         </div>
-        
         <div
           class="col-7 pb-2"
         >
           <h5>
             Companies Mapped: 
-            
           </h5>
-          
         </div>
       </div>
     </pf-async-container>

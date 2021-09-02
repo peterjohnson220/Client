@@ -3,6 +3,7 @@
 exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoaderSettings is false 1`] = `
 <pf-sftp-account-status
   LoadingLoadersettings="false"
+  __ngContext__={[Function LRootView]}
 >
   <div
     class="row mb-2"
@@ -15,7 +16,6 @@ exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoa
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -28,7 +28,6 @@ exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoa
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -41,15 +40,11 @@ exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoa
     <div
       class="col-4"
     >
-      
-      
       <fa-icon
         class="text-danger"
         icon="times-circle"
       />
        Not Active 
-      
-      
     </div>
   </div>
 </pf-sftp-account-status>
@@ -58,6 +53,7 @@ exports[`SftpAccountStatusComponent should show Sftp information when LoadingLoa
 exports[`SftpAccountStatusComponent should show a spinner when LoadingLoaderSettings is true 1`] = `
 <pf-sftp-account-status
   LoadingLoadersettings={[Function Boolean]}
+  __ngContext__={[Function LRootView]}
 >
   <div
     class="row mb-2"
@@ -70,7 +66,6 @@ exports[`SftpAccountStatusComponent should show a spinner when LoadingLoaderSett
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -83,7 +78,6 @@ exports[`SftpAccountStatusComponent should show a spinner when LoadingLoaderSett
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -96,13 +90,11 @@ exports[`SftpAccountStatusComponent should show a spinner when LoadingLoaderSett
     <div
       class="col-4"
     >
-      
       <div>
         <fa-icon
           icon="spinner"
         />
       </div>
-      
     </div>
   </div>
 </pf-sftp-account-status>
@@ -112,6 +104,7 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
 <pf-sftp-account-status
   CompanyAutoloaderStatus={[Function Boolean]}
   LoadingLoadersettings="false"
+  __ngContext__={[Function LRootView]}
 >
   <div
     class="row mb-2"
@@ -124,7 +117,6 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -137,7 +129,6 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -150,8 +141,6 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
     <div
       class="col-4"
     >
-      
-      
       <span>
         <fa-icon
           class="text-success"
@@ -159,8 +148,6 @@ exports[`SftpAccountStatusComponent should show an active status if CompanyAutol
         />
          Active 
       </span>
-      
-      
     </div>
   </div>
 </pf-sftp-account-status>
@@ -170,6 +157,7 @@ exports[`SftpAccountStatusComponent should show an inactive status if CompanyAut
 <pf-sftp-account-status
   CompanyAutoloaderStatus="false"
   LoadingLoadersettings="false"
+  __ngContext__={[Function LRootView]}
 >
   <div
     class="row mb-2"
@@ -182,7 +170,6 @@ exports[`SftpAccountStatusComponent should show an inactive status if CompanyAut
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -195,7 +182,6 @@ exports[`SftpAccountStatusComponent should show an inactive status if CompanyAut
     <div
       class="col-4"
     >
-      
     </div>
   </div><div
     class="row mb-2"
@@ -208,15 +194,11 @@ exports[`SftpAccountStatusComponent should show an inactive status if CompanyAut
     <div
       class="col-4"
     >
-      
-      
       <fa-icon
         class="text-danger"
         icon="times-circle"
       />
        Not Active 
-      
-      
     </div>
   </div>
 </pf-sftp-account-status>

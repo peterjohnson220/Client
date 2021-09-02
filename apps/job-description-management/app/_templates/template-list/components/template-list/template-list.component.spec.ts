@@ -58,7 +58,7 @@ describe('Job Description Management - Templates - Template List',
   });
 
     it('should emit openDeleteModal', () => {
-      spyOn(instance.openDeleteModal, 'emit');
+      jest.spyOn(instance.openDeleteModal, 'emit');
 
       const mockedTemplateListItem = generateMockTemplateListItem(1);
       const testEvent = new Event('click');
@@ -69,7 +69,7 @@ describe('Job Description Management - Templates - Template List',
   });
 
     it('should emit openCopyModal', () => {
-      spyOn(instance.openCopyModal, 'emit');
+      jest.spyOn(instance.openCopyModal, 'emit');
 
       const mockedTemplateListItem = generateMockTemplateListItem(1);
       const testEvent = new Event('click');

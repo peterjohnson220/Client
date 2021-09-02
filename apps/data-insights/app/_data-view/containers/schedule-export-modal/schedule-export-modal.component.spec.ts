@@ -107,7 +107,7 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
     ['CSV', 'Pipe', ExportFrequencyType.Monthly, [{Name: 'Monday', Value: 'MON', Order: 1}], 'First', '* * * ? * MON#1']
   ])('should dispatch save schedule with correct data',
     (format, separatorType, frequency, daysOfWeek, monthlyOccurrence, cronExpression) => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       instance.currentSchedule = { ...generateMockTabularReportExportSchedule() };
       instance.exportFormat.selectedFormat = format;
@@ -137,7 +137,7 @@ describe('Data Insights - Date Field Formatting Modal Component', () => {
     ['CSV', 'Pipe', ExportFrequencyType.Monthly, [{Name: 'Monday', Value: 'MON', Order: 1}], 'First', '* * * ? * MON#1']
   ])('should dispatch update schedule with correct data',
     (format, separatorType, frequency, daysOfWeek, monthlyOccurrence, cronExpression) => {
-      spyOn(store, 'dispatch');
+      jest.spyOn(store, 'dispatch');
 
       instance.currentSchedule = { ...generateMockTabularReportExportSchedule() };
       instance.exportFormat.selectedFormat = format;

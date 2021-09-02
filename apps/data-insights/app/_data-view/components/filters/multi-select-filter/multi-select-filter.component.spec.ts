@@ -25,7 +25,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
   it('should not open popup when query length is less than required length', () => {
     instance.filterValue = '';
     const openEvent: Event = new Event('open');
-    spyOn(openEvent, 'preventDefault');
+    jest.spyOn(openEvent, 'preventDefault');
 
     instance.handleFilterOptionsMultiSelectOpen(openEvent);
 
@@ -34,7 +34,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
 
   it('should emit filter value correctly when handling value changed', () => {
     const query = 'Acc';
-    spyOn(instance.filterChanged, 'emit');
+    jest.spyOn(instance.filterChanged, 'emit');
 
     instance.handleFilterChange(query);
 
@@ -43,7 +43,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
 
   it('should NOT emit filterChanged if query length is less than required length', () => {
     const query = '';
-    spyOn(instance.filterChanged, 'emit');
+    jest.spyOn(instance.filterChanged, 'emit');
 
     instance.handleFilterChange(query);
 
@@ -52,7 +52,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
 
   it('should not open popup if query length is less than required length', () => {
     const query = '';
-    spyOn(instance.filterOptionsMultiSelect, 'toggle');
+    jest.spyOn(instance.filterOptionsMultiSelect, 'toggle');
 
     instance.handleFilterChange(query);
 
@@ -61,7 +61,7 @@ describe('Data Insights - Multi Selert Filter Card Component', () => {
 
   it('should emit selectedValuesChanged with correct options when handling selected values changed', () => {
     instance.selectedOptions = ['Accountant', 'Accountant II'];
-    spyOn(instance.selectedValuesChanged, 'emit');
+    jest.spyOn(instance.selectedValuesChanged, 'emit');
 
     instance.handleSelectedValuesChange();
 

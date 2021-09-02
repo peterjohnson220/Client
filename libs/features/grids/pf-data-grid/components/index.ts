@@ -4,3 +4,4 @@ export * from './column-chooser';
 export * from './column-group';
 export * from './column-group-list';
 export * from './select-all-panel';
+export * from './column-header';

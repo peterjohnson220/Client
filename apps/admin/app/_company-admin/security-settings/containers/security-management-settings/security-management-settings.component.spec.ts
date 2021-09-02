@@ -50,7 +50,7 @@ describe('PasswordManagementSettingsComponent', () => {
   });
 
   it('should dispatch LoadCompanyAdminPasswordSettings', () => {
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
 
     component.ngOnInit();
     const expectedAction = new fromPasswordSettingActions.LoadCompanyAdminPasswordSettings();

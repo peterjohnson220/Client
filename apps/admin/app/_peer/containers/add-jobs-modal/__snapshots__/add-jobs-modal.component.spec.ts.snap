@@ -2,6 +2,7 @@
 
 exports[`Add Jobs Modal should show a modal with a search bar and a companies grid when addJobsModalOpen$ is true 1`] = `
 <pf-add-jobs-modal
+  __ngContext__={[Function LRootView]}
   addJobsErrorSubscription={[Function Subscriber]}
   addJobsForm={[Function FormGroup]}
   addJobsModalOpen$={[Function Observable]}
@@ -25,7 +26,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
     class="ng-untouched ng-pristine ng-invalid"
     title="Add Exchange Jobs"
   >
-    
     <pf-async-container>
       <div
         class="form-group"
@@ -34,12 +34,9 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
           class="ng-untouched ng-pristine ng-valid"
           id="search-jobs"
         >
-          
-          
           <div
             class="input-group"
           >
-            
             <input
               autocomplete="off"
               class="form-control ng-untouched ng-pristine ng-valid"
@@ -87,7 +84,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
           title="Status"
           width="125"
         >
-          
         </kendo-grid-column>
       </kendo-grid>
     </pf-async-container>
@@ -101,7 +97,6 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
         type="hidden"
         value=""
       />
-      
     </div>
   </pf-modal-form>
 </pf-add-jobs-modal>

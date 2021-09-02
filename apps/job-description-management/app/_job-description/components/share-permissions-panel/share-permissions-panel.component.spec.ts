@@ -17,7 +17,7 @@ describe('SharePermissionsPanelComponent', () => {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA /* needed so use of fa-icon doesn't cause errors */],
       providers: [{
         provide: JobDescriptionSharingService,
-        useValue: { 
+        useValue: {
           getShares: _ => new Observable(s => { subscriber = s; }),
           init: () => {},
           destroy: () => {}
@@ -76,14 +76,14 @@ describe('SharePermissionsPanelComponent', () => {
   });
 
   it('should trigger close event when close button clicked', () => {
-    spyOn(component.onClose, 'emit');
+    jest.spyOn(component.onClose, 'emit');
     fixture.nativeElement.querySelector('.pf-share-permissions-panel__close').click();
 
     expect(component.onClose.emit).toHaveBeenCalled();
   });
 
   it('should trigger share event when Share button clicked', () => {
-    spyOn(component.onShare, 'emit');
+    jest.spyOn(component.onShare, 'emit');
     fixture.nativeElement.querySelector('.pf-share-permissions-panel__share-button').click();
 
     expect(component.onShare.emit).toHaveBeenCalled();

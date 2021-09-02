@@ -40,7 +40,7 @@ export const adapter: EntityAdapter<ExchangeJob> = createEntityAdapter<ExchangeJ
 });
 
 // Define our initial state
-const initialState: State = adapter.getInitialState({
+export const initialState: State = adapter.getInitialState({
   // grid and search term
   loading: false,
   loadingError: false,

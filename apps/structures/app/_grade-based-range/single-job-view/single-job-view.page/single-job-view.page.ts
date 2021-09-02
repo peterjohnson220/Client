@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
