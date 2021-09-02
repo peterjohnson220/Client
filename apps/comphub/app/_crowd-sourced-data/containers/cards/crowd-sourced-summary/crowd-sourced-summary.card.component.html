@@ -1,7 +1,4 @@
-<pf-card-layout
-  pageTitle="Summary"
-  [page]="comphubPages.Summary"
-  pageIconClass="file-alt">
+<pf-card-layout pageTitle="Summary" [page]="comphubPages.Summary" pageIconClass="file-alt">
 
   <ng-container page-content>
     <div class="row summary-page-content">
@@ -10,14 +7,9 @@
           <div class="summary-panel-item">
             <div class="summary-panel-item-header">Rate</div>
             <div class="summary-panel-item-value">
-              <kendo-dropdownlist class="rates-dropdown"
-                                  [attr.data-qa-id]="'ddm-rate'"
-                                  [data]="rates"
-                                  textField="Name"
-                                  valueField="Value"
-                                  [valuePrimitive]="true"
-                                  [(ngModel)]="selectedRate"
-                                  (selectionChange)="handleRateSelectionChange($event)">
+              <kendo-dropdownlist class="rates-dropdown" [attr.data-qa-id]="'ddm-rate'" [data]="rates" textField="Name"
+                valueField="Value" [valuePrimitive]="true" [(ngModel)]="selectedRate"
+                (selectionChange)="handleRateSelectionChange($event)">
               </kendo-dropdownlist>
             </div>
           </div>
@@ -59,48 +51,52 @@
         <div class="header">
           <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
           <div class="actions">
-            <button class="btn btn-secondary"
-              (click)="handleDownloadPdfClicked()"
-              ngbTooltip="Export">
+            <button class="btn btn-secondary" (click)="handleDownloadPdfClicked()" ngbTooltip="Export">
               <fa-icon icon="file-pdf"></fa-icon>
             </button>
           </div>
         </div>
-
-        <div class="row rate-value-row">
-          <div class="col-md-3"><h3 class="rate-value-label">{{selectedBaseValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> BASE PAY</div>
-          <div class="col-md-3"><h3 class="rate-value-label">{{selectedTccValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h3> TOTAL CASH</div>
-          <div class="col-md-6">
-            <div class="row rate-display">
-              <div class="h rate-display-label">Rates displayed at</div>
-              <kendo-dropdownlist class="rate-display-dropdown"
-                                  [attr.data-qa-id]="'ddm-rate-display'"
-                                  id="rateDisplay"
-                                  [data]="displayRates"
-                                  textField="Name"
-                                  valueField="Value"
-                                  [popupSettings]="{
-                                    width: '11.1em'
-                                  }"
-                                  [valuePrimitive]="true"
-                                  [(ngModel)]="selectedDisplayRate"
-                                  (selectionChange)="handleDisplayRateSelectionChange($event)">
-              </kendo-dropdownlist>
+        <div class="col-12">
+          <pf-async-container [loading]="selectedJob?.Loading">
+            <div class="row rate-value-row">
+              <div class="col-md-3">
+                <h3 class="rate-value-label">
+                  {{selectedBaseValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
+                </h3> BASE PAY
+              </div>
+              <div class="col-md-3">
+                <h3 class="rate-value-label">
+                  {{selectedTccValue | currency:selectedPaymarket.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
+                </h3> TOTAL CASH
+              </div>
+              <div class="col-md-6">
+                <div class="row rate-display">
+                  <div class="h rate-display-label">Rates displayed at</div>
+                  <kendo-dropdownlist class="rate-display-dropdown" [attr.data-qa-id]="'ddm-rate-display'"
+                    id="rateDisplay" [data]="displayRates" textField="Name" valueField="Value" [popupSettings]="{
+                                        width: '11.1em'
+                                      }" [valuePrimitive]="true" [(ngModel)]="selectedDisplayRate"
+                    (selectionChange)="handleDisplayRateSelectionChange($event)">
+                  </kendo-dropdownlist>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10"><h3>Market Data Details</h3></div>
-        </div>
-        <div>
-          <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph>
-          <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph>
+            <div class="row">
+              <div class="col-md-10">
+                <h3>Market Data Details</h3>
+              </div>
+            </div>
+            <div>
+              <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph>
+              <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph>
+            </div>
+          </pf-async-container>
         </div>
         <ng-container *ngIf="summaryPage" #CompensableFactors>
           <pf-compensable-factors [selectedJobTitle]="selectedJob?.JobTitle"
-                                  [selectedCountry]="this.workflowContext.activeCountryDataSet.CountryName"
-                                  [selectedPaymarketId]="this.selectedPaymarket.CompanyPayMarketId"
-                                  [selectedFactors]="this.selectedFactors">
+            [selectedCountry]="this.workflowContext.activeCountryDataSet.CountryName"
+            [selectedPaymarketId]="this.selectedPaymarket.CompanyPayMarketId" [selectedFactors]="this.selectedFactors"
+            [loading]="selectedJob?.Loading">
           </pf-compensable-factors>
         </ng-container>
       </div>

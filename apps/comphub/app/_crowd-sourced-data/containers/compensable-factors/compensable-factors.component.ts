@@ -23,6 +23,7 @@ export class CompensableFactorsComponent implements OnDestroy {
   @Input() selectedCountry: string;
   @Input() selectedPaymarketId: number;
   @Input() selectedFactors: CompensableFactorsResponse[];
+  @Input() loading: boolean;
 
   compensableFactorsDataSub: Subscription;
 
