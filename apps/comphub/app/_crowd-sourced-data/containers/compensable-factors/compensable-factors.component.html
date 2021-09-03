@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-10"><h3>Compensable Factors</h3></div>
-  <div class="col-md-2"><button class="btn btn-secondary submit-btn" (click)="handleSubmitClicked()">Submit</button></div>
+  <div class="col-md-2"><button class="btn btn-secondary submit-btn" (click)="handleSubmitClicked()" [disabled]="loading">{{loading ? 'Calculating...' : 'Submit'}}</button></div>
 </div>
 <div class="row">
   <div class="col-md-3">
