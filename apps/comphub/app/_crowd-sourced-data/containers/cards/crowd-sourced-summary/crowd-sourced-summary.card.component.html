@@ -56,7 +56,8 @@
             </button>
           </div>
         </div>
-        <div class="col-12">
+        <div class="csd-label">Payscale Crowdsourced Data</div>
+        <div class="async-container-positioner">
           <pf-async-container [loading]="selectedJob?.Loading">
             <div class="row rate-value-row">
               <div class="col-md-3">
@@ -81,15 +82,17 @@
                 </div>
               </div>
             </div>
+            <hr>
             <div class="row">
               <div class="col-md-10">
-                <h3>Market Data Details</h3>
+                <h4>Market Data Details</h4>
               </div>
             </div>
             <div>
               <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph>
               <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph>
             </div>
+            <hr>
           </pf-async-container>
         </div>
         <ng-container *ngIf="summaryPage" #CompensableFactors>

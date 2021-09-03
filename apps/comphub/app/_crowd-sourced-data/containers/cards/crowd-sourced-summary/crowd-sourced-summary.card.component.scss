@@ -16,6 +16,11 @@ tr {
   border: 1px solid black;
 }
 
+hr {
+  background-color: #D3D3D3;
+  height: 1px;
+}
+
 .summary-page-content {
   padding-top: 30px;
 }
@@ -47,7 +52,7 @@ tr {
   justify-content: space-between;
   align-items: center;
   margin-top: -10px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 
   .job-title {
     font-size: 2rem;
@@ -80,7 +85,7 @@ tr {
 .rate-display-dropdown {
   vertical-align: unset;
   width:fit-content;
-  padding-right: 15px;
+  padding-right: 7px;
 }
 
 :host ::ng-deep .k-dropdown.rate-display-dropdown {
@@ -125,3 +130,12 @@ tr {
   margin-bottom: 15px;
 }
 
+.csd-label {
+  display: flex;
+  justify-content: flex-end;
+  color: $comphub-header-blue;
+}
+
+.async-container-positioner {
+  position: relative;
+}
