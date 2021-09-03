@@ -14,6 +14,7 @@ import * as fromFaIcons from './fa-icons';
 import { JobSummaryPrintComponent, JobSummaryReportPrintTemplateComponent } from './containers';
 import { reducers } from './reducers';
 import { JobSummaryPrintEffect } from './effects';
+import { DataSummaryCardsComponent } from './components';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { JobSummaryPrintEffect } from './effects';
   ],
   declarations: [
     JobSummaryPrintComponent,
-    JobSummaryReportPrintTemplateComponent
+    JobSummaryReportPrintTemplateComponent,
+    DataSummaryCardsComponent
   ]
 })
 export class PrintModule {

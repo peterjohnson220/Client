@@ -1,13 +1,14 @@
+@import 'comphub/print.scss';
 
 .prints {
-  overflow: hidden;
+  overflow: visible;
   max-width: none !important;
   width: 8.5in !important;
   margin-bottom: 1rem;
   .js-page {
     background: white;
     height: 11in !important;
-    overflow: hidden;
+    overflow: visible;
     margin-left: -15px;
     margin-right: -15px;
     padding-left: 15px;
@@ -42,10 +43,7 @@
 }
 
 .cover-page {
-  h1{
-    color: #3D0FC8;
-  }
-  h2{
+  h1, h2, h3{
     color: #3D0FC8;
   }
 
@@ -53,12 +51,12 @@
     padding-top: 100px;
   }
 
-  .header{
+  .cover-page-header{
     padding-top: 100px;
     padding-left: 80px;
   }
 
-  .footer{
+  .cover-page-footer{
     position: absolute;
     bottom: 0;
     color: #302C2C;
@@ -76,7 +74,7 @@ table {
   border-collapse: collapse;
 
   thead {
-    background-color: #17064B;
+    background-color: #17064B !important;
     color: white;
   }
   th{
@@ -107,21 +105,9 @@ table {
 
 
 .data-summary {
-  .card {
-    width: 100%;
-    margin-bottom: 10px;
-    display: inline-block;
-    border-top: none;
-  }
-  .list-group-item{
-    padding: 5px 5px;
-    font-size: 10px;
-  }
-  .card-header{
-    padding: 5px 5px;
-    font-size: 10px;
-    background-color: #ffffff;
-    border-top: 2px solid #3D0FC8;
+
+  .row {
+    padding-top: 20px;
   }
 }
 
@@ -183,4 +169,28 @@ table {
   }
 }
 
+.footer {
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #979797;
+  width: 100%;
 
+  .message{
+    margin-right: 300px;
+  }
+
+  .circle {
+    background: #22067A !important;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    color: white;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 40px;
+    margin-right: 5px;
+    text-align: center;
+    width: 40px;
+  }
+
+}

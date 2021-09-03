@@ -54,11 +54,16 @@ export class ExportDataEffect {
       ofType(
         fromExportDataActions.GENERATE_PDF_EXPORT
       ),
-      switchMap((action: fromExportDataActions.GeneratePdfExport) => {
+      withLatestFrom(
+        this.sharedStore.select(fromComphubSharedReducer.getSelectedJobData),
+        (action: fromExportDataActions.GeneratePdfExport, selectedJobData) =>
+          ({action, selectedJobData})
+      ),
+      switchMap((data) => {
           return this.htmlToPdfGenerationApiService.startPdfGeneration({
             PdfType: PdfTypeConstantsEnum.QuickPrice,
-            HtmlUrl: `http://development.payfactors.com/client/comphub/print/${action.payload}`,
-            FileName: 'test_csd_export.pdf',
+            HtmlUrl: `client/comphub/print/${data.action.payload}`,
+            FileName: `PricingSummaryFor(${data.selectedJobData.JobTitle}).pdf`,
             WaitForSelector: PrintConstants.READY_FOR_PDF_GENERATION_SELECTOR
           }).pipe(
             map((response) => {

@@ -1,16 +1,10 @@
 <div class="container">
-  <div class="header d-flex justify-content-between mb-2">
+  <header class="header d-flex justify-content-between mb-2">
     <img src="assets/images/payscale-logo.png">
     <h2>Market Data Report</h2>
-  </div>
+  </header>
 
   <ng-content select="[content]"></ng-content>
 
-  <div class="footer d-flex justify-content-between mb-2 p-1">
-    <div class="message">
-      <p>May not be reproduced without permission from Payscale Inc. <span><fa-icon icon="copyright"></fa-icon></span> 2021</p>
-    </div>
-    <span class="circle">{{pageNumber}}</span>
-  </div>
 </div>
 

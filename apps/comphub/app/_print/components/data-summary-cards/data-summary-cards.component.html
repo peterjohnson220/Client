@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-header">
+      <b>{{dataSummaryReport.Name}}:</b>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let dataRow of dataSummaryReport.Rows">
+        {{dataRow.Answer}} <span style="float: right">{{dataRow.PercentMatch | number:'1.0-2'}}%</span>
+      </li>
+    </ul>
+</div>
