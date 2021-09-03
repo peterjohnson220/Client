@@ -225,7 +225,7 @@ export class ComphubPageEffects {
           actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
           actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]));
         } else if (data.workflowContext.comphubType === ComphubType.CROWD_SOURCED_DATA) {
-          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: data.action.payload.JobTitle }));
+          actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: `Payscale ${data.action.payload.JobTitle}` }));
           actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Summary]));
         } else {
           actions.push(new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: `Payfactors ${data.action.payload.JobTitle}`}));
