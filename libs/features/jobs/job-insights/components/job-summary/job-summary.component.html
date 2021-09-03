@@ -6,20 +6,20 @@
 </ng-container>
 
 <ng-container *ngIf="mode === printMode">
-  <div class="font-size-11 font-weight-600 pb-2">Job Summary</div>
+  <div class="section-title font-weight-600 pb-2">Job Summary</div>
   <ng-container *ngIf="jobSummary?.length; else noJobSummary">
     <ng-container *ngIf="jobSummary !== multipleJobDescriptions; else multipleJobDescriptionsTemplate">
-      <div class="font-size-10">{{jobSummary}}</div>
+      <div class="section-text">{{jobSummary}}</div>
     </ng-container>
   </ng-container>
 </ng-container>
 
 <ng-template #noJobSummary>
   <div>
-    <span class="font-size-10">No job summary to display</span>
+    <span class="section-text">No job summary to display</span>
   </div>
 </ng-template>
 
 <ng-template #multipleJobDescriptionsTemplate>
-  <span [class.font-size-10]="printMode">{{multipleJobDescriptions}}</span>
+  <span [class.section-text]="printMode">{{multipleJobDescriptions}}</span>
 </ng-template>

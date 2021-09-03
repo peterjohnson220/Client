@@ -22,15 +22,16 @@ import * as fromBasePayGraphReducer from '../reducers';
   styleUrls: ['./job-pricing-graph.component.scss']
 })
 export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
-
   @Input() paymarketId: number;
   @Input() companyJobId: number;
+  @Input() showPayLabel = true;
+  @Input() marginLeft = 100;
 
   dataUpdatedSubscription: Subscription;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartRef: Highcharts.Chart;
-  chartOptions: Highcharts.Options = JobPricingGraphService.getPricingGraphChartOptions();
+  chartOptions: Highcharts.Options;
   updateFlag = false;
 
   userLocale: string;
@@ -50,6 +51,7 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.chartOptions = JobPricingGraphService.getPricingGraphChartOptions(this.marginLeft);
     JobPricingGraphService.initializePricingHighcharts();
     this.userLocale = getUserLocale();
 
@@ -117,6 +119,7 @@ export class JobPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
         x: 0,
       });
     }
-    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, this.pricingData.PayAvg, scatterData, 'Base Pay');
+    const payLabel = this.showPayLabel ? 'Base Pay' : null;
+    JobPricingGraphService.renderGraph(this.chartRef, this.chartMin, this.chartMax, this.pricingData.PayAvg, scatterData, payLabel);
   }
 }

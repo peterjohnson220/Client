@@ -24,14 +24,19 @@
       </div>
   
       <div class="py-3 border-bottom d-flex flex-column">
-        <span class="font-size-11 font-weight-600">Pricing Details</span>
+        <span class="section-title font-weight-600">Pricing Details</span>
         <ng-container *ngIf="jobInsights.JobPricingId">
           <div class="graph-container">
-            <pf-job-pricing-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-graph>
+            <div class="mt-2 section-text">Base Pay</div>
+            <pf-job-pricing-graph [paymarketId]="companyPayMarketId"
+                                  [companyJobId]="companyJobId"
+                                  [showPayLabel]="false"
+                                  [marginLeft]="10">
+            </pf-job-pricing-graph>
           </div>
         </ng-container>
         <div *ngIf="!jobInsights.JobPricingId">
-          <span class="font-size-10">No pricing details to display</span>
+          <span class="section-text">No pricing details to display</span>
         </div>
       </div>
     </div>
@@ -41,7 +46,8 @@
       <div class="pb-3">
         <ng-container [ngTemplateOutlet]="jobTitle"></ng-container>
         <pf-data-matches [pricingMatches]="jobInsights.PricingMatches"
-                         [jobTitleCode]="jobInsights.Job.JobTitle + ' (' + jobInsights.Job.JobCode + ')'">
+                         [jobTitleCode]="jobInsights.Job.JobTitle + ' (' + jobInsights.Job.JobCode + ')'"
+                         [rate]="jobInsights.JobPricingRate">
         </pf-data-matches>
       </div>
     </div>
@@ -56,8 +62,8 @@
       <span class="font-size-14 font-weight-500 mr-1">{{jobInsights.Job.JobTitle}}</span>
       <span class="font-size-14">({{jobInsights.Job.JobCode}})</span>
     </div>
-    <span class="font-size-11">Pay Market: {{jobInsights.PayMarketName}}</span>
-    <span class="font-size-11">Generated: {{today | date : 'MM/dd/yyyy'}} by {{jobInsights.RequestedBy}}</span>
+    <span class="section-title">Pay Market: {{jobInsights.PayMarketName}}</span>
+    <span class="section-title">Generated: {{today | date : 'MM/dd/yyyy'}} by {{jobInsights.RequestedBy}}</span>
   </div>
 </ng-template>
 
