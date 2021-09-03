@@ -1,29 +1,29 @@
 <div class="py-3">
-  <span class="font-size-11 font-weight-600">Data Matches</span>
+  <span class="section-title font-weight-600">Data Matches</span>
 </div>
 <div>
   <ng-container *ngIf="pricingMatches?.length; else noDataTemplate">
     <ng-container *ngFor="let job of pricingMatches">
-      <div class="page-break-after-auto">
+      <div class="page-break-after-auto page-break-inside-avoid">
         <ul class="p-3 match-table">
           <li class="d-flex align-items-top">
-            <div class="flex-fill ellipsis-overflowing-text">
+            <div class="flex-fill">
               <div class="d-flex flex-column">
-                <div pfEllipsisActive class="font-size-10 font-weight-500 ellipsis-overflowing-text">
+                <div class="section-text font-weight-500">
                   {{job.JobTitle}} ({{job.JobCode}})
                 </div>
-                <div pfEllipsisActive class="font-size-10 font-weight-500 ellipsis-overflowing-text">
+                <div class="section-text font-weight-500">
                   {{job.Source}} ({{job.EffectiveDate | date:'MM/dd/yyyy'}})
                 </div>
               </div>
             </div>
             <div>
-              <span class="font-size-10 font-weight-500">{{jobTitleCode}}</span>
+              <span class="section-text font-weight-500">{{jobTitleCode}}</span>
             </div>
           </li>
   
           <li>
-            <p class="font-size-9">{{job.JobSummary}}</p>
+            <p class="section-text">{{job.JobSummary}}</p>
           </li>
           
           <li class="data-matches-grid">
@@ -57,7 +57,7 @@
           </li>
   
           <li class="weight-adjustment d-flex justify-content-end pt-3">
-            <span class="font-size-9">Weight: {{job.MatchWeight}} | Adjustment: {{job.MatchAdjustment}}</span>
+            <span class="section-text">Weight: {{job.MatchWeight}} | Adjustment: {{job.MatchAdjustment}}</span>
           </li>
         </ul>
       </div>
@@ -67,6 +67,6 @@
 
 <ng-template #noDataTemplate>
   <div class="px-3 pb-3 no-data-container d-flex align-items-center justify-content-center">
-    <span class="font-size-10">No market data to display.</span>
+    <span class="section-text">No market data to display.</span>
   </div>
 </ng-template>

@@ -6,6 +6,10 @@
   background: #F6F7F8;
 }
 
+li {
+  list-style: none;
+}
+
 :host ::ng-deep .k-grid th, :host ::ng-deep .k-grid td {
   padding: 0.25em 1em 0.25em 0.25em !important
 }

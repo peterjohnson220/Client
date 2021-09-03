@@ -1,7 +1,7 @@
 <ng-container>
-  <div [class]="mode === jobInsightsPrintMode ? 'print-title' : 'title'">
-    <span *ngIf="mode !== jobInsightsPrintMode">Job Details</span>
-    <div *ngIf="mode === jobInsightsPrintMode" class="pb-2">Job Details & Compensable Factors</div>
+  <div>
+    <span *ngIf="mode !== jobInsightsPrintMode" class="title">Job Details</span>
+    <div *ngIf="mode === jobInsightsPrintMode" class="pb-2 section-title font-weight-600">Job Details & Compensable Factors</div>
   </div>
   <ng-container [ngTemplateOutlet]="jobDetailsFields"
                 [ngTemplateOutletContext]="{fields: standardFields, subTitle: 'STANDARD FIELDS'}">
@@ -24,17 +24,21 @@
   <div class="row">
     <div class="col-6 px-3">
       <div *ngFor="let field of fields; let isOdd=odd;" class="pl-1">
-        <div *ngIf="!isOdd" class="row" [class.print-text]="mode === jobInsightsPrintMode">
-          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
-          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
+        <div *ngIf="!isOdd" class="row" [class.section-text]="mode === jobInsightsPrintMode">
+          <label pfEllipsisActive class="col-4" [class.ellipsis-overflowing-text]="mode !== jobInsightsPrintMode">{{field.Key}}</label>
+          <div pfEllipsisActive class="col-8 font-weight-bold" [class.ellipsis-overflowing-text]="mode !== jobInsightsPrintMode">
+            {{field.Value | emptyPlaceholder}}
+          </div>
         </div>
       </div>
     </div>
     <div class="col-6 px-3">
       <div *ngFor="let field of fields; let isOdd=odd;">
-        <div *ngIf="isOdd" class="row" [class.print-text]="mode === jobInsightsPrintMode">
-          <label pfEllipsisActive class="col-4 ellipsis-overflowing-text">{{field.Key}}</label>
-          <div pfEllipsisActive class="col-8 font-weight-bold ellipsis-overflowing-text">{{field.Value | emptyPlaceholder}}</div>
+        <div *ngIf="isOdd" class="row" [class.section-text]="mode === jobInsightsPrintMode">
+          <label pfEllipsisActive class="col-4" [class.ellipsis-overflowing-text]="mode !== jobInsightsPrintMode">{{field.Key}}</label>
+          <div pfEllipsisActive class="col-8 font-weight-bold" [class.ellipsis-overflowing-text]="mode !== jobInsightsPrintMode">
+            {{field.Value | emptyPlaceholder}}
+          </div>
         </div>
       </div>
     </div>

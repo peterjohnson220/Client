@@ -233,7 +233,7 @@ export class JobPricingGraphService {
     chart.setSize(undefined, 1, false);
   }
 
-  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, payLabel: string,
+  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, payLabel: string = null,
                      includeAvgLine: boolean = true, forceDecimals: boolean = false, decimalPlaces: number = 1) {
     if (includeAvgLine) {
       chart.yAxis[0].addPlotLine({
@@ -243,10 +243,14 @@ export class JobPricingGraphService {
         id: 'plot-line'
       });
     }
-    const avgDisplay = forceDecimals ? (avg).toFixed(decimalPlaces) : avg.toString();
-    chart.xAxis[0].setCategories(
-      ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + avgDisplay + '</span>']
-    );
+    if (payLabel) {
+      const avgDisplay = forceDecimals ? (avg).toFixed(decimalPlaces) : avg.toString();
+      chart.xAxis[0].setCategories(
+        ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + avgDisplay + '</span>']
+      );
+    } else {
+      chart.xAxis[0].setCategories(['']);
+    }
 
     chart.addSeries({
       type : 'scatter',

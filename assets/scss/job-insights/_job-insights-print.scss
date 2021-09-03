@@ -1,13 +1,9 @@
-.font-size-9 {
-  font-size: 9px;
-}
-
-.font-size-10 {
-  font-size: 10px;
-}
-
-.font-size-11 {
+.section-text {
   font-size: 11px;
+}
+
+.section-title {
+  font-size: 12px;
 }
 
 .font-size-14 {
@@ -29,6 +25,12 @@
 .page-break-after-auto {
   display: inline-block;
   page-break-after: auto;
+}
+
+.page-break-inside-avoid {
+  margin: 1em 0;
+  display: block;
+  page-break-inside: avoid !important;
 }
 
 .page-break-after-always {
@@ -109,8 +111,8 @@ html, body {
     min-width: 0 !important;
   }
 
-  ul, li, p, table, tr, td {
-    margin: 0.5em 0;
+  .page-break-inside-avoid {
+    margin: 0.8em 0;
     display: block;
     page-break-inside: avoid !important;
   }
