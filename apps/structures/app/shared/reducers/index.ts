@@ -245,3 +245,5 @@ export const getFormulaFieldSuggestions = createSelector(
   selectFieldsState,
   fromFieldsReducer.getFormulaFieldSuggestions
 );
+
+export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);

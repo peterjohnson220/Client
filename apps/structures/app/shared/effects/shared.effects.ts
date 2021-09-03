@@ -4,17 +4,21 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { StructureModelingApiService } from 'libs/data/payfactors-api/structures';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromRangeFieldActions from 'libs/features/structures/range-editor/actions/range-field-edit.actions';
+import { RangeGroupMetadata } from 'libs/models/structures';
 import { DataViewFieldDataType } from 'libs/models/payfactors-api';
+import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { DataGridToDataViewsHelper, GridDataHelper } from 'libs/features/grids/pf-data-grid/helpers';
+import { GridConfig } from 'libs/features/grids/pf-data-grid/models';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { StructureRangeGroupApiService } from 'libs/data/payfactors-api/structures';
 
@@ -22,6 +26,8 @@ import * as fromSharedStructuresActions from '../actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../shared/reducers';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
 import * as fromModelSettingsModalActions from '../actions/model-settings-modal.actions';
+import { PagesHelper } from '../helpers/pages.helper';
+
 
 @Injectable()
 export class SharedEffects {
@@ -35,7 +41,7 @@ export class SharedEffects {
           withLatestFrom(
             this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
             (a: fromSharedStructuresActions.GetCompanyExchanges, metadata) =>
-              ({a, metadata}))
+              ({ a, metadata }))
         )
       ),
       switchMap((data) => {
@@ -78,7 +84,7 @@ export class SharedEffects {
               return [
                 new fromSharedStructuresActions.SetMetadata(metadata),
                 new fromSharedStructuresActions.GetCompanyExchanges(data.companyId)
-            ];
+              ];
             }
           })
         );
@@ -122,7 +128,7 @@ export class SharedEffects {
           return new fromSharedStructuresActions.UpdateOverrides({
             rangeId: action.payload.modifiedKey,
             overrideToUpdate:
-            action.payload.override,
+              action.payload.override,
             removeOverride: false
           });
         }
@@ -211,7 +217,7 @@ export class SharedEffects {
                   From: NotificationSource.GenericNotificationMessage,
                   Level: NotificationLevel.Error,
                   NotificationId: '',
-                  Payload: {Title: 'Error', Message: `Unable to revert changes`},
+                  Payload: { Title: 'Error', Message: `Unable to revert changes` },
                   Type: NotificationType.Event
                 }));
 
@@ -235,8 +241,8 @@ export class SharedEffects {
             this.store.pipe(select(fromPfDataGridReducer.getData, action.payload.pageViewId)),
             this.store.pipe(select(fromPfDataGridReducer.getGridConfig, action.payload.pageViewId)),
             (a: fromSharedStructuresActions.RevertingRangeChangesSuccess, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters,
-             data, gridConfig) =>
-              ({a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig}))
+              data, gridConfig) =>
+              ({ a, baseEntity, fields, pagingOptions, sortDescriptor, applyDefaultFilters, data, gridConfig }))
         )
       ),
       switchMap((data) => {
@@ -311,6 +317,50 @@ export class SharedEffects {
           );
       })
     );
+
+  @Effect()
+  removeRange$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromSharedStructuresActions.REMOVING_RANGE),
+      withLatestFrom(
+        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
+        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
+        this.store.pipe(select(fromPfDataGridReducer.getData)),
+        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
+        (action: fromSharedStructuresActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
+          pagingOptions: PagingOptions) => {
+          return { action, metadata, gridConfig, gridData, pagingOptions };
+        }
+      ),
+      switchMap((data: any) => {
+        return data.action.payload.IsJobRange ?
+          this.structureModelingApiService.removeRange({ StructuresRangeId: data.action.payload.StructuresRangeId, IsCurrent: data.action.payload.IsCurrent }).pipe(
+            mergeMap(() => {
+              const actions = this.refreshGrid(data);
+              return actions;
+            }),
+            catchError(error => of(new fromSharedStructuresActions.RemovingRangeError(error)))
+          ) :
+          this.structureModelingApiService.removeGrade({ StructuresRangeId: data.action.payload.StructuresRangeId, StructuresRangeGroupId: data.action.payload.StructuresRangeGroupId, IsCurrent: data.action.payload.IsCurrent }).pipe(
+            mergeMap(() => {
+              const actions = this.refreshGrid(data);
+              actions.push(new fromModelSettingsModalActions.GetGradesDetails(data.action.payload.StructuresRangeGroupId));
+              return actions;
+            }),
+            catchError(error => of(new fromSharedStructuresActions.RemovingRangeError(error)))
+          )
+      })
+    );
+
+  refreshGrid(data: any) {
+    const actions = [];
+    const modelPageViewId =
+      PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
+    actions.push(new fromSharedStructuresActions.RemovingRangeSuccess());
+    actions.push(new fromPfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));
+    actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
+    return actions
+  }
 
   constructor(
     private actions$: Actions,

@@ -5,6 +5,7 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromSharedReducer from './shared.reducer';
+import * as fromAddGradeModalReducer from './add-grade-modal.reducer';
 import * as fromSwitchRegressionFlagsReducer from './switch-regression-flags-modal.reducer';
 
 
@@ -12,6 +13,7 @@ import * as fromSwitchRegressionFlagsReducer from './switch-regression-flags-mod
 export interface GradeBasedRangeSharedState {
   shared: fromSharedReducer.State;
   switchRegressionFlags: fromSwitchRegressionFlagsReducer.State;
+  addGradeModal: fromAddGradeModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -22,7 +24,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   shared: fromSharedReducer.reducer,
-  switchRegressionFlags: fromSwitchRegressionFlagsReducer.reducer
+  switchRegressionFlags: fromSwitchRegressionFlagsReducer.reducer,
+  addGradeModal: fromAddGradeModalReducer.reducer
 };
 
 // Select Feature Area
@@ -38,6 +41,10 @@ export const selectSharedState = createSelector(
 export const selectSwitchRegressionFlagsState = createSelector(
   selectFeatureAreaState,
   (state: GradeBasedRangeSharedState) => state.switchRegressionFlags
+);
+export const selectAddGradeModalState = createSelector(
+  selectFeatureAreaState,
+  (state: GradeBasedRangeSharedState) => state.addGradeModal
 );
 
 
@@ -76,3 +83,15 @@ export const getGradePoints = createSelector(
   selectSwitchRegressionFlagsState, fromSwitchRegressionFlagsReducer.getGradePoints
 );
 
+//Add Grade Modal
+export const getAddGradeModalOpen = createSelector(
+  selectAddGradeModalState, fromAddGradeModalReducer.getModalOpen
+);
+
+export const getAddingGradeAsyncObj = createSelector(
+  selectAddGradeModalState, fromAddGradeModalReducer.getAddingGradeAsyncObj
+);
+
+export const getGradeNameExistsFailure = createSelector(
+  selectAddGradeModalState, fromAddGradeModalReducer.getGradeNameExistsFailure
+);
