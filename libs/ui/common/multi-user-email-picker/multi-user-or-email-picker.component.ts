@@ -102,12 +102,13 @@ export class MultiUserOrEmailPickerComponent implements OnInit, OnDestroy {
         LastName: event.item.LastName,
         UserPicture: event.item.UserPicture
       };
-      if(this.selectedListHash[event.item.EmailAddress] == null) {
+      if(!this.selectedListHash[event.item.EmailAddress]) {
         this.selectedEmails.push(payload);
         this.selectedListHash[event.item.EmailAddress] = this.selectedEmails.length - 1;
       } else {
         this.emailAlreadyAdded = true;
       }
+      this.searchValue = '';
       this.selected.emit(payload);
       this.selectedEmailsChange.emit(this.selectedEmails);
     }
@@ -115,7 +116,7 @@ export class MultiUserOrEmailPickerComponent implements OnInit, OnDestroy {
 
   // Handles removing from the email list; will emit the new email list when it's done
   handleRemoveClicked(index: number) {
-    if(this.selectedEmails.length >= 1) {
+    if(this.selectedEmails.length > 0) {
       delete this.selectedListHash[this.selectedEmails[index].EmailAddress];
       this.selectedEmails.splice(index, 1);
     }
@@ -124,7 +125,7 @@ export class MultiUserOrEmailPickerComponent implements OnInit, OnDestroy {
 
   // Handle if user presses backspace when search is empty; will remove the most recent entry in email list
   handleSearchKeyUp($event) {
-    if($event.target.value === '' && this.searchValue === '' && $event.key === 'Backspace') {
+    if(!$event.target.value && !this.searchValue && $event.key === 'Backspace') {
       this.handleRemoveClicked(this.selectedEmails.length - 1);
     }
     this.searchValue = $event.target.value;
