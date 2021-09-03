@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { JobPricingGraphModule } from 'libs/features/pricings';
 
 import { PrintRoutingModule } from './print-routing.module';
 import * as fromFaIcons from './fa-icons';
@@ -15,6 +16,7 @@ import { JobSummaryPrintComponent, JobSummaryReportPrintTemplateComponent } from
 import { reducers } from './reducers';
 import { JobSummaryPrintEffect } from './effects';
 import { DataSummaryCardsComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -35,7 +37,8 @@ import { DataSummaryCardsComponent } from './components';
     PfFormsModule,
 
     // Routing
-    PrintRoutingModule
+    PrintRoutingModule,
+    JobPricingGraphModule
   ],
   declarations: [
     JobSummaryPrintComponent,

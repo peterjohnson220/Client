@@ -8,11 +8,13 @@ export interface GetJobSummaryPrintDataResponse {
   Base50th?: number;
   Base75th?: number;
   Base90th?: number;
+  BaseAvg?: number;
   Total10th?: number;
   Total25th?: number;
   Total50th?: number;
   Total75th?: number;
   Total90th?: number;
+  TotalAvg?: number;
   SelectedPayMarket: string;
   Industry: string;
   Location: LocationResponse;

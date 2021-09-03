@@ -1,22 +1,19 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { YAxisPlotBandsOptions } from 'highcharts';
-import { ActionsSubject, Store } from '@ngrx/store';
 import { getUserLocale } from 'get-user-locale';
 
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
-import { JobPricingGraphService } from '../services/job-pricing-graph.service';
 
-import * as fromBasePayGraphReducer from '../reducers';
+import { JobPricingGraphService } from '../services';
 
 @Component({
   selector: 'pf-csd-pricing-graph',
   templateUrl: './csd-pricing-graph.component.html',
   styleUrls: ['./csd-pricing-graph.component.scss']
 })
-export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
-
+export class CsdPricingGraphComponent implements OnInit, OnChanges {
   @Input() csdPricingData: PricingForPayGraph;
   @Input() payType: string;
 
@@ -30,11 +27,7 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   chartMax: number;
   showChart: true;
 
-  constructor(
-    private store: Store<fromBasePayGraphReducer.State>,
-    private actionsSubject: ActionsSubject
-  ) {
-  }
+ constructor() {}
 
   ngOnInit(): void {
     JobPricingGraphService.initializePricingHighcharts();
@@ -43,18 +36,14 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.updateChartData(this.csdPricingData, this.userLocale);
-  }
-
-  ngOnDestroy() {
-
+    this.updateChartData(this.csdPricingData);
   }
 
   chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
     this.chartRef = chart;
   }
 
-  updateChartData(data: any, userLocale: string): void {
+  updateChartData(data: PricingForPayGraph): void {
 
     if (this.chartRef) {
       JobPricingGraphService.resetGraph(this.chartRef, false);
@@ -66,7 +55,7 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges, OnDestroy {
       this.chartMin = data.OverallMin;
       this.chartMax = data.OverallMax;
 
-      const decimalPlaces = this.csdPricingData.Rate == "Hourly" ? 2 : 1;
+      const decimalPlaces = data.Rate === 'Hourly' ? 2 : 1;
 
       const plotBands: YAxisPlotBandsOptions[] = JobPricingGraphService.getYAxisPlotBandsOptionsArray(data, this.payType, true, true, decimalPlaces);
 
