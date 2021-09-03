@@ -15,6 +15,7 @@ import { PfDataGridModule } from 'libs/features/grids/pf-data-grid/pf-data-grid.
 import { EmployeeManagementModule } from 'libs/features/employees/employee-management';
 import { TotalRewardsStatementModule } from 'libs/features/total-rewards/total-rewards-statement';
 import { EmployeeSalaryRangeChartModule } from 'libs/features/employees/employee-salary-range-chart';
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph/job-pricing-graph.module';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -56,7 +57,8 @@ import { ContributionCurrencyPipe } from './pipes';
     EmployeeManagementModule,
     SharedModule,
     TotalRewardsStatementModule,
-    EmployeeSalaryRangeChartModule
+    EmployeeSalaryRangeChartModule,
+    JobPricingGraphModule
   ],
   declarations: [
     EmployeesPageComponent,

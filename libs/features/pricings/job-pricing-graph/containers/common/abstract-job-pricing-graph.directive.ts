@@ -8,32 +8,34 @@ import { getUserLocale } from 'get-user-locale';
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
 import { FormattersService } from 'libs/core/services';
 import { RangeGraphHelper } from 'libs/core/helpers';
+import { EmployeesPayModel } from 'libs/models/payfactors-api';
 
-import { PricingGraphTypeEnum } from '../../models/pricing-graph-type.enum';
+import { PricingGraphTypeEnum, JobPricingChartSettings, getDefaultChartSettings } from '../../models';
 import { JobPricingGraphService } from '../../services/job-pricing-graph.service';
 import * as fromJobPricingGraphActions from '../../actions';
 import * as fromJobPricingGraphReducer from '../../reducers';
 
 @Directive()
 export abstract class AbstractJobPricingGraphDirective implements OnChanges {
-
-  constructor(private graphStore: Store<fromJobPricingGraphReducer.State>) {
-    this.chartOptions = JobPricingGraphService.getPricingGraphChartOptions(this.marginLeft);
-    JobPricingGraphService.initializePricingHighcharts();
-    this.userLocale = getUserLocale();
-  }
-
   @Input() paymarketId: number;
   @Input() companyJobId: number;
-  @Input() showPayLabel = true;
-  @Input() marginLeft = 100;
+  @Input() chartSettings: JobPricingChartSettings = getDefaultChartSettings();
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
+  graphType: PricingGraphTypeEnum;
 
   userLocale: string;
   chartMin: number;
   chartMax: number;
+  isValidPricingData: boolean;
+  pricingData: PricingForPayGraph;
+  payData: EmployeesPayModel[];
+
+  constructor(private graphStore: Store<fromJobPricingGraphReducer.State>) {
+    JobPricingGraphService.initializePricingHighcharts();
+    this.userLocale = getUserLocale();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.graphStore.dispatch(new fromJobPricingGraphActions.LoadGraphPayData(this.companyJobId, this.paymarketId));
@@ -43,28 +45,18 @@ export abstract class AbstractJobPricingGraphDirective implements OnChanges {
     this.graphStore.dispatch(new fromJobPricingGraphActions.LoadGraphPayData(this.companyJobId, this.paymarketId));
   }
 
-  updateChartData(
-    scatterData: any,
-    pricingData: PricingForPayGraph,
-    payDataValues: number[],
-    isValidPricingData: boolean,
-    graphType: PricingGraphTypeEnum,
-    payLabel: string,
-    chartRef: Highcharts.Chart
-  ): void {
-    if (!chartRef?.axes?.length || !isValidPricingData) {
+  updateChartData(scatterData: any, payDataValues: number[], chartRef: Highcharts.Chart): void {
+    if (!chartRef?.axes?.length || !this.isValidPricingData) {
       return;
     }
 
     JobPricingGraphService.resetGraph(chartRef);
 
-    const decimalPlaces = pricingData.Rate === 'Hourly' ? 2 : 1;
-
-    this.chartMin = (pricingData.Pay10);
-    this.chartMax = (pricingData.Pay90);
+    this.chartMin = (this.pricingData.Pay10);
+    this.chartMax = (this.pricingData.Pay90);
 
     const plotBands: YAxisPlotBandsOptions[] =
-      JobPricingGraphService.getYAxisPlotBandsOptionsArray(pricingData, graphType, false, true, decimalPlaces);
+      JobPricingGraphService.getYAxisPlotBandsOptionsArray(this.pricingData, this.graphType, this.chartSettings);
 
     plotBands.forEach(x => chartRef.yAxis[0].addPlotBand(x));
 
@@ -79,15 +71,15 @@ export abstract class AbstractJobPricingGraphDirective implements OnChanges {
       });
     }
 
-    JobPricingGraphService.updateChartTooltip(chartRef, graphType);
+    JobPricingGraphService.updateChartTooltip(chartRef, this.graphType);
 
     JobPricingGraphService.renderGraph(
       chartRef,
       this.chartMin,
       this.chartMax,
-      FormattersService.roundNumber(pricingData.PayAvg, decimalPlaces),
+      FormattersService.roundNumber(this.pricingData.PayAvg, 1),
       scatterData,
-      payLabel
+      this.chartSettings
     );
   }
 
