@@ -35,6 +35,7 @@ const initialState: State = {
   exchangeDataSets: [],
   exchangeDataSetLoaded: false,
   workflowContext: {
+    lastAccessedPageId: null,
     selectedPageId: ComphubPages.Jobs,
     selectedPageIndex: 0,
     activeCountryDataSet: null,
@@ -57,6 +58,7 @@ const initialTrendsState: State = {
   exchangeDataSets: [],
   exchangeDataSetLoaded: false,
   workflowContext: {
+    lastAccessedPageId: null,
     selectedPageId: ComphubPages.TrendsLanding,
     selectedPageIndex: 0,
     activeCountryDataSet: null,
@@ -77,6 +79,7 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         ...state,
         workflowContext: {
           ...state.workflowContext,
+          lastAccessedPageId: state.selectedPageId,
           selectedPageId: selectedPageId,
           selectedPageIndex: selectedPageIndex
         },
@@ -92,6 +95,7 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         selectedPageId: nextPage,
         workflowContext: {
           ...state.workflowContext,
+          lastAccessedPageId: state.selectedPageId,
           selectedPageId: nextPage,
           selectedPageIndex: selectedPageIndex
         },
@@ -107,6 +111,7 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         selectedPageId: previousPage,
         workflowContext: {
           ...state.workflowContext,
+          lastAccessedPageId: state.selectedPageId,
           selectedPageId: previousPage,
           selectedPageIndex: selectedPageIndex
         }

@@ -34,9 +34,9 @@
         Clear Selections
       </button>
     </div>
-    <div class="card-body">
+    <div class="card-body flex-column-container">
       <p class="card-text">At least one exchange job selection is required. Click the jobs below to unselect them.</p>
-      <ul class="list-group">
+      <ul class="list-group overflow-y-auto">
         <li *ngFor="let selectedExchangeJob of selectedExchangeJobs$ | async; trackBy: trackSelectedExchangeJobsBy;"
             class="list-group-item">
           <div class="d-flex justify-content-between"

@@ -10,7 +10,6 @@ import { DataViewFieldDataType, BasicDataViewField } from 'libs/models/payfactor
 import * as fromBasicGridActions from '../../actions/basic-data-grid.actions';
 import * as fromBasicGridReducer from '../../reducers';
 import { BasicGridSettings, getDefaultBasicGridSettings } from '../../models';
-import { DataItem } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'pf-basic-data-grid',

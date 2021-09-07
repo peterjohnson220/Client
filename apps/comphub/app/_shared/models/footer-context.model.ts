@@ -99,13 +99,13 @@ export class FooterHelper {
       SaveButtonEnabled: false
     };
   }
-
+  // TODO: [JP] These footer contexts should be defined by each implementation of the footer context. E.g. In the trends module.
   static trendsJobsFooterContext() {
     return {
       HideBackButton: false,
       BackButtonEnabled: true,
       HideNextButton: false,
-      NextButtonEnabled: true,
+      NextButtonEnabled: false,
       PageTitle: 'Jobs',
       PreviousPageTitle: 'Landing',
       NextPageTitle: 'Scopes',

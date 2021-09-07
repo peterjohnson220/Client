@@ -5,19 +5,16 @@
   text-decoration: none;
 }
 
-.exchange-job-title {
-  color: $link-color;
-  font-size: 12px;
+.exchange-job-title-container {
+    .exchange-job-title {
+      color: $link-color;
+      font-weight: bold;
+      padding-right: 1rem;
+    }
 }
 
-.exchange-job-id{
-  color: #848484;
-  font-size: 12px;
-}
-
-.exchange-job-title-short {
-  color: #848484;
-  font-size: 12px;
+.job-result-right {
+  text-align: right;
 }
 
 .result{

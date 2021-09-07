@@ -6,3 +6,7 @@
   border: none;
   color: $link-color;
 }
+
+.card-body .list-group {
+  overflow-y: auto;
+}

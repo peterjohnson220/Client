@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfAppRootModule, AppComponent } from 'libs/features/infrastructure/app-root';
 import { PfSecurityModule } from 'libs/security/security.module';
@@ -12,8 +15,6 @@ import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge/guide
 import { SentryErrorHandler, SentryService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

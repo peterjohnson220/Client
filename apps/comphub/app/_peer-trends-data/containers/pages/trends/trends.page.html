@@ -38,7 +38,7 @@
       </ng-container>
     </div>
   </div>
-  <pf-comphub-footer [showJobHistorySummary]=false (saveButtonClicked)="handleSaveButtonClicked()"></pf-comphub-footer>
+  <pf-comphub-footer [showJobHistorySummary]=false [nextButtonEnabled]="nextButtonEnabled" (saveButtonClicked)="handleSaveButtonClicked()"></pf-comphub-footer>
 </div>
 
 <pf-save-peer-trend-modal></pf-save-peer-trend-modal>

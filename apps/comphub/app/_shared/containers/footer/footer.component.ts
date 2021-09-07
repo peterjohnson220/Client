@@ -28,6 +28,7 @@ import { FooterContext, QuickPriceHistoryContext, WorkflowContext, JobPricingLim
 export class ComphubFooterComponent implements OnInit, OnDestroy {
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
   @Input() showJobHistorySummary: boolean;
+  @Input() nextButtonEnabled = false;
   @Output() saveButtonClicked = new EventEmitter();
 
   workflowContext$: Observable<WorkflowContext>;
@@ -144,6 +145,9 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   }
 
   get nextButtonDisabled() {
+    if (!!this.nextButtonEnabled) {
+      return false;
+    }
     if (this.isPeerComphubType && this.workflowContext.selectedPageId === ComphubPages.Data) {
       return this.failsGuidelines || this.loadingPeerMap;
     } else {

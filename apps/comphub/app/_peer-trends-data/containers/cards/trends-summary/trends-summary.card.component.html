@@ -9,20 +9,19 @@
 
 <ng-template #summary>
   <div class="h-100 summary-container">
-    <div class="d-flex">
-      <pf-side-bar-info-component [sidebarGroups]="getSidebarGroups()"></pf-side-bar-info-component>
+    <div class="d-flex h-100">
+      <pf-side-bar-info-component class="h-100" [sidebarGroups]="getSidebarGroups()"></pf-side-bar-info-component>
       <!-- summary content -->
       <div class="summary">
-          <pf-async-container [loading]="(peerTrends$ | async).loading"></pf-async-container>
-            <div class="d-flex row justify-content-around">
+          <pf-async-container [loading]="(peerTrends$ | async).loading">
+            <div class="summary-content">
               <pf-historical-trend-chart
-                [width]="800"
-                [height]="500"
+                class="flex-column"
                 [isHourly]="false"
                 [currencyCode]="'USD'"
                 [salaryTrendData]="jobSalaryTrend">
               </pf-historical-trend-chart>
-              <div class="d-flex align-items-center">
+              <div class="flex-column align-self-center">
                 <pf-historical-org-inc-count-chart
                   [width]="800"
                   [height]="500"
@@ -30,14 +29,15 @@
                   [countType]="'Inc'"
                   [useTrendsDomain]="true">
                 </pf-historical-org-inc-count-chart>
+
+                <div class="text-align-right">
+                  <div class="pf-link-hover mr-3" (click)="handleExportExchangeJobs()">Export Exchange Jobs</div>
+                  <div class="pf-link-hover mr-3" (click)="handleExportCompanyJobs()">Export Company Jobs</div>
+                </div>
               </div>
             </div>
-            <div class="row float-right">
-              <div class="pf-link-hover mr-3" (click)="handleExportExchangeJobs()">Export Exchange Jobs</div>
-              <div class="pf-link-hover mr-3" (click)="handleExportCompanyJobs()">Export Company Jobs</div>
-            </div>
-          </div>
-          <ng-template #noResults>No history found</ng-template>
+          </pf-async-container>
+        </div>
       </div>
     </div>
 </ng-template>
