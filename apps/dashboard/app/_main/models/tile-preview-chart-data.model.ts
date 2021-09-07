@@ -2,6 +2,7 @@ export interface TilePreviewChartData {
   CategoryName: string;
   CategoryValue: number;
   DetailData?: { Key: string, Value: number }[];
+  color?: string;
 }
 export function generateMockTilePreviewChartData(categoryName: string,
                                              categoryValue: number = 0,
