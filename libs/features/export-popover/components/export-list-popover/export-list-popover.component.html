@@ -13,7 +13,7 @@
                 <button *ngIf="!opt.Exporting.loading || opt.Exporting.loading && opt.ExportedReportExtension !== 'pdf'"
                         [disabled]="exportInProgress"
                         [ngClass]="opt.ValidExtensions.indexOf('pdf') > -1 ? '' : 'hidden'"
-                        [title]="exportInProgress ? 'Download in progress' : 'Click to download'"
+                        [title]="exportTitleText()"
                         class="btn btn-secondary export-pdf"
                         (click)="handleExportClicked(opt, 'pdf');$event.stopPropagation();"
                         [attr.data-qa-id]="'btn-export='+opt.Name+'-pdf'"
@@ -26,8 +26,8 @@
               </div>
               <div>
                 <button *ngIf="!opt.Exporting.loading || opt.Exporting.loading && opt.ExportedReportExtension !== 'xlsx'"
-                        [disabled]="(disableCustomExport && opt.Custom) || exportInProgress"
-                        [title]="exportInProgress ? 'Download in progress' : disableCustomExport && opt.Custom ? disabledCustomExportTooltip : 'Click to download'"
+                        [disabled]="(disableCustomExport && opt.Custom) || exportInProgress || opt.RequiresSelection"
+                        [title]="exportTitleText(opt.Custom, opt.RequiresSelection)"
                         [ngClass]="opt.ValidExtensions.indexOf('xlsx') > -1 ? '' : 'hidden'"
                         class="btn btn-secondary export-excel"
                         (click)="handleExportClicked(opt, 'xlsx');$event.stopPropagation();"
@@ -49,11 +49,10 @@
 
 <button [disabled]="disablePopover"
         [title]="disablePopover ? disabledPopoverTooltip : ''"
-        type="button" title="Export" id="jobs-page-export-popover-btn" class="btn btn-secondary"
+        type="button" title="Export" id="export-popover-btn" class="btn btn-secondary"
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
         placement="bottom-right" popoverTitle="Choose Export Type" [ngbPopover]="exportList" #popover="ngbPopover"
-        [autoClose]="'outside'" [attr.data-qa-id]="'btn-grid-export-popover'"
->
+        [autoClose]="'outside'" [attr.data-qa-id]="'btn-grid-export-popover'">
   <fa-icon icon="download"></fa-icon>
 </button>
 

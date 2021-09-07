@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { SurveyJobDetails } from 'libs/models/survey';
-import { GetJobMatchesRequest } from 'libs/models/payfactors-api/survey/request';
+import { ExportSurveySummaryRequest, GetJobMatchesRequest } from 'libs/models/payfactors-api/survey/request';
 
 export const OPEN_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Open Survey Fields Modal';
 export const CLOSE_SURVEY_FIELDS_MODAL = '[Surveys / Surveys Page] Close Survey Fields Modal';
@@ -31,7 +31,9 @@ export const GET_SURVEY_JOB_MATCHES_ERROR = '[Surveys / Surveys Page] Get Survey
 export const GET_SURVEY_DATA_MATCHES = '[Surveys / Surveys Page] Get Survey Data Matches';
 export const GET_SURVEY_DATA_MATCHES_SUCCESS = '[Surveys / Surveys Page] Get Survey Data Matches Success';
 export const GET_SURVEY_DATA_MATCHES_ERROR = '[Surveys / Surveys Page] Get Survey Data Matches Error';
-
+export const EXPORT_SURVEY_SUMMARY_REPORT = '[Surveys / Surveys Page] Export Survey Summary Report';
+export const EXPORT_SURVEY_SUMMARY_REPORT_SUCCESS = '[Surveys / Surveys Page] Export Survey Summary Report Success';
+export const EXPORT_SURVEY_SUMMARY_REPORT_ERROR = '[Surveys / Surveys Page] Export Survey Summary Report Error';
 
 export class OpenSurveyFieldsModal implements Action {
   readonly type = OPEN_SURVEY_FIELDS_MODAL;
@@ -180,6 +182,24 @@ export class GetSurveyDataMatchesError implements Action {
   constructor() {}
 }
 
+export class ExportSurveySummaryReport implements Action {
+  readonly type = EXPORT_SURVEY_SUMMARY_REPORT;
+
+  constructor() {}
+}
+
+export class ExportSurveySummaryReportSuccess implements Action {
+  readonly type = EXPORT_SURVEY_SUMMARY_REPORT_SUCCESS;
+
+  constructor() {}
+}
+
+export class ExportSurveySummaryReportError implements Action {
+  readonly type = EXPORT_SURVEY_SUMMARY_REPORT_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = OpenSurveyFieldsModal
   | CloseSurveyFieldsModal
@@ -207,4 +227,7 @@ export type Actions
   | GetSurveyJobMatchesError
   | GetSurveyDataMatches
   | GetSurveyDataMatchesSuccess
-  | GetSurveyDataMatchesError;
+  | GetSurveyDataMatchesError
+  | ExportSurveySummaryReport
+  | ExportSurveySummaryReportSuccess
+  | ExportSurveySummaryReportError;

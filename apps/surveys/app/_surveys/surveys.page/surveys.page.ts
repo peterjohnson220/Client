@@ -20,18 +20,24 @@ import {
   PfDataGridCustomFilterOptions,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { DataViewFieldDataType, GetJobMatchesRequest, ViewField } from 'libs/models/payfactors-api';
+import { DataViewFieldDataType, ExportSurveySummaryRequest, GetJobMatchesRequest, ViewField } from 'libs/models/payfactors-api';
 import { SurveyDataField } from 'libs/features/surveys/survey-data-fields-management/models';
 import { AsyncStateObj } from 'libs/models/state';
 import { SurveyDataCountryAccessDto } from 'libs/models/survey/survey-data-country-access-dto.model';
 import { GroupedListItem } from 'libs/models/list';
 import { SurveyInfoByCompanyDto } from 'libs/models/survey';
 import { JobTypeEnum } from 'libs/models/survey/job-type.enum';
+import { ExportOptions } from 'libs/features/export-popover/models/export-options.model';
+import { CompanySettingsEnum } from 'libs/models';
+import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
+import * as fromRootState from 'libs/state/state';
+import * as fromDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromSurveysPageReducer from '../reducers';
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 import * as fromSurveyParticipationActions from '../actions/survey-participation.actions';
 import { SurveyDataGrid, SurveysPageConfig } from '../models';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'pf-surveys-page',
@@ -47,6 +53,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matchesColumn') matchesColumn: ElementRef;
   @ViewChild('p') dropdown: NgbDropdown;
   @ViewChild('gridGlobalActions', { static: true }) public gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
 
   loading$: Observable<boolean>;
   surveyDataFieldsModalOpen$: Observable<boolean>;
@@ -57,6 +64,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   expandedRows$: Observable<number[]>;
   surveyInfo$: Observable<AsyncStateObj<SurveyInfoByCompanyDto[]>>;
   surveyJobMatches$: Observable<AsyncStateObj<string[]>>;
+  surveyReportExporting$: Observable<boolean>;
+  loadingExportingStatus$: Observable<boolean>;
+  data$: Observable<GridDataResult>;
+  selectedRecordIds$: Observable<any>;
 
   gridFieldSubscription: Subscription;
   surveyDataGridSubscription: Subscription;
@@ -67,6 +78,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   loadViewConfigSuccessSubscription: Subscription;
   surveyInfoSubscription: Subscription;
   surveyJobMatchesSubscription: Subscription;
+  exportJobOptionsSubscription: Subscription;
+  companySettingsSubscription: Subscription;
+  selectedRecordIdsSubscription: Subscription;
 
   inboundFilters: PfDataGridFilter[];
   pageViewId = SurveysPageConfig.SurveysPageViewId;
@@ -130,10 +144,15 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedVendors: string[];
   jobType = JobTypeEnum;
   selectedDropdown: NgbDropdown;
+  exportOptions: ExportOptions[];
+  exportInProgress = false;
+  exportRequest: any;
+  enableFileDownloadSecurityWarning = false;
+  additionalDataForExport: any;
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>,
-    private actionsSubject: ActionsSubject,
+    private actionsSubject: ActionsSubject
   ) {
     this.inboundFilters = [
       {
@@ -151,11 +170,6 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ...getDefaultActionBarConfig(),
       ShowColumnChooser: true,
       ShowFilterChooser: true,
-      AllowExport: true,
-      ExportSourceName: 'Survey Report',
-      CustomExportType: 'SurveyJobs',
-      ExportSelectionRequired: true,
-      ExportSelectionRequiredTooltip: 'Please select at least 1 survey job'
     };
     this.gridConfig = {
       PersistColumnWidth: false,
@@ -171,6 +185,10 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.expandedRows$ = this.store.select(fromPfDataGridReducer.getExpandedRows, this.pageViewId);
     this.surveyInfo$ = this.store.select(fromSurveysPageReducer.getSurveyInfo);
     this.surveyJobMatches$ = this.store.select(fromSurveysPageReducer.getSurveyJobMatches);
+    this.surveyReportExporting$ = this.store.select(fromPfDataGridReducer.getExportingGrid, this.pageViewId);
+    this.loadingExportingStatus$ = this.store.select(fromPfDataGridReducer.getLoadingExportingStatus, this.pageViewId);
+    this.data$ = this.store.select(fromPfDataGridReducer.getData, this.pageViewId);
+    this.selectedRecordIds$ = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId);
   }
 
   ngOnInit(): void {
@@ -217,6 +235,21 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedDropdown.open();
       }
     });
+    this.exportJobOptionsSubscription = this.store.select(fromSurveysPageReducer.getSurveyExportOptions).subscribe(exportData => {
+      if (exportData) {
+        this.exportOptions = cloneDeep(exportData);
+        this.exportInProgress = exportData.some(d => d.Exporting.loading);
+      }
+    });
+    this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
+      if (cs) {
+        this.enableFileDownloadSecurityWarning = cs.find(x => x.Key === CompanySettingsEnum.FileDownloadSecurityWarning).Value === 'true';
+      }
+    });
+    this.selectedRecordIdsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
+      const surveyReport = this.exportOptions.find(x => x.Name === 'Survey Report');
+      surveyReport.RequiresSelection = !sk?.length;
+    });
     window.addEventListener('scroll', this.scroll, true);
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
     this.store.dispatch(new fromSurveysPageActions.GetSurveyCountries());
@@ -250,6 +283,9 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.expandedRowsSubscription.unsubscribe();
     this.surveyInfoSubscription.unsubscribe();
     this.surveyJobMatchesSubscription.unsubscribe();
+    this.exportJobOptionsSubscription.unsubscribe();
+    this.companySettingsSubscription.unsubscribe();
+    this.selectedRecordIdsSubscription.unsubscribe();
   }
 
   scroll = (event): void => {
@@ -413,6 +449,30 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   refreshSurveyDataGrid(surveyJobId: number): void {
     this.store.dispatch(new fromSurveysPageActions.ReloadSurveyDataGrid(surveyJobId));
+  }
+
+  handleExportSurveys(exportRequest: any) {
+    this.exportRequest = exportRequest;
+    if (this.enableFileDownloadSecurityWarning) {
+      this.fileDownloadSecurityWarningModal.open();
+    } else {
+      this.exportGrid();
+    }
+  }
+
+  handleSecurityWarningConfirmed(isConfirmed) {
+    if (isConfirmed) {
+      this.exportGrid();
+    }
+  }
+
+ private exportGrid(): void {
+    if (this.exportRequest.Options.Name === 'Survey Summary Report') {
+      this.store.dispatch(new fromSurveysPageActions.ExportSurveySummaryReport());
+    } else {
+      this.store.dispatch(new fromDataGridActions.ExportGrid(this.pageViewId, this.exportRequest.Options.Name,
+        this.exportRequest.Options.Endpoint, this.additionalDataForExport));
+    }
   }
 
   private updateField(field: ViewField) {
