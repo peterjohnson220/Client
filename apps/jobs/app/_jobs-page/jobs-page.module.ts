@@ -36,7 +36,7 @@ import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-descrip
 import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
 import { AddDataModule } from 'libs/features/pricings/add-data';
 import { JobInsightsModule } from 'libs/features/jobs/job-insights';
-
+import { ExportPopoverModule } from 'libs/features/export-popover';
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
 import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
@@ -50,7 +50,6 @@ import {
   PricingMatchesGridComponent,
   ProjectDetailsGridComponent,
   PricingHistoryGridComponent,
-  ExportListPopoverComponent,
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
   PricingMatchesJobTitleComponent,
@@ -128,7 +127,8 @@ import {
         PfJobDescriptionManagementModule,
         JobPricingGraphModule,
         AddDataModule,
-        JobInsightsModule
+        JobInsightsModule,
+        ExportPopoverModule
     ],
   declarations: [
     // Pages
@@ -154,7 +154,6 @@ import {
 
     // Jobs Grid Components
     PeerExchangeMatchesComponent,
-    ExportListPopoverComponent,
 
     // Pipes
     ShowingActiveJobs,

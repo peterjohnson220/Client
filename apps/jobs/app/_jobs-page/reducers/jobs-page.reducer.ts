@@ -107,27 +107,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.JobsPa
         action.payload.map(o => ({ Id: o, Value: o }))
           .sort((a, b) => arraySortByString(a.Id, b.Id, SortDirection.Ascending)));
     }
-    case fromJobsPageActions.LOAD_CUSTOM_EXPORTS_SUCCESS: {
-      if (action.payload?.DisplayText) {
-        const exportObj = {
-          Display: action.payload.DisplayText,
-          Name: action.payload.ExportName,
-          Description: 'Company custom export report',
-          Endpoint: 'ExportCustomJobReport',
-          ValidExtensions: ['xlsx'],
-          Custom: true,
-          Exporting: generateDefaultAsyncStateObj<boolean>(false),
-          ExportedReportExtension: undefined
-        };
-        const options = cloneDeep(state.exportOptions);
-        options.push(exportObj);
-        return {
-          ...state,
-          exportOptions: options
-        };
-      }
-      return state;
-    }
     case fromJobsPageActions.EXPORT_PRICINGS: {
       return {
         ...state,

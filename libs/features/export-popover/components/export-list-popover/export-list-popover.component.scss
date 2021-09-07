@@ -9,7 +9,8 @@
   font-style: italic;
   color: #888e92;
   line-height: 1.5em;
-  height: 3em;
+  min-height: 3em;
+  max-height: 4em;
 }
 
 .popover-body-content {
