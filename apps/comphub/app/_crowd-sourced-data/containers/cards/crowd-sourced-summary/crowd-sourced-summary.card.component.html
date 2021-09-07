@@ -51,7 +51,7 @@
         <div class="header">
           <div class="job-title">{{this.selectedJob?.JobTitle}}</div>
           <div class="actions">
-            <button class="btn btn-secondary" (click)="handleDownloadPdfClicked()" ngbTooltip="Export">
+            <button class="btn btn-secondary" (click)="handleDownloadPdfClicked()" [disabled]="selectedJob?.Loading" ngbTooltip="Export">
               <fa-icon icon="file-pdf"></fa-icon>
             </button>
           </div>
