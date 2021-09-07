@@ -7,11 +7,13 @@
   </pf-async-container>
 
   <pf-dashboards-header
+    class="dashboards-header"
     [title]="'All Dashboards'"
     [dashboardViews]="dashboardViews"
     [selectedDashboardView]="(selectedDashboardView$ | async)"
     [hasFavorites]="anyFavorites"
     [tagsEnabled]="true"
+    [scopesEnabled]="true"
     (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
   </pf-dashboards-header>
 

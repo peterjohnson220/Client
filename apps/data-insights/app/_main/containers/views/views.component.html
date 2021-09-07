@@ -12,6 +12,7 @@
     [selectedDashboardView]="(dashboardView$ | async)"
     [hasFavorites]="anyFavorites"
     [tagsEnabled]="false"
+    [scopesEnabled]="false"
     (selectedDashboardViewChanged)="handleSelectedDashboardViewChanged($event)">
   </pf-dashboards-header>
 
@@ -33,7 +34,7 @@
     </pf-data-view-reports>
   </ng-container>
 
-  <ng-container *ngIf="tableauReports?.length && (dashboardView$ | async) == 'Favorites'">
+  <ng-container *ngIf="(tableauReports?.length || dataViewReports?.length) && (dashboardView$ | async) == 'Favorites'">
     <pf-favorite-views
       [favoriteTableauViews]="favoriteTableauViews"
       [favoriteDataViewReports]="favoriteDataViewReports"
