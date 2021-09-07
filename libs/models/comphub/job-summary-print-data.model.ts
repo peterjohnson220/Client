@@ -5,11 +5,13 @@ export interface JobSummaryPrintData {
   Base50?: number;
   Base75?: number;
   Base90?: number;
+  BaseAvg?: number;
   Total10?: number;
   Total25?: number;
   Total50?: number;
   Total75?: number;
   Total90?: number;
+  TotalAvg?: number;
   SelectedPayMarket: string;
   Industry: string;
   OrganizationType: string;

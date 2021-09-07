@@ -8,11 +8,16 @@ export class DataCardHelper {
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   }
 
-  static calculateDataByHourlyRate(annualValue: number): number {
-    if (!annualValue) {
+  static calculateDataByRate(value: number, isHourlyRate: boolean, isAnnualShortened: boolean): number {
+    if (!value) {
       return 0;
     }
-    return annualValue / 2080;
+
+    if (isHourlyRate) {
+      return value / 2080;
+    }
+
+    return isAnnualShortened ? value / 1000 : value;
   }
 
   static getSortOption(gridContext: QuickPriceGridContext): SortOption {

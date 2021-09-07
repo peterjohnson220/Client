@@ -3,34 +3,36 @@
   <div class="pb-4 js-page position-relative main cover-page">
     <div class="cover-page-header">
       <h2>{{jobSummaryPrintData.JobTitle}}</h2>
-      <h1>Payscale</h1>
-      <h1>Market Report</h1>
+      <h1>
+        Payscale<br/>
+        Market Report
+      </h1>
       <h3>Report Date: {{jobSummaryPrintData.ReportDate | date:'fullDate'}}</h3>
     </div>
-
     <div class="content">
       <img class="img-style" src="assets/svg/Market_Report.svg">
     </div>
   </div>
 </div>
 
-<div class="container prints position-relative page-break-after-always" *ngIf="!!jobSummaryPrintData">
+<div class="container prints position-relative page-break-after-always" >
   <div class="pb-4 js-page position-relative additional">
     <pf-job-summary-report-print-template
       [pageNumber]="1"
       (renderComplete)="handleRenderComplete($event)">
 
       <ng-container content>
-        <section class="border-bottom padding-bottom">
+        <section class="border-bottom padding-bottom" *ngIf="!!jobSummaryPrintData">
           <h3><b>{{jobSummaryPrintData.JobTitle}}</b></h3>
           <h4>Paymarket: {{jobSummaryPrintData.SelectedPayMarket}}</h4>
           <h4>Generated: {{jobSummaryPrintData.ReportDate | date:'shortDate'}} by {{jobSummaryPrintData.UserName}}</h4>
         </section>
         <section class="border-bottom">
           <h2 class="page-header-padding">Pricing Details</h2>
-          <img class="img-style" src="assets/svg/Market_Report.svg">
+          <div><pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph></div>
+          <div><pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph></div>
         </section>
-        <section>
+        <section *ngIf="!!jobSummaryPrintData">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Payscale <span style="float: right">{{jobSummaryPrintData.JobTitle}}</span></h5>
@@ -230,7 +232,7 @@
                 <div *ngFor="let dataSummaryReport of leftDataSummaryReports">
                   <pf-data-summary-cards
                     [dataSummaryReport]="dataSummaryReport"
-                    (dataSummaryRenderComplete)="onDataSummaryRenderComplete()">
+                    (dataSummaryRenderComplete)="dataSummaryRenderComplete()">
                   </pf-data-summary-cards>
                 </div>
               </div>
@@ -238,7 +240,7 @@
                 <div *ngFor="let dataSummaryReport of rightDataSummaryReports">
                   <pf-data-summary-cards
                     [dataSummaryReport]="dataSummaryReport"
-                    (dataSummaryRenderComplete)="onDataSummaryRenderComplete()">
+                    (dataSummaryRenderComplete)="dataSummaryRenderComplete()">
                   </pf-data-summary-cards>
                 </div>
               </div>
@@ -514,7 +516,7 @@
 </ng-template>
 
 <div
-  *ngIf="fullRenderComplete && dataSummaryRenderComplete"
+  *ngIf="fullRenderComplete && dataSummaryReportsRenderComplete"
   [id]="readyForPdfGenerationSelector.slice(1)"
   class="d-none">
 </div>

@@ -124,32 +124,16 @@ describe('Comphub - Crowd Sourced Data - Summary Card Component', () => {
 
   });
 
-
-  it('should correctly recalc the value for a given pricing number if the rate is set to hourly', () => {
-    instance.selectedRate = RateType.Annual;
-
-    // make sure isHourly correctly responds as false, as the initial value is annual
-    expect(instance.isHourly).toBeFalsy();
-
-    const value = 100000;
-
-    expect(instance.calculateDataByRate(value)).toEqual(value);
-
-    instance.selectedRate = RateType.Hourly;
-
-    expect(instance.calculateDataByRate(value)).toEqual(value / 2080);
-  });
-
   it('should display the same value differently depending on the rate', () => {
     instance.selectedRate = RateType.Annual;
 
     const value = 100000;
 
-    expect(instance.getPricingDisplayValue(value)).toEqual(100);
+    expect(instance.calculateDataByRate(value)).toEqual(100);
 
     instance.selectedRate = RateType.Hourly;
 
-    expect(instance.getPricingDisplayValue(value)).toEqual(value / 2080);
+    expect(instance.calculateDataByRate(value)).toEqual(value / 2080);
   });
 
 });

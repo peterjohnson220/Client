@@ -82,7 +82,6 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     ];
     // default to 50
     this.selectedDisplayRate = '50';
-
   }
 
   ngOnInit() {
@@ -151,9 +150,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   }
 
   calculateDataByRate(value: number): number {
-    return this.isHourly
-      ? DataCardHelper.calculateDataByHourlyRate(value)
-      : value;
+    return DataCardHelper.calculateDataByRate(value, this.isHourly, true);
   }
 
   handleRateSelectionChange(type: KendoDropDownItem) {
@@ -165,30 +162,29 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   mapJobDataToPayGraphData() {
     if (!!this.selectedJob) {
       this.basePayGraph = {
-        Pay10: this.getPricingDisplayValue(this.selectedJob.Base10),
-        Pay25: this.getPricingDisplayValue(this.selectedJob.Base25),
-        Pay50: this.getPricingDisplayValue(this.selectedJob.Base50),
-        Pay75: this.getPricingDisplayValue(this.selectedJob.Base75),
-        Pay90: this.getPricingDisplayValue(this.selectedJob.Base90),
-        PayAvg: this.getPricingDisplayValue(this.selectedJob.BaseAvg),
+        Pay10: this.calculateDataByRate(this.selectedJob.Base10),
+        Pay25: this.calculateDataByRate(this.selectedJob.Base25),
+        Pay50: this.calculateDataByRate(this.selectedJob.Base50),
+        Pay75: this.calculateDataByRate(this.selectedJob.Base75),
+        Pay90: this.calculateDataByRate(this.selectedJob.Base90),
+        PayAvg: this.calculateDataByRate(this.selectedJob.BaseAvg),
         Currency: this.selectedPaymarket?.CurrencyCode,
         Rate: this.selectedRate.toString(),
-        OverallMin: this.getPricingDisplayValue(this.selectedJob.Base10),
-        OverallMax: this.getPricingDisplayValue(this.selectedJob.Tcc90)
+        OverallMin: this.calculateDataByRate(this.selectedJob.Base10),
+        OverallMax: this.calculateDataByRate(this.selectedJob.Tcc90)
       };
 
-
       this.tccPayGraph = {
-        Pay10: this.getPricingDisplayValue(this.selectedJob.Tcc10),
-        Pay25: this.getPricingDisplayValue(this.selectedJob.Tcc25),
-        Pay50: this.getPricingDisplayValue(this.selectedJob.Tcc50),
-        Pay75: this.getPricingDisplayValue(this.selectedJob.Tcc75),
-        Pay90: this.getPricingDisplayValue(this.selectedJob.Tcc90),
-        PayAvg: this.getPricingDisplayValue(this.selectedJob.TccAvg),
+        Pay10: this.calculateDataByRate(this.selectedJob.Tcc10),
+        Pay25: this.calculateDataByRate(this.selectedJob.Tcc25),
+        Pay50: this.calculateDataByRate(this.selectedJob.Tcc50),
+        Pay75: this.calculateDataByRate(this.selectedJob.Tcc75),
+        Pay90: this.calculateDataByRate(this.selectedJob.Tcc90),
+        PayAvg: this.calculateDataByRate(this.selectedJob.TccAvg),
         Currency: this.selectedPaymarket?.CurrencyCode,
         Rate: this.selectedRate.toString(),
-        OverallMin: this.getPricingDisplayValue(this.selectedJob.Base10),
-        OverallMax: this.getPricingDisplayValue(this.selectedJob.Tcc90)
+        OverallMin: this.calculateDataByRate(this.selectedJob.Base10),
+        OverallMax: this.calculateDataByRate(this.selectedJob.Tcc90)
       };
 
       this.setSelectedValues(this.selectedDisplayRate);
@@ -203,16 +199,8 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
     const selectedPercentileRate = this.displayRates.find(x => x.Value === selectedValue);
     const baseProperty = 'Base' + selectedPercentileRate.Value;
     const tccProperty = 'Tcc' + selectedPercentileRate.Value;
-    this.selectedBaseValue = this.isHourly ? this.getPricingDisplayValue(this.selectedJob[baseProperty]) : this.selectedJob[baseProperty];
-    this.selectedTccValue = this.isHourly ? this.getPricingDisplayValue(this.selectedJob[tccProperty]) : this.selectedJob[tccProperty];
-  }
-
-  getPricingDisplayValue(value) {
-    const calculatedValue = this.calculateDataByRate(value);
-    if (!this.isHourly) {
-      return calculatedValue / 1000;
-    }
-    return calculatedValue;
+    this.selectedBaseValue = this.isHourly ? this.calculateDataByRate(this.selectedJob[baseProperty]) : this.selectedJob[baseProperty];
+    this.selectedTccValue = this.isHourly ? this.calculateDataByRate(this.selectedJob[tccProperty]) : this.selectedJob[tccProperty];
   }
 
   handleDownloadPdfClicked() {
