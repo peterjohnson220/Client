@@ -183,8 +183,8 @@ export class JobGridEffects {
 
                 if (data.action.payload.IncludeExportData) {
                   const exportData: ExportData = {
-                    JsonRequest: JSON.stringify(data.action.payload),
-                    JsonResponse: JSON.stringify(response)
+                    JsonAnswer: JSON.stringify(data.action.payload),
+                    JsonReport: JSON.stringify(response)
                   };
                   actions.push(new fromExportDataActions.SetExportDataSuccess(exportData));
                 }

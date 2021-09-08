@@ -6,7 +6,7 @@ import { getUserLocale } from 'get-user-locale';
 
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
 
-import { JobPricingGraphService } from '../../services/job-pricing-graph.service';
+import { JobPricingGraphService } from '../../services';
 import { PricingGraphTypeEnum } from '../../models';
 
 @Component({
@@ -33,7 +33,6 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     JobPricingGraphService.initializePricingHighcharts();
     this.userLocale = getUserLocale();
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,11 +44,10 @@ export class CsdPricingGraphComponent implements OnInit, OnChanges {
   }
 
   updateChartData(data: PricingForPayGraph): void {
-
     if (this.chartRef) {
       JobPricingGraphService.resetGraph(this.chartRef, false);
 
-      if (data === null ) {
+      if (data === null) {
         return;
       }
 

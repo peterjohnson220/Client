@@ -1,11 +1,11 @@
 export interface ExportData {
-  JsonRequest: string;
-  JsonResponse: string;
+  JsonAnswer: string;
+  JsonReport: string;
 }
 
 export function generateMockExportData(): ExportData {
   return {
-    JsonRequest: '',
-    JsonResponse: ''
+    JsonAnswer: '',
+    JsonReport: ''
   };
 }
