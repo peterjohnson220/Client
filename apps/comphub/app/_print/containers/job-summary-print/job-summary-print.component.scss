@@ -106,8 +106,11 @@ table {
 
 .data-summary {
 
+  position: absolute;
+  left: 10px;
+
   .row {
-    padding-top: 20px;
+    padding-top: 15px;
   }
 }
 

@@ -5,6 +5,7 @@
   border-top: none;
   overflow: visible;
   height: auto;
+  font-size: 14px;
 }
 
 .card-header{
@@ -20,4 +21,5 @@
 
 .list-group-item {
   border: 1px solid rgba(0, 0, 0, 0.125)!important;
+  padding: 0.1rem 1.00rem !important;
 }
