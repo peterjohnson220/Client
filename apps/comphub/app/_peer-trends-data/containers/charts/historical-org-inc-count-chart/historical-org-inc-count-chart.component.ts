@@ -22,6 +22,8 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
   @Input() useTrendsDomain = false;
   @Input() height = 300;
   @Input() width = 400;
+  @Input() titleMargin = 0;
+  @Input() legendTitle = '';
 
   Highcharts: typeof Highcharts = Highcharts;
   chart: Highcharts.Chart;
@@ -93,7 +95,8 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
           fontWeight: 'bold',
           color: '#306589',
           fontFamily: '"Segoe UI", Arial, sans-serif'
-        }
+        },
+        margin: this.titleMargin
       },
       tooltip: {
         animation: false,
@@ -132,10 +135,11 @@ export class HistoricalOrgIncCountChartComponent implements OnInit, OnDestroy, O
         }
       },
       legend: {
-        enabled: false
+        enabled: this.legendTitle.length > 0
       },
       series: [
         {
+          name: this.legendTitle,
           type: 'areaspline',
           data: this.data,
           fillColor: {

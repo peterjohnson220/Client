@@ -109,7 +109,7 @@ export class FooterHelper {
       PageTitle: 'Jobs',
       PreviousPageTitle: 'Landing',
       NextPageTitle: 'Scopes',
-      DisplayCancelButton: false,
+      DisplayCancelButton: true,
       CancelButtonTitle: null,
       DisplaySaveButton: false,
       SaveButtonEnabled: false
@@ -125,7 +125,7 @@ export class FooterHelper {
       PageTitle: 'Scopes',
       PreviousPageTitle: 'Jobs',
       NextPageTitle: 'Summary',
-      DisplayCancelButton: false,
+      DisplayCancelButton: true,
       CancelButtonTitle: null,
       DisplaySaveButton: false,
       SaveButtonEnabled: false
@@ -141,7 +141,7 @@ export class FooterHelper {
       PageTitle: 'Summary',
       PreviousPageTitle: 'Scopes',
       NextPageTitle: null,
-      DisplayCancelButton: false,
+      DisplayCancelButton: true,
       CancelButtonTitle: null,
       DisplaySaveButton: !trendIdIsSelected,
       SaveButtonEnabled: true

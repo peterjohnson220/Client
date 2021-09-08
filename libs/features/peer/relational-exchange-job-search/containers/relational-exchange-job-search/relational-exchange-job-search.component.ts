@@ -39,7 +39,7 @@ export class RelationalExchangeJobSearchComponent extends SearchBaseDirective im
   searchResultsCountSubscription = new Subscription();
   exchangeIdSubscription: Subscription;
 
-  selectedExchangeJobCount: number;
+  selectedExchangeJobCount = 0;
   searchResultsCount: number;
   exchangeId: number;
 
@@ -65,6 +65,10 @@ export class RelationalExchangeJobSearchComponent extends SearchBaseDirective im
     this.resultsLoadingError$ = store.select(fromSearchReducer.getSearchResultsError);
     this.numberOfResults$ = store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.selectedExchangeJobs$ = store.select(fromExchangeJobSearchReducers.getSelectedExchangeJobs);
+  }
+
+  get maxSelectionsExceeded(): boolean {
+    return this.selectedExchangeJobCount > 100;
   }
 
   ngOnInit(): void {

@@ -155,7 +155,7 @@ export class TrendsSummaryCardComponent implements OnInit, OnDestroy {
   getFilterString(options: SearchFilterOption[]): string {
     let optionsStr = '';
     for (const option of options) {
-      optionsStr += option.Value + ', ';
+      optionsStr += option.Name + ', ';
     }
     return optionsStr.replace(/,\s*$/, '');
   }

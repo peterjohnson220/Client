@@ -33,6 +33,7 @@ export const UPDATE_FOOTER_CONTEXT = '[Comphub/Comphub Page] Update Footer Conte
 export const SET_FOOTER_CONTEXT = '[Comphub/Comphub Page] Set Footer Context';
 export const SET_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Set Selected Job Data';
 export const CLEAR_SELECTED_JOB_DATA = '[Comphub/Comphub Page] Clear Selected Job Data';
+export const RESET_TRENDS_WORKFLOW = '[Comphub/Comphub Page] Reset Trends Workflow';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -177,6 +178,11 @@ export class ClearSelectedJobData implements Action {
 
 export class ResetAccessibleTrendsPages implements Action {
   readonly type = RESET_ACCESSIBLE_TRENDS_PAGES;
+  constructor() {}
+}
+
+export class ResetTrendsWorkflow implements Action {
+  readonly type = RESET_TRENDS_WORKFLOW;
   constructor() {}
 }
 

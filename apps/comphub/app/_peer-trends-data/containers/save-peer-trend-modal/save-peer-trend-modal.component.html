@@ -16,6 +16,7 @@
       <label class="col-form-label" for="trend-name-input">Name</label>
       <input type="text" class="form-control" placeholder = "Name the Trend" formControlName="name" id="trend-name-input" pfFocus [maxLength]="150"/>
       <div *ngIf="peerTrendNameControl.errors?.peerTrendNameExists" class="text-danger d-flex"> {{peerTrendNameControl.errors.peerTrendNameExists}}</div>
+<!--      TODO: [JP] Make pf validatable for formatting consistency -->
       <br>
       <input type="checkbox" formControlName="rollForward" id="rollForward" class="my-2 mr-2"/>
       <label for="rollForward" class="my-2">Rolling Dates</label>

@@ -10,6 +10,7 @@ import { CompanySettingsEnum } from 'libs/models/company';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { ComphubType } from 'libs/constants';
 import { ExchangeDataSet } from 'libs/models/comphub';
+import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -20,6 +21,7 @@ import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { ComphubPages } from '../data';
 import { FooterContextRequest, FooterHelper } from '../models';
 import { ComphubPageEffectsService, PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
+import { PageViewIds } from '../../_peer-trends-data/constants';
 
 @Injectable()
 export class ComphubPageEffects {
@@ -268,6 +270,19 @@ export class ComphubPageEffects {
       window.location.href = '/?redirect=' + encodeURIComponent(redirectToAfterSuccessfulLogin);
     }
   }
+
+  @Effect()
+  resetPeerTrendsWorkflow$ = this.actions$
+    .pipe(
+      ofType(fromComphubPageActions.RESET_TRENDS_WORKFLOW),
+      mergeMap( () => {
+        return [
+          new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.TrendsLanding}),
+          new fromComphubPageActions.ResetAccessibleTrendsPages(),
+          new fromComphubPageActions.ResetTrendsPagesAccessed()
+        ];
+      })
+    );
 
   constructor(
     private actions$: Actions,

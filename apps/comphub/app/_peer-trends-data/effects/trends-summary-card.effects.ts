@@ -43,7 +43,7 @@ export class TrendsSummaryCardEffects {
         From: lowerDate,
         To: new Date(),
         CalendarInterval: CalendarInterval.Month,
-        PeerTrendId: data.trendId
+        PeerTrendId: data.trendId ?? 0
       };
 
       return this.exchangeDataSearchApiService.getHistoricalTrends(request).pipe(

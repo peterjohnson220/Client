@@ -51,6 +51,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
   workflowContext: WorkflowContext;
   isPeerComphubType = false;
+  isPeerTrendsType = false;
   systemUserGroupNames = SystemUserGroupNames;
   jobPricingLimitInfo: JobPricingLimitInfo;
   loadingPeerMap: boolean;
@@ -81,6 +82,7 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
     this.workflowContextSub = this.workflowContext$.subscribe(wfc => {
       this.workflowContext = wfc;
       this.isPeerComphubType = wfc.comphubType === ComphubType.PEER;
+      this.isPeerTrendsType = wfc.comphubType === ComphubType.TRENDS;
     });
 
     combineLatest([this.jobPricingBlocked$, this.workflowContext$]).pipe(
@@ -117,6 +119,8 @@ export class ComphubFooterComponent implements OnInit, OnDestroy {
   handlePriceNewJobClicked() {
     if (this.isPeerComphubType) {
       this.store.dispatch(new fromSummaryCardActions.PriceNewPeerJob());
+    } else if (this.isPeerTrendsType) {
+      this.store.dispatch(new fromComphubPageActions.ResetTrendsWorkflow());
     } else {
       this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
     }

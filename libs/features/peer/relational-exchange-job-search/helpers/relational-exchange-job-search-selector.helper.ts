@@ -29,7 +29,9 @@ export class RelationalExchangeJobSearchSelectorHelper {
     let selectedExchangeJobsCopy = cloneDeep(currentlySelectedExchangeJobs);
 
     const exchangeJobMatch = exchangeJobResultsCopy.find(e => e.ExchangeJobId === exchangeJob.ExchangeJobId);
-    exchangeJobMatch.IsSelected = !exchangeJobMatch.IsSelected;
+    if (!!exchangeJobMatch) {
+      exchangeJobMatch.IsSelected = !exchangeJobMatch.IsSelected;
+    }
 
     const matchingValue = selectedExchangeJobsCopy.find(selectedEJ => selectedEJ.ExchangeJobId === exchangeJob.ExchangeJobId);
     if (!!matchingValue) {

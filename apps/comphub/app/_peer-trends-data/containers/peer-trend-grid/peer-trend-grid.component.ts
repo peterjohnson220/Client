@@ -70,7 +70,7 @@ export class PeerTrendGridComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.deleteTrendModalOptions = {
       Title: 'Delete Trend',
-      Body: '',
+      Body: 'Are you sure you want to delete this trend?',
       CancelText: 'Cancel',
       ConfirmText: 'Delete',
       IsDelete: true

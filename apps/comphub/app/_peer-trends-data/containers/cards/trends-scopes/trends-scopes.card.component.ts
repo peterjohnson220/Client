@@ -142,7 +142,8 @@ export class TrendsScopesCardComponent implements OnInit, OnDestroy {
                 exchangeJobIds: this.selectedExchangeJobs.map(x => x.ExchangeJobId),
                 isExchangeSpecific: true,
                 companyPayMarketId: null,
-                includeCurrentCompany: true
+                includeCurrentCompany: true,
+                includeDisabledFilters: true
               }
             }
           }

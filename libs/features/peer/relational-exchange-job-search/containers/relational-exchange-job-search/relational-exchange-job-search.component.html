@@ -25,7 +25,7 @@
 
   </div>
 
-  <div class="card ml-2">
+  <div class="card exchange-job-selections-card" [ngClass]="{'invalid border-danger': maxSelectionsExceeded }">
     <div class="card-header">
       Exchange Job Selections
       <button class="btn btn-sm btn-secondary m-2 clear-selections position-absolute"
@@ -35,7 +35,7 @@
       </button>
     </div>
     <div class="card-body flex-column-container">
-      <p class="card-text">At least one exchange job selection is required. Click the jobs below to unselect them.</p>
+      <p class="card-text">At least one exchange job selection is required (max 100). Click the jobs below to unselect them.</p>
       <ul class="list-group overflow-y-auto">
         <li *ngFor="let selectedExchangeJob of selectedExchangeJobs$ | async; trackBy: trackSelectedExchangeJobsBy;"
             class="list-group-item">
@@ -48,8 +48,11 @@
         </li>
       </ul>
     </div>
-    <div class="card-footer text-muted text-align-right">
-      {{selectedExchangeJobCount + '/100'}}
+    <div class="card-footer">
+      <span class="validation-message text-danger">Exchange Job Selection Limit Exceeded</span>
+      <span class="selection-count-tracker text-muted">
+        <span class="selection-count" [ngClass]="{'text-danger': maxSelectionsExceeded}">{{selectedExchangeJobCount}}</span>/100
+      </span>
     </div>
   </div>
 

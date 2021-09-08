@@ -34,13 +34,14 @@ export class SavePeerTrendModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private peerTrendsApiService: PeerTrendsApiService
   ) {
-    this.createForm();
+
     this.showModal$ = this.store.select(fromComphubPeerTrendsDataReducers.getDisplaySavePeerTrendModal);
     this.savingPeerTrend$ = this.store.select(fromComphubPeerTrendsDataReducers.getSavingPeerTrend);
     this.trendsDomain$ = this.store.select(fromComphubPeerTrendsDataReducers.getPeerTrendsDomain);
   }
 
   ngOnInit() {
+    this.createForm();
     this.trendsDomainSubscription = this.trendsDomain$.subscribe(x => {
       this.minDate = x.minDate;
       this.maxDate = x.maxDate;
@@ -58,7 +59,7 @@ export class SavePeerTrendModalComponent implements OnInit, OnDestroy {
         Name: this.peerTrendNameControl.value,
         MinDate: this.minDate,
         MaxDate: this.maxDate,
-        RollForward: this.rollForwardControl.value
+        RollForward: !!this.rollForwardControl.value
       }));
     } else {
       this.store.dispatch(new fromTrendsSummaryCardActions.ToggleSaveTrendModal({displayModal: false}));
@@ -71,7 +72,11 @@ export class SavePeerTrendModalComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.savePeerTrendForm = this.fb.group({
-      'name': [ '', [PfValidators.required, Validators.minLength(3), Validators.maxLength(100)], [this.peerTrendNameValidator()] ],
+      'name': ['', [
+        PfValidators.required,
+        PfValidators.minLengthTrimWhitespace(3),
+        PfValidators.maxLengthTrimWhitespace(100)],
+        [this.peerTrendNameValidator()] ],
       'rollForward': [ false ]
     });
   }

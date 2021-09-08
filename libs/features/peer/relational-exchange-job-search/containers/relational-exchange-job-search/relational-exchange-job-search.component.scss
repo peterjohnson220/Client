@@ -1,10 +1,42 @@
-@import "colors";
+@import 'colors';
 
 .clear-selections {
   right: 0;
   top: 0;
   border: none;
   color: $link-color;
+}
+
+.card.exchange-job-selections-card {
+  margin-left: 0.5rem;
+
+  .card-footer {
+
+    .validation-message {
+      text-align: left;
+    }
+
+    .selection-count-tracker {
+      text-align: right;
+    }
+  }
+
+
+  //&:not(.invalid) .card-footer .validation-message {
+  //  display: none;
+  //}
+
+  &.invalid {
+    .card-footer {
+      .validation-message {
+        display: unset;
+      }
+
+      .selection-count {
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 .card-body .list-group {

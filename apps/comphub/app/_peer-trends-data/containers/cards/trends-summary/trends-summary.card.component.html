@@ -16,25 +16,26 @@
           <pf-async-container [loading]="(peerTrends$ | async).loading">
             <div class="summary-content">
               <pf-historical-trend-chart
-                class="flex-column"
                 [isHourly]="false"
                 [currencyCode]="'USD'"
                 [salaryTrendData]="jobSalaryTrend">
               </pf-historical-trend-chart>
-              <div class="flex-column align-self-center">
-                <pf-historical-org-inc-count-chart
-                  [width]="800"
-                  [height]="500"
-                  [orgIncCountData]="trendOrgIncCountHistory"
-                  [countType]="'Inc'"
-                  [useTrendsDomain]="true">
-                </pf-historical-org-inc-count-chart>
 
-                <div class="text-align-right">
-                  <div class="pf-link-hover mr-3" (click)="handleExportExchangeJobs()">Export Exchange Jobs</div>
-                  <div class="pf-link-hover mr-3" (click)="handleExportCompanyJobs()">Export Company Jobs</div>
-                </div>
+              <pf-historical-org-inc-count-chart
+                [orgIncCountData]="trendOrgIncCountHistory"
+                [countType]="'Inc'"
+                [useTrendsDomain]="true"
+                [width]="600"
+                [height]="400"
+                [titleMargin]="50"
+                [legendTitle]="'Incumbent Count'">
+              </pf-historical-org-inc-count-chart>
+
+              <div class="text-align-right">
+                <div class="pf-link-hover mr-3" (click)="handleExportExchangeJobs()">Export Exchange Jobs</div>
+                <div class="pf-link-hover mr-3" (click)="handleExportCompanyJobs()">Export Company Jobs</div>
               </div>
+
             </div>
           </pf-async-container>
         </div>
