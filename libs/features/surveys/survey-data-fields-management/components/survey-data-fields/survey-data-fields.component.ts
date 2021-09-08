@@ -88,10 +88,17 @@ export class SurveyDataFieldsComponent implements OnChanges {
         }
       }
     });
-    if (!this.activeAccordionIds.length) {
-      this.activeAccordionIds = allAccordionIds;
-    }
+
     this.modalTabs = this.getKeys(this.tabsConfiguration);
+
+    if (!this.activeAccordionIds.length) {
+      this.modalTabs.map((mt, tabIndex) => {
+        this.getKeys(this.tabsConfiguration[mt]).map((p, panelIndex) => {
+          this.activeAccordionIds.push(`panel-${tabIndex}-${panelIndex}`);
+        });
+      });
+    }
+
     this.activeTab = this.modalTabs[0];
   }
 

@@ -14,19 +14,19 @@
       <ul ngbNav #nav="ngbNav" class="nav-tabs"
           [destroyOnHide]="false"
           [(activeId)]="activeTab">
-        <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs">
+        <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs;let tabIndex = index;">
           <a ngbNavLink class="tab-title">
             {{ tab }}
           </a>
           <ng-template ngbNavContent>
             <ng-container *ngIf="!!tabsConfiguration && tabsConfiguration[tab]">
               <ngb-accordion #accordion class="w-100" #acc="ngbAccordion" [activeIds]="activeAccordionIds">
-                <ngb-panel *ngFor="let group of getKeys(tabsConfiguration[tab]);trackBy: trackByGroup" [id]="tab + '_' + group">
+                <ngb-panel *ngFor="let group of getKeys(tabsConfiguration[tab]);trackBy: trackByGroup;let panelIndex = index;" [id]="'panel-'+ tabIndex + '-' + panelIndex">
                   <ng-template ngbPanelHeader>
-                    <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + group)">
+                    <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle('panel-'+ tabIndex + '-' + panelIndex)">
                       <h6>{{group}}</h6>
-                      <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + group)"></fa-icon>
-                      <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + group)"></fa-icon>
+                      <fa-icon icon="caret-down" *ngIf="acc.isExpanded('panel-'+ tabIndex + '-' + panelIndex)"></fa-icon>
+                      <fa-icon icon="caret-right" *ngIf="!acc.isExpanded('panel-'+ tabIndex + '-' + panelIndex)"></fa-icon>
                     </div>
                   </ng-template>
                   <ng-template ngbPanelContent>
