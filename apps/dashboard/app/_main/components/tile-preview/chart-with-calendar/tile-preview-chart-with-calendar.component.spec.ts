@@ -125,7 +125,7 @@ describe('Tile Preview Chart With Calendar', () => {
    const detailValue = 55;
    const selectedDate = new Date('01/01/2010');
    const chartComponentData =
-     generateMockTilePreviewChartWithCalendarData(categoryName, 0, selectedDate, detailKey, detailValue);
+     generateMockTilePreviewChartWithCalendarData(categoryName, '0', selectedDate, detailKey, detailValue);
 
    return {
      TileId: 1,

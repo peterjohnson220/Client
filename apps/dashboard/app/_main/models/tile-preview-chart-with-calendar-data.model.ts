@@ -6,14 +6,14 @@ export interface TilePreviewChartWithCalendarData {
 
 export interface TilePreviewChartWithCalendarPart {
   CategoryName: string;
-  CategoryValue: number;
+  CategoryValue: string;
   SelectedDate: Date;
   ShouldGetBeforeSelectedDate: boolean;
   ChartData?: { Key: string, Value: number }[];
 }
 
 export function generateMockTilePreviewChartWithCalendarData(categoryName: string,
-                                                             categoryValue: number = 0,
+                                                             categoryValue: string = '0',
                                                              selectedDate: Date = new Date(''),
                                                              detailKey: string = '',
                                                              detailValue: number = 0): TilePreviewChartWithCalendarData {
