@@ -7,8 +7,9 @@ import { of } from 'rxjs';
 
 import { CompanyEmployeeApiService, PricingApiService } from 'libs/data/payfactors-api';
 
-import * as fromBasePayGraphActions from '../actions';
-import * as fromBasePayGraphReducer from '../reducers';
+import { PricingGraphTypeEnum } from '../models';
+import * as fromJobPricingGraphActions from '../actions';
+import * as fromJobPricingGraphReducer from '../reducers';
 
 @Injectable()
 export class JobPricingGraphEffects {
@@ -17,37 +18,50 @@ export class JobPricingGraphEffects {
     private actions$: Actions,
     private pricingApiService: PricingApiService,
     private companyEmployeeApiService: CompanyEmployeeApiService,
-    private store: Store<fromBasePayGraphReducer.State>,
+    private store: Store<fromJobPricingGraphReducer.State>,
   ) { }
 
   @Effect()
-  getPricingData$ = this.actions$
+  initJobPricingGraph$ = this.actions$
     .pipe(
-      ofType(fromBasePayGraphActions.GET_PRICING_DATA),
-      switchMap((action: fromBasePayGraphActions.GetPricingData) => {
-        return this.pricingApiService.getRecentCompanyJobPricingByPayMarket(action.jobId, action.paymarketId, true)
+      ofType(fromJobPricingGraphActions.LOAD_GRAPH_PAY_DATA),
+      switchMap((action: fromJobPricingGraphActions.LoadGraphPayData) => {
+          return this.companyEmployeeApiService.getEmployeesPayData(action.jobId, action.paymarketId)
+            .pipe(
+              map((response) => new fromJobPricingGraphActions.LoadGraphPayDataSuccess(response)),
+              catchError(() => of(new fromJobPricingGraphActions.LoadGraphPayDataError('There was an error loading data for the selected Pay Market')))
+            );
+        }
+      )
+    );
+
+  @Effect()
+  getBasePricingData$ = this.actions$
+    .pipe(
+      ofType(
+        fromJobPricingGraphActions.GET_BASE_PRICING_DATA
+        ),
+      switchMap((action: any) => {
+        return this.pricingApiService.getRecentCompanyJobPricingByPayMarket(action.jobId, action.paymarketId, PricingGraphTypeEnum.Base, true)
           .pipe(
-            mergeMap((response) => {
-              return [
-                new fromBasePayGraphActions.GetPricingDataSuccess(response),
-                new fromBasePayGraphActions.LoadBasePayData(action.jobId, action.paymarketId, response)
-              ];
-            }),
-            catchError(() => of(new fromBasePayGraphActions.GetPricingDataError('There was an error loading data for the selected Pay Market')))
+            map((response) => new fromJobPricingGraphActions.GetBasePricingDataSuccess(response, action.payData)),
+            catchError(() => of(new fromJobPricingGraphActions.GetBasePricingDataError('There was an error loading data for the selected Pay Market')))
           );
       }
     )
-);
+  );
 
   @Effect()
-  initBasePayGraph$ = this.actions$
+  getTCCPricingData$ = this.actions$
     .pipe(
-      ofType(fromBasePayGraphActions.LOAD_BASE_PAY_DATA),
-      switchMap((action: fromBasePayGraphActions.LoadBasePayData) => {
-          return this.companyEmployeeApiService.getEmployeesBasePay(action.jobId, action.paymarketId, action.pricing?.Currency, action.pricing?.Rate)
+      ofType(
+        fromJobPricingGraphActions.GET_TCC_PRICING_DATA
+      ),
+      switchMap((action: any) => {
+          return this.pricingApiService.getRecentCompanyJobPricingByPayMarket(action.jobId, action.paymarketId, PricingGraphTypeEnum.TCC, true)
             .pipe(
-              map((response) => new fromBasePayGraphActions.LoadBasePayDataSuccess(action.pricing, response)),
-              catchError(() => of(new fromBasePayGraphActions.LoadBasePayDataError('There was an error loading data for the selected Pay Market')))
+              map((response) => new fromJobPricingGraphActions.GetTccPricingDataSuccess(response, action.payData)),
+              catchError(() => of(new fromJobPricingGraphActions.GetTccPricingDataError('There was an error loading data for the selected Pay Market')))
             );
         }
       )

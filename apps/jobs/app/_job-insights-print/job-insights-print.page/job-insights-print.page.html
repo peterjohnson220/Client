@@ -7,7 +7,7 @@
       <div class="pb-3">
         <ng-container [ngTemplateOutlet]="jobTitle"></ng-container>
       </div>
-  
+
       <div class="pb-3 border-bottom">
         <div class="d-flex flex-column">
           <pf-job-insights-job-summary [mode]="jobInsightsPrintMode"
@@ -15,24 +15,21 @@
           </pf-job-insights-job-summary>
         </div>
       </div>
-  
+
       <div class="py-3 border-bottom">
         <pf-job-insights-job-details [mode]="jobInsightsPrintMode"
                                      [standardFields]="standardFields"
                                      [customFields]="customFields">
         </pf-job-insights-job-details>
       </div>
-  
+
       <div class="py-3 border-bottom d-flex flex-column">
         <span class="section-title font-weight-600">Pricing Details</span>
         <ng-container *ngIf="jobInsights.JobPricingId">
           <div class="graph-container">
             <div class="mt-2 section-text">Base Pay</div>
-            <pf-job-pricing-graph [paymarketId]="companyPayMarketId"
-                                  [companyJobId]="companyJobId"
-                                  [showPayLabel]="false"
-                                  [marginLeft]="10">
-            </pf-job-pricing-graph>
+            <pf-job-pricing-base-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [showPayLabel]="false" [marginLeft]="10"></pf-job-pricing-base-graph>
+            <pf-job-pricing-tcc-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [showPayLabel]="false" [marginLeft]="10"></pf-job-pricing-tcc-graph>
           </div>
         </ng-container>
         <div *ngIf="!jobInsights.JobPricingId">

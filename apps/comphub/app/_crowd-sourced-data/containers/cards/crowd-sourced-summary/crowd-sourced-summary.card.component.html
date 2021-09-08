@@ -89,8 +89,8 @@
               </div>
             </div>
             <div>
-              <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph>
-              <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph>
+              <pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [graphType]="PricingGraphTypeEnum.Base"></pf-csd-pricing-graph>
+              <pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [graphType]="PricingGraphTypeEnum.TCC"></pf-csd-pricing-graph>
             </div>
             <hr>
           </pf-async-container>
