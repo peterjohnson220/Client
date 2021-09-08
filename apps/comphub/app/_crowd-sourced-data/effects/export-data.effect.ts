@@ -27,15 +27,17 @@ export class ExportDataEffect {
         this.store.select(fromComphubCrowdSourcedDataReducer.getExportDataAsyncObj),
         this.sharedStore.select(fromComphubSharedReducer.getSelectedJobData),
         this.sharedStore.select(fromComphubSharedReducer.getSelectedPaymarket),
-        (action: fromExportDataActions.SaveExportData, exportDataAsyncObj, selectedJob, selectedPaymarket) =>
-          ({action, exportDataAsyncObj, selectedJob, selectedPaymarket})
+        this.sharedStore.select(fromComphubSharedReducer.getSelectedRate),
+        (action: fromExportDataActions.SaveExportData, exportDataAsyncObj, selectedJob, selectedPaymarket, selectedRate) =>
+          ({ action, exportDataAsyncObj, selectedJob, selectedPaymarket, selectedRate })
       ),
       switchMap((data) => {
           return this.comphubCSDApiService.saveExportData({
-            JsonRequest: data.exportDataAsyncObj.obj.JsonRequest,
-            JsonResponse: data.exportDataAsyncObj.obj.JsonResponse,
+            JsonAnswer: data.exportDataAsyncObj.obj.JsonAnswer,
+            JsonReport: data.exportDataAsyncObj.obj.JsonReport,
             PayscaleJobTitle: data.selectedJob.JobTitle,
-            CompanyPayMarketId: data?.selectedPaymarket.CompanyPayMarketId
+            CompanyPayMarketId: data.selectedPaymarket.CompanyPayMarketId,
+            Rate: data.selectedRate
           }).pipe(
             mergeMap((response) => {
               const actions = [];

@@ -22,6 +22,7 @@ export interface GetJobSummaryPrintDataResponse {
   DataSummaryReport: DataSummaryReportResponse;
   UserName: string;
   ReportDate: string;
+  Rate: string;
 }
 
 export interface LocationResponse {

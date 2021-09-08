@@ -68,18 +68,18 @@
                 </tr>
                 </thead>
                 <tr>
-                  <td align="center">{{jobSummaryPrintData.Base10}}</td>
-                  <td align="center">{{jobSummaryPrintData.Base25}}</td>
-                  <td align="center">{{jobSummaryPrintData.Base50}}</td>
-                  <td align="center">{{jobSummaryPrintData.Base75}}</td>
-                  <td align="center">{{jobSummaryPrintData.Base90}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Base10, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Base25, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Base50, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Base75, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Base90, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
                   <td align="center">&nbsp;</td>
                   <td align="center">&nbsp;</td>
-                  <td align="center">{{jobSummaryPrintData.Total10}}</td>
-                  <td align="center">{{jobSummaryPrintData.Total25}}</td>
-                  <td align="center">{{jobSummaryPrintData.Total50}}</td>
-                  <td align="center">{{jobSummaryPrintData.Total75}}</td>
-                  <td align="center">{{jobSummaryPrintData.Total90}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Total10, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Total25, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Total50, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Total75, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
+                  <td align="center">{{calculateDataByRate(jobSummaryPrintData.Total90, false) | currency : '' : '' : jobSummaryPrintData.Rate === 'Hourly' ? '1.2-2' : '1.0-0'}}</td>
                 </tr>
               </table>
             </div>

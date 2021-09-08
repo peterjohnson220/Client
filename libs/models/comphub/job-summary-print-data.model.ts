@@ -28,6 +28,7 @@ export interface JobSummaryPrintData {
   DataSummaryReports: DataSummaryReportData[];
   UserName: string;
   ReportDate: string;
+  Rate: string;
 }
 
 export interface DataSummaryReportData {

@@ -1,8 +1,9 @@
 export interface SaveExportDataRequest {
-  JsonRequest: string;
-  JsonResponse: string;
+  JsonAnswer: string;
+  JsonReport: string;
   CompanyJobId?: number;
   CompanyPayMarketId?: number;
   PayscaleJobTitle: string;
   DataCutId?: number;
+  Rate: string;
 }

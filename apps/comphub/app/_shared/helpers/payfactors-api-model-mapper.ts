@@ -292,7 +292,8 @@ export class PayfactorsApiModelMapper {
       SupervisoryRole: supervisoryRole,
       DataSummaryReports: dataSummaryReports,
       UserName: response.UserName,
-      ReportDate: response.ReportDate
+      ReportDate: response.ReportDate,
+      Rate: response.Rate
     };
   }
 }
