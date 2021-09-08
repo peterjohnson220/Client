@@ -11,7 +11,7 @@ $action-btn-size: 20px;
 
 .row-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -111,16 +111,46 @@ $action-btn-size: 20px;
   font-size: 0.9rem;
 }
 
-::ng-deep .k-upload-button
-{
-  background-color: #1872ae;
-  color: #ffffff;
-}
+::ng-deep kendo-upload .k-dropzone-hint {	 
+  display: block !important;	 	 
+  visibility: visible !important;	 	 
+  opacity: 1 !important;	 	 
+}	 	 
 
-::ng-deep kendo-upload .k-dropzone-hint {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+::ng-deep kendo-upload .k-upload-button	 	 
+{	 	 
+  background-color: #1872ae !important;	 	 
+  float: right !important;	 	 
+  color: #ffffff !important;	 	 
+}	 	 
+ 
+::ng-deep kendo-upload .k-upload-pct	 	 
+{	 	 
+  visibility: hidden;	 	 
+  display: none;	 	 
+}
+ 	 	 
+::ng-deep kendo-upload .k-upload-status	
+{	
+  visibility: hidden;
+  display: none !important;	 	 
+}	 	 
+ 	 	  
+.upload-in-progress {	 	 
+  color: #99A0A4;	 	 
+}	 	 
+ 	
+.upload-success {	 	 
+  color: green;	 	 
+}
+ 	 	 
+.upload-failed {
+  color: #dc3545;	 	 
+}	 	 
+ 
+.attachments-container{
+  font-size: 90%;	 	 
+  width: 90%	 	 
 }
 
 
