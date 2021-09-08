@@ -12,8 +12,10 @@ pf-verification img[src*="payscale"], #ps-privacy {
   display: none;
 }
 html.payscale-rebrand {
-  body { 
-    background: url("../../assets/images/waves.png") center/cover no-repeat;
+  body {
+    &.waves {
+      background: url("../../assets/images/waves.png") center/cover no-repeat;
+    }
     pf-verification {
       img[src*="payfactors"], #pf-privacy {
         display: none;

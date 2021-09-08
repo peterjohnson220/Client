@@ -87,6 +87,7 @@ export class VerificationPageComponent implements OnInit, OnDestroy {
     });
     if (this.payscaleBrandingFeatureFlag.value === true) {
       document.querySelector('nav').classList.add('d-none');
+      document.querySelector('body').classList.add('waves');
     }
   }
 
