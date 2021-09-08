@@ -111,10 +111,16 @@ $action-btn-size: 20px;
   font-size: 0.9rem;
 }
 
-:host ::ng-deep .k-upload-button
+::ng-deep .k-upload-button
 {
   background-color: #1872ae;
   color: #ffffff;
+}
+
+::ng-deep kendo-upload .k-dropzone-hint {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 
