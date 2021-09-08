@@ -68,7 +68,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   });
 
   it('should load the exchange scope selector popover when there are exchange scopes', () => {
-    instance.filteredExchangeScopeItems = [generateMockExchangeScopeItem()];
+    instance.exchangeScopeItems = [generateMockExchangeScopeItem()];
 
     fixture.detectChanges();
 
@@ -177,7 +177,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   it('should dispatch a LoadExchangeScopesByExchange action on init if the systemFilter has been loaded and we are not in the' +
            'add data cuts modal', () => {
     const exchangeId = 1;
-    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(exchangeId);
+    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange() ;
     instance.systemFilterLoaded$ = of(true);
     instance.isExchangeJobSpecific = false;
     instance.exchangeId = exchangeId;
@@ -294,7 +294,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
     fixture.detectChanges();
 
-    const expectAction = new fromLibsExchangeScopeActions.DeleteExchangeScope(exchangeScopeItem.ExchangeScopeId);
+    const expectAction = new fromLibsExchangeScopeActions.DeleteExchangeScope({ scopeId: exchangeScopeItem.ExchangeScopeId, isStandardScope: false } );
 
     instance.deleteScope(event);
 
@@ -327,39 +327,40 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 1},
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 2}
     ];
-    instance.filteredExchangeScopeItems = [
-      {...generateMockExchangeScopeItem(), ExchangeScopeId: 3}
-    ];
 
     instance.handlePopoverShown();
 
-    expect(instance.filteredExchangeScopeItems).toHaveLength(2);
-    expect(instance.filteredExchangeScopeItems[0].ExchangeScopeId).toBe(1);
-    expect(instance.filteredExchangeScopeItems[1].ExchangeScopeId).toBe(2);
+    expect(instance.exchangeScopeItems).toHaveLength(2);
+    expect(instance.exchangeScopeItems[0].ExchangeScopeId).toBe(1);
+    expect(instance.exchangeScopeItems[1].ExchangeScopeId).toBe(2);
   });
 
-  it('should filter the exchange scope items by the name containing the search value, when the search value changes', () => {
+  it('it should dispatch SetExchangeScopeNameFilter action when search value is changed', () => {
     instance.exchangeScopeItems = [
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 1, Name: 'ItemOneItem'},
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 2, Name: 'ItemTwoItem'}
     ];
+    spyOn(store, 'dispatch');
 
     instance.handleSearchValueChanged('Two');
 
-    expect(instance.filteredExchangeScopeItems).toHaveLength(1);
-    expect(instance.filteredExchangeScopeItems[0].ExchangeScopeId).toBe(2);
+    const expectAction = new fromLibsExchangeScopeActions.SetExchangeScopeNameFilter('two');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
   });
 
-  it('should filter the exchange scope items case insensitively, when the search value changes', () => {
+  it('it should dispatch SetExchangeScopes with empty array when search value is changed', () => {
     instance.exchangeScopeItems = [
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 1, Name: 'ItemONEItem'},
       {...generateMockExchangeScopeItem(), ExchangeScopeId: 2, Name: 'ItemTWOItem'}
     ];
+    spyOn(store, 'dispatch');
 
     instance.handleSearchValueChanged('one');
 
-    expect(instance.filteredExchangeScopeItems).toHaveLength(1);
-    expect(instance.filteredExchangeScopeItems[0].ExchangeScopeId).toBe(1);
+    const expectAction = new fromLibsExchangeScopeActions.SetExchangeScopes([]);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
   });
 
   it('should track by the exchange scope item id', () => {

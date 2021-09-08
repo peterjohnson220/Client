@@ -2,9 +2,8 @@
 
   <pf-manage-exchange-section-header [sectionTitle]="'Create a Standard Scope'">
     <ng-container header-actions>
-      <button type="button" class="btn btn-md btn-primary"
-              [disabled]="(numberOfSelections$ | async) === 0"
-              (click)="handleCreateScopeClicked()">Create Scope</button>
+      <pf-exchange-scope-selector [isExchangeJobSpecific]="false" [exchangeId]="exchangeId"></pf-exchange-scope-selector>
+      <button type="button" class="btn btn-md btn-primary" (click)="handleCreateScopeClicked()" [disabled]="(numberOfSelections$ | async) === 0">Create Scope</button>
     </ng-container>
 
   </pf-manage-exchange-section-header>

@@ -13,9 +13,10 @@ import { PfValidators } from 'libs/forms/validators';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { Rates, RateType, Weights, WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { SettingsService } from 'libs/state/app-context/services';
-import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { CompanySettingsEnum } from 'libs/models/company';
+import { ExchangeScopeApiNames } from 'libs/constants/peer/exchange-scopes.constants';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeCompanyJobGridActions from '../../actions/exchange-company-job-grid.actions';
 import * as fromExportDataCutsActions from '../../actions/export-data-cuts.actions';
@@ -70,10 +71,10 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   selectedCurrency: Currency = { CurrencyCode: 'USD', CurrencyName: 'United States Dollar', CurrencyDisplay: 'USD - United States Dollar'};
   currencies: Currency[];
   filteredCurrencies: Currency[];
-  scopesToExportOptions: GenericMenuItem[] = [];
   selectedScopesToExport: GenericMenuItem[] = [];
   selectedWeightingType: KendoDropDownItem = { Name: WeightTypeDisplayLabeled.Inc, Value: WeightType.Inc };
   enableFileDownloadSecurityWarning = false;
+  additionalOptions: GenericMenuItem[] = [];
   readonly currentMapViewOptionValue = 'Current Map View';
 
   constructor(
@@ -160,7 +161,6 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
-    this.scopesToExportOptions = [];
     this.store.dispatch(new fromExportDataCutsActions.CloseExportDataCutsModal);
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanyJob));
   }
@@ -313,7 +313,6 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
   private buildScopeSelectorOptions(): void {
     this.selectedScopesToExport = [];
-    this.scopesToExportOptions = [];
     const currentMapViewOption = {
       DisplayName: this.currentMapViewOptionValue,
       Value: this.currentMapViewOptionValue,
@@ -323,7 +322,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
     if (!this.context.selectedExchangeScope) {
       this.selectedScopesToExport = [currentMapViewOption];
-      this.scopesToExportOptions = [currentMapViewOption];
+      this.additionalOptions = [currentMapViewOption];
     }
 
     this.context.exchangeScopeItems.map(si => {
@@ -336,11 +335,14 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
         Value: si.ExchangeScopeId.toString()
       };
 
-      this.scopesToExportOptions.push(selectorOption);
-
       if (isSelectedScopeFromContext) {
         this.selectedScopesToExport.push(selectorOption);
       }
     });
   }
+
+  buildEndpointName() {
+    return `${ExchangeScopeApiNames.GetExchangeScopeListByExchange}${this.exchangeId}&includeCompanyScopes=true&includeStandardScopes=false`;
+  }
 }
+

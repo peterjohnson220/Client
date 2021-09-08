@@ -12,8 +12,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms';
-
-import { PfSearchModule } from '../../search/search';
+import {PfInfiniteScrollModule} from 'libs/features/search/infinite-scroll';
+import { PfSearchModule } from 'libs/features/search/search';
 
 import { ExchangeExplorerComponent, ExchangeScopeSelectorComponent, ExchangeExplorerMapComponent } from './containers';
 import { ExcludeIndirectMatchesFilterComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent, WeightingTypeDropdownComponent } from './components';
@@ -32,6 +32,7 @@ import { ExchangeExplorerContextService } from './services';
 import * as fromFaIcons from './fa-icons';
 import { ExchangeJobSelectorComponent } from '../exchange-job-selector';
 
+
 const declarations = [
   ExchangeExplorerMapComponent,
   ExchangeScopeSelectorComponent,
@@ -44,27 +45,28 @@ const declarations = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    // 3rd Party
-    StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
-    EffectsModule.forFeature([
-      ChildFilterEffects, ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
-      ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
-    ]),
-    SwitchModule,
-    DropDownListModule,
-    NgxMapboxGLModule,
-    NgbPopoverModule,
-    FontAwesomeModule,
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        // 3rd Party
+        StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
+        EffectsModule.forFeature([
+            ChildFilterEffects, ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
+            ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
+        ]),
+        SwitchModule,
+        DropDownListModule,
+        NgxMapboxGLModule,
+        NgbPopoverModule,
+        FontAwesomeModule,
 
-    // PF Modules
-    PfCommonUIModule,
-    PfSearchModule,
-    PfFormsModule
-  ],
+        // PF Modules
+        PfCommonUIModule,
+        PfSearchModule,
+        PfFormsModule,
+        PfInfiniteScrollModule
+    ],
   providers: [
     ExchangeExplorerContextService
   ],

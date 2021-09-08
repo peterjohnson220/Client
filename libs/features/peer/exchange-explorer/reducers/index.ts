@@ -100,9 +100,6 @@ export const getPeerMapInitialZoomComplete = createSelector(selectMapState, from
 export const getPeerMapLoaded = createSelector(selectMapState, fromMapReducer.getMapLoaded);
 
 // Exchange Scope Selectors
-export const {
-  selectAll: getExchangeScopesSrc
-} = fromExchangeScopeReducer.adapter.getSelectors(selectExchangeScopeState);
 export const getExchangeScopesLoadingByJobs = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobs);
 export const getExchangeScopesLoadingByJobsError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobsError);
 export const getExchangeScopesLoadingByExchange = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByExchange);
@@ -119,7 +116,10 @@ export const getDeletingExchangeScope = createSelector(selectExchangeScopeState,
 export const getDeletingExchangeScopeError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getDeletingScopeError);
 export const getInDeleteExchangeScopeMode = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getInDeleteScopeMode);
 export const getExchangeScopeToDelete = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopeToDelete);
-
+export const getIncludeCompanyScopes = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getIncludeCompanyScopes);
+export const getIncludeStandardScopes = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getIncludeStandardScopes);
+export const getExchangeScopes = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopes);
+export const getExchangeScopeNameFilter = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopeNameFilter);
 
 // Exchange Explorer Info Selectors
 export const getExchangeExplorerPayMarket = createSelector(
@@ -191,30 +191,25 @@ export const getHasAppliedFilterContext = createSelector(
   fromExchangeFilterContextReducer.getHasAppliedContext
 );
 
-export const getExchangeScopes = createSelector(
-  getExchangeScopesSrc,
-  getExchangeJobFilterOptions,
-  getSelectedExchangeJobId,
-  (scopes, exchangeJobOptions, selectedExchangeJobId) => {
-    if (!scopes || !scopes.length) {
-      return [];
-    }
 
-    if (!exchangeJobOptions) {
-      return scopes;
-    }
-
-    const selectedExchangeJobExchangeDetail = exchangeJobOptions.find(ejo => ejo.ExchangeJobId === selectedExchangeJobId);
-    if (!selectedExchangeJobExchangeDetail) {
-      return scopes;
-    }
-
-    return scopes.filter(s => s.ExchangeId === selectedExchangeJobExchangeDetail.ExchangeId);
-  }
-);
 export const getHasDefaultScope = createSelector(
   selectFilterContextState,
   fromExchangeFilterContextReducer.getHasDefaultScope
+);
+
+export const getExchangeId = createSelector(
+  selectFilterContextState,
+  fromExchangeFilterContextReducer.getExchangeId
+);
+
+export const mapHasExchangeJobs = createSelector(
+  selectFilterContextState,
+  fromExchangeFilterContextReducer.getMapHasExchangeJobs
+)
+
+export const getSelectedExchangeScope = createSelector(
+  selectFilterContextState,
+  fromExchangeFilterContextReducer.getSelectedExchangeScope
 );
 
 export const getFilterContextHasDefaultScope = createSelector(
