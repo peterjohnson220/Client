@@ -7,4 +7,4 @@ export * from './company-client-types-response.model';
 export * from './list-composite-fields.model';
 export * from './company-note-response.model';
 export * from './employee-modal-structures-response.model';
-export * from './employees-base-pay-model.model';
+export * from './employees-pay-model.model';

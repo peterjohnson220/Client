@@ -6,11 +6,10 @@
 >
   <ng-container *ngIf="isValidPricingData; else noDataTemplate">
     <highcharts-chart
-      class = "baseChart"
+      class = "chartStyle"
       [Highcharts]="Highcharts"
       [callbackFunction]="chartCallback"
       [options]="chartOptions"
-      [(update)]="updateFlag"
     ></highcharts-chart>
   </ng-container>
 </pf-async-container>

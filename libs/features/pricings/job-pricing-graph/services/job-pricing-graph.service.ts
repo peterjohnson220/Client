@@ -5,6 +5,8 @@ import { allEqual, isAscending } from 'libs/core/functions';
 import { FormattersService } from 'libs/core/services';
 import { PricingForPayGraph } from 'libs/models/payfactors-api';
 
+import { PricingGraphTypeEnum } from '../models/pricing-graph-type.enum';
+
 export class JobPricingGraphService {
 
   static initializePricingHighcharts() {
@@ -32,7 +34,9 @@ export class JobPricingGraphService {
         title: null,
         labels: {
           enabled: false
-        }
+        },
+        startOnTick: false,
+        endOnTick: false
       },
       xAxis: {
         lineWidth: 0,
@@ -60,7 +64,7 @@ export class JobPricingGraphService {
         borderWidth: 0,
         style: {
           color: '#FFFFFF',
-          fontFamily: 'Helvetica Neue'
+          fontFamily: 'Helvetica'
         },
         outside: true,
         positioner: function(labelWidth, labelHeight, point) {
@@ -69,31 +73,16 @@ export class JobPricingGraphService {
             y: (point as any).plotY + this.chart.container.getBoundingClientRect().top - labelHeight - 5
           };
         },
-        formatter: function() {
-          if ((this.point as any).Count > 1) {
-            return  '     <div style="color: white;">' + (this.point as any).Count + ' Employees <br>' +
-              '     Base: ' + (this.point as any).Base + '<br>' +
-              ((this.point as any).Currency !== '' ? '<div style="font-style: italic;">Converted from ' + (this.point as any).Currency + '</div>'
-                : '') +
-              '</div>';
-          } else {
-            return '<div style="color: white;">' + (this.point as any).EmployeeFirstName + ' ' + (this.point as any).EmployeeLastName +
-              '<br> Base: ' + (this.point as any).Base + '<br></div>' +
-              ((this.point as any).Currency !== '' ?
-                '<div style="color: white; font-style: italic;">Converted from ' + (this.point as any).Currency + '</div></div>'
-                : '');
-          }
-        }
       },
     };
   }
 
-  static getYAxisPlotBandsOptionsArray(data: any, payType: string, forceChartAlignment: boolean = false,
+  static getYAxisPlotBandsOptionsArray(data: any, graphType: PricingGraphTypeEnum, forceChartAlignment: boolean = false,
                                        forceDecimals: boolean = false, decimalPlaces: number = 1): YAxisPlotBandsOptions[] {
     return [{
       from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
       to: (data.Pay25),
-      color: payType === 'Base' ? '#193967' : '#41265c',
+      color: graphType === PricingGraphTypeEnum.Base ? '#193967' : '#41265c',
       label: {
         text: forceDecimals ? (data.Pay10).toFixed(decimalPlaces) : (data.Pay10).toString(),
         verticalAlign: 'bottom',
@@ -104,7 +93,7 @@ export class JobPricingGraphService {
     }, {
       from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
       to: (data.Pay25),
-      color: payType === 'Base' ? '#193967' : '#41265c',
+      color: graphType === PricingGraphTypeEnum.Base ? '#193967' : '#41265c',
       label: {
         text: '10th',
         verticalAlign: 'top',
@@ -116,7 +105,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay25),
       to: (data.Pay50),
-      color: payType === 'Base' ? '#235090' : '#5a3580',
+      color: graphType === PricingGraphTypeEnum.Base ? '#235090' : '#5a3580',
       label: {
         text: forceDecimals ? (data.Pay25).toFixed(decimalPlaces) : (data.Pay25).toString(),
         verticalAlign: 'bottom',
@@ -127,7 +116,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay25),
       to: (data.Pay50),
-      color:  payType === 'Base' ? '#235090' : '#5a3580',
+      color:  graphType === PricingGraphTypeEnum.Base ? '#235090' : '#5a3580',
       label: {
         text: '25th',
         verticalAlign: 'top',
@@ -139,7 +128,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay50),
       to: (data.Pay75),
-      color: payType === 'Base' ? '#2D67B9' : '#7e4ab2',
+      color: graphType === PricingGraphTypeEnum.Base ? '#2D67B9' : '#7e4ab2',
       label: {
         text: forceDecimals ? (data.Pay50).toFixed(decimalPlaces) : (data.Pay50).toString(),
         verticalAlign: 'bottom',
@@ -150,7 +139,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay50),
       to: (data.Pay75),
-      color: payType === 'Base' ? '#2D67B9' : '#7e4ab2',
+      color: graphType === PricingGraphTypeEnum.Base ? '#2D67B9' : '#7e4ab2',
       label: {
         text: '50th',
         verticalAlign: 'top',
@@ -162,7 +151,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay75),
       to: (data.Pay90),
-      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
+      color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
         text: forceDecimals ? (data.Pay75).toFixed(decimalPlaces) : (data.Pay75).toString(),
         verticalAlign: 'bottom',
@@ -173,7 +162,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay75),
       to: (data.Pay90),
-      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
+      color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
         text: '75th',
         verticalAlign: 'top',
@@ -185,7 +174,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay75),
       to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
-      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
+      color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
         text: forceDecimals ? (data.Pay90).toFixed(decimalPlaces) : (data.Pay90).toString(),
         verticalAlign: 'bottom',
@@ -196,7 +185,7 @@ export class JobPricingGraphService {
     }, {
       from: (data.Pay75),
       to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
-      color: payType === 'Base' ? '#5389D5' : '#9a70c4',
+      color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
         text: '90th',
         verticalAlign: 'top',
@@ -208,16 +197,17 @@ export class JobPricingGraphService {
     }];
   }
 
-  static formatScatterData(baseData: any, pricingData: any, count: number, userLocale: string) {
+  static formatScatterData(payData: any, pricingData: any, count: number, userLocale: string, y: number, pointColor: string) {
     return {
-      y: baseData.Base / 1000,
+      y: y,
       x: 0,
-      EmployeeFirstName: baseData.EmployeeFirstName ? baseData.EmployeeFirstName : '',
-      EmployeeLastName: baseData.EmployeeLastName ? baseData.EmployeeLastName : '',
-      Base: FormattersService.formatCurrency(baseData.Base, userLocale, pricingData.Currency, pricingData.Rate, true),
-      color: (baseData.Base / 1000 > (pricingData.Pay90)) || (baseData.Base / 1000 < (pricingData.Pay10)) ? '#C3C3CA' : '#FFFFFF',
+      EmployeeFirstName: payData.EmployeeFirstName ? payData.EmployeeFirstName : '',
+      EmployeeLastName: payData.EmployeeLastName ? payData.EmployeeLastName : '',
+      Base: FormattersService.formatCurrency(payData.Base, userLocale, pricingData.Currency, pricingData.Rate, true),
+      TCC: FormattersService.formatCurrency(payData.TCC, userLocale, pricingData.Currency, pricingData.Rate, true),
+      color: pointColor,
       Count: count,
-      Currency: (baseData.Currency !== pricingData.Currency) ? baseData.Currency : ''
+      Currency: (payData.Currency !== pricingData.Currency) ? payData.Currency : ''
     };
   }
 
@@ -246,7 +236,8 @@ export class JobPricingGraphService {
     if (payLabel) {
       const avgDisplay = forceDecimals ? (avg).toFixed(decimalPlaces) : avg.toString();
       chart.xAxis[0].setCategories(
-        ['<span style="font-size: 16px; font-weight: bold;">' + payLabel + '</span><br/><span>Average: ' + avgDisplay + '</span>']
+        ['<span style="font-size: 16px; font-weight: 500;color: #212529; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">' + payLabel + '</span><br/>' +
+        '<span style="color: #212529; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">Average: ' + avgDisplay + '</span>']
       );
     } else {
       chart.xAxis[0].setCategories(['']);
@@ -271,5 +262,50 @@ export class JobPricingGraphService {
     }
     const values = [pricing.Pay10, pricing.Pay25, pricing.Pay50, pricing.Pay75, pricing.Pay90];
     return isAscending(values) && !allEqual(values);
+  }
+
+  static updateChartTooltip(chart: Highcharts.Chart, graphType: PricingGraphTypeEnum): void {
+    if (graphType === PricingGraphTypeEnum.Base) {
+      chart.update({
+        tooltip: {
+          formatter: function() {
+            if ((this.point as any).Count > 1) {
+              return  '<div style="color: white;">' + (this.point as any).Count + ' Employees <br>' +
+                'Base: ' + (this.point as any).Base + '<br>' +
+                ((this.point as any).Currency !== '' ? '<div style="font-style: italic;">Converted from ' + (this.point as any).Currency + '</div>'
+                  : '') +
+                '</div>';
+            } else {
+              return '<div style="color: white;">' + (this.point as any).EmployeeFirstName + ' ' + (this.point as any).EmployeeLastName +
+                '<br> Base: ' + (this.point as any).Base + '<br></div>' +
+                ((this.point as any).Currency !== '' ?
+                  '<div style="color: white; font-style: italic;">Converted from ' + (this.point as any).Currency + '</div></div>'
+                  : '');
+            }
+          }
+        }
+      });
+    } else if (graphType === PricingGraphTypeEnum.TCC) {
+      chart.update({
+        tooltip: {
+          formatter: function() {
+            if ((this.point as any).Count > 1) {
+              return  '<div style="color: white;">' + (this.point as any).Count + ' Employees <br>' +
+                'TCC: ' + (this.point as any).TCC + '<br>' +
+                ((this.point as any).Currency !== '' ? '<div style="font-style: italic;">Converted from ' + (this.point as any).Currency + '</div>'
+                  : '') +
+                '</div>';
+            } else {
+              return '<div style="color: white;">' + (this.point as any).EmployeeFirstName + ' ' + (this.point as any).EmployeeLastName +
+                '<br> TCC: ' + (this.point as any).TCC + '<br></div>' +
+                ((this.point as any).Currency !== '' ?
+                  '<div style="color: white; font-style: italic;">Converted from ' + (this.point as any).Currency + '</div></div>'
+                  : '');
+            }
+          }
+        }
+      });
+    }
+
   }
 }

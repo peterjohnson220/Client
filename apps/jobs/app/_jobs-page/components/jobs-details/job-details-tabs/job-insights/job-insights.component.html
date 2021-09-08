@@ -39,7 +39,8 @@
           <div class="card-body">
             <span class="title">Pricing Details</span>
             <div class="graph-container">
-              <pf-job-pricing-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-graph>
+              <pf-job-pricing-base-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-base-graph>
+              <pf-job-pricing-tcc-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId"></pf-job-pricing-tcc-graph>
             </div>
             <div class="card mb-3">
               <div>
@@ -54,7 +55,7 @@
                     </button>
                   </div>
                 </div>
-                <pf-market-data [jobPricing]="jobPricing" (reloadJobPricing)="handlePricingChanged()"></pf-market-data>
+                <pf-market-data [jobPricing]="jobPricing" (marketDataUpdated)="handleMarketDataUpdated()" (reloadJobPricing)="handlePricingChanged()"></pf-market-data>
               </div>
             </div>
           </div>

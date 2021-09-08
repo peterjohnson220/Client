@@ -1,57 +1,82 @@
 import { Action } from '@ngrx/store';
 
-import { EmployeesBasePayModel } from 'libs/models/payfactors-api/company/response/employees-base-pay-model.model';
+import { EmployeesPayModel } from 'libs/models/payfactors-api/company/response/employees-pay-model.model';
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
 
-export const GET_PRICING_DATA = '[Base Pay Graph] Get Pricing Data';
-export const GET_PRICING_DATA_SUCCESS = '[Base Pay Graph] Get Pricing Data Success';
-export const GET_PRICING_DATA_ERROR = '[Base Pay Graph] Get Pricing Data Error';
+export const GET_BASE_PRICING_DATA = '[Job Pricing Graph] Get Base Pricing Data';
+export const GET_BASE_PRICING_DATA_SUCCESS = '[Job Pricing Graph] Get Base Pricing Data Success';
+export const GET_BASE_PRICING_DATA_ERROR = '[Job Pricing Graph] Get Base Pricing Data Error';
 
-export const LOAD_BASE_PAY_DATA = '[Base Pay Graph] Get Base Pay Data';
-export const LOAD_BASE_PAY_DATA_SUCCESS = '[Base Pay Graph] Get Base Pay Data Success';
-export const LOAD_BASE_PAY_DATA_ERROR = '[Base Pay Graph] Get Base Pay Data Error';
+export const GET_TCC_PRICING_DATA = '[Job Pricing Graph] Get TCC Pricing Data';
+export const GET_TCC_PRICING_DATA_SUCCESS = '[Job Pricing Graph] Get TCC Pricing Data Success';
+export const GET_TCC_PRICING_DATA_ERROR = '[Job Pricing Graph] Get TCC Pricing Data Error';
 
-export class GetPricingData implements Action {
-  readonly type = GET_PRICING_DATA;
+export const LOAD_GRAPH_PAY_DATA = '[Job Pricing Graph] Get Graph Pay Data';
+export const LOAD_GRAPH_PAY_DATA_SUCCESS = '[Job Pricing Graph] Get Graph Pay Data Success';
+export const LOAD_GRAPH_PAY_DATA_ERROR = '[Job Pricing Graph] Get Graph Pay Data Error';
 
-  constructor(public jobId: number, public paymarketId: number) {}
+export class GetBasePricingData implements Action {
+  readonly type = GET_BASE_PRICING_DATA;
+
+  constructor(public jobId: number, public paymarketId: number, public payData: EmployeesPayModel[]) {}
 }
 
-export class GetPricingDataSuccess implements Action {
-  readonly type = GET_PRICING_DATA_SUCCESS;
+export class GetBasePricingDataSuccess implements Action {
+  readonly type = GET_BASE_PRICING_DATA_SUCCESS;
 
-  constructor(public pricing: PricingForPayGraph) {}
+  constructor(public pricing: PricingForPayGraph, public payData: EmployeesPayModel[]) {}
 }
 
-export class GetPricingDataError implements Action {
-  readonly type = GET_PRICING_DATA_ERROR;
+export class GetBasePricingDataError implements Action {
+  readonly type = GET_BASE_PRICING_DATA_ERROR;
 
   constructor(public payload: any) {}
 }
 
-export class LoadBasePayData implements Action {
-  readonly type = LOAD_BASE_PAY_DATA;
+export class GetTccPricingData implements Action {
+  readonly type = GET_TCC_PRICING_DATA;
 
-  constructor(public jobId: number, public paymarketId: number, public pricing: PricingForPayGraph) {}
+  constructor(public jobId: number, public paymarketId: number, public payData: EmployeesPayModel[]) {}
 }
 
-export class LoadBasePayDataSuccess implements Action {
-  readonly type = LOAD_BASE_PAY_DATA_SUCCESS;
+export class GetTccPricingDataSuccess implements Action {
+  readonly type = GET_TCC_PRICING_DATA_SUCCESS;
 
-  constructor(public pricing: PricingForPayGraph, public basePay: EmployeesBasePayModel[]) {}
+  constructor(public pricing: PricingForPayGraph, public payData: EmployeesPayModel[]) {}
 }
 
-export class LoadBasePayDataError implements Action {
-  readonly type = LOAD_BASE_PAY_DATA_ERROR;
+export class GetTccPricingDataError implements Action {
+  readonly type = GET_TCC_PRICING_DATA_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+export class LoadGraphPayData implements Action {
+  readonly type = LOAD_GRAPH_PAY_DATA;
+
+  constructor(public jobId: number, public paymarketId: number) {}
+}
+
+export class LoadGraphPayDataSuccess implements Action {
+  readonly type = LOAD_GRAPH_PAY_DATA_SUCCESS;
+
+  constructor(public payData: EmployeesPayModel[]) {}
+}
+
+export class LoadGraphPayDataError implements Action {
+  readonly type = LOAD_GRAPH_PAY_DATA_ERROR;
 
   constructor(public payload: any) {}
 }
 
 export type Actions
-  = GetPricingData
-  | GetPricingDataSuccess
-  | GetPricingDataError
-  | LoadBasePayData
-  | LoadBasePayDataSuccess
-  | LoadBasePayDataError;
+  = GetBasePricingData
+  | GetBasePricingDataSuccess
+  | GetBasePricingDataError
+  | GetTccPricingData
+  | GetTccPricingDataSuccess
+  | GetTccPricingDataError
+  | LoadGraphPayData
+  | LoadGraphPayDataSuccess
+  | LoadGraphPayDataError;
 

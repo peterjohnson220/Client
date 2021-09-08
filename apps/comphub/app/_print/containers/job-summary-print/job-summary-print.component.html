@@ -29,8 +29,8 @@
         </section>
         <section class="border-bottom">
           <h2 class="page-header-padding">Pricing Details</h2>
-          <div><pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [payType]="'Base'"></pf-csd-pricing-graph></div>
-          <div><pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [payType]="'TCC'"></pf-csd-pricing-graph></div>
+          <div><pf-csd-pricing-graph [csdPricingData]="this.basePayGraph" [graphType]="PricingGraphTypeEnum.Base"></pf-csd-pricing-graph></div>
+          <div><pf-csd-pricing-graph [csdPricingData]="this.tccPayGraph" [graphType]="PricingGraphTypeEnum.TCC"></pf-csd-pricing-graph></div>
         </section>
         <section *ngIf="!!jobSummaryPrintData">
           <div class="card">

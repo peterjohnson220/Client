@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { DataSummaryReportData, JobSummaryPrintData } from 'libs/models/comphub';
 import { PricingForPayGraph } from 'libs/models/payfactors-api';
+import { PricingGraphTypeEnum } from 'libs/features/pricings/job-pricing-graph/models/pricing-graph-type.enum';
 
 import { PrintConstants } from '../../constants';
 import * as fromComphubPrintReducer from '../../reducers';
@@ -35,6 +36,7 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
   currentYear: number;
   basePayGraph: PricingForPayGraph;
   tccPayGraph: PricingForPayGraph;
+  PricingGraphTypeEnum = PricingGraphTypeEnum;
 
   constructor(
     private store: Store<fromComphubPrintReducer.State>,

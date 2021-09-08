@@ -8,6 +8,7 @@ import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
 import { Rates, RateType } from 'libs/data/data-sets';
 import { KendoDropDownItem } from 'libs/models';
 import { GetCrowdSourcedJobPricingRequest, PricingForPayGraph } from 'libs/models/payfactors-api';
+import { PricingGraphTypeEnum } from 'libs/features/pricings/job-pricing-graph/models/pricing-graph-type.enum';
 
 import { ComphubPages } from '../../../../_shared/data';
 import { MarketDataScope, WorkflowContext } from '../../../../_shared/models';
@@ -57,6 +58,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   displayRates: PercentileRateDisplay[];
   selectedBaseValue: number;
   selectedTccValue: number;
+  PricingGraphTypeEnum = PricingGraphTypeEnum;
 
   constructor(
     private store: Store<fromComphubSharedReducer.State>,

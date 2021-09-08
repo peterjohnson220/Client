@@ -3,23 +3,25 @@ import { CommonModule } from '@angular/common';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { JobPricingGraphComponent } from './job-pricing-graph/job-pricing-graph.component';
+import { JobPricingBaseGraphComponent } from './containers/job-pricing-base-graph/job-pricing-base-graph.component';
+import { JobPricingTccGraphComponent } from './containers/job-pricing-tcc-graph/job-pricing-tcc-graph.component';
+import { CsdPricingGraphComponent } from './containers/csd-pricing-graph/csd-pricing-graph.component';
 import { JobPricingGraphEffects } from './effects/job-pricing-graph.effects';
 import { reducers } from './reducers';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { CsdPricingGraphComponent } from './csd-pricing-graph/csd-pricing-graph.component';
 
 @NgModule({
   declarations: [
-    JobPricingGraphComponent,
+    JobPricingBaseGraphComponent,
+    JobPricingTccGraphComponent,
     CsdPricingGraphComponent
   ],
   imports: [
     CommonModule,
-    StoreModule.forFeature('feature_base_pay_graph', reducers),
+    StoreModule.forFeature('feature_job_pricing_graph', reducers),
     EffectsModule.forFeature([
       JobPricingGraphEffects,
     ]),
@@ -27,7 +29,8 @@ import { CsdPricingGraphComponent } from './csd-pricing-graph/csd-pricing-graph.
     HighchartsChartModule
   ],
   exports: [
-    JobPricingGraphComponent,
+    JobPricingBaseGraphComponent,
+    JobPricingTccGraphComponent,
     CsdPricingGraphComponent
   ]
 })

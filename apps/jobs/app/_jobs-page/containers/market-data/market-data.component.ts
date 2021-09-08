@@ -30,6 +30,7 @@ import { WeightAdjustModalComponent } from '../weight-adjust-modal';
 export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   @Input() jobPricing: MarketDataJobPricing;
   @Output() reloadJobPricing: EventEmitter<any> = new EventEmitter();
+  @Output() marketDataUpdated: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(WeightAdjustModalComponent, { static: true }) weightAdjustModalComponent: WeightAdjustModalComponent;
 
@@ -84,6 +85,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
     ).subscribe(data => {
       if (this.jobPricing.PricingId) {
         this.getData();
+        this.marketDataUpdated.emit();
       } else {
         this.reloadJobPricing.emit();
       }
@@ -111,6 +113,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
           this.reloadJobPricing.emit();
         } else {
           this.getData();
+          this.marketDataUpdated.emit();
         }
       });
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);

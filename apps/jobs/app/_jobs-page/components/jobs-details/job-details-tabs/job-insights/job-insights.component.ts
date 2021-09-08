@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { ActionsSubject, Store } from '@ngrx/store';
 import { forkJoin, Observable, Subscription } from 'rxjs';
@@ -23,6 +23,8 @@ import * as fromSearchPageActions from 'libs/features/search/search/actions/sear
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
 import * as fromJobInsightsReducer from 'libs/features/jobs/job-insights/reducers';
+import { JobPricingBaseGraphComponent } from 'libs/features/pricings/job-pricing-graph/containers/job-pricing-base-graph/job-pricing-base-graph.component';
+import { JobPricingTccGraphComponent } from 'libs/features/pricings/job-pricing-graph/containers/job-pricing-tcc-graph/job-pricing-tcc-graph.component';
 
 import * as fromJobsPageReducer from '../../../../reducers';
 import { MarketDataJobPricing } from '../../../../models';
@@ -55,6 +57,8 @@ export class JobInsightsComponent extends AbstractJobInsightsComponent implement
   isJobCustomFieldsLoaded: boolean;
   jobPricing: MarketDataJobPricing;
   restrictSurveySearchToPaymarketCountry: boolean;
+  @ViewChild(JobPricingBaseGraphComponent) BaseGraph: JobPricingBaseGraphComponent;
+  @ViewChild(JobPricingTccGraphComponent) TCCGraph: JobPricingTccGraphComponent;
 
   constructor(
     private store: Store<fromJobsPageReducer.State>,
@@ -123,6 +127,12 @@ export class JobInsightsComponent extends AbstractJobInsightsComponent implement
 
   handlePricingChanged(): void {
     this.loadJobInsights();
+    this.handleMarketDataUpdated();
+  }
+
+  handleMarketDataUpdated(): void {
+    this.BaseGraph.refreshData();
+    this.TCCGraph.refreshData();
   }
 
   openAddDataModal(): void {
