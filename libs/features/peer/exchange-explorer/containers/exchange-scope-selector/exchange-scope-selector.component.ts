@@ -34,6 +34,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   selectedExchangeScopeItem$: Observable<ExchangeScopeItem>;
   inDeleteScopeMode$: Observable<boolean>;
   defaultExchangeScopeId$: Observable<number>;
+  isForcedByExchange$: Observable<boolean>;
 
   inDeleteModeSubscription: Subscription;
   scopeToDeleteSubscription: Subscription;
@@ -63,6 +64,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
     this.deletingExchangeScope$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getDeletingExchangeScope));
     this.inDeleteScopeMode$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getInDeleteExchangeScopeMode));
     this.scopeToDelete$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getExchangeScopeToDelete));
+    this.isForcedByExchange$ = this.store.pipe(select(fromLibsExchangeExplorerReducers.getIsForcedByExchange));
     this.scrollId = ScrollIdConstants.EXCHANGE_SCOPES;
   }
 

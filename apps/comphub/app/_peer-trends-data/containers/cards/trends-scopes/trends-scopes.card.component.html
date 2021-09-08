@@ -7,10 +7,11 @@
   <ng-container page-content>
     <pf-exchange-explorer *ngIf="displayMap"
                           [shouldShowPayMarketBoundsFilter]="true"
-                          [shouldShowExchangeScopeSelector]="false"
+                          [shouldShowExchangeScopeSelector]="true"
                           [jobSelectorRequiresPayMarket]="false"
                           [exchangeJobSelectorStatic]="true"
-                          [shouldShowExchangeJobSelector]="false">
+                          [shouldShowExchangeJobSelector]="false"
+                          [exchangeScopeSelectorRequiresPayMarket]="false">
       <ng-container map-footer>
 
       </ng-container>

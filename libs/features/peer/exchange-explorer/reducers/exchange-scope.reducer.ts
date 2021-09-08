@@ -20,6 +20,7 @@ export interface State {
   includeStandardScopes: boolean;
   exchangeScopeNameFilter: string;
   exchangeScopes: ExchangeScopeItem[];
+  isForceByExchange: boolean;
 }
 
 // Initial State
@@ -39,7 +40,8 @@ export const initialState: State = {
   includeCompanyScopes: true,
   includeStandardScopes: false,
   exchangeScopeNameFilter: '',
-  exchangeScopes: []
+  exchangeScopes: [],
+  isForceByExchange: false
 
 };
 
@@ -197,6 +199,12 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
         exchangeScopeNameFilter: action.payload
       };
     }
+    case fromExchangeScopeActions.SET_IS_FORCED_BY_EXCHANGE: {
+      return {
+        ...state,
+        isForceByExchange: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -220,3 +228,4 @@ export const getIncludeCompanyScopes = (state: State) => state.includeCompanySco
 export const getIncludeStandardScopes = (state: State) => state.includeStandardScopes;
 export const getExchangeScopes = (state: State) => state.exchangeScopes;
 export const getExchangeScopeNameFilter = (state: State) => state.exchangeScopeNameFilter;
+export const getIsForcedByExchange = (state: State) => state.isForceByExchange;

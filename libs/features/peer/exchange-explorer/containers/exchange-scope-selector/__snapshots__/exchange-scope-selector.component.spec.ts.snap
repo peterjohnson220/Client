@@ -15,6 +15,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -108,6 +109,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -201,6 +203,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -293,6 +296,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -384,6 +388,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   exchangeScopeItemsSubscription={[Function Subscriber]}
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -477,6 +482,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific={[Function Boolean]}
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"
@@ -570,6 +576,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   inDeleteModeSubscription={[Function Subscriber]}
   inDeleteScopeMode$={[Function Store]}
   isExchangeJobSpecific="false"
+  isForcedByExchange$={[Function Store]}
   isInitialLoad={[Function Boolean]}
   popover={[Function NgbPopover]}
   scopeToDelete="null"

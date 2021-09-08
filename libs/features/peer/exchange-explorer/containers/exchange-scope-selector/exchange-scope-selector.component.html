@@ -68,7 +68,7 @@
                           <fa-icon *ngIf="exchangeScopeItem.IsDefault" [icon]="['fas', 'star']" class="action-icon d-inline-flex solid-star"></fa-icon>
                           <fa-icon *ngIf="!exchangeScopeItem.IsDefault" [icon]="['far', 'star']" class="action-icon d-inline-flex"></fa-icon>
                         </button>
-                        <button *ngIf="!isExchangeJobSpecific"
+                        <button *ngIf="!isExchangeJobSpecific && !(isForcedByExchange$ | async)"
                                 [title]="exchangeScopeItem.CanDelete ? 'Delete' : 'Exchange scope can not be deleted because it is linked to a Pay Market.'"
                                 class="btn btn-sm btn-secondary delete-btn"
                                 [disabled]="deleteMode || (exchangeScopeItem.CanDelete == false)"
