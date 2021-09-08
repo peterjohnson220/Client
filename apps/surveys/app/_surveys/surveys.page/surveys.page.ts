@@ -149,6 +149,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
   exportRequest: any;
   enableFileDownloadSecurityWarning = false;
   additionalDataForExport: any;
+  selectedRecordIds: number[];
 
   constructor(
     private store: Store<fromSurveysPageReducer.State>,
@@ -239,6 +240,7 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       if (exportData) {
         this.exportOptions = cloneDeep(exportData);
         this.exportInProgress = exportData.some(d => d.Exporting.loading);
+        this.updateSurveyReportOption();
       }
     });
     this.companySettingsSubscription = this.store.select(fromRootState.getCompanySettings).subscribe(cs => {
@@ -247,8 +249,8 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.selectedRecordIdsSubscription = this.store.select(fromPfDataGridReducer.getSelectedKeys, this.pageViewId).subscribe(sk => {
-      const surveyReport = this.exportOptions.find(x => x.Name === 'Survey Report');
-      surveyReport.RequiresSelection = !sk?.length;
+      this.selectedRecordIds = sk;
+      this.updateSurveyReportOption();
     });
     window.addEventListener('scroll', this.scroll, true);
     this.openedSurveyDataGridsSubscription = this.openedSurveyDataGrids$.subscribe(grids => this.openedSurveyDataGrids = grids);
@@ -481,6 +483,11 @@ export class SurveysPageComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.store.dispatch(new fromPfDataGridActions.ClearFilter(this.pageViewId, field));
     }
+  }
+
+  private updateSurveyReportOption(): void {
+    const surveyReport = this.exportOptions.find(x => x.Name === 'Survey Report');
+    surveyReport.RequiresSelection =  !this.selectedRecordIds?.length;
   }
 
   private updateMatchedFilter(fields: ViewField[]): void {
