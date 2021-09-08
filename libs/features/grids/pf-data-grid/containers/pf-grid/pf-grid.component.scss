@@ -92,6 +92,10 @@
   .k-grid-header .k-header.text-right .k-link > .k-column-title {
     order: 1;
   }
+
+  .k-grid-norecords {
+    text-align: left;
+  }
 }
 
 .pf-data-grid-header.no-sort-controls .k-link > .k-icon,
