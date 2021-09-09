@@ -170,7 +170,6 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   }
 
   configureTabs(template: ProjectTemplateFields) {
-    const allAccordionIds = [];
     this.templateConfiguration = this.templateConfiguration || {};
     template.Fields.TemplateFields.forEach(t => {
       this.templateConfiguration[t.ModalTab] = this.templateConfiguration[t.ModalTab] || {};
