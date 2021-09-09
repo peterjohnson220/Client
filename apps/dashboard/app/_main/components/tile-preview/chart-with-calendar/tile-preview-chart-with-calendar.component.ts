@@ -53,6 +53,11 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
     });
   }
 
+  get isCategoryValuePartialPercentage(): boolean {
+    const categoryValue = parseInt(this.model.ComponentData.TileRightPart.CategoryValue, 10);
+    return categoryValue > 0 && categoryValue < 100;
+  }
+
   ngOnInit(): void {
     if (this.model.ComponentData && this.model.ComponentData.TileMiddlePart) {
       this.selectedDate = new Date(this.model.ComponentData.TileMiddlePart.SelectedDate);
