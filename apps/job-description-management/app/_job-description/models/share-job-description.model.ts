@@ -7,9 +7,12 @@ export interface ShareJobEmail {
   UserPicture?: string;
 }
 
-export interface SharedJobDescription {
-  SharedTo: ShareJobEmail;
-  SharedBy: string;
-  SharedDate: Date;
-  ExpirationDate?: Date;
+export interface SharedJobDescriptionUser {
+  EmailAddress: string;
+  FirstName: string;
+  LastName: string;
+  SharedByEmail: string;
+  SharedByFirstName: string;
+  SharedByLastName: string;
+  ShareDate: Date;
 }
