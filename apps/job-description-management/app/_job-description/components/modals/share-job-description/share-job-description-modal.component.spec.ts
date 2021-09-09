@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SharedJobDescription } from '../../../models';
 import { Observable, Subscriber } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
