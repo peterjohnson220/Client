@@ -5,7 +5,7 @@
         <div *ngFor="let opt of exportOptions; let idx=index;" class="p-2" [ngClass]="idx !== exportOptions.length - 1 ? 'list-group-border' : 'last-item'">
           <div class="d-flex align-items-center">
             <div class="export-description-container">
-              <span>{{opt.Display}}</span>
+              <span [class.gray-text]="opt.RequiresSelection">{{opt.Display}}</span>
               <small class="export-desc">{{opt.Description}}</small>
             </div>
             <div class="export-btn-group space-out-children pl-2 d-flex">
@@ -30,6 +30,7 @@
                         [title]="exportTitleText(opt.Custom, opt.RequiresSelection)"
                         [ngClass]="opt.ValidExtensions.indexOf('xlsx') > -1 ? '' : 'hidden'"
                         class="btn btn-secondary export-excel"
+                        [class.not-allowed]="opt.RequiresSelection"
                         (click)="handleExportClicked(opt, 'xlsx');$event.stopPropagation();"
                         [attr.data-qa-id]="'btn-export='+opt.Name+'-excel'"
                 >
