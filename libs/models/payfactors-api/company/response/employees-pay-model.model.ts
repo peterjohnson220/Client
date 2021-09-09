@@ -1,4 +1,5 @@
 export interface EmployeesPayModel {
+  CompanyEmployeeId: number;
   EmployeeFirstName: string;
   EmployeeLastName: string;
   Base: number;

@@ -27,9 +27,8 @@
         <span class="section-title font-weight-600">Pricing Details</span>
         <ng-container *ngIf="jobInsights.JobPricingId">
           <div class="graph-container">
-            <div class="mt-2 section-text">Base Pay</div>
-            <pf-job-pricing-base-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [showPayLabel]="false" [marginLeft]="10"></pf-job-pricing-base-graph>
-            <pf-job-pricing-tcc-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [showPayLabel]="false" [marginLeft]="10"></pf-job-pricing-tcc-graph>
+            <pf-job-pricing-base-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [chartSettings]="basePayChartSettings"></pf-job-pricing-base-graph>
+            <pf-job-pricing-tcc-graph [paymarketId]="companyPayMarketId" [companyJobId]="companyJobId" [chartSettings]="totalCashChartSettings"></pf-job-pricing-tcc-graph>
           </div>
         </ng-container>
         <div *ngIf="!jobInsights.JobPricingId">

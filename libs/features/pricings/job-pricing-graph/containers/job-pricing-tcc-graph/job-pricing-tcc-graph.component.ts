@@ -6,10 +6,9 @@ import { ofType } from '@ngrx/effects';
 import { Observable, Subscription } from 'rxjs';
 
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
-import { EmployeesPayModel } from 'libs/models/payfactors-api/company/response';
 import { AsyncStateObj } from 'libs/models/state';
 
-import { PricingGraphTypeEnum } from '../../models/pricing-graph-type.enum';
+import { PricingGraphTypeEnum, getDefaultChartSettings } from '../../models';
 import { JobPricingGraphService } from '../../services/job-pricing-graph.service';
 import * as fromJobPricingGraphReducer from '../../reducers';
 import * as fromJobPricingGraphActions from '../../actions';
@@ -21,28 +20,27 @@ import { AbstractJobPricingGraphDirective } from '../common/abstract-job-pricing
   styleUrls: ['./job-pricing-tcc-graph.component.scss', '../../styles/graph-styles.scss']
 })
 export class JobPricingTccGraphComponent extends AbstractJobPricingGraphDirective implements OnInit, OnDestroy {
+  pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
+
+  dataUpdatedSubscription: Subscription;
+  payDataSuccessSubscription: Subscription;
+
+  chartRef: Highcharts.Chart;
 
   constructor(
     private store: Store<fromJobPricingGraphReducer.State>,
     private actionsSubject: ActionsSubject
   ) {
     super(store);
+    this.graphType = PricingGraphTypeEnum.TCC;
+    this.chartSettings = {
+      ...getDefaultChartSettings(),
+      PayLabel: 'Total Cash'
+    };
   }
 
-  dataUpdatedSubscription: Subscription;
-  payDataSuccessSubscription: Subscription;
-
-  chartRef: Highcharts.Chart;
-  graphType = PricingGraphTypeEnum.TCC;
-
-  isValidPricingData: boolean;
-  pricingData: PricingForPayGraph;
-  payData: EmployeesPayModel[];
-
-  pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
-
   ngOnInit(): void {
-
+    this.chartOptions = JobPricingGraphService.getPricingGraphChartOptions(this.chartSettings);
     this.pricingData$ = this.store.select(fromJobPricingGraphReducer.getTCCPricing);
 
     this.payDataSuccessSubscription = this.actionsSubject.pipe(
@@ -74,6 +72,9 @@ export class JobPricingTccGraphComponent extends AbstractJobPricingGraphDirectiv
   }
 
   updateChartData(): void {
+    if (!this.pricingData) {
+      return;
+    }
     const scatterData = [];
     const counts = {};
     let payDataValues = [];
@@ -91,8 +92,7 @@ export class JobPricingTccGraphComponent extends AbstractJobPricingGraphDirectiv
         scatterData.push(JobPricingGraphService.formatScatterData(x, this.pricingData, counts[x.TCC], this.userLocale, y, pointColor));
       });
     }
-    const payLabel = this.showPayLabel ? 'Total Cash' : null;
-    super.updateChartData(scatterData, this.pricingData, payDataValues, this.isValidPricingData, this.graphType, payLabel, this.chartRef);
+    super.updateChartData(scatterData, payDataValues, this.chartRef);
   }
 }
 

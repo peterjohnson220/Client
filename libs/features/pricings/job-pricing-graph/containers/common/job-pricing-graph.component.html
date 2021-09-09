@@ -1,21 +1,28 @@
-<pf-async-container
-  [loading]="(pricingData$ | async)?.loading"
-  [loadingError]="(pricingData$ | async)?.loadingError"
-  [loadingErrorMessage]="'There was an error loading data for the selected Pay Market.'"
-  [hideReloadButton]="true"
->
+<ng-container>
+  <pf-async-container
+    [loading]="(pricingData$ | async)?.loading"
+    [loadingError]="(pricingData$ | async)?.loadingError"
+    [loadingErrorMessage]="'There was an error loading data.'"
+    [hideReloadButton]="true">
+  </pf-async-container>
   <ng-container *ngIf="isValidPricingData; else noDataTemplate">
-    <highcharts-chart
-      class = "chartStyle"
-      [Highcharts]="Highcharts"
-      [callbackFunction]="chartCallback"
-      [options]="chartOptions"
-    ></highcharts-chart>
+    <div *ngIf="chartSettings?.Theme === 'print'">
+      <div class="mt-2 section-text">{{chartSettings?.PayLabel}}</div>
+      <div class="mt-2 section-text">Average: {{ pricingData?.PayAvg | number: '1.1-1' }}</div>
+    </div>
+    <div class="px-3">
+      <highcharts-chart
+        class = "chartStyle"
+        [Highcharts]="Highcharts"
+        [callbackFunction]="chartCallback"
+        [options]="chartOptions">
+      </highcharts-chart>
+    </div>
   </ng-container>
-</pf-async-container>
+</ng-container>
 
 <ng-template #noDataTemplate>
-  <div class="my-3 no-data-container d-flex align-items-center justify-content-center">
-    <span>No data to display.</span>
+  <div class="px-3 py-3 no-data-container d-flex align-items-center justify-content-center">
+    <span><span *ngIf="chartSettings?.PayLabel?.length">{{chartSettings.PayLabel}}: </span>No data to display.</span>
   </div>
 </ng-template>

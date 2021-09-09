@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 import { ActionsSubject, Store } from '@ngrx/store';
@@ -6,10 +6,9 @@ import { ofType } from '@ngrx/effects';
 import { Observable, Subscription } from 'rxjs';
 
 import { PricingForPayGraph } from 'libs/models/payfactors-api/pricings/response';
-import { EmployeesPayModel } from 'libs/models/payfactors-api/company/response';
 import { AsyncStateObj } from 'libs/models/state';
 
-import { PricingGraphTypeEnum } from '../../models/pricing-graph-type.enum';
+import { PricingGraphTypeEnum, getDefaultChartSettings } from '../../models';
 import { JobPricingGraphService } from '../../services/job-pricing-graph.service';
 import * as fromJobPricingGraphActions from '../../actions';
 import * as fromJobPricingGraphReducer from '../../reducers';
@@ -21,28 +20,29 @@ import { AbstractJobPricingGraphDirective } from '../common/abstract-job-pricing
   styleUrls: ['./job-pricing-base-graph.component.scss', '../../styles/graph-styles.scss']
 })
 export class JobPricingBaseGraphComponent extends AbstractJobPricingGraphDirective implements OnInit, OnDestroy {
+  @Input() companyEmployeeId: number = null;
+
+  pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
+
+  dataUpdatedSubscription: Subscription;
+  payDataSuccessSubscription: Subscription;
+
+  chartRef: Highcharts.Chart;
 
   constructor(
     private store: Store<fromJobPricingGraphReducer.State>,
     private actionsSubject: ActionsSubject
   ) {
     super(store);
+    this.graphType = PricingGraphTypeEnum.Base;
+    this.chartSettings = {
+      ...getDefaultChartSettings(),
+      PayLabel: 'Base Pay'
+    };
   }
 
-  dataUpdatedSubscription: Subscription;
-  payDataSuccessSubscription: Subscription;
-
-  chartRef: Highcharts.Chart;
-  graphType = PricingGraphTypeEnum.Base;
-
-  isValidPricingData: boolean;
-  pricingData: PricingForPayGraph;
-  payData: EmployeesPayModel[];
-
-  pricingData$: Observable<AsyncStateObj<PricingForPayGraph>>;
-
   ngOnInit(): void {
-
+    this.chartOptions = JobPricingGraphService.getPricingGraphChartOptions(this.chartSettings);
     this.pricingData$ = this.store.select(fromJobPricingGraphReducer.getBasePayPricing);
 
     this.payDataSuccessSubscription = this.actionsSubject.pipe(
@@ -74,6 +74,9 @@ export class JobPricingBaseGraphComponent extends AbstractJobPricingGraphDirecti
   }
 
   updateChartData(): void {
+    if (!this.pricingData) {
+      return;
+    }
     const scatterData = [];
     const counts = {};
     let payDataValues = [];
@@ -87,11 +90,13 @@ export class JobPricingBaseGraphComponent extends AbstractJobPricingGraphDirecti
 
       this.payData.forEach(x => {
         const y = x.Base / 1000;
-        const pointColor = (y > (this.pricingData.Pay90)) || (y < (this.pricingData.Pay10)) ? '#C3C3CA' : '#FFFFFF';
+        let pointColor = (y > (this.pricingData.Pay90)) || (y < (this.pricingData.Pay10)) ? '#C3C3CA' : '#FFFFFF';
+        if (this.companyEmployeeId === x.CompanyEmployeeId) {
+          pointColor = '#23CAEF';
+        }
         scatterData.push(JobPricingGraphService.formatScatterData(x, this.pricingData, counts[x.Base], this.userLocale, y, pointColor));
       });
     }
-    const payLabel = this.showPayLabel ? 'Base Pay' : null;
-    super.updateChartData(scatterData, this.pricingData, payDataValues, this.isValidPricingData, this.graphType, payLabel, this.chartRef);
+    super.updateChartData(scatterData, payDataValues, this.chartRef);
   }
 }

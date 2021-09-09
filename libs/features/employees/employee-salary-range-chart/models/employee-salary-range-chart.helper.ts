@@ -6,7 +6,6 @@ import { getUserLocale } from 'get-user-locale';
 
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 import { RateType } from 'libs/data/data-sets';
-import { RangeGraphHelper } from 'libs/core/helpers';
 
 import { EmployeeSalaryRangeChartConfig, EmployeeSalaryRangeChartData } from './salary-range-chart-config.model';
 

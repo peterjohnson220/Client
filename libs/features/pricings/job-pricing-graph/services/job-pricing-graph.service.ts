@@ -5,7 +5,7 @@ import { allEqual, isAscending } from 'libs/core/functions';
 import { FormattersService } from 'libs/core/services';
 import { PricingForPayGraph } from 'libs/models/payfactors-api';
 
-import { PricingGraphTypeEnum } from '../models/pricing-graph-type.enum';
+import { PricingGraphTypeEnum, JobPricingChartSettings } from '../models';
 
 export class JobPricingGraphService {
 
@@ -13,15 +13,15 @@ export class JobPricingGraphService {
     require('highcharts/modules/bullet.js')(Highcharts);
   }
 
-  static getPricingGraphChartOptions(marginLeft: number = 100): Highcharts.Options {
+  static getPricingGraphChartOptions(settings: JobPricingChartSettings): Highcharts.Options {
     return {
       chart: {
         inverted: true,
-        marginLeft: marginLeft,
-        marginBottom: 30,
-        marginRight: 20,
+        marginLeft: settings.MarginLeft,
+        marginBottom: settings.MarginBottom,
+        marginRight: settings.MarginRight,
         type: 'bullet',
-        spacingTop: 30
+        spacingTop: settings.SpacingTop
       },
       title: {
         text: null
@@ -68,37 +68,38 @@ export class JobPricingGraphService {
         },
         outside: true,
         positioner: function(labelWidth, labelHeight, point) {
+          const xValue = (point as any).plotX + this.chart.container.getBoundingClientRect().left - (labelWidth / 2) + settings.TooltipXOffset;
+          const yValue = (point as any).plotY + this.chart.container.getBoundingClientRect().top - (labelHeight / 2) + settings.TooltipYOffset;
           return {
-            x: (point as any).plotX + this.chart.container.getBoundingClientRect().left + this.chart.container.offsetLeft + 5,
-            y: (point as any).plotY + this.chart.container.getBoundingClientRect().top - labelHeight - 5
+            x: xValue,
+            y: yValue
           };
         },
       },
     };
   }
 
-  static getYAxisPlotBandsOptionsArray(data: any, graphType: PricingGraphTypeEnum, forceChartAlignment: boolean = false,
-                                       forceDecimals: boolean = false, decimalPlaces: number = 1): YAxisPlotBandsOptions[] {
+  static getYAxisPlotBandsOptionsArray(data: any, graphType: PricingGraphTypeEnum, chartSettings: JobPricingChartSettings): YAxisPlotBandsOptions[] {
     return [{
-      from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
+      from: chartSettings.ForceChartAlignment ? (data.OverallMin) : (data.Pay10),
       to: (data.Pay25),
       color: graphType === PricingGraphTypeEnum.Base ? '#193967' : '#41265c',
       label: {
-        text: forceDecimals ? (data.Pay10).toFixed(decimalPlaces) : (data.Pay10).toString(),
+        text: chartSettings.ForceDecimals ? (data.Pay10).toFixed(chartSettings.DecimalPlaces) : (data.Pay10).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
       },
       id: 'plot-band'
     }, {
-      from: forceChartAlignment ? (data.OverallMin) : (data.Pay10),
+      from: chartSettings.ForceChartAlignment ? (data.OverallMin) : (data.Pay10),
       to: (data.Pay25),
       color: graphType === PricingGraphTypeEnum.Base ? '#193967' : '#41265c',
       label: {
         text: '10th',
         verticalAlign: 'top',
         align: 'left',
-        y: -5,
+        y: chartSettings.LabelYPosition,
         x: -10
       },
       id: 'plot-band'
@@ -107,7 +108,7 @@ export class JobPricingGraphService {
       to: (data.Pay50),
       color: graphType === PricingGraphTypeEnum.Base ? '#235090' : '#5a3580',
       label: {
-        text: forceDecimals ? (data.Pay25).toFixed(decimalPlaces) : (data.Pay25).toString(),
+        text: chartSettings.ForceDecimals ? (data.Pay25).toFixed(chartSettings.DecimalPlaces) : (data.Pay25).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -121,7 +122,7 @@ export class JobPricingGraphService {
         text: '25th',
         verticalAlign: 'top',
         align: 'left',
-        y: -5,
+        y: chartSettings.LabelYPosition,
         x: -10
       },
       id: 'plot-band'
@@ -130,7 +131,7 @@ export class JobPricingGraphService {
       to: (data.Pay75),
       color: graphType === PricingGraphTypeEnum.Base ? '#2D67B9' : '#7e4ab2',
       label: {
-        text: forceDecimals ? (data.Pay50).toFixed(decimalPlaces) : (data.Pay50).toString(),
+        text: chartSettings.ForceDecimals ? (data.Pay50).toFixed(chartSettings.DecimalPlaces) : (data.Pay50).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -144,7 +145,7 @@ export class JobPricingGraphService {
         text: '50th',
         verticalAlign: 'top',
         align: 'left',
-        y: -5,
+        y: chartSettings.LabelYPosition,
         x: -10
       },
       id: 'plot-band'
@@ -153,7 +154,7 @@ export class JobPricingGraphService {
       to: (data.Pay90),
       color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
-        text: forceDecimals ? (data.Pay75).toFixed(decimalPlaces) : (data.Pay75).toString(),
+        text: chartSettings.ForceDecimals ? (data.Pay75).toFixed(chartSettings.DecimalPlaces) : (data.Pay75).toString(),
         verticalAlign: 'bottom',
         align: 'left',
         x: -10
@@ -167,16 +168,16 @@ export class JobPricingGraphService {
         text: '75th',
         verticalAlign: 'top',
         align: 'left',
-        y: -5,
+        y: chartSettings.LabelYPosition,
         x: -10
       },
       id: 'plot-band'
     }, {
       from: (data.Pay75),
-      to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
+      to: chartSettings.ForceChartAlignment ? (data.OverallMax) : (data.Pay90),
       color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
-        text: forceDecimals ? (data.Pay90).toFixed(decimalPlaces) : (data.Pay90).toString(),
+        text: chartSettings.ForceDecimals ? (data.Pay90).toFixed(chartSettings.DecimalPlaces) : (data.Pay90).toString(),
         verticalAlign: 'bottom',
         align: 'right',
         x: 20
@@ -184,13 +185,13 @@ export class JobPricingGraphService {
       id: 'plot-band'
     }, {
       from: (data.Pay75),
-      to: forceChartAlignment ? (data.OverallMax) : (data.Pay90),
+      to: chartSettings.ForceChartAlignment ? (data.OverallMax) : (data.Pay90),
       color: graphType === PricingGraphTypeEnum.Base ? '#5389D5' : '#9a70c4',
       label: {
         text: '90th',
         verticalAlign: 'top',
         align: 'right',
-        y: -5,
+        y: chartSettings.LabelYPosition,
         x: 20
       },
       id: 'plot-band',
@@ -223,9 +224,8 @@ export class JobPricingGraphService {
     chart.setSize(undefined, 1, false);
   }
 
-  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, payLabel: string = null,
-                     includeAvgLine: boolean = true, forceDecimals: boolean = false, decimalPlaces: number = 1) {
-    if (includeAvgLine) {
+  static renderGraph(chart: Highcharts.Chart, min: number, max: number, avg: number, scatterData: any, chartSettings: JobPricingChartSettings) {
+    if (chartSettings.IncludeAvgLine) {
       chart.yAxis[0].addPlotLine({
         color: '#F7A154',
         value: avg,
@@ -233,10 +233,10 @@ export class JobPricingGraphService {
         id: 'plot-line'
       });
     }
-    if (payLabel) {
-      const avgDisplay = forceDecimals ? (avg).toFixed(decimalPlaces) : avg.toString();
+    if (chartSettings.ShowPayLabel) {
+      const avgDisplay = chartSettings.ForceDecimals ? (avg).toFixed(chartSettings.DecimalPlaces) : avg.toString();
       chart.xAxis[0].setCategories(
-        ['<span style="font-size: 16px; font-weight: 500;color: #212529; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">' + payLabel + '</span><br/>' +
+        ['<span style="font-size: 16px; font-weight: 500;color: #212529; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">' + chartSettings.PayLabel + '</span><br/>' +
         '<span style="color: #212529; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji">Average: ' + avgDisplay + '</span>']
       );
     } else {
@@ -251,7 +251,7 @@ export class JobPricingGraphService {
       },
     });
 
-    chart.setSize(null, 100, false);
+    chart.setSize(null, chartSettings.Height, false);
     chart.yAxis[0].setExtremes(min, max, true);
     chart.redraw(false);
   }
