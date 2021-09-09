@@ -10,6 +10,8 @@ export interface State {
   loadingCompensableFactorsError: boolean;
   loadingEducationTypes: boolean;
   loadingEducationTypesError: boolean;
+  displayWarning: boolean;
+  selectedCount: number;
 }
 
 const initialState: State = {
@@ -17,7 +19,9 @@ const initialState: State = {
   loadingCompensableFactors: false,
   loadingCompensableFactorsError: false,
   loadingEducationTypes: false,
-  loadingEducationTypesError: false
+  loadingEducationTypesError: false,
+  displayWarning: false,
+  selectedCount: 0
 };
 
 export function reducer(state = initialState, action: fromCompensableFactorsActions.Actions): State {
@@ -52,10 +56,12 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
 
       return {
         ...state,
+        displayWarning: true,
         compensableFactors: {
           ...state.compensableFactors,
           [action.payload.compensableFactor]: factorResults
-        }
+        },
+        selectedCount: factorToUpdate.Selected ? state.selectedCount + 1 : state.selectedCount - 1
       };
     }
     case fromCompensableFactorsActions.GET_EDUCATION_TYPES:
@@ -83,6 +89,24 @@ export function reducer(state = initialState, action: fromCompensableFactorsActi
         }
       };
     }
+    case fromCompensableFactorsActions.INIT_JOB_INITIAL_PRICING: {
+      const factors = cloneDeep(state.compensableFactors);
+      Object.keys(factors).forEach(key => {
+        factors[key].map(x => x.Selected = false);
+      });
+      return {
+        ...state,
+        displayWarning: false,
+        compensableFactors: factors,
+        selectedCount: 0
+      };
+    }
+    case fromCompensableFactorsActions.DISABLE_WARNING: {
+      return{
+        ...state,
+        displayWarning: false
+      };
+    }
     default: {
       return state;
     }
@@ -101,4 +125,5 @@ export const getSelectedFactors = (state: State) => {
   }
   return selectedFactors;
 };
-
+export const getDisplayWarning = (state: State) => state.displayWarning;
+export const getSelectedCount = (state: State) => state.selectedCount;

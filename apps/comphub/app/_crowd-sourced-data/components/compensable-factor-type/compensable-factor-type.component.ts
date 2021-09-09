@@ -143,10 +143,12 @@ export class CompensableFactorTypeComponent implements OnInit, OnDestroy, AfterV
           name: this.selectedFactors[0].Name
         }));
       }
-      this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
-        compensableFactor: this.compensableFactorName,
-        name: factorName
-      }));
+      if (factorName !== 'Any') {
+        this.store.dispatch(new fromCompensableFactorsActions.ToggleSelectedCompensableFactor({
+          compensableFactor: this.compensableFactorName,
+          name: factorName
+        }));
+      }
     }
   }
 

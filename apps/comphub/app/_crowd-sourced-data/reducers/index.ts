@@ -49,6 +49,16 @@ export const getSelectedFactors = createSelector(
   fromCompensableFactorsReducer.getSelectedFactors
 );
 
+export const getDisplayWarning = createSelector(
+  selectCompensableFactorsState,
+  fromCompensableFactorsReducer.getDisplayWarning
+);
+
+export const getSelectedCount = createSelector(
+  selectCompensableFactorsState,
+  fromCompensableFactorsReducer.getSelectedCount
+);
+
 // Export Data
 
 export const getExportDataAsyncObj = createSelector(

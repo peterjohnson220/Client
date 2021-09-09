@@ -23,7 +23,7 @@ export class CompensableFactorDataMapper {
       if (!!sf.Certs) {
         factorsToSend.push({Name: 'Certs', SelectedFactors: sf.Certs.map(x => x.Name)});
       }
-      if (!!sf.Education && sf.Education[0].Name !== 'Any') {
+      if (!!sf.Education && sf.Education[0]?.Name !== 'Any') {
         factorsToSend.push({Name: 'Education', SelectedFactors: sf.Education.map(x => x.Name)});
       }
       if (!!sf.Supervisory_Role) {
