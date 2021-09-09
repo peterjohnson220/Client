@@ -19,7 +19,9 @@ export enum TileTypes {
   TotalRewards = 'TotalRewards',
   DataManagement = 'DataManagement',
   InternationalData = 'InternationalData',
-  WhatIsNew = 'WhatIsNew'
+  WhatIsNew = 'WhatIsNew',
+  PayEquity = 'PayEquity',
+  MeritPlanning = 'MeritPlanning'
 }
 
 export class TileType {
@@ -45,6 +47,8 @@ export class TileType {
   DataManagement = TileTypes.DataManagement;
   InternationalData = TileTypes.InternationalData;
   WhatIsNew = TileTypes.WhatIsNew;
+  PayEquity = TileTypes.PayEquity;
+  MeritPlanning = TileTypes.MeritPlanning;
 
   constructor() {
     this.AllTypes = [
@@ -67,7 +71,9 @@ export class TileType {
       TileTypes.TotalRewards,
       TileTypes.DataManagement,
       TileTypes.InternationalData,
-      TileTypes.WhatIsNew
+      TileTypes.WhatIsNew,
+      TileTypes.PayEquity,
+      TileTypes.MeritPlanning
     ];
   }
 }

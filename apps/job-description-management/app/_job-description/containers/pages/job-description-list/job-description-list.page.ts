@@ -430,7 +430,7 @@ export class JobDescriptionListPageComponent implements OnInit, OnDestroy {
   }
   
   openBulkRouteJobDescriptions() {
-    if ( !this.isPublic) {
+    if (!this.isPublic) {
       const selectedJobIds = Array.from( this.selectedJobDescriptions.values()).map(x => x.CompanyJobId);
       this.store.dispatch(new fromWorkflowTemplateListActions.Load(selectedJobIds));
     }

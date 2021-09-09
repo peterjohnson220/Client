@@ -1,0 +1,16 @@
+<label class="badge badge-pill avatar-chip mx-1 mt-2" [ngClass]="{'workflow-user-forbidden' : user.Permissions?.length === 0}">
+    <ng-container *ngIf="isUserImg(); then userImg; else userDefault"></ng-container>
+    <ng-template #userImg>
+        <img class="avatar ml-n2" [src]="avatarUrl + user.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}">
+    </ng-template>
+    <ng-template #userDefault>
+        <span *ngIf="user.UserId" class="user-initials ml-n2">{{getUserInitials()}}</span>
+        <span *ngIf="!user.UserId" class="at-sign ml-n2">@</span>
+    </ng-template>	
+
+    <span class="user-name text-muted mx-2" [autoClose]="false" triggers="manual" #displayNameTooltip="ngbTooltip" 
+        ngbTooltip="{{getDisplayName()}}" (mouseover)="showDisplayNameTooltip(displayNameTooltip)" 
+        (mouseleave)="hideDisplayNameTooltip(displayNameTooltip)">{{getDisplayName() | TruncateAfter: displayNameThreshold}}</span>
+
+    <span *ngIf="removeIcon" class="remove-icon text-muted mx-1" aria-hidden="true" (click)="handleRemoveClicked()">&times;</span>
+</label>

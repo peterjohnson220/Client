@@ -7,3 +7,4 @@ export * from './job-family.effects';
 export * from './shared-workflow.effects';
 export * from './template-list.effects';
 export * from './workflow-config.effects';
+export * from './collaboration-workflow-config.effects';

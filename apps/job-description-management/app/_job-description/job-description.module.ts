@@ -45,6 +45,7 @@ import {
   WorkflowSetupModalComponent,
   JobDescriptionWorkflowComparePageComponent,
   JobDescriptionInboxPageComponent,
+  JobDescriptionCollaborationPageComponent,
   JobDescriptionInboxGridComponent
 } from './containers';
 import {
@@ -100,6 +101,8 @@ import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from '.
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
 import { WorkflowStepComponent } from './components/workflow/workflow-step/workflow-step.component';
+import { JobDescriptionWorkflowPanelComponent } from './containers/pages/job-description-workflow-panel/job-description-workflow-panel.component';
+import { ApprovalsWorkflowSetupComponent } from './containers/approvals-workflow-setup/approvals-workflow-setup.component';
 import { SharePermissionsPanelComponent } from './components/share-permissions-panel';
 
 @NgModule({
@@ -197,6 +200,7 @@ import { SharePermissionsPanelComponent } from './components/share-permissions-p
     WorkflowWatchSidebarComponent,
     JobDescriptionWorkflowComparePageComponent,
     JobDescriptionInboxPageComponent,
+    JobDescriptionCollaborationPageComponent,
 
     // Containers
     JobDescriptionActionsComponent,
@@ -212,7 +216,9 @@ import { SharePermissionsPanelComponent } from './components/share-permissions-p
     ListAreaColumnSearchPipe,
     UserFilterSearchPipe,
     BulkExportJobDescriptionModalComponent,
-    WorkflowStepComponent
+    WorkflowStepComponent,
+    JobDescriptionWorkflowPanelComponent,
+    ApprovalsWorkflowSetupComponent
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,

@@ -1,0 +1,22 @@
+<pf-page-with-title-bar [returnUrl]="'/job-descriptions'">
+  <ng-container page-title>Job Description Collaboration - userId: {{userId}} | isLeader: {{isLeader}}</ng-container>
+  <ng-container page-content>
+      <div>
+        <label for="boundText" class="p-2">Bound Text:</label>
+        <input id="boundText" type="text" [ngModel]="boundText" (ngModelChange)="boundTextChanged($event)"/>
+      </div>
+      <div>
+        <label for="countries" class="p-2">Choose a country:</label>
+        <select id="countries" [ngModel]="selectedCountry" (ngModelChange)="selectedCountryChanged($event)">
+          <option *ngFor="let c of countries" [value]="c.id">{{c.name}}</option>
+        </select>
+      </div>
+      <div *ngFor="let vehicle of vehicles" class="m-2">
+        <input type="checkbox" (click)="selectedVehicleChanged(vehicle.name, $event.target.checked)"
+               [checked]="selectedVehicles.indexOf(vehicle.name) > -1"/>
+        {{ vehicle.name }}
+      </div>
+    <div id="richTextQuillEditor"></div>
+    <div id="smartListQuillEditor"></div>
+  </ng-container>
+</pf-page-with-title-bar>

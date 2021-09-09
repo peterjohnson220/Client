@@ -170,7 +170,9 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep: boolean;
   controlTypes: ControlType[];
   isInSystemWorkflow: boolean;
+  showWorkflow = false;
   showSharePermissionsPanel: boolean = false;
+  jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
   jdmLibrarySkillsFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmLibrarySkills, value: false };
 
   get isJobDescriptionEditable() {
@@ -232,6 +234,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
+    this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
     this.featureFlagService.bindEnabled(this.jdmLibrarySkillsFeatureFlag, this.unsubscribe$);
   }
 
@@ -339,6 +342,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.handleShowLibrary(!this.showLibrary);
   }
 
+  toggleWorkflowPanel() {
+    this.handleShowWorkflowPanel(!this.showWorkflow);
+  }
+
   handleControlDataRowDeleted(dataRowDeletedObj: any) {
     this.store.dispatch(new fromJobDescriptionActions.RemoveControlDataRow({
       jobDescriptionControl: dataRowDeletedObj.jobDescriptionControl,
@@ -377,6 +384,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if (shouldShow) {
       this.initializeLibrary();
     }
+
+    if (this.showLibrary) {
+      this.showWorkflow = !this.showLibrary;
+    }
+  }
+
+  handleShowWorkflowPanel(shouldShow: boolean) {
+    this.showWorkflow = shouldShow;
+
+    if (this.showWorkflow) {
+      this.showLibrary = !this.showWorkflow;
+    }
   }
 
   handlePublishClicked(): void {
@@ -388,7 +407,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if ( !this.identity.IsPublic && this.jobDescription) {
       this.store.dispatch(new fromWorkflowTemplateListActions.Load([this.jobDescription.CompanyJobId]));
     }
-    this.workflowSetupModal.open();
+
+    if (this.jdmCollaborationFeatureFlag.value === true) {
+      this.toggleWorkflowPanel();
+    } else {
+      this.workflowSetupModal.open();
+    }
   }
 
   handleDiscardDraftClicked(): void {

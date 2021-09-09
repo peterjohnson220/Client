@@ -45,7 +45,7 @@
       [class.btn-primary]="!hasCanPublishJobDescriptionPermission"
       [class.btn-secondary]="hasCanPublishJobDescriptionPermission"
       (click)="handleRouteForApprovalClicked()">
-      <fa-icon icon="random" aria-hidden="true"></fa-icon> Route for Approval
+      <fa-icon icon="random" aria-hidden="true"></fa-icon> {{workflowButtonText}}
     </button>
 
     <button *ngIf="isDraft && hasCanEditJobDescriptionPermission" type="button" class="btn btn-secondary"
