@@ -4,6 +4,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShareJobEmail } from '../../../models';
 
+import { JobDescriptionSharingService } from './../../../services';
+
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'pf-share-job-description-modal',
   templateUrl: 'share-job-description-modal.component.html',
@@ -26,13 +33,17 @@ export class ShareJobDescriptionModalComponent implements OnInit {
   
   constructor(
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private jobDescriptionSharingService: JobDescriptionSharingService ,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
+
   ) {
     this.emailList = [];
     this.currentEmail = <ShareJobEmail>{};
   }
 
   ngOnInit(): void {
+    this.jobDescriptionSharingService.init();
     this.buildNonPfUserForm();
   }
 
@@ -86,8 +97,24 @@ export class ShareJobDescriptionModalComponent implements OnInit {
     setTimeout(() => document.getElementById('multi-search-input').focus(), 200);
   }
 
-  //TODO: This should take the emailList and send it to a backend to parse and send out emails to each address
   shareEmailList(): void {
+    const res = this.jobDescriptionSharingService.sendEmails(this.selectedJobDescriptions, this.emailList);
+    res.subscribe(response => {
+      const level = response.status === 200 ? NotificationLevel.Success : NotificationLevel.Error;
+      const message = response.status === 200 ? `${this.selectedJobDescriptions.size} Job description${this.selectedJobDescriptions.size > 1 ? 's' : ''} shared successfully` : `Failed to share job description${this.selectedJobDescriptions.size > 1 ? 's' : ''}`
+      const notification = {
+        NotificationId: '',
+        Level: level,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Job Description Manager',
+          Message: message
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      };
+      this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+    })
     this.modalService.dismissAll();
   }
 

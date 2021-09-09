@@ -3,11 +3,10 @@ import * as fromRootState from 'libs/state/state';
 import { Observable, Subscription } from 'rxjs';
 import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core/services';
 import { UserContext } from 'libs/models';
-import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
-import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
-import { NotificationLevel, NotificationSource, NotificationType } from 'libs/features/infrastructure/app-notifications/models';
 import { Store } from '@ngrx/store';
-import { SharedJobDescription } from '../models';
+import { SharedJobDescription, ShareJobEmail } from '../models';
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
+import { BaseUrlLocation } from 'libs/models/payfactors-api/common/base-url-location.enum';
 
 @Injectable()
 export class JobDescriptionSharingService {
@@ -16,11 +15,12 @@ export class JobDescriptionSharingService {
   private isSharingEnabled: boolean;
   private hasSharingPermission: boolean;
   private isInitialized: boolean;
+  private endpoint = 'JobDescriptionSharing';
 
   constructor(
     private featureFlagService: AbstractFeatureFlagService,
     private userContextStore: Store<fromRootState.State>,
-    private notificationStore: Store<fromAppNotificationsMainReducer.State>
+    private payfactorsApiService: PayfactorsApiService
   ) {
     this.identity$ = this.userContextStore.select(fromRootState.getUserContext);
   }
@@ -41,6 +41,23 @@ export class JobDescriptionSharingService {
 
   allowSharing(): boolean {
     return this.isSharingEnabled && this.hasSharingPermission; 
+  }
+
+  // Function to send emails via sendgrid
+  sendEmails(jobDescriptions: Map<number, any>, emailList: ShareJobEmail[]): Observable<any> {
+    if(jobDescriptions && emailList) {
+      // Break the emailList into internal and external, internals will have a userId
+      const internalUserIds = [];
+      const externalUserEmailAddresses = [];
+      const jobDescriptionIds = [...jobDescriptions.keys()];
+      for(const el of emailList) {
+        if(el.UserId) {
+          internalUserIds.push(el.UserId);
+        }
+        else externalUserEmailAddresses.push(el.EmailAddress);
+      }
+      return this.payfactorsApiService.post<any>(`${this.endpoint}/ShareSet`, { internalUserIds, externalUserEmailAddresses, jobDescriptionIds }, this.payfactorsApiService.extractValueFromOdata, BaseUrlLocation.Default, false, { observe: 'response' })
+    }
   }
 
   getShares(companyId: number, jobDescriptionId: number) : Observable<SharedJobDescription> {
@@ -86,21 +103,6 @@ export class JobDescriptionSharingService {
   resendEmail() {
     // TODO: Have notification dependent on the api call
     // return this.payfactorsApiService.get(`${this.endpoint}/resendEmail`, { sharedEmail, jobDescriptionId });
-    // * This notification should be dependent on the HTTP response from the apiService call
-    const notification = {
-      NotificationId: '',
-      Level: NotificationLevel.Success,
-      From: NotificationSource.GenericNotificationMessage,
-      Payload: {
-        Message: 'Email successfully sent'
-      },
-      EnableHtml: true,
-      Type: NotificationType.Event
-    };
-    this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
-    return new Promise((resolve, reject) => {
-      resolve(200)
-    })
   }
 
   destroy() {

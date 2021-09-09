@@ -52,10 +52,7 @@ export class SharePermissionsPanelComponent implements OnInit, OnDestroy {
 
   // * This should handle sending a request to resend an email to that user
   handleResendEmailClicked(share): void {
-    this.jobDescriptionSharingService.resendEmail().then(res => {
-      console.log('resendEmail call returned 200');
-    }).catch(err => console.log('resendEmail call did not return 200', err));
-    console.log('handleResendEmailClicked', share);
+    this.jobDescriptionSharingService.resendEmail();
   }
 
 }
