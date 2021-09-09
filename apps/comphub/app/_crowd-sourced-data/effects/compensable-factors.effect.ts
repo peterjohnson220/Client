@@ -89,9 +89,8 @@ export class CompensableFactorsEffect {
       ofType(fromCompensableFactorsActions.GET_EDUCATION_TYPES),
       withLatestFrom(
         this.sharedStore.select(fromComphubCsdReducer.getCompensableFactors),
-        this.sharedStore.select(fromComphubSharedReducer.getSelectedPaymarket),
-        (action: fromCompensableFactorsActions.GetEducationTypes, compensableFactors, selectedPayMarket) =>
-          ({ action, compensableFactors, selectedPayMarket })
+        (action: fromCompensableFactorsActions.GetEducationTypes, compensableFactors) =>
+          ({ action, compensableFactors })
       ),
       switchMap((data) => {
         return this.comphubCSDApiService.getCrowdSourcedEducationTypes()
@@ -108,11 +107,7 @@ export class CompensableFactorsEffect {
               ));
 
               actions.push(new fromCompensableFactorsActions.GetEducationTypesSuccess());
-
-              // We need to init pricing only if we choose pay market
-              if (data.selectedPayMarket.CompanyPayMarketId != null) {
-                actions.push(new fromCompensableFactorsActions.InitJobInitialPricing());
-              }
+              actions.push(new fromCompensableFactorsActions.InitJobInitialPricing());
 
               return actions;
             }),
