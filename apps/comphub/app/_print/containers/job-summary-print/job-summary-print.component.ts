@@ -85,9 +85,9 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateDataByRate(value: number, isAnnualShortened: boolean): number {
+  calculateDataByRate(value: number): number {
     const isHourlyRate = this.jobSummaryPrintData.Rate === 'Hourly';
-    return DataCardHelper.calculateDataByRate(value, isHourlyRate, isAnnualShortened);
+    return DataCardHelper.calculateDataByRate(value, isHourlyRate, true);
   }
 
   ngOnInit(): void {
@@ -107,29 +107,29 @@ export class JobSummaryPrintComponent implements OnInit, OnDestroy {
         }
 
         this.basePayGraph = {
-          Pay10: this.calculateDataByRate(this.jobSummaryPrintData.Base10, true),
-          Pay25: this.calculateDataByRate(this.jobSummaryPrintData.Base25, true),
-          Pay50: this.calculateDataByRate(this.jobSummaryPrintData.Base50, true),
-          Pay75: this.calculateDataByRate(this.jobSummaryPrintData.Base75, true),
-          Pay90: this.calculateDataByRate(this.jobSummaryPrintData.Base90, true),
-          PayAvg: this.calculateDataByRate(this.jobSummaryPrintData.BaseAvg, true),
+          Pay10: this.calculateDataByRate(this.jobSummaryPrintData.Base10),
+          Pay25: this.calculateDataByRate(this.jobSummaryPrintData.Base25),
+          Pay50: this.calculateDataByRate(this.jobSummaryPrintData.Base50),
+          Pay75: this.calculateDataByRate(this.jobSummaryPrintData.Base75),
+          Pay90: this.calculateDataByRate(this.jobSummaryPrintData.Base90),
+          PayAvg: this.calculateDataByRate(this.jobSummaryPrintData.BaseAvg),
           Currency: 'USD',
           Rate: this.jobSummaryPrintData.Rate,
-          OverallMin: this.calculateDataByRate(this.jobSummaryPrintData.Base10, true),
-          OverallMax: this.calculateDataByRate(this.jobSummaryPrintData.Total90, true)
+          OverallMin: this.calculateDataByRate(this.jobSummaryPrintData.Base10),
+          OverallMax: this.calculateDataByRate(this.jobSummaryPrintData.Total90)
         };
 
         this.tccPayGraph = {
-          Pay10: this.calculateDataByRate(this.jobSummaryPrintData.Total10, true),
-          Pay25: this.calculateDataByRate(this.jobSummaryPrintData.Total25, true),
-          Pay50: this.calculateDataByRate(this.jobSummaryPrintData.Total50, true),
-          Pay75: this.calculateDataByRate(this.jobSummaryPrintData.Total75, true),
-          Pay90: this.calculateDataByRate(this.jobSummaryPrintData.Total90, true),
-          PayAvg: this.calculateDataByRate(this.jobSummaryPrintData.TotalAvg, true),
+          Pay10: this.calculateDataByRate(this.jobSummaryPrintData.Total10),
+          Pay25: this.calculateDataByRate(this.jobSummaryPrintData.Total25),
+          Pay50: this.calculateDataByRate(this.jobSummaryPrintData.Total50),
+          Pay75: this.calculateDataByRate(this.jobSummaryPrintData.Total75),
+          Pay90: this.calculateDataByRate(this.jobSummaryPrintData.Total90),
+          PayAvg: this.calculateDataByRate(this.jobSummaryPrintData.TotalAvg),
           Currency: 'USD',
           Rate: this.jobSummaryPrintData.Rate,
-          OverallMin: this.calculateDataByRate(this.jobSummaryPrintData.Base10, true),
-          OverallMax: this.calculateDataByRate(this.jobSummaryPrintData.Total90, true)
+          OverallMin: this.calculateDataByRate(this.jobSummaryPrintData.Base10),
+          OverallMax: this.calculateDataByRate(this.jobSummaryPrintData.Total90)
         };
       }
     });
