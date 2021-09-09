@@ -12,6 +12,7 @@ export const GET_EDUCATION_TYPES_ERROR = '[Comphub/Compensable Factors] Get Educ
 export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Toggle Selected Compensable Factors';
 export const ADD_DATA_TO_COMPENSABLE_FACTORS_LIST = '[Comphub/Compensable Factors] Add Data To Compensable Factors List';
 export const INIT_JOB_INITIAL_PRICING = '[Comphub/Compensable Factors] Init Job Initial Pricing';
+export const DISABLE_WARNING = '[Comphub/Compensable Factors] Disable Warning';
 
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
@@ -65,6 +66,12 @@ export class InitJobInitialPricing implements Action {
   constructor() {}
 }
 
+export class DisableWarning implements Action {
+  readonly type = DISABLE_WARNING;
+
+  constructor() {}
+}
+
 export type Actions
   = GetAllCompensableFactors
   | GetAllCompensableFactorsSuccess
@@ -74,4 +81,5 @@ export type Actions
   | GetEducationTypesError
   | ToggleSelectedCompensableFactor
   | AddDataToCompensableFactorsList
-  | InitJobInitialPricing;
+  | InitJobInitialPricing
+  | DisableWarning;

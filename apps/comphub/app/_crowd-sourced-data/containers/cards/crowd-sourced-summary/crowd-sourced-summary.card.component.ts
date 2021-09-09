@@ -59,6 +59,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   selectedBaseValue: number;
   selectedTccValue: number;
   PricingGraphTypeEnum = PricingGraphTypeEnum;
+  initialSelectedFactors: {};
 
   constructor(
     private store: Store<fromComphubSharedReducer.State>,
@@ -130,6 +131,7 @@ export class CrowdSourcedSummaryCardComponent implements OnInit, OnDestroy {
   }
 
   getInitialPricing() {
+    this.initialSelectedFactors = this.selectedFactors;
     const request: GetCrowdSourcedJobPricingRequest = {
       JobTitle: this.selectedJob.JobTitle,
       Country: this.workflowContext.activeCountryDataSet.CountryName,
