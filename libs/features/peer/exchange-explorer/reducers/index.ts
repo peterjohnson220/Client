@@ -120,6 +120,7 @@ export const getIncludeCompanyScopes = createSelector(selectExchangeScopeState, 
 export const getIncludeStandardScopes = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getIncludeStandardScopes);
 export const getExchangeScopes = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopes);
 export const getExchangeScopeNameFilter = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopeNameFilter);
+export const getIsForcedByExchange = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getIsForcedByExchange);
 
 // Exchange Explorer Info Selectors
 export const getExchangeExplorerPayMarket = createSelector(

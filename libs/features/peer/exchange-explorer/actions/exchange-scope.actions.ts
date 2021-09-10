@@ -43,8 +43,9 @@ export const SET_EXCHANGE_SCOPE_TO_DELETE =
 export const RESET_INITIALLY_LOADED_STATE = '[Features/Peer/Exchange Explorer/Exchange Scopes] Reset Initially Loaded State';
 export const SET_INCLUDE_COMPANY_SCOPES = '[Features/Peer/Exchange Explorer/Exchange Scopes] Set Include Company Scopes';
 export const SET_INCLUDE_STANDARD_SCOPES = '[Feature/Peer/Exchange Explorer/Exchange Scopes] Set Include Standard Scopes';
-export const SET_EXCHANGE_SCOPES = '[Feature/Peer/Exchange Explorer/ Exchange Scopes] Set Exchange Scopes';
-export const SET_EXCHANGE_SCOPE_NAME_FILTER = '[Feature/Peer/Exchange Explorer/ Exchange Scopes] Set Exchange Scope Name Fitler';
+export const SET_EXCHANGE_SCOPES = '[Feature/Peer/Exchange Explorer/Exchange Scopes] Set Exchange Scopes';
+export const SET_EXCHANGE_SCOPE_NAME_FILTER = '[Feature/Peer/Exchange Explorer/Exchange Scopes] Set Exchange Scope Name Filter';
+export const SET_IS_FORCED_BY_EXCHANGE = '[Feature/Peer/Exchange Explorer/Exchange Scopes] Set Forced By Exchange';
 
 export class LoadExchangeScopesByJobs implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS;
@@ -151,6 +152,10 @@ export class SetExchangeScopeNameFilter implements Action {
   readonly type = SET_EXCHANGE_SCOPE_NAME_FILTER;
   constructor(public payload: string) {}
 }
+export class SetIsForcedByExchange implements Action {
+  readonly type = SET_IS_FORCED_BY_EXCHANGE;
+  constructor(public payload: boolean){}
+}
 
 export type Actions
   = LoadExchangeScopesByJobs
@@ -175,4 +180,5 @@ export type Actions
   | SetIncludeCompanyScopes
   | SetIncludeStandardScopes
   | SetExchangeScopes
-  | SetExchangeScopeNameFilter;
+  | SetExchangeScopeNameFilter
+  | SetIsForcedByExchange;

@@ -11,13 +11,13 @@ import { WeightType, WeightTypeDisplayLabeled } from 'libs/data/data-sets';
 import { ExchangeDataSet } from 'libs/models/comphub';
 import * as fromLibsExchangeExplorerFilterContextActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
 import * as fromExchangeExplorerMapActions from 'libs/features/peer/exchange-explorer/actions/map.actions';
+import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 import * as fromLibsPeerExchangeExplorerReducers from 'libs/features/peer/exchange-explorer/reducers';
 
-import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
-import * as fromComphubSharedReducers from '../../../../_shared/reducers';
 import { WorkflowContext } from '../../../../_shared/models';
 import { ComphubPages } from '../../../../_shared/data';
-
+import * as fromDataCardActions from '../../../../_shared/actions/data-card.actions';
+import * as fromComphubSharedReducers from '../../../../_shared/reducers';
 import * as fromPeerTrendsDataReducers from '../../../reducers';
 
 @Component({
@@ -78,6 +78,9 @@ export class TrendsScopesCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.SetIncludeCompanyScopes(false));
+    this.store.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.SetIncludeStandardScopes(true));
+    this.store.dispatch(new fromLibsPeerExchangeExplorerExchangeScopeActions.SetIsForcedByExchange(true));
     this.untaggedIncumbentCountSubscription = this.untaggedIncumbentCount$.subscribe(uic => this.untaggedIncumbentCount = uic);
     this.selectedPageIdDelayedSubscription = this.selectedPageIdDelayed$.subscribe(id => {
       this.selectedPageIdDelayed = id;

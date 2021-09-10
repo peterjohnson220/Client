@@ -75,16 +75,17 @@ export class ExchangeScopeEffects {
           this.store.pipe(select(fromExchangeExplorerReducers.getExchangeScopes)),
           this.store.pipe(select(fromExchangeExplorerReducers.getAssociatedExchangeJobIds)),
           this.store.pipe(select(fromExchangeExplorerReducers.getExchangeScopeNameFilter)),
+          this.store.pipe(select(fromExchangeExplorerReducers.getIsForcedByExchange)),
           this.settingsService.selectUiPersistenceSettingDictionary<string>(FeatureAreaConstants.PeerManageScopes,
             UiPersistenceSettingConstants.PeerDefaultExchangeScopes),
-        (action, exchangeId, includeCompanyScopes, includeStandardScopes, currentScopes, exchangeJobs, scopeNameFilter, defaultScopeDictionary) =>
-          ({action, exchangeId, includeCompanyScopes, includeStandardScopes, currentScopes, exchangeJobs, scopeNameFilter, defaultScopeDictionary})
+        (action, exchangeId, includeCompanyScopes, includeStandardScopes, currentScopes, exchangeJobs, scopeNameFilter, isForcedByExchange, defaultScopeDictionary) =>
+          ({action, exchangeId, includeCompanyScopes, includeStandardScopes, currentScopes, exchangeJobs, scopeNameFilter, isForcedByExchange, defaultScopeDictionary})
       ),
       switchMap(data => {
 
         const defaultScopeId = +data.defaultScopeDictionary[data.exchangeId];
 
-        if (data.exchangeJobs?.length > 0) {
+        if (data.exchangeJobs?.length > 0 && !data.isForcedByExchange) {
 
           const jobScopeRequest: ExchangeScopesByJobsRequest = {
             ExchangeJobIds: data.exchangeJobs,
