@@ -22,7 +22,7 @@ import { PayfactorsSearchApiModelMapper } from 'libs/features/search/search/help
 import { ScrollIdConstants } from 'libs/features/search/infinite-scroll/models';
 import { SettingsService } from 'libs/state/app-context/services';
 import { DataCutSummaryEntityTypes } from 'libs/constants';
-import { InfiniteScrollActionContext, InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services';
+import { InfiniteScrollEffectsService } from 'libs/features/search/infinite-scroll/services';
 import * as fromInfiniteScrollActions from 'libs/features/search/infinite-scroll/actions/infinite-scroll.actions';
 import * as fromSearchResultsActions from 'libs/features/search/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/search/actions/search-filters.actions';
@@ -56,13 +56,22 @@ export class ExchangeScopeEffects {
   @Effect()
   loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
-      map(() => new fromInfiniteScrollActions.Load( { scrollId: ScrollIdConstants.EXCHANGE_SCOPES, pageSize: 10}))
-  );
+      mergeMap(() => {
+        const actions = [];
+        actions.push(new fromExchangeScopeActions.SetExchangeScopes([]));
+        actions.push(new fromInfiniteScrollActions.Load( { scrollId: ScrollIdConstants.EXCHANGE_SCOPES, pageSize: 10 }));
+        return actions;
+      }));
 
   @Effect()
   loadExchangeScopesByExchange: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE)).pipe(
-      map(() => new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.EXCHANGE_SCOPES, pageSize: 10}))
+      mergeMap(() => {
+        const actions = [];
+        actions.push(new fromExchangeScopeActions.SetExchangeScopes([]));
+        actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.EXCHANGE_SCOPES, pageSize: 10}));
+        return actions;
+      })
   );
 
   @Effect()
