@@ -342,7 +342,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
 
   buildEndpointName() {
-    return `${ExchangeScopeApiNames.GetExchangeScopeListByExchange}${this.exchangeId}&includeCompanyScopes=true&includeStandardScopes=false`;
+    return `${ExchangeScopeApiNames.GetExchangeScopeListByExchange}exchangeId=${this.exchangeId}&includeCompanyScopes=true&includeStandardScopes=false`;
   }
 }
 
