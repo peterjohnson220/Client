@@ -1,0 +1,49 @@
+<div class="pb-0">
+  <ng-container *ngIf="(workflowTemplatesAsync$ | async) as workflowTemplatesAsync">
+    <div *ngIf="workflowTemplatesAsync.obj?.length" class="form-group">
+      <div *ngIf="hasFilteredTemplates" class="template-filter-info">Not all routing groups are available due to user restrictions on this job</div>
+      <kendo-combobox
+        class="form-control"
+        [(ngModel)]="selectedTemplateName"
+        [textField]="'Name'"
+        [valueField]="'Id'"
+        [disabled]="workflowTemplatesAsync.loading"
+        [data]="accessibleTemplates"
+        [clearButton]="false"
+        [suggest]="true"
+        [filterable]="true"
+        [valuePrimitive]="true"
+        [placeholder]="'Select route group'"
+        (filterChange)="handleFilter($event)"
+        (valueChange)="handleSelectedTemplateChanged($event)">
+      </kendo-combobox>
+    </div>
+  </ng-container>
+
+  <pf-user-or-email-picker *ngIf="!addingNonSystemUser"  
+    (selected)="handlePickerSelection($event)"
+    [jobIds]="jobIds"
+    [workflow]="true">
+  </pf-user-or-email-picker>
+
+  <div class="form-group mt-3">
+    <textarea class="form-control" rows="5" placeholder="Comment" [(ngModel)]="workflowInitiationComment">
+    </textarea>
+  </div>
+</div>
+<pf-approval-workflow-config 
+  [jobIds]="jobIds" 
+  [showAttachmentsUpload]="true"
+  (onShowNameFormClicked)="handleShowNameFormClicked($event)">
+</pf-approval-workflow-config>
+<div class="d-flex justify-content-end pt-2">
+  <button type="button" class="btn btn-secondary"
+    (click)="close()">Cancel
+  </button>
+  <button class="btn btn-primary ml-2"
+    [disabled]="true"
+    (click)="createWorkflow()">   
+    <span>Route</span>
+  </button>
+</div>
+ 

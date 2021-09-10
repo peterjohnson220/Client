@@ -7,10 +7,13 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
 import * as fromRootState from 'libs/state/state';
 import { AppNotification, NotificationLevel } from 'libs/features/infrastructure/app-notifications';
-import { generateMockJobDescriptionWorkflowAttachment, KendoUploadStatus } from 'libs/models';
-import { WorkflowConfigComponent } from './workflow-config.component';
+import {  KendoUploadStatus } from 'libs/models';
 import * as fromJobDescriptionManagementReducer from '../../../_job-description/reducers';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+
+import spyOn = jest.spyOn;
+import { generateMockJobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
+import { ApprovalWorkflowConfigComponent } from './approval-workflow-config.component';
 
 
 @Pipe({name: 'TruncateAfter'})
@@ -18,9 +21,9 @@ class MockPipe implements PipeTransform {
   transform = (value: any) => value;
 }
 
-describe('WorkflowConfigComponent', () => {
-  let fixture: ComponentFixture<WorkflowConfigComponent>;
-  let instance: WorkflowConfigComponent;
+describe('ApprovalWorkflowConfigComponent', () => {
+  let fixture: ComponentFixture<ApprovalWorkflowConfigComponent>;
+  let instance: ApprovalWorkflowConfigComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -38,7 +41,7 @@ describe('WorkflowConfigComponent', () => {
           provide: NgbModal,
           useValue: {open: jest.fn(), dismissAll: jest.fn()},
         }],
-      declarations: [WorkflowConfigComponent, MockPipe],
+      declarations: [ApprovalWorkflowConfigComponent, MockPipe],
       // Shallow Testing
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -46,7 +49,7 @@ describe('WorkflowConfigComponent', () => {
     store = TestBed.inject(Store);
     jest.spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(WorkflowConfigComponent);
+    fixture = TestBed.createComponent(ApprovalWorkflowConfigComponent);
     instance = fixture.componentInstance;
   }));
 

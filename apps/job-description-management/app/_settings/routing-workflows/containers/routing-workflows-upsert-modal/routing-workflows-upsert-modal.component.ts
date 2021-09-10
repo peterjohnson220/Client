@@ -19,6 +19,7 @@ import * as fromWorkflowAction from '../../actions';
 export class RoutingWorkflowsUpsertModalComponent implements OnInit, OnDestroy {
   @ViewChild('saveWorkflowTemplateModal', {static: true}) public saveWorkflowTemplateModal: any;
   @Input() workflowTemplateNames: string[];
+  @Input() modalTitle = 'Approval Group';
 
   private modalRef: NgbModalRef;
   private editing = false;

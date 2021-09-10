@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
 import * as fromRootState from 'libs/state/state';
 import { AsyncStateObj, CompanyDto, CompanySettingsEnum, JobDescription, UserContext } from 'libs/models';
-import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
-import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromJobDescriptionReducers from '../../reducers';
 import * as fromCompanyLogoActions from 'libs/features/jobs/job-description-management/actions/company-logo.actions';
@@ -45,6 +44,8 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   @Input() isInSystemWorkflow = false;
   @Input() isSystemWorkflowComplete = false;
 
+  jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
+
   identity$: Observable<UserContext>;
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionChangeHistory$: Observable<JobDescription[]>;
@@ -60,6 +61,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   jobMatchesAsync$: Observable<AsyncStateObj<JobMatchResult[]>>;
   company$: Observable<CompanyDto>;
   inSystemWorkflowStepInfo$: Observable<any>;
+  private unsubscribe$ = new Subject<void>();
 
   identitySubscription: Subscription;
   jobDescriptionSubscription: Subscription;
@@ -89,9 +91,12 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
   viewName = 'Default';
   jobMatchesAsync: AsyncStateObj<JobMatchResult[]>;
   enableLibraryForRoutedJobDescriptions: boolean;
-  
+
   get isDraft() { return this.jobDescription?.JobDescriptionStatus === 'Draft'; }
   get isInReview() { return this.jobDescription?.JobDescriptionStatus === 'In Review'; }
+  get workflowButtonText() {
+    return this.jdmCollaborationFeatureFlag.value === true ? 'Collaboration & Approval' : 'Route for Approval';
+  }
 
   constructor(
     private sharedStore: Store<fromJobDescriptionManagementSharedReducer.State>,
@@ -99,7 +104,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     private userContextStore: Store<fromRootState.State>,
     private permissionService: PermissionService,
     private router: Router,
-    private settingsService: SettingsService,
+    private featureFlagService: AbstractFeatureFlagService,
     private jobDescriptionSharingService: JobDescriptionSharingService
   ) {
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
@@ -117,6 +122,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
     this.jobMatchesAsync$ = this.store.select(fromJobDescriptionReducers.getJobMatchesAsync);
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.inSystemWorkflowStepInfo$ = this.sharedStore.select(fromJobDescriptionReducers.getWorkflowStepInfo);
+    this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {
@@ -132,7 +138,7 @@ export class JobDescriptionActionsComponent implements OnInit, OnDestroy {
            this.sharedStore.dispatch(new fromCompanyLogoActions.LoadCompanyLogo(this.identity.CompanyId));
          }
 
-         if (!!workflowStepInfo){
+         if (!!workflowStepInfo) {
            this.initWorkflowStepInfoPermissions(workflowStepInfo);
          }
        });

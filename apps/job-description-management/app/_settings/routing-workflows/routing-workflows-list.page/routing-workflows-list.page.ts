@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
 import { AsyncStateObj } from 'libs/models';
+import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
+import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
 
 import * as fromWorkflowReducer from '../reducers';
 import * as fromWorkflowAction from '../actions';
-import { RoutingWorkflowsUpsertModalComponent } from '../containers';
-import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-description-management/models';
+import { RoutingWorkflowsUpsertModalComponent, CollaborationWorkflowsUpsertModalComponent } from '../containers';
 
 @Component({
   selector: 'pf-routing-workflows',
@@ -18,24 +19,33 @@ import { WorkflowTemplate, WorkflowStep } from 'libs/features/jobs/job-descripti
 })
 export class RoutingWorkflowsPageComponent implements OnInit {
   @ViewChild(RoutingWorkflowsUpsertModalComponent, {static: true}) saveWorkflowModalComponent: RoutingWorkflowsUpsertModalComponent;
+  @ViewChild(CollaborationWorkflowsUpsertModalComponent, {static: true}) collaborationModalComponent: CollaborationWorkflowsUpsertModalComponent;
+  jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
 
   filter: string;
 
   workflowTemplates$: Observable<AsyncStateObj<WorkflowTemplate[]>>;
   workflowTemplateNames$: Observable<string[]>;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private sanitizer: DomSanitizer,
-    private store: Store<fromWorkflowReducer.State>) {
+    private store: Store<fromWorkflowReducer.State>,
+    private featureFlagService: AbstractFeatureFlagService) {
     this.workflowTemplates$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateList));
     this.workflowTemplateNames$ = this.store.pipe(select(fromWorkflowReducer.getWorkflowTemplateNames));
+    this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit() {
     this.store.dispatch(new fromWorkflowAction.LoadWorkflowTemplates());
   }
 
-  createWorkflow() {
+  createCollaborationWorkflow() {
+    this.collaborationModalComponent.open();
+  }
+
+  createApprovalWorkflow() {
     this.saveWorkflowModalComponent.open();
   }
 

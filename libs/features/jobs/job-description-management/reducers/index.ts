@@ -12,6 +12,7 @@ import * as fromControlTypesReducer from './control-types.reducer';
 import * as fromJobDescriptionLibraryReducer from './job-description-library.reducer';
 import * as fromSharedWorkflowReducer from './shared-workflow.reducer';
 import * as fromWorkflowConfigReducer from './workflow-config.reducer';
+import * as fromCollaborationWorkflowConfigReducer from './collaboration-workflow-config.reducer';
 import * as fromCompanyLogoReducer from './company-logo.reducer';
 import * as fromJobDescriptionNavigationReducer from './job-description-navigation.reducer';
 
@@ -25,6 +26,7 @@ export interface JobDescriptionManagementSharedState {
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.State;
   sharedWorkflow: fromSharedWorkflowReducer.State;
   workflowConfig: fromWorkflowConfigReducer.State;
+  collaborationWorkflowConfig: fromCollaborationWorkflowConfigReducer.State;
   companyLogo: fromCompanyLogoReducer.State;
   jobDescriptionNavigation: fromJobDescriptionNavigationReducer.State;
 }
@@ -44,6 +46,7 @@ export const reducers = {
   jobDescriptionLibrary: fromJobDescriptionLibraryReducer.reducer,
   sharedWorkflow: fromSharedWorkflowReducer.reducer,
   workflowConfig: fromWorkflowConfigReducer.reducer,
+  collaborationWorkflowConfig: fromCollaborationWorkflowConfigReducer.reducer,
   companyLogo: fromCompanyLogoReducer.reducer,
   jobDescriptionNavigation: fromJobDescriptionNavigationReducer.reducer
 };
@@ -91,6 +94,11 @@ export const selectSharedWorkflowState = createSelector(
 export const selectWorkflowConfigState = createSelector(
   selectFeatureAreaState,
   (state: JobDescriptionManagementSharedState) => state.workflowConfig
+);
+
+export const selectCollaborationWorkflowConfigState = createSelector(
+  selectFeatureAreaState,
+  (state: JobDescriptionManagementSharedState) => state.collaborationWorkflowConfig
 );
 
 export const selectCompanyLogoState = createSelector(
@@ -343,7 +351,7 @@ export const getRerouting = createSelector(
   fromSharedWorkflowReducer.getRerouting
 );
 
-// Workflow Config
+// Approval Workflow Config
 export const getHasUsersWithoutPermission = createSelector(
   selectWorkflowConfigState,
   fromWorkflowConfigReducer.getHasUsersWithoutPermission
@@ -362,6 +370,17 @@ export const getWorkflowConfigDirty = createSelector(
 export const getWorkflowUserOrEmail = createSelector(
   selectWorkflowConfigState,
   fromWorkflowConfigReducer.getWorkflowUserOrEmail
+);
+
+// Collaboration Workflow Config
+export const getSelectedCollaborationWorkflowUserOrEmail = createSelector(
+  selectCollaborationWorkflowConfigState,
+  fromCollaborationWorkflowConfigReducer.getSelectedCollaborationWorkflowUserOrEmail
+);
+
+export const getCollaborationWorkflowUsers = createSelector(
+  selectCollaborationWorkflowConfigState,
+  fromCollaborationWorkflowConfigReducer.getCollaborationWorkflowUsers
 );
 
 export const getWorkflowAttachments = createSelector(

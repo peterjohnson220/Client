@@ -14,5 +14,7 @@ export enum TileNames {
   JobDescriptions = 'Job Descriptions',
   InternationalData = 'International Data',
   QuickPrice = 'Quick Price',
-  WhatIsNew = 'What Is New'
+  WhatIsNew = 'What Is New',
+  PayEquity = 'Pay Equity',
+  MeritPlanning = 'Merit Planning'
 }

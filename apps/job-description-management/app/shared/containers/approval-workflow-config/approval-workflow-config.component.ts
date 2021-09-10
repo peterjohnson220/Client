@@ -18,17 +18,18 @@ import { formatBytes } from 'libs/core/functions';
 import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
 import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { AppNotification } from 'libs/features/infrastructure/app-notifications/models';
-import { JobDescriptionWorkflowAttachment, KendoUploadStatus } from 'libs/models';
+import {  KendoUploadStatus } from 'libs/models';
 import { FileInfo, FileRestrictions, RemoveEvent, SelectEvent, SuccessEvent, UploadEvent } from '@progress/kendo-angular-upload';
 import { WorkflowAttachmentFiles } from '../../../_job-description/constants/workflow-attachment-files';
 import { mapFileInfoToWorkflowAddAttachment } from '../../../_job-description/helpers/workflow-model-mapping.helper';
+import { JobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 
 @Component({
-  selector: 'pf-workflow-config',
-  templateUrl: './workflow-config.component.html',
-  styleUrls: ['././workflow-config.component.scss']
+  selector: 'pf-approval-workflow-config',
+  templateUrl: './approval-workflow-config.component.html',
+  styleUrls: ['./approval-workflow-config.component.scss']
 })
-export class WorkflowConfigComponent implements OnInit, OnDestroy {
+export class ApprovalWorkflowConfigComponent implements OnInit, OnDestroy {
   @Input() jobIds: number[];
   @Input() showAttachmentsUpload = false;
   @Output() onShowNameFormClicked = new EventEmitter<boolean>();
