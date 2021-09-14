@@ -92,7 +92,8 @@ export class ExchangeScopeEffects {
       ),
       switchMap(data => {
 
-        const defaultScopeId = +data.defaultScopeDictionary[data.exchangeId];
+
+        const defaultScopeId = !!data.defaultScopeDictionary ? +data.defaultScopeDictionary[data.exchangeId] : null;
 
         if (data.exchangeJobs?.length > 0 && !data.isForcedByExchange) {
 

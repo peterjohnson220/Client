@@ -53,7 +53,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    if (!!changes.selectedOptions) {
+    if (!!changes.selectedOptions && !!this.options?.map) {
       this.options = this.options.map(o => (
         {
           ...o,
