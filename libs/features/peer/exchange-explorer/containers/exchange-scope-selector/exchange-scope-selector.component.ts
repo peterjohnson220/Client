@@ -216,6 +216,7 @@ export class ExchangeScopeSelectorComponent implements OnInit, OnDestroy {
   }
 
   loadExchangeScopes() {
+    this.isInitialLoad = true;
     if (this.isExchangeJobSpecific) {
       this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs);
     } else {
