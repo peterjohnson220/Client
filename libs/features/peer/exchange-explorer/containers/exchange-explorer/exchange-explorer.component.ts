@@ -162,9 +162,6 @@ export class ExchangeExplorerComponent extends SearchBaseDirective {
           FeatureAreaConstants.PeerManageScopes, UiPersistenceSettingConstants.PeerDefaultExchangeScopes, payload.exchangeId
         );
         defaultScopeId$.pipe(take(1)).subscribe(s => {
-          if (!!s) {
-            this.store.dispatch(new fromExchangeFilterContextActions.SetExchangeScopeSelection(<any>{Id: s, ExchangeId: payload.exchangeId, IsDefault: true}));
-          }
           this.store.dispatch(new fromExchangeExplorerContextInfoActions.LoadContextInfo({
             exchangeId: this.exchangeId,
             defaultScopeId: s,
