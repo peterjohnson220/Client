@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Exchange } from 'libs/models/peer';
-import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
 import { ExchangeExplorerComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer';
 import { ExchangeExplorerMapComponent } from 'libs/features/peer/exchange-explorer/containers/exchange-explorer-map';
 import * as fromSaveExchangeScopeActions from 'libs/features/peer/save-exchange-scope/actions';
+import * as fromLibsPeerExchangeExplorerExchangeScopeActions from 'libs/features/peer/exchange-explorer/actions/exchange-scope.actions';
+import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-explorer.actions';
 import * as fromSaveExchangeScopeReducer from 'libs/features/peer/save-exchange-scope/reducers';
 import * as fromLibsSearchReducer from 'libs/features/search/search/reducers';
 
@@ -19,7 +20,7 @@ import * as fromPeerAdminReducer from '../../reducers';
   templateUrl: './standard-scopes.component.html',
   styleUrls: ['./standard-scopes.component.scss']
 })
-export class StandardScopesComponent implements OnInit {
+export class StandardScopesComponent implements OnInit, OnDestroy {
   @ViewChild(ExchangeExplorerMapComponent, { static: true }) map: ExchangeExplorerMapComponent;
   @ViewChild(ExchangeExplorerComponent, { static: true }) exchangeExplorer: ExchangeExplorerComponent;
 
@@ -51,6 +52,10 @@ export class StandardScopesComponent implements OnInit {
       }
     } as MessageEvent;
     this.exchangeExplorer.onMessage(setContextMessage);
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new fromExchangeExplorerActions.ResetExchangeExplorerState());
   }
 
   handleCreateScopeClicked() {

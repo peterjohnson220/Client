@@ -61,7 +61,7 @@ export class ExchangeSearchEffects {
             actions.push(new fromInfiniteScrollActions.Load({scrollId: ScrollIdConstants.SEARCH_CHILD_FILTER}));
           }
         } else {
-          const singleFilterRefreshNecessary = (payload.action.payload.getSingledFilteredAggregates ||
+          const singleFilterRefreshNecessary = (payload.action.payload?.getSingledFilteredAggregates ||
             (payload.singledFilter && payload.singledFilter.Operator === OperatorEnum.And));
 
           const childFilterRefreshNecessary = payload.childFilter && (!payload.searchingFilter || payload.searchingFilter &&
