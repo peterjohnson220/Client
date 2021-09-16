@@ -91,14 +91,15 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/notifications/../../assets/js/new-relic.js",
-                  "with": "apps/notifications/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -118,10 +119,6 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/notifications/../../assets/js/walk-me.js",
-                  "with": "apps/notifications/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -318,14 +315,15 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -345,14 +343,6 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/walk-me.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -374,10 +364,6 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -518,7 +504,6 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/new-relic.js",
               "assets/js/walk-me.js",
               "assets/js/payscale-loading-logo.js"
             ],
@@ -556,14 +541,16 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/drift.js",
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -583,14 +570,6 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/walk-me.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -612,10 +591,6 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -799,14 +774,17 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/drift.js",
+                "assets/js/tableau-2.2.0.min.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -826,14 +804,6 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/walk-me.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -855,10 +825,6 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1042,14 +1008,15 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -1069,14 +1036,6 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/walk-me.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1098,10 +1057,6 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1280,14 +1235,15 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/recaptcha.js",
+                "assets/js/walk-me.prod.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -1307,14 +1263,6 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/walk-me.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1336,10 +1284,6 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1519,14 +1463,15 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -1546,14 +1491,6 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/walk-me.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1575,10 +1512,6 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1757,14 +1690,16 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/uservoice.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -1784,14 +1719,6 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/walk-me.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1813,10 +1740,6 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2005,14 +1928,15 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "baseHref": "/app/",
               "budgets": [
                 {
@@ -2031,14 +1955,6 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2061,10 +1977,6 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2095,14 +2007,6 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ],
               "optimization": true
@@ -2284,14 +2188,15 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -2311,14 +2216,6 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/walk-me.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2340,10 +2237,6 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2526,14 +2419,15 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -2553,14 +2447,6 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/walk-me.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2582,10 +2468,6 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -2761,14 +2643,15 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -2788,14 +2671,6 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/walk-me.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2817,10 +2692,6 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -3003,14 +2874,16 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/tableau-2.2.0.min.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -3030,14 +2903,6 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/walk-me.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3059,10 +2924,6 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -3240,14 +3101,16 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "apps/job-description-management/assets/js/quill.min.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -3267,14 +3130,6 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/walk-me.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3296,10 +3151,6 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -3484,14 +3335,15 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -3511,14 +3363,6 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/walk-me.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3540,10 +3384,6 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -3719,14 +3559,15 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -3746,14 +3587,6 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/walk-me.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3775,10 +3608,6 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -3954,14 +3783,15 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -3981,14 +3811,6 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/walk-me.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4010,10 +3832,6 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -4191,14 +4009,15 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -4218,14 +4037,6 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/walk-me.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4247,10 +4058,6 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -4427,14 +4234,15 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -4454,14 +4262,6 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/walk-me.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4483,10 +4283,6 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -4662,14 +4458,15 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -4689,14 +4486,6 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/walk-me.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4718,10 +4507,6 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -4898,14 +4683,15 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -4925,14 +4711,6 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/walk-me.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4954,10 +4732,6 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -5137,6 +4911,11 @@
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -5156,14 +4935,6 @@
                 {
                   "replace": "apps/user-settings/../../environments/environment.ts",
                   "with": "apps/user-settings/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/walk-me.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5185,10 +4956,6 @@
                 {
                   "replace": "apps/user-settings/../../environments/environment.ts",
                   "with": "apps/user-settings/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -5370,6 +5137,11 @@
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/fontawesome-all.min.js",
+                "assets/js/walk-me.prod.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -5390,14 +5162,6 @@
                 {
                   "replace": "apps/form/../../environments/environment.ts",
                   "with": "apps/form/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/new-relic.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/walk-me.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5414,10 +5178,6 @@
                 {
                   "replace": "apps/form/../../environments/environment.ts",
                   "with": "apps/form/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/new-relic.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -5593,14 +5353,15 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -5620,14 +5381,6 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/walk-me.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5649,10 +5402,6 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }

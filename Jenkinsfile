@@ -90,7 +90,7 @@ pipeline {
                 // Suffix according to branches.
                 if (env.BRANCH_NAME == 'master') {
                   suffix = '-Production'
-                  env.buildConfig = '--prod'
+                  env.buildConfig = '--configuration=production'
 
                 } else if (env.BRANCH_NAME == 'develop') {
                   isAutoDeployBranch = true
@@ -112,7 +112,7 @@ pipeline {
 
                 } else if (env.BRANCH_NAME ==~ /^release\/.*/) {
                   suffix = '-RC'
-                  env.buildConfig = '--prod'
+                  env.buildConfig = '--configuration=production'
 
                   // Including date so hotfix packages from diff branches will be sorted correctly from Octopus.
                   env.pkgVersion = pkgVersionOrig + "." + dateVer
@@ -262,7 +262,7 @@ pipeline {
                     sh "npx kendo-ui-license activate"
 
                     sh "npx gulp sass"
-                    
+
                     echo "Getting list of apps..."
                     sh 'ls apps > dirs'
                     sh """
