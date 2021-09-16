@@ -15,6 +15,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
 import { DataViewApiService } from 'libs/data/payfactors-api/reports';
 import { SurveyDataFieldsManagementModule } from 'libs/features/surveys';
+import { ExportPopoverModule } from 'libs/features/export-popover';
 
 import * as fromFaIcons from './fa-icons';
 import { reducers } from './reducers';
@@ -53,7 +54,8 @@ import { SurveyPageEffects, SurveyParticipationEffects } from './effects';
     PfCommonUIModule,
     PfFormsModule,
     PfDataGridModule,
-    SurveyDataFieldsManagementModule
+    SurveyDataFieldsManagementModule,
+    ExportPopoverModule
   ],
   declarations: [
     // Pages

@@ -52,7 +52,7 @@ export class UserApiService {
           companyId: companyId,
           search: searchTerm,
           loaderType: loaderType,
-          loaderConfigurationGroupId: loaderConfigurationGroupId
+          loaderConfigurationGroupId: loaderConfigurationGroupId || ''
         }
       });
   }

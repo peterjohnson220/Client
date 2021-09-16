@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompensableFactorsResponseModel } from 'libs/models/payfactors-api/comphub/response';
+import { CompensableFactorsResponse } from 'libs/models/payfactors-api/comphub/response';
 import { CompensableFactorModel } from 'libs/models/comphub';
 
 export const GET_ALL_COMPENSABLE_FACTORS = '[Comphub/Compensable Factors] Get All Compensable Factors';
@@ -12,6 +12,7 @@ export const GET_EDUCATION_TYPES_ERROR = '[Comphub/Compensable Factors] Get Educ
 export const TOGGLE_SELECTED_COMPENSABLE_FACTOR = '[Comphub/Compensable Factors] Toggle Selected Compensable Factors';
 export const ADD_DATA_TO_COMPENSABLE_FACTORS_LIST = '[Comphub/Compensable Factors] Add Data To Compensable Factors List';
 export const INIT_JOB_INITIAL_PRICING = '[Comphub/Compensable Factors] Init Job Initial Pricing';
+export const DISABLE_WARNING = '[Comphub/Compensable Factors] Disable Warning';
 
 export class GetAllCompensableFactors implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS;
@@ -22,7 +23,7 @@ export class GetAllCompensableFactors implements Action {
 export class GetAllCompensableFactorsSuccess implements Action {
   readonly type = GET_ALL_COMPENSABLE_FACTORS_SUCCESS;
 
-  constructor(public payload: CompensableFactorsResponseModel[]) {}
+  constructor(public payload: CompensableFactorsResponse[]) {}
 }
 
 export class GetAllCompensableFactorsError implements Action {
@@ -50,7 +51,7 @@ export class GetEducationTypesError implements Action {
 export class ToggleSelectedCompensableFactor implements Action {
   readonly type = TOGGLE_SELECTED_COMPENSABLE_FACTOR;
 
-  constructor(public payload: { compensableFactor: string, Name: string }) {}
+  constructor(public payload: { compensableFactor: string, name: string }) {}
 }
 
 export class AddDataToCompensableFactorsList implements Action {
@@ -65,6 +66,12 @@ export class InitJobInitialPricing implements Action {
   constructor() {}
 }
 
+export class DisableWarning implements Action {
+  readonly type = DISABLE_WARNING;
+
+  constructor() {}
+}
+
 export type Actions
   = GetAllCompensableFactors
   | GetAllCompensableFactorsSuccess
@@ -74,4 +81,5 @@ export type Actions
   | GetEducationTypesError
   | ToggleSelectedCompensableFactor
   | AddDataToCompensableFactorsList
-  | InitJobInitialPricing;
+  | InitJobInitialPricing
+  | DisableWarning;

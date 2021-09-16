@@ -8,6 +8,28 @@
 @import 'total-rewards/statement-settings';
 @import 'total-rewards/statement-layout-variables';
 
+pf-verification img[src*="payscale"], #ps-privacy {
+  display: none;
+}
+html.payscale-rebrand {
+  body {
+    &.waves {
+      background: url("../../assets/images/waves.png") center/cover no-repeat;
+    }
+    pf-verification {
+      img[src*="payfactors"], #pf-privacy {
+        display: none;
+      }
+      img[src*="payscale"], #ps-privacy { 
+        display: initial;
+      }
+      .verification-container button.btn-primary, .verification-container button.btn-primary.btn-enabled, button.btn-primary.mobile-btn, button.btn-primary.mobile-btn:active {
+        background-color: $ps-brand-primary-accent-color;
+      }
+    }
+  }
+}
+
 pf-page-with-title-bar {
   .page-content, .page-header {
     transition: background-color .3s ease-in-out;

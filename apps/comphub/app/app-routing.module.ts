@@ -22,6 +22,13 @@ export const routes: Routes = [
       { path: 'csd', loadChildren: () => import('apps/comphub/app/_crowd-sourced-data/crowd-sourced-data.module').then(m => m.CrowdSourcedDataModule) }
     ]
   },
+  {
+    path: '',
+    canActivate: [UserContextGuard],
+    children: [
+      { path: 'print', loadChildren: () => import('apps/comphub/app/_print/print.module').then(m => m.PrintModule) }
+    ]
+  },
   ...DEFAULT_ROUTES
 ];
 

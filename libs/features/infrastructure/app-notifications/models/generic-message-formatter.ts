@@ -18,7 +18,7 @@ export class GenericMessageFormatter {
                 break;
             }
             case NotificationLevel.Error: {
-                display += `<div class='text-danger alert-triangle-icon ml-auto' ></div>`;
+                display += `<div class='text-danger alert-triangle-icon ml-auto'></div>`;
                 break;
             }
             default:

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { GetPricingHistoryRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForPayGraph, ModifyPricingMatchesRequest } from 'libs/models/payfactors-api/';
+import { PricingGraphTypeEnum } from 'libs/features/pricings/job-pricing-graph/models';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
-
-import { GetPricingHistoryRequest, ModifyPricingMatchesRequest, UpdatePricingMatchRequest, UpdatePricingRequest, PricingForBasePayGraph } from 'libs/models/payfactors-api/';
-
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,9 @@ export class PricingApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetPricedPayMarkets?jobId=${jobId}`);
   }
 
-  getRecentCompanyJobPricingByPayMarket(companyJobId: number, companyPayMarketId: number, convertToAnnual: boolean): Observable<PricingForBasePayGraph> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetRecentCompanyJobPricingByPayMarket?companyJobId=${companyJobId}&companyPayMarketId=${companyPayMarketId}&convertToAnnual=${convertToAnnual}`);
+    getRecentCompanyJobPricingByPayMarket(companyJobId: number, companyPayMarketId: number,
+                                          graphType: PricingGraphTypeEnum, convertToAnnual: boolean): Observable<PricingForPayGraph> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetRecentCompanyJobPricingByPayMarket?companyJobId=${companyJobId}&companyPayMarketId=${companyPayMarketId}&graphType=${graphType}&convertToAnnual=${convertToAnnual}`);
   }
 
   updatePricing(updatePricingRequest: UpdatePricingRequest): Observable<any> {

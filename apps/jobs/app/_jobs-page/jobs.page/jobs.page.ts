@@ -29,6 +29,7 @@ import { SearchFeatureIds } from 'libs/features/search/search/enums/search-featu
 import { SettingsService } from 'libs/state/app-context/services';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { AppNotification, NotificationLevel } from 'libs/features/infrastructure/app-notifications';
+import { ExportOptions } from 'libs/features/export-popover/models/export-options.model';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
 import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
@@ -88,6 +89,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   getNotificationSubscription: Subscription;
   leftSidebarOpenSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
+  exportJobOptionsSubscription: Subscription;
 
   selectedRecordId$: Observable<number>;
   canEditJobCompanySetting$: Observable<boolean>;
@@ -183,6 +185,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   exportEventId: string;
   leftSidebarOpen: boolean;
   selectedRecordId: number;
+  exportOptions: ExportOptions[];
+  exportInProgress = false;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -345,6 +349,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ShowFilterChooser: true
     };
 
+    this.exportJobOptionsSubscription = this.store.select(fromJobsPageReducer.getExportOptions).subscribe(exportData => {
+      if (exportData) {
+        this.exportOptions = exportData;
+        this.exportInProgress = exportData.some(d => d.Exporting.loading);
+      }
+    });
+
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
     this.store.dispatch(new fromJobsPageActions.LoadStructureGrades());
@@ -455,6 +466,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getNotificationSubscription.unsubscribe();
     this.leftSidebarOpenSubscription.unsubscribe();
     this.selectedRecordIdSubscription.unsubscribe();
+    this.exportJobOptionsSubscription.unsubscribe();
   }
 
   closeSplitView() {

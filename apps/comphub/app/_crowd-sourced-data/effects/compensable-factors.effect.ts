@@ -9,19 +9,19 @@ import { Observable, of } from 'rxjs';
 import { ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api/comphub';
 
 import * as fromComphubCrowdSourcedDataReducer from '../reducers';
+import * as fromComphubCsdReducer from '../reducers';
 import * as fromComphubSharedReducer from '../../_shared/reducers';
 import * as fromCompensableFactorsActions from '../actions/compensable-factors.actions';
 import * as fromComphubPageActions from '../../_shared/actions/comphub-page.actions';
-import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
+import { CompensableFactorsConstants } from '../../_shared/constants/compensable-factors-constants';
 import { generateDefaultEducationTypes, generateDefaultSupervisorRole, generateDefaultYearsExperience } from '../data';
-import * as fromComphubCsdReducer from '../reducers';
 import { CompensableFactorDataMapper } from '../helpers';
 
 @Injectable()
 export class CompensableFactorsEffect {
 
   @Effect()
-  getCompensableFactors = this.actions$
+  getCompensableFactors$ = this.actions$
     .pipe(
       ofType(
         fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS
@@ -49,7 +49,7 @@ export class CompensableFactorsEffect {
       ));
 
   @Effect()
-  getCompensableFactorsSuccess: Observable<Action> = this.actions$.pipe(
+  getCompensableFactorsSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(
       fromCompensableFactorsActions.GET_ALL_COMPENSABLE_FACTORS_SUCCESS
     ),
@@ -84,7 +84,7 @@ export class CompensableFactorsEffect {
   );
 
   @Effect()
-  getEducationTypes = this.actions$
+  getEducationTypes$ = this.actions$
     .pipe(
       ofType(fromCompensableFactorsActions.GET_EDUCATION_TYPES),
       withLatestFrom(

@@ -44,7 +44,7 @@ import * as fromControlTypesActions from 'libs/features/jobs/job-description-man
 import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
 import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
-import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, SharedJobDescription, WorkflowSetupModalInput } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, SharedJobDescriptionUser, WorkflowSetupModalInput } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';

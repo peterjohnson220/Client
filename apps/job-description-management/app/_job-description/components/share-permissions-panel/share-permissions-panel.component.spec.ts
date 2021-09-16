@@ -2,14 +2,14 @@ import { JobDescriptionSharingService } from './../../services/job-description-s
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, Subscriber } from 'rxjs';
-import { SharedJobDescription } from '../../models';
+import { SharedJobDescriptionUser } from '../../models';
 
 import { SharePermissionsPanelComponent } from './share-permissions-panel.component';
 
 describe('SharePermissionsPanelComponent', () => {
   let component: SharePermissionsPanelComponent;
   let fixture: ComponentFixture<SharePermissionsPanelComponent>;
-  let subscriber: Subscriber<SharedJobDescription>;
+  let subscriber: Subscriber<SharedJobDescriptionUser[]>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,7 +18,7 @@ describe('SharePermissionsPanelComponent', () => {
       providers: [{
         provide: JobDescriptionSharingService,
         useValue: {
-          getShares: _ => new Observable(s => { subscriber = s; }),
+          getSharedUsers: _ => new Observable(s => { subscriber = s; }),
           init: () => {},
           destroy: () => {}
         }
@@ -60,17 +60,38 @@ describe('SharePermissionsPanelComponent', () => {
   });
 
   it('should show share details', () => {
-    subscriber.next({
-      SharedTo: { EmailAddress: 'ketchup@ketchup.com', FirstName: '', LastName: '' },
-      SharedBy: 'mustard@mustard.com',
-      SharedDate: new Date('1/7/2021')
-    });
+    subscriber.next([{
+      EmailAddress: 'ketchup@ketchup.com',
+      FirstName: 'Ketchup',
+      LastName: 'Face',
+      SharedByEmail: 'mustard@mustard.com',
+      SharedByFirstName: 'Mustard',
+      SharedByLastName: 'Pie',
+      ShareDate: new Date('1/7/2021')
+    }]);
     subscriber.complete();
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).not.toContain('Loading...');
     expect(fixture.nativeElement.textContent).not.toContain('Job description has not yet been shared.');
     expect(fixture.nativeElement.textContent).not.toContain('Error Loading Share Permissions');
+    expect(fixture.nativeElement.textContent).toContain('Ketchup Face');
+    expect(fixture.nativeElement.textContent).toContain('Shared by Mustard Pie');
+  });
+
+  it('should show emails if names not available', () => {
+    subscriber.next([{
+      EmailAddress: 'ketchup@ketchup.com',
+      FirstName: null,
+      LastName: null,
+      SharedByEmail: 'mustard@mustard.com',
+      SharedByFirstName: null,
+      SharedByLastName: null,
+      ShareDate: new Date('1/7/2021')
+    }]);
+    subscriber.complete();
+    fixture.detectChanges();
+
     expect(fixture.nativeElement.textContent).toContain('ketchup@ketchup.com');
     expect(fixture.nativeElement.textContent).toContain('Shared by mustard@mustard.com');
   });

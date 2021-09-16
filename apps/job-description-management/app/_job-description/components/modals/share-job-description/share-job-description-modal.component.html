@@ -8,7 +8,7 @@
   <div class="modal-body pb-0">
     <div class="form-group">Share {{selectedJobDescriptions.size}} job description{{selectedJobDescriptions.size === 1 ? '' : 's'}}</div>
     <label>Email</label>
-    <pf-multi-user-or-email-picker *ngIf="!addingNonSystemUser"
+    <pf-multi-user-or-email-picker
                              [requiresName]="showNameForm"
                              (selectedEmailsChange)="handlePickerSelection($event)"
                              [(selectedEmails)]="emailList"

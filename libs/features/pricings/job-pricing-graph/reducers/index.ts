@@ -4,32 +4,33 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromBasePayGraphReducer from './job-pricing-graph.reducer';
+import * as fromJobPricingGraphReducer from './job-pricing-graph.reducer';
 
 // Feature area state
-export interface BasePayGraphState {
-  BasePayGraphData: fromBasePayGraphReducer.State;
+export interface JobPricingGraphState {
+  JobPricingGraphData: fromJobPricingGraphReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  feature_base_pay_graph: BasePayGraphState;
+  feature_job_pricing_graph: JobPricingGraphState;
 }
 
 // Feature area reducers
 export const reducers = {
-  BasePayGraphData: fromBasePayGraphReducer.reducer
+  JobPricingGraphData: fromJobPricingGraphReducer.reducer
 };
 
 // Select Feature Area
-export const selectBasePayGraphFeature =
-  createFeatureSelector<BasePayGraphState>('feature_base_pay_graph');
+export const selectJobPricingGraphFeature =
+  createFeatureSelector<JobPricingGraphState>('feature_job_pricing_graph');
 
 // View Selectors
-export const selectBasePayGraphState =
-  createSelector(selectBasePayGraphFeature, (state: BasePayGraphState) => state.BasePayGraphData);
+export const selectJobPricingGraphState =
+  createSelector(selectJobPricingGraphFeature, (state: JobPricingGraphState) => state.JobPricingGraphData);
 
-// BasePayGraph
-export const getState = createSelector(selectBasePayGraphState, fromBasePayGraphReducer.getState);
-export const getBasePay = createSelector(selectBasePayGraphState, fromBasePayGraphReducer.getBasePay);
-export const getPricing = createSelector(selectBasePayGraphState, fromBasePayGraphReducer.getPricing);
+// JobPricingGraph
+export const getState = createSelector(selectJobPricingGraphState, fromJobPricingGraphReducer.getState);
+export const getEmployeePayData = createSelector(selectJobPricingGraphState, fromJobPricingGraphReducer.getEmployeePayData);
+export const getBasePayPricing = createSelector(selectJobPricingGraphState, fromJobPricingGraphReducer.getBasePayPricing);
+export const getTCCPricing = createSelector(selectJobPricingGraphState, fromJobPricingGraphReducer.getTCCPricing);

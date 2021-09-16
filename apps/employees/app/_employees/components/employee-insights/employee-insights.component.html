@@ -34,6 +34,25 @@
             </div>
           </div>
         </div>
+        <div class="d-flex space-out-children">
+          <div class="card w-50">
+            <div class="d-flex flex-column h-100 pt-3">
+              <div class="title pb-3 pl-3">Market Spread</div>
+              <div class="h-100">
+                <pf-job-pricing-base-graph [paymarketId]="employeeInsights.Employee.CompanyPayMarketId"
+                                           [companyJobId]="employeeInsights.Employee.CompanyJobId"
+                                           [companyEmployeeId]="employeeInsights.Employee.CompanyEmployeeId"
+                                           [chartSettings]="chartSettings">
+                </pf-job-pricing-base-graph>
+              </div>
+            </div>
+          </div>
+          <div class="card w-50">
+            <div>
+              <pf-employee-salary-range-chart [employee]="employeeForSalaryRangeChart"></pf-employee-salary-range-chart>
+            </div>
+          </div>
+        </div>
       </ng-container>
     </div>
   </div>

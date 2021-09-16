@@ -1,6 +1,30 @@
+@import 'total-rewards/app-colors';
+@import 'total-rewards/statement-layout-variables';
 
 .tab-content-container {
   height: calc(100% - 49px);
   overflow-y: auto;
   padding-top: 1rem;
+}
+
+.blue-banner {
+  border: solid 1px #BCDFF1;
+  background-color: #D9EDF7;
+  height: 40px;
+  text-align: center;
+  color: #31708F;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.total-rewards-statement {
+  width: $canvas-width;
+  background: $trs-canvas-background-color;
+}
+
+.title {
+  max-width: 20%;
+  top: 4px;
+  position: relative;
 }

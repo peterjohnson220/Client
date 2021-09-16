@@ -42,7 +42,8 @@
                    name="password"
                    type="password"
                    class="form-control login-input"
-                   formControlName="password">
+                   formControlName="password"
+                   autocomplete="off">
           </div>
           <div class="pb-1 d-flex align-self-center">
             <button id="Login" type="submit" class="btn login-button" [disabled]="loggingIn || loginSuccess || !loginSettingsSuccess"

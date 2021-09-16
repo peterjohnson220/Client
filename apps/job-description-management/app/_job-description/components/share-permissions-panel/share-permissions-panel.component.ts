@@ -1,7 +1,7 @@
 import { JobDescriptionSharingService } from './../../services';
 import { Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { SharedJobDescription } from '../../models';
+import { SharedJobDescriptionUser } from '../../models';
 
 @Component({
   selector: 'pf-share-permissions-panel',
@@ -15,7 +15,7 @@ export class SharePermissionsPanelComponent implements OnInit, OnDestroy {
   @Output() onClose = new EventEmitter();
   @Output() onShare = new EventEmitter();
 
-  shares: SharedJobDescription[];
+  shares: SharedJobDescriptionUser[];
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
@@ -30,10 +30,10 @@ export class SharePermissionsPanelComponent implements OnInit, OnDestroy {
     this.jobDescriptionSharingService.init();
     this.isLoading = true;
     this.isEmpty = true;
-    this.sharesSubscription = this.jobDescriptionSharingService.getShares(this.companyId, this.jobDescriptionId).subscribe({
-      next: share => {
-        this.shares.push(share);
-        this.isEmpty = false;
+    this.sharesSubscription = this.jobDescriptionSharingService.getSharedUsers(this.jobDescriptionId).subscribe({
+      next: newShares => {
+        this.shares = newShares;
+        this.isEmpty = !newShares || newShares.length === 0;
       },
       error: _ => {
         this.isError = true;
@@ -52,10 +52,13 @@ export class SharePermissionsPanelComponent implements OnInit, OnDestroy {
 
   // * This should handle sending a request to resend an email to that user
   handleResendEmailClicked(share): void {
-    this.jobDescriptionSharingService.resendEmail().then(res => {
-      console.log('resendEmail call returned 200');
-    }).catch(err => console.log('resendEmail call did not return 200', err));
-    console.log('handleResendEmailClicked', share);
+    this.jobDescriptionSharingService.resendEmail();
   }
 
+  getDisplayName(firstName: string, lastName:string, email: string): string {
+    // users should have both first and last name.  Email is fallback for edge case.
+    return (firstName && lastName) 
+      ? `${firstName} ${lastName}`
+      : email;
+  }
 }

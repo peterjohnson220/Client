@@ -7,6 +7,7 @@ import {
   RoundingSettingsDataObj
 } from 'libs/models/structures';
 import { AsyncStateObj, generateDefaultAsyncStateObj, GenericKeyValue } from 'libs/models';
+import { AsyncStateObjHelper } from 'libs/core';
 
 import * as fromSharedActions from '../actions/shared.actions';
 import { SelectedPeerExchangeModel } from '../models';
@@ -23,6 +24,7 @@ export interface State {
   currentRangeGroup: AsyncStateObj<any>;
   gradeRangeDetails: AsyncStateObj<any>;
   loadingMetaData: boolean;
+  removingRange: AsyncStateObj<boolean>;
 }
 
 const initialState: State = {
@@ -36,7 +38,8 @@ const initialState: State = {
   compareEnabled: false,
   currentRangeGroup: generateDefaultAsyncStateObj<any>(null),
   gradeRangeDetails: generateDefaultAsyncStateObj<any>(null),
-  loadingMetaData: false
+  loadingMetaData: false,
+  removingRange: generateDefaultAsyncStateObj<boolean>(false)
 };
 
 export function reducer(state = initialState, action: fromSharedActions.SharedActions): State {
@@ -251,6 +254,25 @@ export function reducer(state = initialState, action: fromSharedActions.SharedAc
         gradeRangeDetails: gradeRangeDetails
       };
     }
+    case fromSharedActions.SHOW_REMOVE_RANGE_MODAL: {
+      return {
+        ...state,
+        removingRange: {
+          ...state.removingRange,
+          loadingError: false,
+          loadingErrorResponse: null
+        }
+      };
+    }
+    case fromSharedActions.REMOVING_RANGE: {
+      return AsyncStateObjHelper.loading(state, 'removingRange');
+    }
+    case fromSharedActions.REMOVING_RANGE_SUCCESS: {
+      return AsyncStateObjHelper.loadingSuccess(state, 'removingRange');
+    }
+    case fromSharedActions.REMOVING_RANGE_ERROR: {
+      return AsyncStateObjHelper.loadingError(state, 'removingRange', action.error);
+    }
     default:
       return state;
   }
@@ -299,3 +321,5 @@ export const getCompareEnabled = (state: State) => state.compareEnabled;
 export const getCurrentRangeGroup = (state: State) => state.currentRangeGroup;
 export const getGradeRangeDetails = (state: State) => state.gradeRangeDetails;
 export const getLoadingMetaData = (state: State) => state.loadingMetaData;
+export const getRemovingRange = (state: State) => state.removingRange;
+

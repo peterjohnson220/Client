@@ -127,7 +127,6 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       SelectAllPanelItemName: 'employees',
       SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(400, 70, true)
     };
-
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
@@ -301,7 +300,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.store.dispatch(
       new fromEmployeesPageActions.GenerateStatement(
         { statementId: this.totalRewardsStatement.StatementId, companyEmployeeIds: [this.selectedCompanyEmployeeId] }
-        ));
+      ));
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

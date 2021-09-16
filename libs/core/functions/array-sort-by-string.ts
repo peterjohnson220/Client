@@ -4,6 +4,16 @@ export enum SortDirection {
 }
 
 export function arraySortByString(a: string, b: string, dir: SortDirection) {
+  if (!a && !b) {
+    return dir === SortDirection.Ascending ? 1 : -1;
+  }
+
+  if (!b) {
+    return dir === SortDirection.Ascending ? -1 : 1;
+  }
+  if (!a) {
+    return dir === SortDirection.Ascending ? 1 : -1;
+  }
   const nameA = a.toUpperCase();
   const nameB = b.toUpperCase();
 
@@ -11,8 +21,10 @@ export function arraySortByString(a: string, b: string, dir: SortDirection) {
     return dir === SortDirection.Ascending ? -1 : 1;
   }
   if (nameA > nameB) {
-    return SortDirection.Ascending ? 1 : -1;
+    return dir === SortDirection.Ascending ? 1 : -1;
   }
+
+
 
   return 0;
 }

@@ -4,7 +4,7 @@ import 'hammerjs';
 
 import { TileTypes } from 'libs/models';
 
-import { TilePreviewChart } from '../../../models';
+import { TilePreviewChart, TilePreviewChartData } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-chart',
@@ -87,7 +87,13 @@ export class TilePreviewChartComponent implements OnChanges {
 
       this.model.ChartComponentData = (<[ any ]>this.model.ChartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
         .reduce((array, item) => {
-          array.push({ CategoryValue: item.Value, CategoryName: item.Key });
+          this.model.TileType === TileTypes.JobDescriptions
+            ? array.push({
+              CategoryValue: item.Value,
+              CategoryName: item.Key,
+              color: item.Key === 'Incumbents' ? '#86B62D' : '#59791E'
+            } as TilePreviewChartData)
+            : array.push({ CategoryValue: item.Value, CategoryName: item.Key } as TilePreviewChartData);
           return array;
         }, []);
     }

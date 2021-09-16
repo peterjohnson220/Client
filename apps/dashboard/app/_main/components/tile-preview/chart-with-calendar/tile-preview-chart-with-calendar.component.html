@@ -23,12 +23,12 @@
                       [format]="'MM/dd/yyyy'" onkeydown="return false;">
     </kendo-datepicker>
     <div class="hidden-tile-area">
-     <span class="tile-text">
-      {{model.ComponentData.TileLeftPart.CategoryName}}
-    </span>
+      <span class="tile-text">
+        {{model.ComponentData.TileLeftPart.CategoryName}}
+      </span>
       <span class="tile-text-large">
-      {{model.ComponentData.TileLeftPart.CategoryValue}}
-    </span>
+        {{model.ComponentData.TileLeftPart.CategoryValue}}
+      </span>
     </div>
   </div>
   <div class="right-tile-area" *ngIf="model.ComponentData && model.ComponentData.TileRightPart != null">
@@ -44,8 +44,9 @@
             </ng-template>
           </kendo-chart-series-item-tooltip>
         </kendo-chart-series-item>
-        <ng-template kendoChartDonutCenterTemplate>
-          <span class="tile-text-extra-large">{{model.ComponentData.TileRightPart.CategoryValue}}%
+        <ng-template kendoChartDonutCenterTemplate *ngIf="!isCategoryValuePartialPercentage">
+          <span class="tile-text-extra-large">
+            {{model.ComponentData.TileRightPart.CategoryValue}}%
           </span>
           <span class="tile-text">{{model.ComponentData.TileRightPart.CategoryName}}</span>
         </ng-template>

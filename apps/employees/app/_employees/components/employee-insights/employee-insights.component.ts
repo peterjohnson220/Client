@@ -1,10 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 
 import { AsyncStateObj, GenericKeyValue, UserContext } from 'libs/models';
 import { EmployeeInsights } from 'libs/models/payfactors-api/employees/employee-insights.model';
+import { EmployeeForSalaryRangeChart } from 'libs/features/employees/employee-salary-range-chart/models';
+import { getDefaultChartSettings, JobPricingChartSettings } from 'libs/features/pricings/job-pricing-graph/models';
+import { JobPricingBaseGraphComponent } from 'libs/features/pricings/job-pricing-graph/containers';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromEmployeeInsightsActions from '../../actions/employee-insights.actions';
@@ -17,6 +20,7 @@ import { EmployeeDetailSections, EmployeesInsightsHelper } from '../../models/em
   styleUrls: ['./employee-insights.component.scss']
 })
 export class EmployeeInsightsComponent implements OnInit, OnDestroy {
+  @ViewChild(JobPricingBaseGraphComponent) baseGraph: JobPricingBaseGraphComponent;
 
   employeeInsightsAsync$: Observable<AsyncStateObj<EmployeeInsights>>;
   userContext$: Observable<UserContext>;
@@ -37,6 +41,8 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
   customEmployeeFields: GenericKeyValue<string, string>[];
   allCustomEmployeeFields: GenericKeyValue<string, string>[];
   isViewMore: boolean;
+  employeeForSalaryRangeChart: EmployeeForSalaryRangeChart;
+  chartSettings: JobPricingChartSettings;
 
   constructor(
     private store: Store<fromEmployeesPageReducer.State>,
@@ -45,6 +51,19 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
     this.userContext$ = this.rootStore.select(fromRootState.getUserContext);
     this.employeeInsightsAsync$ = this.store.select(fromEmployeesPageReducer.getEmployeeInsights);
     this.customEmployeeFieldsAsync$ = this.store.select(fromEmployeesPageReducer.getCustomEmployeeFields);
+    this.chartSettings = {
+      ...getDefaultChartSettings(),
+      MarginLeft: null,
+      MarginRight: 30,
+      MarginBottom: 75,
+      SpacingTop: 50,
+      Height: 167,
+      ShowPayLabel: false,
+      Theme: 'default',
+      LabelYPosition: -30,
+      TooltipYOffset: -7,
+      TooltipXOffset: -5
+    };
   }
 
   ngOnInit(): void {
@@ -62,6 +81,9 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
     this.employeeInsightsAsyncSubscription = this.employeeInsightsAsync$.subscribe(async => {
       if (!async?.loading && async.obj && this.isEmployeeInsightsInitialized) {
         this.updateEmployeeDetails(async.obj, this.allCustomEmployeeFields);
+        if (this.baseGraph) {
+          this.baseGraph.refreshData();
+        }
       }
     });
   }
@@ -85,6 +107,12 @@ export class EmployeeInsightsComponent implements OnInit, OnDestroy {
     this.incentives = EmployeesInsightsHelper.mapEmployeeDataToGenericKeyValues(employeeInsights, EmployeeDetailSections.Incentives);
     this.employeeBenefits = EmployeesInsightsHelper.mapEmployeeBenefitsDataToGenericKeyValues(employeeInsights.EmployeeBenefits);
     this.customEmployeeFields = EmployeesInsightsHelper.getCustomFieldsWithValues(employeeInsights, customFields);
+    this.employeeForSalaryRangeChart = {
+      CompanyEmployeeId: this.employeeInsights.Employee.CompanyEmployeeId,
+      CompanyJobId: this.employeeInsights.Employee.CompanyJobId,
+      CompanyPayMarketId: this.employeeInsights.Employee.CompanyPayMarketId,
+      StructureRangeGroupId: this.employeeInsights.StructureRangeGroupId
+    };
   }
 
   private loadCustomEmployeeFields(companyId: number): void {

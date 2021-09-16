@@ -29,6 +29,7 @@ export class DashboardsHeaderComponent implements OnInit, OnDestroy {
   @Input() dashboardViews: string[];
   @Input() selectedDashboardView: DashboardView;
   @Input() tagsEnabled: boolean;
+  @Input() scopesEnabled: boolean;
 
   @Output() selectedDashboardViewChanged: EventEmitter<DashboardView> = new EventEmitter<DashboardView>();
 

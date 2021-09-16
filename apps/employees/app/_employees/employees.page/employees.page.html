@@ -32,7 +32,11 @@
     <div ngbDropdownMenu aria-labelledby="employee-actions-{{dataRow['CompanyEmployees_CompanyEmployee_ID']}}">
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleEditClicked(true)">Edit</button>
       <button [pfSecuredResource]="permissions.NEW_PROJECT" ngbDropdownItem (click)="handlePriceJobsClicked(true)">Create Project</button>
-      <pf-async-container [pfSecuredResource]="permissions.TOTAL_REWARDS" [loading]="(totalRewardsStatementId$ | async)?.loading" [loadingError]="(totalRewardsStatementId$ | async)?.loadingError">
+      <pf-async-container
+        *ngIf="!employeeDetailsPanelEnabled"
+        [pfSecuredResource]="permissions.TOTAL_REWARDS"
+        [loading]="(totalRewardsStatementId$ | async)?.loading"
+        [loadingError]="(totalRewardsStatementId$ | async)?.loadingError">
         <button *ngIf="totalRewardsStatementId !== null" ngbDropdownItem (click)="handleViewTotalRewardsStatementClicked(dataRow['CompanyEmployees_CompanyEmployee_ID'])">View Total Rewards Statement</button>
       </pf-async-container>
       <button [pfSecuredResource]="permissions.EMPLOYEES_ADD_EDIT_DELETE" ngbDropdownItem (click)="handleDeleteSingleEmployeeClicked()">Delete</button>

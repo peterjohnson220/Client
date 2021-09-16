@@ -9,12 +9,14 @@ import { ChartModule } from '@progress/kendo-angular-charts';
 import { NgbModalModule, NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
 
 import { CrowdSourcedDataRoutingModule } from './crowd-sourced-data-routing.module';
 import * as fromFaIcons from './fa-icons';
@@ -30,6 +32,7 @@ import { SharedModule } from '../_shared/shared.module';
 import { CrowdSourcedJobGridContentComponent, CompensableFactorTypeComponent} from './components';
 import { reducers } from './reducers';
 import { CompensableFactorsEffect } from './effects';
+import { ExportDataEffect } from './effects/export-data.effect';
 
 @NgModule({
   imports: [
@@ -49,10 +52,12 @@ import { CompensableFactorsEffect } from './effects';
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
+    HighchartsChartModule,
 
     StoreModule.forFeature('comphub_crowd_sourced', reducers),
     EffectsModule.forFeature([
-      CompensableFactorsEffect
+      CompensableFactorsEffect,
+      ExportDataEffect
     ]),
 
     // Payfactors
@@ -61,7 +66,8 @@ import { CompensableFactorsEffect } from './effects';
     PfFormsModule,
     GuidelinesBadgeModule,
     BasicDataGridModule,
-    SharedModule
+    SharedModule,
+    JobPricingGraphModule
 
   ],
   declarations: [
@@ -71,7 +77,7 @@ import { CompensableFactorsEffect } from './effects';
     CrowdSourcedJobGridContentComponent,
     CrowdSourcedSummaryCardComponent,
     CompensableFactorTypeComponent,
-    CompensableFactorsComponent
+    CompensableFactorsComponent,
   ],
   providers: [
     CrowdSourcedDataPageGuard

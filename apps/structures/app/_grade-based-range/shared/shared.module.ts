@@ -26,13 +26,15 @@ import {
   GradeBasedVerticalRangeChartComponent,
   ModelGridComponent,
   GradeBasedSummaryChartComponent,
-  SwitchRegressionFlagsModalComponent
+  SwitchRegressionFlagsModalComponent,
+  AddGradeModalComponent
 } from './containers';
 import { reducers } from './reducers';
 import {
   PublishModelModalEffects,
   SharedEffects,
-  SwitchRegressionFlagsModalEffects
+  SwitchRegressionFlagsModalEffects,
+  AddGradeModalEffects
 } from './effects';
 
 
@@ -47,7 +49,8 @@ import {
     EffectsModule.forFeature([
       SharedEffects,
       SwitchRegressionFlagsModalEffects,
-      PublishModelModalEffects
+      PublishModelModalEffects,
+      AddGradeModalEffects
     ]),
     NgbCollapseModule,
     FontAwesomeModule,
@@ -80,13 +83,15 @@ import {
     GradeBasedSummaryChartComponent,
     GradeBasedHorizontalRangeChartComponent,
     GradeBasedVerticalRangeChartComponent,
-    SwitchRegressionFlagsModalComponent
+    SwitchRegressionFlagsModalComponent,
+    AddGradeModalComponent
   ],
   exports: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
     GradeBasedHorizontalRangeChartComponent,
-    GradeBasedVerticalRangeChartComponent
+    GradeBasedVerticalRangeChartComponent,
+    AddGradeModalComponent
   ],
   providers: [
   ]

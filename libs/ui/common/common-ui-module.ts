@@ -45,6 +45,7 @@ import { JobTitleCodeComponent } from './job-title-code/job-title-code.component
 import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning';
 import { ButtonIconComponent } from './content/icons/button-icon';
 import { GridColumnTooltipComponent } from './tooltips/grid-column-tooltip/grid-column-tooltip.component';
+import { GlobalFooterComponent } from './global-footer';
 
 const components = [
   // Content
@@ -62,6 +63,7 @@ const components = [
   TreeViewMultiSelectComponent,
   GridColumnTooltipComponent,
   RadialTextCounterComponent,
+  GlobalFooterComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,

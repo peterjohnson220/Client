@@ -1,5 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`User Menu should hide the notification badge for public sessions and non SMB clients 1`] = `
+<pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
+  featureFlagService={[Function Object]}
+  payscaleBrandingFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    <span
+      class="navbar-brand mr-auto"
+    >
+      <img
+        class="logo-style"
+        src=""
+      />
+    </span>
+    <pf-layout-wrapper-user-menu />
+  </nav>
+</pf-layout-wrapper-header>
+`;
+
 exports[`User Menu should show homepage link, when provided 1`] = `
 <pf-layout-wrapper-header
   __ngContext__={[Function LRootView]}
@@ -32,6 +56,57 @@ exports[`User Menu should show the header 1`] = `
 <pf-layout-wrapper-header
   __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
+  featureFlagService={[Function Object]}
+  payscaleBrandingFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    <a
+      class="navbar-brand mr-auto"
+      href=""
+    >
+      <img
+        class="logo-style"
+        src=""
+      />
+    </a>
+    <pf-notification-badge />
+    <pf-layout-wrapper-user-menu />
+  </nav>
+</pf-layout-wrapper-header>
+`;
+
+exports[`User Menu should show the notification badge for SMB clients in public sessions 1`] = `
+<pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
+  featureFlagService={[Function Object]}
+  payscaleBrandingFeatureFlag={[Function Object]}
+  unsubscribe$={[Function Subject]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    <span
+      class="navbar-brand mr-auto"
+    >
+      <img
+        class="logo-style"
+        src=""
+      />
+    </span>
+    <pf-notification-badge />
+    <pf-layout-wrapper-user-menu />
+  </nav>
+</pf-layout-wrapper-header>
+`;
+
+exports[`User Menu should show the notifications badge for non-public sessions 1`] = `
+<pf-layout-wrapper-header
+  __ngContext__={[Function LRootView]}
   featureFlagService={[Function Object]}
   payscaleBrandingFeatureFlag={[Function Object]}
   unsubscribe$={[Function Subject]}

@@ -1,10 +1,15 @@
 import { CompanyEmployee } from '../../company';
 import { EmployeeBenefit } from './employee-benefit.model';
+import { EmployeeRewardsData } from '../total-rewards';
+import { Statement } from '../../../features/total-rewards/total-rewards-statement/models';
 
 export interface EmployeeInsights {
   Employee: CompanyEmployee;
   EmployeeBenefits: EmployeeBenefit[];
   CurrencyName: string;
+  StructureRangeGroupId: number;
+  TotalRewardsStatement: Statement;
+  EmployeeRewardsData: EmployeeRewardsData;
 }
 
 export interface GetEmployeeInsightsRequest {

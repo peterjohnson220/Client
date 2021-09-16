@@ -4,18 +4,20 @@ import {
   QuickPriceMarketData,
   QuickPriceListResponse,
   TrendingJobGroupResponse,
-  GetCrowdSourcedJobPricingResponse
+  GetCrowdSourcedJobPricingResponse,
+  GetJobSummaryPrintDataResponse,
+  SearchCrowdSourcedJobsResponse
 } from 'libs/models/payfactors-api/comphub';
 import { PayMarket } from 'libs/models/paymarket';
 import { KendoDropDownItem } from 'libs/models/kendo';
 import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
 import { Filter } from 'libs/features/search/search/models';
 import { MDScopeSizeCategory } from 'libs/constants';
-import { SearchCrowdSourcedJobsResponse } from 'libs/models/payfactors-api/comphub/response/search-crowd-sourced-jobs-response.model';
-import { JobData, JobGridData, PricingPaymarket } from 'libs/models/comphub';
+import { DataSummaryReportData, DataSummaryReportRowData, JobData, JobGridData, JobSummaryPrintData, PricingPaymarket } from 'libs/models/comphub';
 import { GenericKeyValue } from 'libs/models/common';
 
 import { CountryDataSet, JobSalaryTrend, MarketDataLocation, MarketDataScope, TrendingJobGroup } from '../models';
+import { CompensableFactorsConstants } from '../constants/compensable-factors-constants';
 
 export class PayfactorsApiModelMapper {
 
@@ -214,6 +216,84 @@ export class PayfactorsApiModelMapper {
       Skills: null,
       FLSAStatus: null,
       ShowJd: null
+    };
+  }
+
+  static mapGetJobSummaryPrintDataResponseToJobSummaryPrintData(response: GetJobSummaryPrintDataResponse): JobSummaryPrintData {
+    // Map Compensable Factors
+    let yearsExperience = null, education = null, supervisoryRole = null;
+    const skills = [], certs = [];
+    response.SelectedFactors.forEach(factor => {
+      if (factor.Name === CompensableFactorsConstants.YEARS_EXPERIENCE) {
+        yearsExperience = factor.SelectedFactors[0];
+      }
+      if (factor.Name === CompensableFactorsConstants.EDUCATION) {
+        education = factor.SelectedFactors[0];
+      }
+      if (factor.Name === CompensableFactorsConstants.SUPERVISORY_ROLE) {
+        supervisoryRole = factor.SelectedFactors[0];
+      }
+      if (factor.Name === CompensableFactorsConstants.SKILLS) {
+        factor.SelectedFactors.forEach(skill => {
+          skills.push(skill);
+        });
+      }
+      if (factor.Name === CompensableFactorsConstants.CERTS) {
+        factor.SelectedFactors.forEach(cert => {
+          certs.push(cert);
+        });
+      }
+    });
+
+    // Map Data Summary Report
+    const dataSummaryReports = [];
+    response.DataSummaryReport.Report.SubReports.forEach(report => {
+      const rows = [];
+      report.Rows.forEach(row => {
+        const rowData: DataSummaryReportRowData = {
+          Answer: row.Name,
+          PercentMatch: row.Percent
+        };
+        rows.push(rowData);
+      });
+      const dataSummaryReport: DataSummaryReportData = {
+        Name: report.Name,
+        Rows: rows
+      };
+      dataSummaryReports.push(dataSummaryReport);
+    });
+
+    return {
+      JobTitle: response.JobTitle,
+      Base10: response.Base10th,
+      Base25: response.Base25th,
+      Base50: response.Base50th,
+      Base75: response.Base75th,
+      Base90: response.Base90th,
+      BaseAvg: response.BaseAvg,
+      Total10: response.Total10th,
+      Total25: response.Total25th,
+      Total50: response.Total50th,
+      Total75: response.Total75th,
+      Total90: response.Total90th,
+      TotalAvg: response.TotalAvg,
+      SelectedPayMarket: response.SelectedPayMarket,
+      Industry: response.Industry,
+      OrganizationType: response.Location.OrganizationType,
+      AverageSizeCompetitor: response.Location.AverageSizeCompetitor,
+      City: response.Location.City,
+      State: response.Location.State,
+      Country: response.Location.Country,
+      GovernmentContractor: response.Location.GovernmentContractor,
+      YearsExperience: yearsExperience,
+      Skills: skills,
+      Certs: certs,
+      Education: education,
+      SupervisoryRole: supervisoryRole,
+      DataSummaryReports: dataSummaryReports,
+      UserName: response.UserName,
+      ReportDate: response.ReportDate,
+      Rate: response.Rate
     };
   }
 }

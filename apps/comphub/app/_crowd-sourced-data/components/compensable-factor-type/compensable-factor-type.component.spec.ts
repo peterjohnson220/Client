@@ -54,7 +54,7 @@ describe('CompensableFactorTypeComponent', () => {
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
     const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
-      compensableFactor: 'Skills', Name: factor.Name
+      compensableFactor: 'Skills', name: factor.Name
     });
 
     instance.topFactorChecked(factor);
@@ -69,7 +69,7 @@ describe('CompensableFactorTypeComponent', () => {
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
     const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
-      compensableFactor: 'Skills', Name: 'Angular'
+      compensableFactor: 'Skills', name: 'Angular'
     });
 
     instance.pillClicked('Angular');
@@ -84,7 +84,7 @@ describe('CompensableFactorTypeComponent', () => {
     instance.disabledCheckBox = [];
     const factor = generateMockCompensableFactorModel();
     const expectedAction = new fromCompensableFactorActions.ToggleSelectedCompensableFactor({
-      compensableFactor: 'Skills', Name: factor.Name
+      compensableFactor: 'Skills', name: factor.Name
     });
 
     instance.handleSearchValueSelected(factor.Name);

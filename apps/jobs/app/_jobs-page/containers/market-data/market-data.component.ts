@@ -18,7 +18,7 @@ import { PermissionService } from 'libs/core';
 
 import * as fromJobsPageReducer from '../../reducers';
 import * as fromModifyPricingsActions from '../../actions/modify-pricings.actions';
-import { DeleteMatchModalData, JobInsightsHelper, MarketDataConfig, MarketDataJobPricing, MarketDataJobPricingMatch } from '../../models';
+import { DeleteMatchModalData, MarketDataConfig, MarketDataJobPricing, MarketDataJobPricingMatch } from '../../models';
 import { PageViewIds } from '../../constants';
 import { WeightAdjustModalComponent } from '../weight-adjust-modal';
 
@@ -30,6 +30,7 @@ import { WeightAdjustModalComponent } from '../weight-adjust-modal';
 export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   @Input() jobPricing: MarketDataJobPricing;
   @Output() reloadJobPricing: EventEmitter<any> = new EventEmitter();
+  @Output() marketDataUpdated: EventEmitter<any> = new EventEmitter();
 
   @ViewChild(WeightAdjustModalComponent, { static: true }) weightAdjustModalComponent: WeightAdjustModalComponent;
 
@@ -84,6 +85,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
     ).subscribe(data => {
       if (this.jobPricing.PricingId) {
         this.getData();
+        this.marketDataUpdated.emit();
       } else {
         this.reloadJobPricing.emit();
       }
@@ -111,6 +113,7 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
           this.reloadJobPricing.emit();
         } else {
           this.getData();
+          this.marketDataUpdated.emit();
         }
       });
     this.canModifyPricings = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS], PermissionCheckEnum.Single);
@@ -140,14 +143,14 @@ export class MarketDataComponent implements OnChanges, OnInit, OnDestroy {
   openDeleteMatchModal(pricingMatch: any): void {
     const deleteModalData: DeleteMatchModalData = {
       JobPricing: this.jobPricing,
-      JobPricingMatch: JobInsightsHelper.buildMarketDataJobPricingMatch(pricingMatch),
+      JobPricingMatch: MarketDataConfig.buildMarketDataJobPricingMatch(pricingMatch),
       PricingMatchesCount: this.pricingMatchesCount
     };
     this.jobsPageStore.dispatch(new fromModifyPricingsActions.SetDeleteMatchModalData(deleteModalData));
   }
 
   openWeightAdjustModal(pricingMatch: any): void {
-    const modalData: MarketDataJobPricingMatch = JobInsightsHelper.buildMarketDataJobPricingMatch(pricingMatch);
+    const modalData: MarketDataJobPricingMatch = MarketDataConfig.buildMarketDataJobPricingMatch(pricingMatch);
     const canModifyMatch = this.isActiveJob && (!this.jobPricing.LinkedPayMarketName?.length);
     const permissionMessage = this.modifyMatchPermissionMessage();
     this.weightAdjustModalComponent.open(modalData, canModifyMatch, permissionMessage);

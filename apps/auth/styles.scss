@@ -2,7 +2,7 @@
 
 $auth-header-text-color: $pf-brand-primary-color;
 
-// TODO: remove this rule when `restyle-login` feature flag is deprecated
+// TODO: remove rules below when `restyle-login` feature flag is deprecated
 #ps-privacy, .payscale-logo, pf-first-login-page h1 span.ps { 
   display: none;
 }
@@ -10,23 +10,18 @@ $auth-header-text-color: $pf-brand-primary-color;
 html.payscale-rebrand {
   background-color: transparent;
   body {
-    background: url("^assets/images/waves.png");
-    background-position-y: center;
-    background-size: cover;
+    background: url("../../assets/images/waves.png") center/cover no-repeat;
     background-color: transparent;
   }
-  // TODO: remove this rule when `restyle-login` feature flag is deprecated
   .payscale-logo {
     display: block;
   }
   .main-panel.box-shadow {
     box-shadow: 5px 15px 15px rgba(0, 0, 0, .2);
   }
-  // TODO: remove this rule when `restyle-login` feature flag is deprecated 
   #pf-privacy, .payfactors-logo, pf-first-login-page h1 span.pf {
     display: none;
   }
-  // TODO: remove this rule when `restyle-login` feature flag is deprecated
   #ps-privacy, pf-first-login-page h1 span.ps {
     display: inline;
   }
@@ -37,6 +32,6 @@ html.payscale-rebrand {
     color: #312B36;
   }
   button#Login, button#Login > span, button#Reset, a#ReturnToLogin, pf-first-login-page .submit-button {
-    background-color: #3D0FC8; 
+    background-color: $ps-brand-primary-accent-color; 
   }
 }
