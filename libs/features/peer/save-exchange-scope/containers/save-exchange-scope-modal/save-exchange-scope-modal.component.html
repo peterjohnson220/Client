@@ -50,14 +50,14 @@
     </div>
 
   </ng-container>
-  <div *ngIf="!isStandardScope">
     <ng-container footer-left>
+      <div *ngIf="!isStandardScope">
       <label for="is-default-scope">
         Make this your default scope?
         <input type="checkbox"
                id="is-default-scope"
                formControlName="isDefaultScope"/>
       </label>
+      </div>
     </ng-container>
-  </div>
 </pf-modal-form>
