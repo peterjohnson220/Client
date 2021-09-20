@@ -34,7 +34,7 @@ describe('Admin - Tickets - Attachment Upload', () => {
   });
 
   it('Should emit an event on succesful upload', () => {
-    spyOn(instance.addAttachments, 'emit');
+    jest.spyOn(instance.addAttachments, 'emit');
 
     const mockSuccessEvent = new SuccessEvent(
         [

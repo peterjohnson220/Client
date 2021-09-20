@@ -1,3 +1,5 @@
+@import 'comphub-variables';
+
 .tempTable {
   border: 1px;
 }
@@ -12,4 +14,128 @@
 
 tr {
   border: 1px solid black;
+}
+
+hr {
+  background-color: #D3D3D3;
+  height: 1px;
+}
+
+.summary-page-content {
+  padding-top: 30px;
+}
+
+.summary-panel-wrapper {
+  background-color: #f7f7f7;
+  border-right: 4px solid rgba(0, 153, 204, 0.06);
+  padding: .25rem 1rem 3rem;
+  overflow: auto;
+
+  .summary-panel-item {
+    padding: 0 0 10px 0;
+
+    .summary-panel-item-header {
+      font-size: .85rem;
+      text-transform: uppercase;
+    }
+
+    .summary-panel-item-value {
+      font-weight: $comphub-bold-font-weight;
+      font-size: 1.25rem;
+      color: $comphub-header-blue;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -10px;
+  margin-bottom: 15px;
+
+  .job-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #306589;
+  }
+
+  .actions {
+    min-width: 185px;
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      margin-left: .75rem;
+      border: 1px solid transparent;
+
+      &:hover {
+        border: 1px solid #CCC;
+      }
+
+      fa-icon {
+        color: #777777;
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+
+.rate-display-dropdown {
+  vertical-align: unset;
+  width:fit-content;
+  padding-right: 7px;
+}
+
+:host ::ng-deep .k-dropdown.rate-display-dropdown {
+  .k-input {
+    color: #3593d3;
+    padding: 0;
+    margin-top: 1px;
+  }
+  .k-dropdown-wrap {
+    border: 0 solid transparent;
+    width: fit-content;
+  }
+  .k-state-focused {
+    box-shadow: none !important;
+  }
+
+  .k-select {
+    position: inline;
+    top: 5px;
+    color: #3593d3;
+  }
+}
+
+.rate-display {
+  float: right;
+}
+
+:host ::ng-deep .k-list {
+  color: #3593d3;
+}
+
+.rate-display-label {
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.rate-value-label {
+  display: inline;
+}
+
+.rate-value-row {
+  margin-bottom: 15px;
+}
+
+.csd-label {
+  display: flex;
+  justify-content: flex-end;
+  color: $comphub-header-blue;
+}
+
+.async-container-positioner {
+  position: relative;
 }

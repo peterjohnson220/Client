@@ -1,5 +1,6 @@
 const gulp = require('gulp')
 const purgecss = require('gulp-purgecss')
+var sass = require('gulp-dart-sass');
 
 // Accept a required 'app' -a argument for the gulp task
 //
@@ -7,7 +8,7 @@ const purgecss = require('gulp-purgecss')
 const argv = require('yargs').options({
   'app': {
     alias: 'a',
-    demandOption: true,
+    demandOption: false,
     describe: 'Provide an application',
     type: 'string'
   }
@@ -50,4 +51,14 @@ gulp.task('purgecss', () => {
         /^k-i/]
     }))
     .pipe(gulp.dest(`./dist/apps/${argv.app}/`))
-})
+});
+
+// Sass
+// Script that should be run anytime we modify the client.scss or any of the files it imports. When executed this will
+// compile client.scss using dart-sass, moving the resulting css file to a dist/assets/css folder. This css file will be
+// used as a style asset for all applications.
+gulp.task('sass', function () {
+  return gulp.src('./assets/scss/client.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./dist/assets/css'));
+});

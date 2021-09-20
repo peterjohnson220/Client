@@ -1,0 +1,26 @@
+$controls-color: #707070;
+
+.caret-btn {
+    padding: 0;
+    border: none;
+    background-color: inherit;
+    color: $controls-color;
+  }
+  
+.caret-btn:focus {
+  border: none;
+  outline: none;
+}
+
+.jd-workflow-head-controls{
+  float: right;
+}
+
+.jd-workflow-head-controls {
+  fa-icon {
+    cursor: pointer;
+    color: $controls-color;
+  }
+}
+  
+  

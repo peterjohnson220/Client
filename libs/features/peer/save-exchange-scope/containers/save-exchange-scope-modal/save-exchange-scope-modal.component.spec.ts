@@ -45,7 +45,7 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(SaveExchangeScopeModalComponent);
     instance = fixture.componentInstance;
@@ -77,7 +77,7 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
     instance.exchangeScopeNameControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeName);
     instance.exchangeScopeDescriptionControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDetails.ExchangeScopeDescription);
 
-    spyOn(instance.upsertExchangeScopeEvent, 'emit');
+    jest.spyOn(instance.upsertExchangeScopeEvent, 'emit');
 
     instance.handleFormSubmit();
 

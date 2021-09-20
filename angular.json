@@ -11,7 +11,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/notifications",
             "index": "apps/notifications/index.html",
             "main": "apps/notifications/main.ts",
@@ -51,25 +50,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/notifications/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -78,7 +84,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -86,18 +91,19 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/notifications/../../assets/js/new-relic.js",
-                  "with": "apps/notifications/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.02mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -106,7 +112,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -114,10 +119,6 @@
                 {
                   "replace": "apps/notifications/../../environments/environment.ts",
                   "with": "apps/notifications/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/notifications/../../assets/js/walk-me.js",
-                  "with": "apps/notifications/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -132,7 +133,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -143,7 +143,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -180,7 +181,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/notifications/styles.scss"
             ],
             "assets": [
@@ -234,7 +235,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/admin",
             "index": "apps/admin/index.html",
             "main": "apps/admin/main.ts",
@@ -281,21 +281,28 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula",
               "@mapbox/mapbox-gl-geocoder"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.73mb",
+                  "baseline": "2.93mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -304,7 +311,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -312,18 +318,19 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.73mb",
+                  "baseline": "2.93mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -332,7 +339,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -340,14 +346,6 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/walk-me.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -362,7 +360,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -370,14 +367,11 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/admin/../../assets/js/new-relic.js",
-                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -414,7 +408,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/admin/styles.scss"
             ],
             "assets": [
@@ -468,7 +462,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/dashboard",
             "index": "apps/dashboard/index.html",
             "main": "apps/dashboard/main.ts",
@@ -508,28 +501,34 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/dashboard/styles.scss"
             ],
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/new-relic.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula",
               "hammerjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -538,7 +537,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -546,18 +544,20 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/drift.js",
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.17mb",
+                  "baseline": "2.5mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -566,7 +566,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -574,14 +573,6 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/walk-me.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -596,7 +587,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -604,14 +594,11 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
-                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -649,7 +636,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/dashboard/styles.scss"
             ],
             "assets": [
@@ -703,7 +690,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/peer",
             "index": "apps/peer/index.html",
             "main": "apps/peer/main.ts",
@@ -743,7 +729,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/peer/styles.scss",
               "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -753,7 +739,8 @@
               "assets/js/pendo.js",
               "assets/js/drift.js",
               "assets/js/tableau-2.2.0.min.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -761,14 +748,20 @@
               "dragula",
               "hammerjs",
               "@mapbox/mapbox-gl-geocoder"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.90mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -777,7 +770,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -785,18 +777,21 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/drift.js",
+                "assets/js/tableau-2.2.0.min.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.50mb",
+                  "baseline": "2.90mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -805,7 +800,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -813,14 +807,6 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/walk-me.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -835,7 +821,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -843,14 +828,11 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/peer/../../assets/js/new-relic.js",
-                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -887,7 +869,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/peer/styles.scss",
               "apps/peer/assets/css/flags.min.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -944,7 +926,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/legacy-content",
             "index": "apps/legacy-content/index.html",
             "main": "apps/legacy-content/main.ts",
@@ -984,7 +965,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/legacy-content/styles.scss",
               "libs/features/peer/job-association/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
@@ -992,7 +973,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1000,14 +982,20 @@
               "dragula",
               "dom-autoscroller",
               "@mapbox/mapbox-gl-geocoder"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.49mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1016,7 +1004,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1024,18 +1011,19 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.29mb",
+                  "baseline": "2.49mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1044,7 +1032,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1052,14 +1039,6 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/walk-me.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1074,7 +1053,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1082,14 +1060,11 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
-                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1126,7 +1101,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/legacy-content/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
@@ -1182,7 +1157,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/auth",
             "index": "apps/auth/index.html",
             "main": "apps/auth/main.ts",
@@ -1223,7 +1197,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "scripts": [
@@ -1235,14 +1209,20 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1251,7 +1231,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1259,18 +1238,19 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/recaptcha.js",
+                "assets/js/walk-me.prod.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "1.77mb",
+                  "baseline": "2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1279,7 +1259,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1287,14 +1266,6 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/walk-me.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1309,7 +1280,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1317,14 +1287,11 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/auth/../../assets/js/new-relic.js",
-                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1361,7 +1328,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "assets": [
@@ -1415,7 +1382,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/project",
             "index": "apps/project/index.html",
             "main": "apps/project/main.ts",
@@ -1455,27 +1421,36 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/project/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
-              "dragula"
-            ]
+              "dragula",
+              "dom-autoscroller",
+              "@mapbox/mapbox-gl-geocoder"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.58mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1484,7 +1459,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1492,18 +1466,19 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.38mb",
+                  "baseline": "2.58mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1512,7 +1487,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1520,14 +1494,6 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/walk-me.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1542,7 +1508,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1550,14 +1515,11 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/project/../../assets/js/new-relic.js",
-                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1594,7 +1556,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/auth/styles.scss"
             ],
             "assets": [
@@ -1648,7 +1610,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/community",
             "index": "apps/community/index.html",
             "main": "apps/community/main.ts",
@@ -1689,27 +1650,34 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/community/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/uservoice.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula",
               "linkifyjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.41mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1718,7 +1686,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1726,18 +1693,20 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/uservoice.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.21mb",
+                  "baseline": "2.41mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -1746,7 +1715,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1754,14 +1722,6 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/walk-me.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -1776,7 +1736,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1784,14 +1743,11 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/community/../../assets/js/new-relic.js",
-                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1828,7 +1784,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/community/styles.scss"
             ],
             "assets": [
@@ -1882,7 +1838,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/smallbiz/browser",
             "index": "apps/smallbiz/index.html",
             "main": "apps/smallbiz/main.ts",
@@ -1926,13 +1881,20 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "local-universal": {
@@ -1947,7 +1909,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -1963,7 +1924,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1971,14 +1931,15 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "baseHref": "/app/",
               "budgets": [
                 {
@@ -1990,7 +1951,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1998,14 +1958,6 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2021,7 +1973,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2029,21 +1980,20 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/smallbiz/server",
             "main": "apps/smallbiz/main.server.ts",
-            "tsConfig": "apps/smallbiz/tsconfig.server.json"
+            "tsConfig": "apps/smallbiz/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "staging": {
@@ -2060,19 +2010,12 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/smallbiz/../../assets/js/walk-me.js",
-                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ],
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2162,7 +2105,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/jobs",
             "index": "apps/jobs/index.html",
             "main": "apps/jobs/main.ts",
@@ -2202,14 +2144,15 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/jobs/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2219,14 +2162,20 @@
               "hammerjs",
               "highcharts",
               "dom-autoscroller"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.5mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2235,7 +2184,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2243,18 +2191,19 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.5mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2263,7 +2212,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2271,14 +2219,6 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/walk-me.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2293,7 +2233,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2301,14 +2240,11 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/jobs/../../assets/js/new-relic.js",
-                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2345,7 +2281,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/jobs/styles.scss"
             ],
             "assets": [
@@ -2399,7 +2335,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/comphub",
             "index": "apps/comphub/index.html",
             "main": "apps/comphub/main.ts",
@@ -2439,7 +2374,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/comphub/styles.scss",
               "apps/comphub/outside-view-encapsulation.scss",
               "apps/comphub/assets/css/flags.min.css",
@@ -2448,7 +2383,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2457,14 +2393,20 @@
               "hammerjs",
               "@mapbox/mapbox-gl-geocoder",
               "highcharts"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2473,7 +2415,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2481,18 +2422,19 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.99mb",
+                  "baseline": "3.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2501,7 +2443,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2509,14 +2450,6 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/walk-me.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2531,7 +2464,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2539,14 +2471,11 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/comphub/../../assets/js/new-relic.js",
-                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2583,7 +2512,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/comphub/styles.scss"
             ],
             "assets": [
@@ -2637,7 +2566,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/pf-admin",
             "index": "apps/pf-admin/index.html",
             "main": "apps/pf-admin/main.ts",
@@ -2677,25 +2605,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/pf-admin/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2704,7 +2639,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2712,18 +2646,19 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.49mb",
+                  "baseline": "2.7mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2732,7 +2667,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2740,14 +2674,6 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/walk-me.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -2762,7 +2688,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2770,14 +2695,11 @@
                 {
                   "replace": "apps/pf-admin/../../environments/environment.ts",
                   "with": "apps/pf-admin/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/pf-admin/../../assets/js/new-relic.js",
-                  "with": "apps/pf-admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2814,7 +2736,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/pf-admin/styles.scss"
             ],
             "assets": [
@@ -2868,7 +2790,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/data-insights",
             "index": "apps/data-insights/index.html",
             "main": "apps/data-insights/main.ts",
@@ -2908,14 +2829,15 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-insights/styles.scss",
               "apps/data-insights/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/tableau-2.2.0.min.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -2926,14 +2848,20 @@
               "codemirror/addon/edit/matchbrackets",
               "codemirror/addon/display/placeholder",
               "codemirror/mode/spreadsheet/spreadsheet"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.8mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2942,7 +2870,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2950,18 +2877,20 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/tableau-2.2.0.min.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.58mb",
+                  "baseline": "2.8mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -2970,7 +2899,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -2978,14 +2906,6 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/walk-me.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3000,7 +2920,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3008,14 +2927,11 @@
                 {
                   "replace": "apps/data-insights/../../environments/environment.ts",
                   "with": "apps/data-insights/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/data-insights/../../assets/js/new-relic.js",
-                  "with": "apps/data-insights/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3053,7 +2969,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-insights/styles.scss"
             ],
             "assets": [
@@ -3107,7 +3023,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/job-description-management",
             "index": "apps/job-description-management/index.html",
             "main": "apps/job-description-management/main.ts",
@@ -3147,26 +3062,33 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/job-description-management/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/walk-me.js",
-              "apps/job-description-management/assets/js/quill.min.js"
+              "apps/job-description-management/assets/js/quill.min.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "4.2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3175,7 +3097,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3183,18 +3104,20 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "apps/job-description-management/assets/js/quill.min.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "3.85mb",
+                  "baseline": "4.2mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3203,7 +3126,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3211,14 +3133,6 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/walk-me.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3233,7 +3147,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3241,14 +3154,11 @@
                 {
                   "replace": "apps/job-description-management/../../environments/environment.ts",
                   "with": "apps/job-description-management/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/job-description-management/../../assets/js/new-relic.js",
-                  "with": "apps/job-description-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3285,7 +3195,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/job-description-management/styles.scss"
             ],
             "assets": [
@@ -3339,7 +3249,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/structures",
             "index": "apps/structures/index.html",
             "main": "apps/structures/main.ts",
@@ -3379,13 +3288,14 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/structures/styles.scss",
               "apps/structures/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
@@ -3399,14 +3309,20 @@
               "codemirror/addon/edit/matchbrackets",
               "codemirror/addon/display/placeholder",
               "codemirror/mode/spreadsheet/spreadsheet"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.65mb",
+                  "baseline": "2.85mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3415,7 +3331,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3423,18 +3338,19 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.65mb",
+                  "baseline": "2.85mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3443,7 +3359,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3451,14 +3366,6 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/walk-me.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3473,7 +3380,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3481,14 +3387,11 @@
                 {
                   "replace": "apps/structures/../../environments/environment.ts",
                   "with": "apps/structures/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/structures/../../assets/js/new-relic.js",
-                  "with": "apps/structures/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3525,7 +3428,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/structures/styles.scss"
             ],
             "assets": [
@@ -3579,7 +3482,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/data-management",
             "index": "apps/data-management/index.html",
             "main": "apps/data-management/main.ts",
@@ -3619,25 +3521,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-management/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.64mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3646,7 +3555,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3654,18 +3562,19 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.44mb",
+                  "baseline": "2.64mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3674,7 +3583,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3682,14 +3590,6 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/walk-me.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3704,7 +3604,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3712,14 +3611,11 @@
                 {
                   "replace": "apps/data-management/../../environments/environment.ts",
                   "with": "apps/data-management/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/data-management/../../assets/js/new-relic.js",
-                  "with": "apps/data-management/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3756,7 +3652,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/data-management/styles.scss"
             ],
             "assets": [
@@ -3810,7 +3706,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/resources",
             "index": "apps/resources/index.html",
             "main": "apps/resources/main.ts",
@@ -3850,25 +3745,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/resources/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3877,7 +3779,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3885,18 +3786,19 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.09mb",
+                  "baseline": "2.50mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -3905,7 +3807,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3913,14 +3814,6 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/walk-me.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -3935,7 +3828,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -3943,14 +3835,11 @@
                 {
                   "replace": "apps/resources/../../environments/environment.ts",
                   "with": "apps/resources/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/resources/../../assets/js/new-relic.js",
-                  "with": "apps/resources/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -3987,7 +3876,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/resources/styles.scss"
             ],
             "assets": [
@@ -4041,7 +3930,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/employees",
             "index": "apps/employees/index.html",
             "main": "apps/employees/main.ts",
@@ -4081,26 +3969,34 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/employees/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula",
-              "hammerjs"
-            ]
+              "hammerjs",
+              "highcharts"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4109,7 +4005,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4117,18 +4012,19 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.37mb",
+                  "baseline": "2.60mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4137,7 +4033,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4145,14 +4040,6 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/walk-me.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4167,7 +4054,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4175,14 +4061,11 @@
                 {
                   "replace": "apps/employees/../../environments/environment.ts",
                   "with": "apps/employees/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/employees/../../assets/js/new-relic.js",
-                  "with": "apps/employees/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4219,7 +4102,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/employees/styles.scss"
             ],
             "assets": [
@@ -4273,7 +4156,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/total-rewards",
             "index": "apps/total-rewards/index.html",
             "main": "apps/total-rewards/main.ts",
@@ -4313,26 +4195,33 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/total-rewards/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula",
               "hammerjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.62mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4341,7 +4230,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4349,18 +4237,19 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.22mb",
+                  "baseline": "2.62mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4369,7 +4258,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4377,14 +4265,6 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/walk-me.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4399,7 +4279,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4407,14 +4286,11 @@
                 {
                   "replace": "apps/total-rewards/../../environments/environment.ts",
                   "with": "apps/total-rewards/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/total-rewards/../../assets/js/new-relic.js",
-                  "with": "apps/total-rewards/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4451,7 +4327,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/total-rewards/styles.scss"
             ],
             "assets": [
@@ -4505,7 +4381,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/service",
             "index": "apps/service/index.html",
             "main": "apps/service/main.ts",
@@ -4545,25 +4420,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/service/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.53mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4572,7 +4454,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4580,18 +4461,19 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.33mb",
+                  "baseline": "2.53mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4600,7 +4482,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4608,14 +4489,6 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/walk-me.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4630,7 +4503,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4638,14 +4510,11 @@
                 {
                   "replace": "apps/service/../../environments/environment.ts",
                   "with": "apps/service/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/service/../../assets/js/new-relic.js",
-                  "with": "apps/service/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4683,7 +4552,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/service/styles.scss"
             ],
             "assets": [
@@ -4737,7 +4606,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/paymarkets",
             "index": "apps/paymarkets/index.html",
             "main": "apps/paymarkets/main.ts",
@@ -4777,25 +4645,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/paymarkets/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4804,7 +4679,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4812,18 +4686,19 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.staging.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -4832,7 +4707,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4840,14 +4714,6 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/walk-me.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -4862,7 +4728,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -4870,14 +4735,11 @@
                 {
                   "replace": "apps/paymarkets/../../environments/environment.ts",
                   "with": "apps/paymarkets/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/paymarkets/../../assets/js/new-relic.js",
-                  "with": "apps/paymarkets/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -4914,7 +4776,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/paymarkets/styles.scss"
             ],
             "assets": [
@@ -4968,7 +4830,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/user-settings",
             "index": "apps/user-settings/index.html",
             "main": "apps/user-settings/main.ts",
@@ -5008,25 +4869,32 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/user-settings/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.25mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5035,7 +4903,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5047,10 +4914,15 @@
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.25mb",
+                  "baseline": "2.45mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5059,7 +4931,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5067,14 +4938,6 @@
                 {
                   "replace": "apps/user-settings/../../environments/environment.ts",
                   "with": "apps/user-settings/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/walk-me.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5089,7 +4952,6 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5097,14 +4959,11 @@
                 {
                   "replace": "apps/user-settings/../../environments/environment.ts",
                   "with": "apps/user-settings/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/user-settings/../../assets/js/new-relic.js",
-                  "with": "apps/user-settings/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5141,7 +5000,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/user-settings/styles.scss"
             ],
             "assets": [
@@ -5234,7 +5093,7 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/form/styles.scss"
             ],
             "scripts": [
@@ -5246,14 +5105,21 @@
               "lodash",
               "jwt-decode",
               "dragula"
-            ]
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "6mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5274,10 +5140,15 @@
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/fontawesome-all.min.js",
+                "assets/js/walk-me.prod.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "5.66mb",
+                  "baseline": "6mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5294,14 +5165,6 @@
                 {
                   "replace": "apps/form/../../environments/environment.ts",
                   "with": "apps/form/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/new-relic.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/walk-me.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5318,14 +5181,11 @@
                 {
                   "replace": "apps/form/../../environments/environment.ts",
                   "with": "apps/form/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/form/../../assets/js/new-relic.js",
-                  "with": "apps/form/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5363,7 +5223,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/form/styles.scss"
             ],
             "assets": [
@@ -5417,7 +5277,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "aot": true,
             "outputPath": "dist/apps/surveys",
             "index": "apps/surveys/index.html",
             "main": "apps/surveys/main.ts",
@@ -5457,20 +5316,31 @@
               }
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/surveys/styles.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/walk-me.js"
-            ]
+              "assets/js/walk-me.js",
+              "assets/js/payscale-loading-logo.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "jwt-decode"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5478,9 +5348,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5488,18 +5356,19 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
             "production": {
+              "scripts": [
+                "assets/js/pendo.js",
+                "assets/js/walk-me.prod.js",
+                "assets/js/payscale-loading-logo.js"
+              ],
               "budgets": [
                 {
                   "type": "initial",
-                  "baseline": "2.35mb",
+                  "baseline": "2.55mb",
                   "maximumWarning": "200kb",
                   "maximumError": "400kb"
                 }
@@ -5507,9 +5376,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5517,14 +5384,6 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.prod.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/walk-me.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/walk-me.prod.js"
                 }
               ]
             },
@@ -5538,9 +5397,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -5548,14 +5405,11 @@
                 {
                   "replace": "apps/surveys/../../environments/environment.ts",
                   "with": "apps/surveys/../../environments/environment.sales.ts"
-                },
-                {
-                  "replace": "apps/surveys/../../assets/js/new-relic.js",
-                  "with": "apps/surveys/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -5592,7 +5446,7 @@
               "assets/js/walk-me.js"
             ],
             "styles": [
-              "assets/scss/client.scss",
+              "dist/assets/css/client.css",
               "apps/surveys/styles.scss"
             ],
             "assets": [

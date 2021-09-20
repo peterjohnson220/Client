@@ -52,7 +52,7 @@ describe('Pricing History Chart Features - Filters', () => {
 
     store = TestBed.inject(MockStore);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

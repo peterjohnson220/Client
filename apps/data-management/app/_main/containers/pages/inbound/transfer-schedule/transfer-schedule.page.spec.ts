@@ -56,7 +56,7 @@ describe('TransferSchedulePageComponent', () => {
   });
 
   it('should dispatch getTransferSummary when page is initialized', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.ngOnInit();
     fixture.detectChanges();
@@ -86,7 +86,7 @@ describe('TransferSchedulePageComponent', () => {
   });
 
   it('should dispatch an action when finish button is pressed and validationMode is false', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.validationMode = false;
 
@@ -102,7 +102,7 @@ describe('TransferSchedulePageComponent', () => {
   });
 
   it('should dispatch two actions when finish button is pressed and validationMode is true', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.validationMode = true;
 
@@ -118,7 +118,7 @@ describe('TransferSchedulePageComponent', () => {
   });
 
   it('should dispatch a toggle action when kendo-switch value changes', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleValidationModeChanged();
 

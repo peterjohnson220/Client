@@ -23,11 +23,7 @@ import * as fromFaIcons from './fa-icons';
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
 import {
-  AddJobsPageEffects,
   CreateNewJobPageEffects,
-  SearchFiltersEffects,
-  SearchResultsEffects,
-  SingledFilterEffects
 } from './effects';
 import { CreateNewJobPageComponent } from './containers';
 import { AddJobsUserFilterPopoverConfig } from './data';
@@ -40,11 +36,7 @@ import { AddJobsUserFilterPopoverConfig } from './data';
     // 3rd Party
     StoreModule.forFeature('project_addJobs', reducers),
     EffectsModule.forFeature([
-      AddJobsPageEffects,
       CreateNewJobPageEffects,
-      SearchFiltersEffects,
-      SearchResultsEffects,
-      SingledFilterEffects
     ]),
     InfiniteScrollModule,
     DropDownsModule,

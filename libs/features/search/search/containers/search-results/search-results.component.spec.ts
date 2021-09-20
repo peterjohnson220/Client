@@ -47,7 +47,7 @@ describe('Search Feature - Search Results', () => {
   it('should dispatch a GetMoreResults action onScroll when not already loading more results and it has results on the server', () => {
     store.dispatch(new fromSearchResultsActions.GetResultsSuccess({ totalRecordCount: 100 }));
     const expectedAction = new fromSearchResultsActions.GetMoreResults();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.numberOfCurrentResults = 15;
 
     fixture.detectChanges();
@@ -61,7 +61,7 @@ describe('Search Feature - Search Results', () => {
     const getMoreResultsAction = new fromSearchResultsActions.GetMoreResults();
 
     store.dispatch(getMoreResultsAction);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.onScroll();
@@ -75,7 +75,7 @@ describe('Search Feature - Search Results', () => {
 
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.onScroll();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getMoreResultsAction);

@@ -51,7 +51,7 @@ describe('Libs - Infinite Scroll - ', () => {
   it('should dispatch a LoadMore action onScroll when not already loading more results and it has results on the server', () => {
     store.dispatch(new fromInfiniteScrollActions.LoadSuccess({scrollId: instance.scrollId, lastReturnedCount: 100 }));
     const expectedAction = new fromInfiniteScrollActions.LoadMore({scrollId: instance.scrollId});
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.numberOfCurrentResults = 15;
 
     fixture.detectChanges();
@@ -65,7 +65,7 @@ describe('Libs - Infinite Scroll - ', () => {
     const loadMoreAction = new fromInfiniteScrollActions.LoadMore({scrollId: instance.scrollId});
 
     store.dispatch(loadMoreAction);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.onScroll();
@@ -79,7 +79,7 @@ describe('Libs - Infinite Scroll - ', () => {
 
     fixture.detectChanges();
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.onScroll();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(loadMoreAction);

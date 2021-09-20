@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { SaveProjectTemplateRequest } from 'libs/models/payfactors-api/project/r
 import * as fromProjectTemplateManagementReducer from '../../reducers';
 import * as fromProjectTemplateManagementActions from '../../actions/project-template-management.actions';
 import { ProjectTemplateConfiguration } from '../../models';
+import { ProjectFieldManagementFeatureImplementations } from '../../constants';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { ProjectTemplateConfiguration } from '../../models';
   styleUrls: ['./project-template-management.component.scss']
 })
 export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
+  @Input() featureImplementation: string = ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES;
   @Output() saveSuccess = new EventEmitter();
   @ViewChild('accordion') accordion: NgbAccordion;
 
@@ -40,6 +42,8 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   activeAccordionIds: string[] = [];
   errorMessage: string;
 
+  featureImplementations = ProjectFieldManagementFeatureImplementations;
+
   get f() { return this.projectTemplateForm.controls; }
 
   constructor(
@@ -56,7 +60,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     this.createForm();
     this.templateFieldsSubscription = this.templateFieldsAsync$.subscribe(fields => {
       if (!!fields && fields.obj) {
-        if (fields.obj.TemplateFields?.length) {
+        if (fields.obj?.Fields?.TemplateFields?.length) {
           this.configureTabs(fields.obj);
         }
         this.updateFormFields(fields.obj);
@@ -77,11 +81,20 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromProjectTemplateManagementActions.ShowProjectTemplateForm(false));
     this.activeAccordionIds = [];
     this.activeTab = null;
+    this.templateConfiguration = {};
   }
 
   onSubmit() {
-    const template = this.getProjectTemplateFromForm();
-    this.store.dispatch(new fromProjectTemplateManagementActions.SaveProjectTemplateFields(template));
+    const request = this.getProjectTemplateFromForm();
+    switch (this.featureImplementation) {
+      case this.featureImplementations.PRICING_PROJECTS:
+        this.store.dispatch(new fromProjectTemplateManagementActions.SaveBaseProjectFieldSelections(request));
+        break;
+      case this.featureImplementations.PROJECT_TEMPLATES:
+      default:
+        this.store.dispatch(new fromProjectTemplateManagementActions.SaveProjectTemplateFields(request));
+        break;
+    }
   }
 
   getKeys(object: any): string[] {
@@ -98,6 +111,15 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
 
   handleSelectionChanged(field: CompositeField): void {
     this.store.dispatch(new fromProjectTemplateManagementActions.ToggleFieldSelected(field));
+    this.projectTemplateForm.markAsTouched();
+  }
+
+  handleSelectAllClicked(event: any, category: string) {
+    this.store.dispatch(new fromProjectTemplateManagementActions.ToggleSelectAll({
+      Category: category,
+      SelectAllValue: event.target.checked
+    }));
+
     this.projectTemplateForm.markAsTouched();
   }
 
@@ -148,17 +170,22 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   }
 
   configureTabs(template: ProjectTemplateFields) {
-    const allAccordionIds = [];
     this.templateConfiguration = this.templateConfiguration || {};
-    template.TemplateFields.forEach(t => {
+    template.Fields.TemplateFields.forEach(t => {
       this.templateConfiguration[t.ModalTab] = this.templateConfiguration[t.ModalTab] || {};
       this.templateConfiguration[t.ModalTab][t.Category] = t;
-      allAccordionIds.push(`${t.ModalTab}_${t.Category}`);
     });
-    if (!this.activeAccordionIds.length) {
-      this.activeAccordionIds = allAccordionIds;
-    }
+
     this.modalTabs = this.getKeys(this.templateConfiguration);
+
+    if (!this.activeAccordionIds.length) {
+        this.modalTabs.map((mt, tabIndex) => {
+          this.getKeys(this.templateConfiguration[mt]).map((p, panelIndex) => {
+            this.activeAccordionIds.push(`panel-${tabIndex}-${panelIndex}`);
+        });
+      });
+    }
+
     this.activeTab = this.modalTabs[0];
   }
 
@@ -174,6 +201,7 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
         selectedCompositeFieldIds = selectedCompositeFieldIds.concat(selectedFields);
       });
     });
+
     return selectedCompositeFieldIds;
   }
 
@@ -204,7 +232,8 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
       SalesIncentiveActualRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveActualReferencePoint),
       SalesIncentiveTargetRefPt: this.getReferencePoint(template, ReferencePoints.SalesIncentiveTargetReferencePoint)
     });
-    if (!this.projectTemplateForm.controls.TemplateName.dirty) {
+    if (!this.projectTemplateForm.controls.TemplateName.dirty &&
+      this.featureImplementation === ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES) {
       // don't overwrite template name if it's been updated
       this.projectTemplateForm.controls.TemplateName.setValue(template?.TemplateName);
     }
@@ -213,46 +242,48 @@ export class ProjectTemplateManagementComponent implements OnInit, OnDestroy {
   }
 
   private getReferencePoint(template: ProjectTemplateFields, referencePointIndex: number) {
-    if (template.ReferencePoints?.length > referencePointIndex) {
-      return template.ReferencePoints[referencePointIndex];
+    if (template.Fields.ReferencePoints?.length > referencePointIndex) {
+      return template.Fields.ReferencePoints[referencePointIndex];
     }
     return 50;
   }
 
   private createForm(): void {
+    const templateNameValidator = this.featureImplementation === ProjectFieldManagementFeatureImplementations.PROJECT_TEMPLATES ?
+      [PfValidators.required,
+        PfValidators.maxLengthTrimWhitespace(50)] : [];
+
     this.projectTemplateForm = this.formBuilder.group({
-      TemplateName: ['', [
-        PfValidators.required,
-        PfValidators.maxLengthTrimWhitespace(50)]],
+      TemplateName: ['', templateNameValidator],
       CompositeFieldIds: ['', PfValidators.required],
-      BaseRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TCCRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      BonusRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TCCTargetRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      LTIPRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TDCRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      AllowRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      FixedRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      RemunRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TGPRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      BonusTargetRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      LTIPTargetRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TDCTargetRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      SalesIncentiveActualPctRefPt: [50, [Validators.pattern('[0-9]*')]],
-      SalesIncentiveTargetPctRefPt: [50, [Validators.pattern('[0-9]*')]],
-      TCCPlusAllowRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      TCCPlusAllowNoCarRefPt: [50, [Validators.pattern('[0-9]*')]],
-      TCCTargetPlusAllowRefPt: [50, [Validators.pattern('[0-9]*')]],
-      TCCTargetPlusAllowNoCarRefPt: [50, [Validators.pattern('[0-9]*')]],
-      LTIPPctRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      BonusPctRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      BonusTargetPctRefPt: [50, [PfValidators.required, Validators.pattern('[0-9]*')]],
-      SalesIncentiveActualRefPt: [50, [Validators.pattern('[0-9]*')]],
-      SalesIncentiveTargetRefPt: [50, [Validators.pattern('[0-9]*')]]
+      BaseRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      BonusRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCTargetRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      LTIPRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TDCRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      AllowRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      FixedRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      RemunRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TGPRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      BonusTargetRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      LTIPTargetRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TDCTargetRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      SalesIncentiveActualPctRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      SalesIncentiveTargetPctRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCPlusAllowRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCPlusAllowNoCarRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCTargetPlusAllowRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      TCCTargetPlusAllowNoCarRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      LTIPPctRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      BonusPctRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      BonusTargetPctRefPt: [50, [PfValidators.required, Validators.pattern('(\\d*\\.)?\\d+$')]],
+      SalesIncentiveActualRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]],
+      SalesIncentiveTargetRefPt: [50, [Validators.pattern('(\\d*\\.)?\\d+$')]]
     });
   }
 
-  private getProjectTemplateFromForm(): SaveProjectTemplateRequest {
+  getProjectTemplateFromForm(): SaveProjectTemplateRequest {
     const projectTemplate: SaveProjectTemplateRequest = this.projectTemplateForm.getRawValue();
     projectTemplate.CompositeFieldIds = this.getCheckedCompositeFieldIds();
     return projectTemplate;

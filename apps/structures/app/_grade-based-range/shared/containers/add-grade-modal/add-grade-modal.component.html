@@ -1,0 +1,40 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'New Grade'"
+  [modalId]="'add-grade-modal-form'"
+  [attr.data-qa-id]="'add-grade-modal'"
+  [isOpen$]="modalOpen$"
+  [submitting]="(addingGradeAsyncObj$ | async)?.saving"
+  [formGroup]="newGradeForm"
+  [primaryButtonText]="'Add New Grade'"
+  [primaryButtonTextSubmitting]="'Adding'"
+  [secondaryButtonText]="'Cancel'"
+  (onSubmit)="handleModalSubmit()"
+  (onSubmitAttempt)="handleModalSubmitAttempt()"
+  (onDismiss)="handleModalDismiss()">
+
+  <ng-container form-content>
+    <div *ngIf="modalOpen$ | async">
+      <div class="form-group">
+        <label for="grade-name">New Grade Name</label>
+        <input type="text"
+               class="form-control"
+               id="grade-name"
+               formControlName="GradeName"
+               [ngClass]="{ 'is-invalid': (attemptedSubmit && !formControls.GradeName.valid) || gradeNameExistsFailure }"
+               [maxlength]="255"
+               (input)="clearGradeNameExistsFailure()"/>
+        <div class="invalid-feedback">
+          <div *ngIf="!formControls.GradeName.valid">Please provide a new grade name.</div>
+          <div *ngIf="gradeNameExistsFailure">Grade Name Exists</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container footer-left>
+    <div *ngIf="(addingGradeAsyncObj$ | async)?.savingError" class="invalid-feedback d-block">
+      Error adding grade
+    </div>
+  </ng-container>
+</pf-modal-form>

@@ -2,6 +2,7 @@
 
 exports[`Peer - Apply Mapping Button should show a disabled Mapped button, when mapped is true 1`] = `
 <pf-apply-mapping-button
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
   mapped={[Function Boolean]}
 >
@@ -11,13 +12,13 @@ exports[`Peer - Apply Mapping Button should show a disabled Mapped button, when 
     type="button"
   >
      Matched
-  
   </button>
 </pf-apply-mapping-button>
 `;
 
 exports[`Peer - Apply Mapping Button should show an apply mapping button with a .btn-primary class, when it is the selected mapping 1`] = `
 <pf-apply-mapping-button
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
   selectedMapping={[Function Boolean]}
 >
@@ -27,18 +28,16 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button with a 
     <fa-icon
       icon="exchange"
     />
-    
     <span>
        Match 
     </span>
-    
-    
   </button>
 </pf-apply-mapping-button>
 `;
 
 exports[`Peer - Apply Mapping Button should show an apply mapping button, when using the defaults 1`] = `
 <pf-apply-mapping-button
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
 >
   <button
@@ -47,12 +46,9 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
     <fa-icon
       icon="exchange"
     />
-    
     <span>
        Match 
     </span>
-    
-    
   </button>
 </pf-apply-mapping-button>
 `;
@@ -60,6 +56,7 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
 exports[`Peer - Apply Mapping Button should show an applying mapping... button with a loading indicator,
       when it is the selected mapping and we are applying the mapping 1`] = `
 <pf-apply-mapping-button
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
   applyingMapping={[Function Boolean]}
   selectedMapping={[Function Boolean]}
@@ -70,9 +67,6 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
     <fa-icon
       icon="exchange"
     />
-    
-    
-    
     <span>
       <pf-loading-indicator />
        Matching... 
@@ -83,6 +77,7 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
 
 exports[`Peer - Apply Mapping Button should show an error message under a Retry button, when an error has occurred and it is the selected mapping 1`] = `
 <pf-apply-mapping-button
+  __ngContext__={[Function LRootView]}
   applyMapping={[Function EventEmitter_]}
   applyingMappingError={[Function Boolean]}
   selectedMapping={[Function Boolean]}
@@ -93,18 +88,14 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
     <fa-icon
       icon="exchange"
     />
-    
-    
     <span>
        Retry 
     </span>
-    
   </button><span
     class="error-applying-message text-danger"
   >
     <fa-icon />
      Error Matching Job
-  
   </span>
 </pf-apply-mapping-button>
 `;

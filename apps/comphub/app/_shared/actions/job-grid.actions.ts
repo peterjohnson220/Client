@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
 
 import { JobData, JobGridData } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import { QuickPriceGridContext } from '../models';
+
 
 export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Jobs Card] Get Quick Price Data';
 export const GET_QUICK_PRICE_DATA_SUCCESS  = '[Comphub/Jobs Card] Get Quick Price Data Success';
@@ -70,7 +72,7 @@ export class SearchCrowdSourcedJobsByTitleError implements Action {
 export class GetCrowdSourcedJobPricing implements Action {
   readonly type = GET_CROWD_SOURCED_JOB_PRICING;
 
-  constructor(public payload: { jobTitle: string, country: string, paymarketId: number }) {}
+  constructor(public payload: GetCrowdSourcedJobPricingRequest) {}
 }
 
 export class GetCrowdSourcedJobPricingSuccess implements Action {

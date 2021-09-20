@@ -14,6 +14,7 @@ import { PageRedirectUrl } from 'libs/models/url-redirect/page-redirect-url';
 import { UrlPage } from 'libs/models/url-redirect/url-page';
 import { UrlRedirectHelper } from 'libs/core/helpers/url-redirect-helper';
 import { GenericUrlPageMap } from 'libs/core/helpers/models/generic-url-page-map';
+import { AbstractFeatureFlagService, FeatureFlags } from 'libs/core';
 
 import { Tile } from '../models';
 import { UserTileToTileMapper } from '../mappers';
@@ -32,7 +33,7 @@ export class TileGridEffects {
       ),
       switchMap((data: any) =>
         this.dashboardApiService.getUserDashboardTiles(data.action.includeTilePreviewData).pipe(
-          map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos)),
+          map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos, this.featureFlagService.enabled(FeatureFlags.PayscaleBranding, false))),
           map((tiles: Tile[]) => this.orderMarketingTiles(tiles)),
           map((tiles: Tile[]) => data.redirectUrls.length > 0 ?
             UrlRedirectHelper.applyUrlOverrides<Tile>(tiles, this.generateUrlRedirectMapper(), data.redirectUrls) : tiles),
@@ -81,7 +82,7 @@ export class TileGridEffects {
       ),
       switchMap((data: any) =>
         this.dashboardApiService.getUserDashboardTile(data.action.tileId).pipe(
-          map((userTileDtos: UserTileDto) => this.mapToTiles([ userTileDtos ])),
+          map((userTileDtos: UserTileDto) => this.mapToTiles([ userTileDtos ], this.featureFlagService.enabled(FeatureFlags.PayscaleBranding, false))),
           map((tiles: Tile[]) => UrlRedirectHelper.applyUrlOverrides<Tile>(tiles, this.generateUrlRedirectMapper(), data.redirectUrls)),
           map((tiles: Tile[]) => this.applyPricingProjectUrlRedirects(tiles, data.redirectUrls)),
           map((tiles: Tile[]) => new fromTileGridActions.LoadingSingleTileSuccess(tiles)),
@@ -113,13 +114,14 @@ export class TileGridEffects {
   constructor(
     private actions$: Actions,
     private dashboardApiService: DashboardApiService,
+    private featureFlagService: AbstractFeatureFlagService,
     private store: Store<fromTileGridReducer.State>
   ) {
   }
 
-  private mapToTiles(userTileDtos: UserTileDto[]): Tile[] {
+  private mapToTiles(userTileDtos: UserTileDto[], payscaleBrandingFeatureFlag: boolean): Tile[] {
     const filteredTiles = userTileDtos
-      .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt))
+      .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt, payscaleBrandingFeatureFlag))
       .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1);
 
     return filteredTiles;

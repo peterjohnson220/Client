@@ -8,16 +8,22 @@
     </div>
   </div>
   <div *ngIf="!(matchType === dataCutSummaryTypes.PEER)" class="data-cut-summary p-2">
-    <div *ngIf="!(loading$ | async) && !(showError$ | async) && (dataCutSummary$ | async)">
-      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SURVEY" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
-      </pf-data-cut-summary-details>
-      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.MD_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
-      </pf-data-cut-summary-details>
-      <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SLOTTED_COMPANY_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
-      </pf-data-cut-summary-details>
+    <div *ngIf="!(loading$ | async) && !(showError$ | async)">
+      <ng-container *ngIf="(dataCutSummary$ | async)?.obj; else noDataTemplate">
+        <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SURVEY" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+        </pf-data-cut-summary-details>
+        <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.MD_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+        </pf-data-cut-summary-details>
+        <pf-data-cut-summary-details *ngIf="matchType === dataCutSummaryTypes.SLOTTED_COMPANY_JOB" [dataCutSummary]="(dataCutSummary$ | async).obj" [dataCutSummaryType]="matchType">
+        </pf-data-cut-summary-details>
+      </ng-container>
     </div>
     <div *ngIf="(showError$ | async)">
       There was a problem retrieving data.
     </div>
   </div>
 </pf-async-container>
+
+<ng-template #noDataTemplate>
+  <div>There is no job summary currently available for this job.</div>
+</ng-template>

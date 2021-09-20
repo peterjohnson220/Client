@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { SwitchModule } from '@progress/kendo-angular-inputs';
-import spyOn = jest.spyOn;
 
 import { ExcludeIndirectMatchesFilterComponent } from './exclude-indirect-matches-filter.component';
 
@@ -34,7 +33,7 @@ describe('Features - Peer - Exclude Indirect Matches Filter', () => {
   });
 
   it('should emit a filterToggled event when handling the switch toggle', () => {
-    spyOn(instance.filterToggled, 'emit');
+    jest.spyOn(instance.filterToggled, 'emit');
 
     instance.handleSwitchToggled();
 

@@ -242,7 +242,11 @@ pf-job-description-version-compare {
   width: 650px;
 }
 
-pf-workflow-config {
+.collaboration-workflows-upsert-modal .modal-content{
+  width: 650px;
+}
+
+pf-approval-workflow-config {
   .dropdown-item.active, .dropdown-item:active {
     background-color: $pf-brand-secondary-accent-color;
   }

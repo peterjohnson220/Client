@@ -59,7 +59,7 @@ describe('Admin - Company Admin - User Page', () => {
     route = TestBed.inject(ActivatedRoute);
     routeTrackingService = TestBed.inject(RouteTrackingService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UserPageComponent);
     instance = fixture.componentInstance;
@@ -112,7 +112,7 @@ describe('Admin - Company Admin - User Page', () => {
   });
 
   it('Should call goBack on the route tracking service upon cancel', () => {
-    spyOn(routeTrackingService, 'goBack');
+    jest.spyOn(routeTrackingService, 'goBack');
 
     instance.handleCancel();
 

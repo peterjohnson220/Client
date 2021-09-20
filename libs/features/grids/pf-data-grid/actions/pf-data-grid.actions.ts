@@ -3,9 +3,10 @@ import { ViewField, DataViewConfig, DataViewEntityResponseWithCount, PagingOptio
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { ContentScrollEvent } from '@progress/kendo-angular-grid';
 
-import { PfDataGridFilter, ColumnResize, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions } from '../models';
+import { PfDataGridFilter, ColumnResize, GridConfig, ColumnReorder, PfDataGridCustomFilterOptions, ViewConfigurationStrategy } from '../models';
 
 export const LOAD_VIEW_CONFIG = '[PfDataGrid] Load View Config';
+export const LOAD_VIEW_CONFIG_WITH_STRATEGY = '[PfDataGrid] Load View Config With Strategy';
 export const LOAD_VIEW_CONFIG_SUCCESS = '[PfDataGrid] Load View Config Success';
 export const LOAD_DATA = '[PfDataGrid] Load Data';
 export const LOAD_DATA_SUCCESS = '[PfDataGrid] Load Data Success';
@@ -23,7 +24,6 @@ export const UPDATE_SORT_DESCRIPTOR = '[PfDataGrid] Update Sort Descriptor';
 export const UPDATE_SORT_DESCRIPTOR_NO_DATA_RETRIEVAL = '[PfDataGrid] Update Sort Descriptor No Data Retrieval';
 export const UPDATE_SAVE_SORT = '[PfDataGrid] Update Save Sort';
 export const UPDATE_APPLY_DEFAULT_FILTERS = '[PfDataGrid] Update Apply Default Filters';
-export const UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS = '[PfDataGrid] Update Apply User Default Compensation Fields';
 export const UPDATE_USE_REPORTING_DB = '[PfDataGrid] Update useReportingDB';
 export const UPDATE_INBOUND_FILTERS = '[PfDataGrid] Update Inbound Filters';
 export const UPDATE_FILTER = '[PfDataGrid] Update Filter';
@@ -91,6 +91,11 @@ export class LoadViewConfig implements Action {
   constructor(public pageViewId: string, public name: string = null) { }
 }
 
+export class LoadViewConfigWithStrategy implements Action {
+  readonly type = LOAD_VIEW_CONFIG_WITH_STRATEGY;
+  constructor(public pageViewId: string, public strategy: ViewConfigurationStrategy) {}
+}
+
 export class LoadViewConfigSuccess implements Action {
   readonly type = LOAD_VIEW_CONFIG_SUCCESS;
   constructor(public pageViewId: string, public payload: DataViewConfig) { }
@@ -142,10 +147,6 @@ export class UpdateApplyDefaultFilters implements Action {
   constructor(public pageViewId: string, public value: boolean) { }
 }
 
-export class UpdateApplyUserDefaultCompensationFields implements Action {
-  readonly type = UPDATE_APPLY_USER_DEFAULT_COMPENSATION_FIELDS;
-  constructor(public pageViewId: string, public value: boolean) {}
-}
 
 export class UpdateUseReportingDB implements Action {
   readonly type = UPDATE_USE_REPORTING_DB;
@@ -350,7 +351,8 @@ export class DeleteSavedViewSuccess implements Action {
 
 export class ExportGrid implements Action {
   readonly type = EXPORT_GRID;
-  constructor(public pageViewId: string, public source: string, public customExportType: string, public additionalData: any, public exportAllFields = false) {}
+  constructor(public pageViewId: string, public source: string, public customExportType: string, public additionalData: any,
+              public exportHiddenFields: string[] = []) {}
 }
 
 export class ExportGridSuccess implements Action {
@@ -500,6 +502,7 @@ export class ResetData implements Action {
 
 export type DataGridActions =
   | LoadViewConfig
+  | LoadViewConfigWithStrategy
   | LoadViewConfigSuccess
   | UpdatePagingOptions
   | UpdateLinkGroups
@@ -509,7 +512,6 @@ export type DataGridActions =
   | UpdateSaveSort
   | UpdatePreserveSelectionsOnGetConfig
   | UpdateApplyDefaultFilters
-  | UpdateApplyUserDefaultCompensationFields
   | UpdateUseReportingDB
   | LoadData
   | LoadDataSuccess

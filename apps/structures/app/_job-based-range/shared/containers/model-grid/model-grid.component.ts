@@ -31,14 +31,13 @@ import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducer
 import * as fromReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService } from 'libs/core/services';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { RangeType } from 'libs/constants/structures/range-type';
 import { RangeRecalculationType } from 'libs/constants/structures/range-recalculation-type';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
 
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
-import * as fromSharedJobBasedRangeReducer from '../../../shared/reducers';
 import * as fromSharedJobBasedRangeActions from '../../../shared/actions/shared.actions';
 import * as fromSharedStructuresReducer from '../../../../shared/reducers';
 import * as fromSharedStructuresActions from '../../../../shared/actions/shared.actions';
@@ -84,7 +83,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   showRemoveRangeModal = new BehaviorSubject<boolean>(false);
   showRemoveRangeModal$ = this.showRemoveRangeModal.asObservable();
   removingRange$: Observable<AsyncStateObj<boolean>>;
-  removingRangeSuccessSubscription = new Subscription;
+  removingRangeSuccessSubscription: Subscription;
   rangeIdToRemove: number;
 
   pfThemeType = PfThemeType;
@@ -174,7 +173,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Job Range Structures',
       CustomExportType: 'JobRangeStructures',
-      ColumnChooserType: ColumnChooserType.Hybrid,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      },
       EnableGroupSelectAll: true
     };
 
@@ -250,7 +251,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   openRemoveRangeModal(rangeId: number) {
     this.rangeIdToRemove = rangeId;
     this.showRemoveRangeModal.next(true);
-    this.store.dispatch(new fromSharedJobBasedRangeActions.ShowRemoveRangeModal());
+    this.store.dispatch(new fromSharedStructuresActions.ShowRemoveRangeModal());
   }
 
   revertChanges(dataRow: any, rowIndex: number) {
@@ -264,7 +265,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   removeRange() {
-    this.store.dispatch(new fromSharedJobBasedRangeActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent }));
+    this.store.dispatch(new fromSharedStructuresActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, IsCurrent: this.metaData.IsCurrent, IsJobRange: true }));
   }
 
   handleDuplicateModelClicked() {
@@ -492,10 +493,10 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
         return el != null;
       }));
     this.rangeOverridesSub = this.rangeOverrides$.subscribe(ro => this.rangeOverrides = ro);
-    this.removingRange$ = this.store.select(fromSharedJobBasedRangeReducer.getRemovingRange);
+    this.removingRange$ = this.store.select(fromSharedStructuresReducer.getRemovingRange);
     this.selectedRecordId$ = this.store.select(fromPfDataGridReducer.getSelectedRecordId, this.modelPageViewId);
     this.removingRangeSuccessSubscription = this.actionsSubject
-      .pipe(ofType(fromSharedJobBasedRangeActions.REMOVING_RANGE_SUCCESS))
+      .pipe(ofType(fromSharedStructuresActions.REMOVING_RANGE_SUCCESS))
       .subscribe(data => {
         this.showRemoveRangeModal.next(false);
       });
@@ -531,5 +532,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.currentRangeGroupSub.unsubscribe();
     this.gridFieldSubscription.unsubscribe();
     this.distinctOverrideMessagesSub.unsubscribe();
+    this.removingRangeSuccessSubscription.unsubscribe();
   }
 }

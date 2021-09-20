@@ -63,7 +63,7 @@ describe('CommunityTextAreaComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     pfLinkifyService = TestBed.inject(PfLinkifyService);
 

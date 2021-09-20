@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { CardComponent } from './card.component';
-import spyOn = jest.spyOn;
 
 // Host Component for testing templates
 @Component({
@@ -54,7 +53,7 @@ describe('UI/Common/Content - Card', () => {
     instance.cardIdentifier = card => card.Id;
     instance.cardIsDisabled = card => card.Id === 1;
 
-    spyOn(instance.selected, 'emit');
+    jest.spyOn(instance.selected, 'emit');
 
     fixture.detectChanges();
 
@@ -69,7 +68,7 @@ describe('UI/Common/Content - Card', () => {
     instance.cardIdentifier = card => card.Id;
     instance.cardIsDisabled = card => false;
 
-    spyOn(instance.selected, 'emit');
+    jest.spyOn(instance.selected, 'emit');
 
     fixture.detectChanges();
 
@@ -85,7 +84,7 @@ describe('UI/Common/Content - Card', () => {
     instance.cardIdentifier = card => card.Id;
     instance.cardIsDisabled = card => false;
 
-    spyOn(instance.selected, 'emit');
+    jest.spyOn(instance.selected, 'emit');
 
     fixture.detectChanges();
 

@@ -2,6 +2,7 @@
 
 exports[`Validation Results Component should default to not hiding validation messages when empty 1`] = `
 <pf-validation-results
+  __ngContext__={[Function LRootView]}
   hideIfEmpty="false"
   validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
@@ -25,8 +26,6 @@ exports[`Validation Results Component should default to not hiding validation me
         </tr>
       </thead>
       <tbody>
-        
-        
         <tr>
           <td
             colspan="100%"
@@ -44,16 +43,17 @@ exports[`Validation Results Component should default to not hiding validation me
 
 exports[`Validation Results Component should not show table when hide if empty is set 1`] = `
 <pf-validation-results
+  __ngContext__={[Function LRootView]}
   hideIfEmpty={[Function Boolean]}
   validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
 >
-  
 </pf-validation-results>
 `;
 
 exports[`Validation Results Component should show an empty grid message 1`] = `
 <pf-validation-results
+  __ngContext__={[Function LRootView]}
   hideIfEmpty="false"
   validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
@@ -77,8 +77,6 @@ exports[`Validation Results Component should show an empty grid message 1`] = `
         </tr>
       </thead>
       <tbody>
-        
-        
         <tr>
           <td
             colspan="100%"
@@ -96,6 +94,7 @@ exports[`Validation Results Component should show an empty grid message 1`] = `
 
 exports[`Validation Results Component should show validation results 1`] = `
 <pf-validation-results
+  __ngContext__={[Function LRootView]}
   hideIfEmpty="false"
   validationResultItemTypes={[Function Object]}
   validationResults={[Function Array]}
@@ -119,19 +118,14 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
       </thead>
       <tbody>
-        
         <tr>
           <td>
-            
             <span>
               <fa-icon
                 aria-hidden="true"
                 class="text-success"
               />
             </span>
-            
-            
-            
           </td>
           <td
             class="vertical-center"
@@ -141,8 +135,6 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
-            
-            
             <span>
               <fa-icon
                 aria-hidden="true"
@@ -150,8 +142,6 @@ exports[`Validation Results Component should show validation results 1`] = `
                 icon="info-circle"
               />
             </span>
-            
-            
           </td>
           <td
             class="vertical-center"
@@ -161,9 +151,6 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
-            
-            
-            
             <span>
               <fa-icon
                 aria-hidden="true"
@@ -171,7 +158,6 @@ exports[`Validation Results Component should show validation results 1`] = `
                 icon="exclamation-triangle"
               />
             </span>
-            
           </td>
           <td
             class="vertical-center"
@@ -181,10 +167,6 @@ exports[`Validation Results Component should show validation results 1`] = `
         </tr>
         <tr>
           <td>
-            
-            
-            
-            
             <span>
               <fa-icon
                 aria-hidden="true"
@@ -199,7 +181,6 @@ exports[`Validation Results Component should show validation results 1`] = `
              error message 
           </td>
         </tr>
-        
       </tbody>
     </table>
   </div>

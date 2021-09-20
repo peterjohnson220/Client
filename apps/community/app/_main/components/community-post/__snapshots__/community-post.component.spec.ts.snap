@@ -2,6 +2,7 @@
 
 exports[`CommunityPostComponent should show post 1`] = `
 <pf-community-post
+  __ngContext__={[Function LRootView]}
   avatarUrl={[Function String]}
   companyLogoUrl={[Function String]}
   discardingPostId={[Function String]}
@@ -27,7 +28,6 @@ exports[`CommunityPostComponent should show post 1`] = `
       class="post-offset"
     >
       <pf-community-post-header />
-      
       <div
         class="row justify-content-center m-0"
       >
@@ -37,7 +37,6 @@ exports[`CommunityPostComponent should show post 1`] = `
           <pf-community-poll />
         </div>
       </div>
-      
     </div>
   </div>
 </pf-community-post>

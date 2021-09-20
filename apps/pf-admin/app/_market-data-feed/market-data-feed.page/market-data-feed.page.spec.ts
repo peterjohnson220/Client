@@ -48,7 +48,7 @@ describe('Pf-Admin - Market Data Feed Page', () => {
 
   it('should dispatch GenerateFeed action when handling generate export clicked', () => {
     const expectedAction = new fromMarketDataFeedPageActions.GenerateFeed();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.generateExport();
 

@@ -4,7 +4,6 @@ import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum } from 'libs/models/index';
@@ -58,7 +57,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
   it('should dispatch a LoadCandidates action of type PayfactorsJob when handleReloadCardsEvent is triggered', () => {
     const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.PayfactorsJob);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -78,7 +77,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     instance.payfactorsJobs$ = of([mockPayfactorsJob]);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -92,7 +91,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     fixture.detectChanges();
 
-    spyOn(instance.reasonControl, 'reset');
+    jest.spyOn(instance.reasonControl, 'reset');
 
     instance.exchangeRequestModalOpen$ = of(true);
     instance.handleCardSelectionEvent();
@@ -107,7 +106,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     instance.cardSelector = {selectedCard: expectedSelection};
 
-    spyOn(instance.jobSelection, 'setValue');
+    jest.spyOn(instance.jobSelection, 'setValue');
 
     instance.exchangeRequestModalOpen$ = of(true);
     instance.handleCardSelectionEvent();
@@ -121,7 +120,7 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
       ExchangeRequestTypeEnum.PayfactorsJob,
       mockSearchTerm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 

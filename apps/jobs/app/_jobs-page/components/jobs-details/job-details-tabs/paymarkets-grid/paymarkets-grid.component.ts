@@ -7,8 +7,8 @@ import { ofType } from '@ngrx/effects';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { ActionBarConfig, getDefaultActionBarConfig, GridConfig, PfDataGridFilter, ViewConfigurationStrategy } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType, PfThemeType, ViewConfigurationStrategyType } from 'libs/features/grids/pf-data-grid/enums';
 import { ViewField } from 'libs/models/payfactors-api';
 import * as fromPfGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
@@ -16,7 +16,6 @@ import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 
 import * as fromPricingDetailsActions from 'libs/features/pricings/pricing-details/actions';
 import { ApiServiceType } from 'libs/features/notes/notes-manager/constants/api-service-type-constants';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';
 import { GroupedListItem } from 'libs/models/list';
@@ -98,6 +97,11 @@ export class PaymarketsGridComponent implements OnInit, AfterViewInit, OnDestroy
   notesApiServiceType: ApiServiceType;
   pricingIdForNotes: number;
   payMarketForNotes: string;
+
+  viewConfigurationStrategy: ViewConfigurationStrategy = {
+    Type: ViewConfigurationStrategyType.UserDefaultCompensationFields,
+    ViewName: null
+  };
 
   constructor(private store: Store<fromModifyPricingsReducer.State>,
     private actionsSubject: ActionsSubject,

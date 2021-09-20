@@ -40,7 +40,7 @@ describe('Comphub - Main - Jobs Card Wrapper Component', () => {
   });
 
   it('should dispatch acction to open pricing history modal', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new  fromCompHubPageActions.SetQuickPriceHistoryModalOpen(true);
 
     instance.openQuickPriceHistoryModal();

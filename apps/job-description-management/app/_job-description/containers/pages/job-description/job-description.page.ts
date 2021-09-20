@@ -24,7 +24,7 @@ import {
 } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { SettingsService } from 'libs/state/app-context/services';
-import { PermissionService } from 'libs/core/services';
+import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core/services';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { SimpleYesNoModalComponent, FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { JobDescriptionManagementDnDService, JobDescriptionManagementService, SortDirection } from 'libs/features/jobs/job-description-management';
@@ -44,7 +44,7 @@ import * as fromControlTypesActions from 'libs/features/jobs/job-description-man
 import { JobDescriptionConstants } from 'libs/features/jobs/job-description-management/constants/job-description-constants';
 import { JobDescriptionManagementDndSource, JobDescriptionViewConstants } from 'libs/features/jobs/job-description-management/constants';
 
-import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, WorkflowSetupModalInput } from '../../../models';
+import { EmployeeAcknowledgement, ExportData, JobDescriptionLibraryDropModel, SharedJobDescriptionUser, WorkflowSetupModalInput } from '../../../models';
 import * as fromJobDescriptionReducers from '../../../reducers';
 import * as fromJobDescriptionActions from '../../../actions/job-description.actions';
 import * as fromEmployeeAcknowledgementActions from '../../../actions/employee-acknowledgement.actions';
@@ -52,6 +52,7 @@ import * as fromWorkflowActions from '../../../actions/workflow.actions';
 import { JobDescriptionDnDService } from '../../../services';
 import {
   EmployeeAcknowledgementModalComponent, ExportJobDescriptionModalComponent,
+  ShareJobDescriptionModalComponent,
   WorkflowCancelModalComponent, WorkflowStepCompletionModalComponent
 } from '../../../components/modals';
 import { FlsaQuestionnaireModalComponent } from '../../../components/modals/flsa-questionnaire';
@@ -61,7 +62,7 @@ import { CopyJobDescriptionModalComponent } from '../../copy-job-description-mod
 import { WorkflowSetupModalComponent } from '../../workflow-setup-modal';
 import { JobDescriptionAppliesToModalComponent } from 'apps/job-description-management/app/shared';
 import { CloudFileLocations } from 'libs/constants';
-
+import { SharePermissionsPanelComponent } from '../../../components/share-permissions-panel';
 
 @Component({
   selector: 'pf-job-description-page',
@@ -81,6 +82,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   @ViewChild(WorkflowSetupModalComponent) public workflowSetupModal: WorkflowSetupModalComponent;
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) public fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @ViewChild(WorkflowStepCompletionModalComponent) public workflowStepCompletionModal: WorkflowStepCompletionModalComponent;
+  @ViewChild(SharePermissionsPanelComponent) public sharePermissionsPanel: SharePermissionsPanelComponent;
+  @ViewChild(ShareJobDescriptionModalComponent, { static: true }) public shareJobDescriptionModalComponent: ShareJobDescriptionModalComponent;
 
   jobDescriptionAsync$: Observable<AsyncStateObj<JobDescription>>;
   jobDescriptionPublishingSuccess$: Observable<boolean>;
@@ -102,6 +105,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   gettingJobDescriptionExtendedInfoSuccess$: Observable<AsyncStateObj<boolean>>;
   discardingDraftJobDescriptionSuccess$: Observable<boolean>;
   enableFileDownloadSecurityWarning$: Observable<boolean>;
+  private unsubscribe$ = new Subject<void>();
 
   loadingPage$: Observable<boolean>;
   loadingPageError$: Observable<boolean>;
@@ -131,10 +135,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   workflowStepCompletionModalSubscription: Subscription;
 
   companyName: string;
+  companyId: number;
   emailAddress: string;
   avatarUrl: string;
   companyLogoPath: string;
   jobDescription: JobDescription;
+  jobDescriptionAsMap: Map<number,JobDescription>;
   visibleSections: JobDescriptionSection[];
   enableFileDownloadSecurityWarning: boolean;
   enableLibraryForRoutedJobDescriptions: boolean;
@@ -164,6 +170,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   completedStep: boolean;
   controlTypes: ControlType[];
   isInSystemWorkflow: boolean;
+  showWorkflow = false;
+  showSharePermissionsPanel: boolean = false;
+  jdmCollaborationFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmCollaboration, value: false };
+  jdmLibrarySkillsFeatureFlag: RealTimeFlag = { key: FeatureFlags.JdmLibrarySkills, value: false };
 
   get isJobDescriptionEditable() {
     return this.identityInWorkflow ? this.hasCanEditJobDescriptionPermission :
@@ -187,7 +197,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     private permissionService: PermissionService,
     private jobDescriptionManagementService: JobDescriptionManagementService,
     private jobDescriptionManagementDndService: JobDescriptionManagementDnDService,
-    private jobDescriptionDnDService: JobDescriptionDnDService
+    private jobDescriptionDnDService: JobDescriptionDnDService,
+    private featureFlagService: AbstractFeatureFlagService
 ) {
     this.company$ = this.sharedStore.select(fromJobDescriptionManagementSharedReducer.getCompany);
     this.jobDescriptionAsync$ = this.store.select(fromJobDescriptionReducers.getJobDescriptionAsync);
@@ -223,6 +234,8 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.replaceContents$ = this.store.select(fromJobDescriptionReducers.getReplaceJobDescriptionComplete);
     this.workflowStepInfo$ = this.store.select(fromJobDescriptionReducers.getWorkflowStepInfo);
     this.inSystemWorkflowStepCompletionModalOpen$ = this.store.select(fromJobDescriptionReducers.getInSystemWorkflowStepCompletionModalOpen);
+    this.featureFlagService.bindEnabled(this.jdmCollaborationFeatureFlag, this.unsubscribe$);
+    this.featureFlagService.bindEnabled(this.jdmLibrarySkillsFeatureFlag, this.unsubscribe$);
   }
 
   ngOnInit(): void {
@@ -233,6 +246,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unsubscribe$.next();
     this.store.dispatch(new fromJobDescriptionActions.ClearJobDescription());
     this.sharedStore.dispatch(new fromControlTypesActions.ResetControlTypes());
     this.routerParamsSubscription.unsubscribe();
@@ -328,6 +342,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     this.handleShowLibrary(!this.showLibrary);
   }
 
+  toggleWorkflowPanel() {
+    this.handleShowWorkflowPanel(!this.showWorkflow);
+  }
+
   handleControlDataRowDeleted(dataRowDeletedObj: any) {
     this.store.dispatch(new fromJobDescriptionActions.RemoveControlDataRow({
       jobDescriptionControl: dataRowDeletedObj.jobDescriptionControl,
@@ -366,6 +384,18 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if (shouldShow) {
       this.initializeLibrary();
     }
+
+    if (this.showLibrary) {
+      this.showWorkflow = !this.showLibrary;
+    }
+  }
+
+  handleShowWorkflowPanel(shouldShow: boolean) {
+    this.showWorkflow = shouldShow;
+
+    if (this.showWorkflow) {
+      this.showLibrary = !this.showWorkflow;
+    }
   }
 
   handlePublishClicked(): void {
@@ -377,7 +407,12 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
     if ( !this.identity.IsPublic && this.jobDescription) {
       this.store.dispatch(new fromWorkflowTemplateListActions.Load([this.jobDescription.CompanyJobId]));
     }
-    this.workflowSetupModal.open();
+
+    if (this.jdmCollaborationFeatureFlag.value === true) {
+      this.toggleWorkflowPanel();
+    } else {
+      this.workflowSetupModal.open();
+    }
   }
 
   handleDiscardDraftClicked(): void {
@@ -485,6 +520,10 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
 
   handleResize(): void {
     this.jobDescriptionIsFullscreen = !this.jobDescriptionIsFullscreen;
+  }
+
+  openShareJobDescriptionModal() {
+    this.shareJobDescriptionModalComponent.open();
   }
 
   public get exportAction(): string {
@@ -603,6 +642,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
             : '';
           if (company) {
             this.companyName = company.CompanyName;
+            this.companyId = company.CompanyId;
           }
         });
         this.isSiteAdmin = userContext.AccessLevel === 'Admin';
@@ -775,6 +815,7 @@ export class JobDescriptionPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.jobDescription = cloneDeep(jobDescription);
+    this.jobDescriptionAsMap = new Map().set(jobDescription.JobDescriptionId, jobDescription);
     this.visibleSections =  jobDescription.Sections.filter(x => showSection(x));
 
 

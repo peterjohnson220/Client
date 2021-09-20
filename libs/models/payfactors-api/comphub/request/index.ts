@@ -4,4 +4,6 @@ export * from './share-pricing-summary-request.model';
 export * from './create-quick-price-project-request.model';
 export * from './add-completed-pricing-history-request.model';
 export * from './job-priced-history-summary-request.model';
-
+export * from './compensable-factors-request.model';
+export * from './get-crowd-sourced-job-pricing-request.model';
+export * from './save-export-data-request.model';

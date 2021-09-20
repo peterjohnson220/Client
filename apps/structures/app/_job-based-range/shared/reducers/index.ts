@@ -32,6 +32,3 @@ export const selectSharedState = createSelector(
   selectFeatureAreaState,
   (state: JobBasedRangeSharedState) => state.shared
 );
-
-export const getRemovingRange = createSelector(selectSharedState, fromSharedReducer.getRemovingRange);
-

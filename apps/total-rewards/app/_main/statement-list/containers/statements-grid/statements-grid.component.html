@@ -15,7 +15,7 @@
       [filter]="(statementsGridState$ | async)?.filter"
       [resizable]="true"
       [sortable]="true"
-      [pageable]="{ buttonCount: 5, info: true }"
+      [pageable]="{ buttonCount: 5, info: true, responsive: false }"
       [rowClass]="getRowClass"
       (dataStateChange)="onDataStateChange($event)"
       (cellClick)="onCellClick($event)">

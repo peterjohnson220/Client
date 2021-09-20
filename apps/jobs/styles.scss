@@ -105,7 +105,7 @@ pf-filter-pills > .pills-container {
   width: 1130px;
 }
 
-.market-data-grid {
+.market-data-grid, .data-matches-grid {
   .k-grid {
     background-color: transparent !important;
     border: solid 1px #eceeef;
@@ -136,6 +136,21 @@ pf-filter-pills > .pills-container {
     font-weight: 500 !important;
   }
 
+}
+
+.data-matches-grid {
+  .header-text {
+    font-size: 11px !important;
+    font-weight: 500 !important;
+  }
+  .cell-text {
+    font-size: 11px;
+  }
+
+  .k-grid-header-wrap {
+    background: #17064B !important;
+    color: #FFFFFF !important;
+  }
 }
 
 pf-market-data {

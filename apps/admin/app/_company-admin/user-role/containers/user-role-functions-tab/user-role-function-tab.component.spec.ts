@@ -28,7 +28,7 @@ describe('UserRoleFunctionTabComponent', () => {
     });
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UserRoleFunctionTabComponent);
     component = fixture.componentInstance;

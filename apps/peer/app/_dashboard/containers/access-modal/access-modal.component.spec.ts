@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { Subject, of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
@@ -54,7 +53,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
   });
 
   it('should dispatch a LoadCandidates action of type Access when handleReloadCardsEvent is triggered', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.Access);
 
     fixture.detectChanges();
@@ -75,7 +74,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
 
     instance.peerParticipants$ = of([mockCompanyOption]);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -86,7 +85,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
 
   it(`should reset the reasonControl when handleCardSelectionEvent is triggered`, () => {
     instance.reason = 'mockReason';
-    spyOn(instance.reasonControl, 'setValue');
+    jest.spyOn(instance.reasonControl, 'setValue');
 
     fixture.detectChanges();
 
@@ -101,7 +100,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
       ExchangeRequestTypeEnum.Access,
       mockSearchTerm);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -118,7 +117,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
     );
     instance.reason = mockRequestModel.Reason;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -129,7 +128,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
 
   it(`should dispatch a CloseExchangeRequestModal action of type Access on modal dismissed`, () => {
     const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.Access);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -142,7 +141,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
   // it(`should dispatch a LoadPeerParticipants action when a peer is selected`, () => {
   //   const mockSearchTerm = 'Mock';
   //   const expectedAction = new fromPeerParticipantsActions.LoadPeerParticipants(mockSearchTerm);
-  //   spyOn(store, 'dispatch');
+  //   jest.spyOn(store, 'dispatch');
   //
   //   fixture.detectChanges();
   //

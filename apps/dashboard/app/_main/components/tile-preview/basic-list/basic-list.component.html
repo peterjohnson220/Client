@@ -1,6 +1,7 @@
 <ng-container *ngIf="model.Items.length; else noListItems">
   <div class="list-heading px-1 py-1">
-    <img *ngIf="!!model.HeadingIconImage" class="heading-icon-image"
+    <fa-icon *ngIf="payscaleBrandingFeatureFlag" [icon]="['far','chart-line']" class="heading-icon-image"></fa-icon>
+    <img *ngIf="!!model.HeadingIconImage && !payscaleBrandingFeatureFlag" class="heading-icon-image"
          src="assets/images/{{model.HeadingIconImage}}">
     <strong>{{model.Heading}}</strong>
   </div>
@@ -12,7 +13,7 @@
 </ng-container>
 
 <ng-template #noListItems>
-  <div class="d-flex justify-content-center align-items-center mt-3">
+  <div class="d-flex justify-content-center align-items-center mt-3 preview-tile-icon">
     <fa-icon *ngIf="!!model.faIconClass" [icon]="model.faIconClass" size="10x"></fa-icon>
   </div>
 </ng-template>

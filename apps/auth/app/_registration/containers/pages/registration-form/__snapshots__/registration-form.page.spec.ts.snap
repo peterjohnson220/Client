@@ -2,6 +2,7 @@
 
 exports[`RegistrationFormPageComponent should match snapshot 1`] = `
 <pf-registration-form-page
+  __ngContext__={[Function LRootView]}
   email=""
   formBuilder={[Function FormBuilder]}
   formSubmittingSubscription={[Function Subscriber]}
@@ -16,8 +17,6 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
   <div
     class="p-4 registration-form"
   >
-    
-    
     <div
       class="position-relative"
     >
@@ -31,7 +30,6 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
       <div
         class="opacity-transition"
       >
-        
         <form
           id="au-form-registration"
         >
@@ -40,7 +38,6 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
           >
             Register for an account
           </h5>
-          
           <div
             class="form-group"
           >
@@ -94,9 +91,7 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
             <label
               class="error invisible"
             >
-              
                Please enter a valid business email address. 
-              
             </label>
           </div>
           <div

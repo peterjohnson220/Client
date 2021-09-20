@@ -6,10 +6,11 @@ import { GenericTextValueDto } from 'libs/models/common';
 import { CompanyEmployee } from 'libs/models/company';
 import {
   EmployeeBenefit, EmployeeModalStructuresResponse, EmployeeRewardsData, EmployeeRewardsDataRequest,
-  SaveEmployeeBenefitsRequest
+  SaveEmployeeBenefitsRequest, EmployeesPayModel
 } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { EmployeeInsights, GetEmployeeInsightsRequest } from '../../../models/payfactors-api/employees/employee-insights.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,14 @@ export class CompanyEmployeeApiService {
       { params: { jobId, paymarketId, employeeId } });
   }
 
+  getEmployeesPayData(jobId: number, paymarketId: number): Observable<EmployeesPayModel[]> {
+    if (jobId === 0 || paymarketId === 0) {
+      return of([]);
+    }
+    return this.payfactorsApiService.get<EmployeesPayModel[]>(`${this.endpoint}/GetEmployeesPayData`,
+      { params: { jobId, paymarketId } });
+  }
+
   createEmployee(employee: CompanyEmployee): Observable<CompanyEmployee> {
     return this.payfactorsApiService.post<CompanyEmployee>(`${this.endpoint}`, employee);
   }
@@ -77,5 +86,10 @@ export class CompanyEmployeeApiService {
 
   saveEmployeeBenefits(request: SaveEmployeeBenefitsRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/Default.SaveEmployeeBenefits`, request);
+  }
+
+  getEmployeeInsights(request: GetEmployeeInsightsRequest): Observable<EmployeeInsights> {
+    return this.payfactorsApiService.post<EmployeeInsights>(`${this.endpoint}/Default.GetEmployeeInsights`,
+      { EmployeeInsightsRequest: request });
   }
 }

@@ -29,7 +29,7 @@ describe('Data Management - Main - Pf Test Authentication Form', () => {
   });
 
   it('Should emit event when submit button is clicked', () => {
-    spyOn(instance.submitClick, 'emit');
+    jest.spyOn(instance.submitClick, 'emit');
 
     instance.pfTestForm.controls.username.setValue('MockUsername@unit.test');
     instance.pfTestForm.controls.password.setValue('MockPassword');
@@ -42,7 +42,7 @@ describe('Data Management - Main - Pf Test Authentication Form', () => {
   });
 
   it('Should emit event when cancel button is clicked', () => {
-    spyOn(instance.cancelClick, 'emit');
+    jest.spyOn(instance.cancelClick, 'emit');
 
     instance.pfTestForm.controls.username.setValue('MockUsername@unit.test');
     instance.pfTestForm.controls.password.setValue('MockPassword');

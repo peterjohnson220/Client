@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import { JobData } from 'libs/models/comphub';
+
 import { JobSalaryTrend } from '../models';
 
 

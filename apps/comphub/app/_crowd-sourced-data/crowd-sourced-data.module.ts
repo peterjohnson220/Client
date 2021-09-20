@@ -7,12 +7,16 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { NgbModalModule, NgbPaginationModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { GuidelinesBadgeModule } from 'libs/features/peer/guidelines-badge';
 import { BasicDataGridModule } from 'libs/features/grids/basic-data-grid';
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
 
 import { CrowdSourcedDataRoutingModule } from './crowd-sourced-data-routing.module';
 import * as fromFaIcons from './fa-icons';
@@ -20,10 +24,14 @@ import {
   CrowdSourcedJobsCardComponent,
   CrowdSourcedJobResultsComponent,
   CrowdSourcedDataPageComponent,
-  CrowdSourcedSummaryCardComponent } from './containers';
+  CrowdSourcedSummaryCardComponent,
+  CompensableFactorsComponent} from './containers';
 import { CrowdSourcedDataPageGuard } from './guards';
 import { SharedModule } from '../_shared/shared.module';
-import { CrowdSourcedJobGridContentComponent } from './components';
+import { CrowdSourcedJobGridContentComponent, CompensableFactorTypeComponent} from './components';
+import { reducers } from './reducers';
+import { CompensableFactorsEffect } from './effects';
+import { ExportDataEffect } from './effects/export-data.effect';
 
 @NgModule({
   imports: [
@@ -42,6 +50,13 @@ import { CrowdSourcedJobGridContentComponent } from './components';
     NgbProgressbarModule,
     NgbTooltipModule,
     FontAwesomeModule,
+    HighchartsChartModule,
+
+    StoreModule.forFeature('comphub_crowd_sourced', reducers),
+    EffectsModule.forFeature([
+      CompensableFactorsEffect,
+      ExportDataEffect
+    ]),
 
     // Payfactors
     PfCommonModule,
@@ -49,7 +64,8 @@ import { CrowdSourcedJobGridContentComponent } from './components';
     PfFormsModule,
     GuidelinesBadgeModule,
     BasicDataGridModule,
-    SharedModule
+    SharedModule,
+    JobPricingGraphModule
 
   ],
   declarations: [
@@ -57,7 +73,9 @@ import { CrowdSourcedJobGridContentComponent } from './components';
     CrowdSourcedJobsCardComponent,
     CrowdSourcedJobResultsComponent,
     CrowdSourcedJobGridContentComponent,
-    CrowdSourcedSummaryCardComponent
+    CrowdSourcedSummaryCardComponent,
+    CompensableFactorTypeComponent,
+    CompensableFactorsComponent,
   ],
   providers: [
     CrowdSourcedDataPageGuard

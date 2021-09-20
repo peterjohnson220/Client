@@ -39,8 +39,8 @@ describe('UnsavedChangesWarningComponent', () => {
 
   it('should emit on leave clicked', () => {
     // arrange
-    spyOn(component.leaveClick, 'emit');
-    spyOn(component.cancelClick, 'emit');
+    jest.spyOn(component.leaveClick, 'emit');
+    jest.spyOn(component.cancelClick, 'emit');
     component.isVisible = true;
     fixture.detectChanges();
 
@@ -55,8 +55,8 @@ describe('UnsavedChangesWarningComponent', () => {
 
   it('should emit on cancel clicked', () => {
     // arrange
-    spyOn(component.leaveClick, 'emit');
-    spyOn(component.cancelClick, 'emit');
+    jest.spyOn(component.leaveClick, 'emit');
+    jest.spyOn(component.cancelClick, 'emit');
     component.isVisible = true;
     fixture.detectChanges();
 

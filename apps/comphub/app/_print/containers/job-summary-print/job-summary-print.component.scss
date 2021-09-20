@@ -1,0 +1,198 @@
+@import 'comphub/print.scss';
+
+.prints {
+  overflow: visible;
+  max-width: none !important;
+  width: 8.5in !important;
+  margin-bottom: 1rem;
+  .js-page {
+    background: white;
+    height: 11in !important;
+    overflow: visible;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-right: 15px;
+  }
+  // add dividers via a right border - default below, with potential custom colors from statement settings
+  .border {
+    border-right-color: rgba(187, 187, 187, 0.25);
+  }
+  // TODO: Remove dependency on CSS Pseudo-classes to show vertical divider.
+  // add border to first child under vertical divider
+  .row.vertical-divider > .trs-column:first-child {
+    border-right-width: 2px;
+    border-right-style: solid;
+  }
+  // hide all non .col-6 dividers (only show dividers if col-6)
+  .row.vertical-divider > .trs-column:first-child:not(.col-6) {
+    border-right-width: 0;
+  }
+  // negate the middle divider for the top row that was added in the rule above
+  .row.vertical-divider:first-child > .trs-column:first-child {
+    border-right-width: 0;
+  }
+  .control-type-5 {
+    align-self: center;
+  }
+}
+
+.img-style {
+  width: 100%;
+  position: center;
+}
+
+.cover-page {
+  h1, h2, h3{
+    color: #17064B;
+  }
+
+  img {
+    padding-top: 100px;
+  }
+
+  .cover-page-header{
+    padding-top: 100px;
+    padding-left: 80px;
+  }
+
+  .cover-page-footer{
+    position: absolute;
+    bottom: 0;
+    color: #302C2C;
+  }
+}
+
+
+.border-bottom{
+  border-bottom: 1px solid #CCCCCC;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background-color: #17064B !important;
+    color: white;
+  }
+  th{
+    border: none;
+  }
+
+  td{
+    border: none;
+  };
+}
+
+.comp-factors{
+  h2 {
+    padding-bottom: 15px;
+  }
+  .col-6 {
+    font-size: large;
+  }
+
+  .row {
+    margin-bottom: 5px;
+  }
+}
+
+.padding-bottom{
+  padding-bottom: 5px;
+}
+
+
+.data-summary {
+
+  position: absolute;
+  right: 3px;
+
+  .row {
+    padding-top: 15px;
+  }
+}
+
+.no-bullets {
+  list-style-type: none;
+}
+
+
+.data-methodology {
+  h2 {
+    color: #17064B;
+  }
+
+  h3 {
+    color: #3D0FC8;
+  }
+
+  h5 {
+    color: #17064B;
+  }
+
+  h6 {
+    color: #17064B;
+  }
+
+  .row {
+    margin-right: 5px;
+    padding-bottom: 20px;
+  }
+}
+
+.data-methodology-heading {
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
+
+
+.pf-border-left {
+  border-left: 2px solid #3D0FC8;
+}
+
+.page-header-padding {
+  padding-top: 15px;
+  padding-bottom: 20px;
+}
+
+
+.process-page {
+  .row{
+    padding-bottom: 40px;
+  }
+
+  h4 {
+    color: #17064B;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #979797;
+  width: 100%;
+
+  .message{
+    margin-right: 300px;
+  }
+
+  .circle {
+    background: #22067A !important;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    color: white;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 40px;
+    margin-right: 5px;
+    text-align: center;
+    width: 40px;
+  }
+
+}

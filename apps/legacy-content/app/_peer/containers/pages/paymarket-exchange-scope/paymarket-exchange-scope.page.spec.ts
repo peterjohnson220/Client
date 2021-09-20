@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeScopeItem } from 'libs/models/peer/exchange-scope';
@@ -43,7 +42,7 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
     store = TestBed.inject(Store);
     route = TestBed.inject(ActivatedRoute);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(PaymarketExchangeScopeComponent);
     instance = fixture.componentInstance;

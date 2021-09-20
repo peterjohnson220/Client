@@ -2,6 +2,7 @@ import orderBy from 'lodash/orderBy';
 import filter from 'lodash/filter';
 
 import { Workbook } from 'libs/features/surveys/reports/models';
+import { DataViewScope } from 'libs/models/payfactors-api';
 
 import { DashboardView } from '../models';
 
@@ -40,11 +41,14 @@ export class DashboardsHelper {
     return orderByFn;
   }
 
-  static getCompanyWorkbooksByView(workbooks: Workbook[], view: DashboardView, workbooktag?: string ): Workbook[] {
+  static getCompanyWorkbooksByView(workbooks: Workbook[], view: DashboardView, workbooktag?: string, scope?: string): Workbook[] {
     let filteredWorkbooks = workbooks.filter(this.getWorkbookFilterFn(view));
     filteredWorkbooks = this.getOrderByFn(view, filteredWorkbooks);
     if (workbooktag && workbooktag !== 'All') {
       filteredWorkbooks = filter(filteredWorkbooks, w => (w.Tag === workbooktag || (w.DefaultTag === workbooktag && w.Tag === null)));
+    }
+    if (scope && scope !== 'All Access') {
+      filteredWorkbooks = filter(filteredWorkbooks, w => (w.Scope === scope ));
     }
     return filteredWorkbooks;
   }

@@ -2,13 +2,13 @@
 
 exports[`UserRoleDataAccessTabComponent should display message on system role 1`] = `
 <pf-user-role-data-access-tab
+  __ngContext__={[Function LRootView]}
   currentRole$={[Function Observable]}
   dataTypes$={[Function Observable]}
   roleDataRestrictions$={[Function Observable]}
   store={[Function Store]}
 >
   <div>
-    
     <div>
       <h4>
         No data restrictions can be added to the Test Role role. If you would like to add data restrictions, please create a new user role.
@@ -20,13 +20,13 @@ exports[`UserRoleDataAccessTabComponent should display message on system role 1`
 
 exports[`UserRoleDataAccessTabComponent should show data access tab on company role 1`] = `
 <pf-user-role-data-access-tab
+  __ngContext__={[Function LRootView]}
   currentRole$={[Function Observable]}
   dataTypes$={[Function Observable]}
   roleDataRestrictions$={[Function Observable]}
   store={[Function Store]}
 >
   <div>
-    
     <div
       class="row"
     >
@@ -53,11 +53,9 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
            to allow users access to everything except data defined in the field. If there are no restrictions set, users will have access to all data for that entity. 
         </div>
       </div>
-      
       <div
         class="col-xl-10 col-12"
       >
-        
         <div
           class="d-flex align-items-center pb-2"
         >
@@ -71,10 +69,8 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
           <div
             class="action-buttons"
           >
-            
           </div>
         </div>
-        
         <div
           class="d-flex align-items-center pb-2"
         >
@@ -86,11 +82,8 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
           <div
             class="action-buttons"
           >
-            
           </div>
         </div>
-        
-        
         <hr />
       </div>
     </div>

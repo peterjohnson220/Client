@@ -1,0 +1,49 @@
+.popover-body-container {
+  padding: 0.5rem 0.75rem;
+  min-height: 130px;
+}
+
+.gray-text {
+  color: #888e92;
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}
+
+.export-desc {
+  display: block;
+  overflow: hidden;
+  font-style: italic;
+  color: #888e92;
+  line-height: 1.5em;
+  min-height: 3em;
+  max-height: 4em;
+}
+
+.popover-body-content {
+  overflow-x: hidden;
+  min-height: 130px;
+}
+
+.list-group-border {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.last-item {
+  border-bottom: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.export-btn-group .btn {
+  border: 0;
+  background-color: inherit;
+  padding: 0;
+}
+
+.export-description-container {
+  width: 200px;
+}

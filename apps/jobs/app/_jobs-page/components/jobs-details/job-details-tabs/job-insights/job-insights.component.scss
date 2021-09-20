@@ -21,8 +21,19 @@
   cursor: pointer;
 }
 
-.job-details-container {
-  max-height: 280px;
-  overflow-y: auto;
-  overflow-x: hidden;
+.graph-container {
+  min-height: 100px;
+  margin-top: 1rem;
+}
+
+$job-insights-button-color: #3D0FC8;
+
+.btn-add-data {
+  background-color: $job-insights-button-color;
+  color: #fff;
+  border-radius: 4px;
+  border-color: $job-insights-button-color;
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: darken($job-insights-button-color, 5%);
+  }
 }

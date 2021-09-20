@@ -8,6 +8,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { NgxMapboxGlGeocoderControlModule } from 'ngx-mapbox-gl-geocoder-control';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
@@ -45,21 +46,23 @@ const declarations = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        // 3rd Party
-        StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
-        EffectsModule.forFeature([
-            ChildFilterEffects, ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
-            ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
-        ]),
-        SwitchModule,
-        DropDownListModule,
-        NgxMapboxGLModule,
-        NgbPopoverModule,
-        FontAwesomeModule,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // 3rd Party
+    StoreModule.forFeature('feature_peer_exchangeExplorer', reducers),
+    EffectsModule.forFeature([
+      ChildFilterEffects, ExchangeScopeEffects, ExchangeFilterContextEffects, ExchangeFilterEffects,
+      ExchangeSearchEffects, SingledFilterEffects, ExchangeExplorerEffects, ExchangeExplorerMapEffects
+    ]),
+    SwitchModule,
+    DropDownListModule,
+    NgxMapboxGLModule,
+    NgxMapboxGlGeocoderControlModule,
+    NgbPopoverModule,
+
+    FontAwesomeModule,
 
         // PF Modules
         PfCommonUIModule,

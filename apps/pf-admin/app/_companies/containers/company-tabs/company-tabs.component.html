@@ -11,7 +11,9 @@
                                 [hideReloadButton]="true">
               <ng-container *ngIf="(companyTiles$ | async)?.length">
                 <div class="checkbox" *ngFor="let companyTile of (companyTiles$ | async)">
-                  <label *ngIf="companyTile.TileName !== tileNames.InternationalData">
+                  <label *ngIf="companyTile.TileName !== tileNames.InternationalData
+                          && companyTile.TileName !== tileNames.PayEquity
+                          && companyTile.TileName !== tileNames.MeritPlanning">
                     <input type="checkbox"
                            (change)="toggleCompanyTile(companyTile)"
                            [disabled]="companyTile.Disabled" [checked]="companyTile.Checked" />

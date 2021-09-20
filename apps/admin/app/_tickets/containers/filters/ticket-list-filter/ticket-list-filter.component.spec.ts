@@ -34,7 +34,7 @@ describe('Admin - Tickets - Ticket List Filter', () => {
   });
 
   it('should emit an event onChange', () => {
-    spyOn(component.valueChange, 'emit');
+    jest.spyOn(component.valueChange, 'emit');
 
     component.onChange(123);
     fixture.detectChanges();

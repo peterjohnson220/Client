@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './services';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import {
   WorkflowSetupModalComponent,
   JobDescriptionWorkflowComparePageComponent,
   JobDescriptionInboxPageComponent,
+  JobDescriptionCollaborationPageComponent,
   JobDescriptionInboxGridComponent
 } from './containers';
 import {
@@ -69,7 +71,8 @@ import {
   FlsaQuestionnaireModalComponent,
   JobMatchResultComponent,
   ExportJobDescriptionModalComponent,
-  BulkExportJobDescriptionModalComponent,
+  ShareJobDescriptionModalComponent,
+  BulkExportJobDescriptionModalComponent
 } from './components';
 import { reducers } from './reducers';
 import {
@@ -98,6 +101,10 @@ import { JobDescriptionDnDService, JobDescriptionVersionCompareService } from '.
 import { ResolveHistoryListGuard, JobDescriptionJobCompareListResolver } from './guards';
 import { SharedModule } from '../shared/shared.module';
 import { WorkflowStepComponent } from './components/workflow/workflow-step/workflow-step.component';
+import { JobDescriptionWorkflowPanelComponent } from './containers/pages/job-description-workflow-panel/job-description-workflow-panel.component';
+import { ApprovalsWorkflowSetupComponent } from './containers/approvals-workflow-setup/approvals-workflow-setup.component';
+import { SharePermissionsPanelComponent } from './components/share-permissions-panel';
+
 @NgModule({
   imports: [
     // Angular
@@ -181,7 +188,9 @@ import { WorkflowStepComponent } from './components/workflow/workflow-step/workf
     JobMatchResultComponent,
     ExportJobDescriptionModalComponent,
     WorkflowProgressBarComponent,
+    ShareJobDescriptionModalComponent,
     BulkExportJobDescriptionModalComponent,
+    SharePermissionsPanelComponent,
 
     // Pages
     JobDescriptionJobComparePageComponent,
@@ -191,6 +200,7 @@ import { WorkflowStepComponent } from './components/workflow/workflow-step/workf
     WorkflowWatchSidebarComponent,
     JobDescriptionWorkflowComparePageComponent,
     JobDescriptionInboxPageComponent,
+    JobDescriptionCollaborationPageComponent,
 
     // Containers
     JobDescriptionActionsComponent,
@@ -206,11 +216,14 @@ import { WorkflowStepComponent } from './components/workflow/workflow-step/workf
     ListAreaColumnSearchPipe,
     UserFilterSearchPipe,
     BulkExportJobDescriptionModalComponent,
-    WorkflowStepComponent
+    WorkflowStepComponent,
+    JobDescriptionWorkflowPanelComponent,
+    ApprovalsWorkflowSetupComponent
   ],
   providers: [
     ListAreaService, ColumnResizingService, JobDescriptionVersionCompareService,
-    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService
+    ResolveHistoryListGuard, JobDescriptionJobCompareListResolver, JobDescriptionDnDService,
+    JobDescriptionSharingService
   ]
 })
 export class JobDescriptionModule {

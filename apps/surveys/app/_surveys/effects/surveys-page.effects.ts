@@ -111,6 +111,21 @@ export class SurveyPageEffects {
       })
     );
 
+  @Effect()
+  exportSurveySummaryReport$ = this.actions$
+    .pipe(
+      ofType(fromSurveyPageActions.EXPORT_SURVEY_SUMMARY_REPORT),
+      switchMap((action: fromSurveyPageActions.ExportSurveySummaryReport) => {
+        return this.surveyApiService.exportSurveySummaryReport()
+          .pipe(
+            map(() => {
+              return new fromSurveyPageActions.ExportSurveySummaryReportSuccess();
+            }),
+            catchError(() => of(new fromSurveyPageActions.ExportSurveySummaryReportError()))
+          );
+      })
+    );
+
   constructor(
     private actions$: Actions,
     private surveyApiService: SurveyApiService

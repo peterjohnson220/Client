@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchange } from 'libs/models';
@@ -64,14 +63,14 @@ describe('Peer - Exchange Dashboard', () => {
     instance = fixture.componentInstance;
     abstractFeatureFlagService = TestBed.inject(AbstractFeatureFlagService);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should navigate to the job mapping page when clicking the manage jobs button', () => {
 
     fixture.detectChanges();
 
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.manageJobsClick();
 

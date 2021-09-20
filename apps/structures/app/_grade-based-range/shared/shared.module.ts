@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbNavModule, NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule, ComboBoxModule, DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NumericTextBoxModule, SwitchModule } from '@progress/kendo-angular-inputs';
@@ -26,13 +26,15 @@ import {
   GradeBasedVerticalRangeChartComponent,
   ModelGridComponent,
   GradeBasedSummaryChartComponent,
-  SwitchRegressionFlagsModalComponent
+  SwitchRegressionFlagsModalComponent,
+  AddGradeModalComponent
 } from './containers';
 import { reducers } from './reducers';
 import {
   PublishModelModalEffects,
   SharedEffects,
-  SwitchRegressionFlagsModalEffects
+  SwitchRegressionFlagsModalEffects,
+  AddGradeModalEffects
 } from './effects';
 
 
@@ -47,11 +49,11 @@ import {
     EffectsModule.forFeature([
       SharedEffects,
       SwitchRegressionFlagsModalEffects,
-      PublishModelModalEffects
+      PublishModelModalEffects,
+      AddGradeModalEffects
     ]),
     NgbCollapseModule,
     FontAwesomeModule,
-    NgbTabsetModule,
     AutoCompleteModule,
     ComboBoxModule,
     NgbTooltipModule,
@@ -81,13 +83,15 @@ import {
     GradeBasedSummaryChartComponent,
     GradeBasedHorizontalRangeChartComponent,
     GradeBasedVerticalRangeChartComponent,
-    SwitchRegressionFlagsModalComponent
+    SwitchRegressionFlagsModalComponent,
+    AddGradeModalComponent
   ],
   exports: [
     ModelGridComponent,
     GradeBasedSummaryChartComponent,
     GradeBasedHorizontalRangeChartComponent,
-    GradeBasedVerticalRangeChartComponent
+    GradeBasedVerticalRangeChartComponent,
+    AddGradeModalComponent
   ],
   providers: [
   ]

@@ -70,7 +70,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     const entityToRemove = instance.providerFields[0];
     const expectedAction = new fromFieldMappingActions.RemoveAssociatedEntity({entity: entityToRemove, entityType: 'Employees', payfactorsEntityIndex: 0});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.removeAssociatedItem(0, entityToRemove);
 
@@ -81,7 +81,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     const entityToAdd = instance.providerFields[0];
     const expectedAction = new fromFieldMappingActions.AddAssociatedEntity({entity: entityToAdd, entityType: 'Employees', payfactorsEntityId: 0});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.addAssociatedItem(0, entityToAdd);
 
@@ -92,7 +92,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     const mockConverterSetting = generateMockConverterSettings();
     const expectedAction = new fromConverterSettingsActions.AddConverterSetting({converterSetting: mockConverterSetting});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.onDateFormatSelected('yyyy-MM-ddzzz');
 
@@ -104,7 +104,7 @@ describe('Data Management - Main - Entity Mapping Component', () => {
     instance.entityType = 'Employees';
     const expectedAction = new fromHrisConnectionsActions.ToggleFullReplaceMode({entityType: 'Employees', doFullReplace: true});
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.updateFullReplaceModeSetting({target: { value: 'true'}});
 

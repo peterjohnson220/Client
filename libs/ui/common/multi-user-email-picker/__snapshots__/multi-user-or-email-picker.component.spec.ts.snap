@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
+<pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
+  companyApiService={[Function Object]}
+  emailAlreadyAdded="false"
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  pickerArea={[Function ElementRef]}
+  searchFailed="false"
+  searchValue=""
+  searching="false"
+  selected={[Function EventEmitter_]}
+  selectedEmailsChange={[Function EventEmitter_]}
+  selectedListHash={[Function Object]}
+  selectedListSize="0"
+  userApiService={[Function Object]}
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control multi-search-bar ng-untouched ng-pristine ng-valid"
+      container="body"
+      id="multi-search-input"
+      placeholder="Enter email addresses"
+      role="combobox"
+      type="text"
+    />
+  </div>
+</pf-multi-user-or-email-picker>
+`;
+
+exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
+<pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
+  companyApiService={[Function Object]}
+  emailAlreadyAdded="false"
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  pickerArea={[Function ElementRef]}
+  searchFailed="false"
+  searchValue=""
+  searching={[Function Boolean]}
+  selected={[Function EventEmitter_]}
+  selectedEmailsChange={[Function EventEmitter_]}
+  selectedListHash={[Function Object]}
+  selectedListSize="0"
+  userApiService={[Function Object]}
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control multi-search-bar ng-untouched ng-pristine ng-valid"
+      container="body"
+      id="multi-search-input"
+      placeholder="Enter email addresses"
+      role="combobox"
+      type="text"
+    />
+    <div
+      class="picker-searching-icon"
+    >
+      <fa-icon
+        aria-hidden="true"
+        icon="circle-notch"
+      />
+    </div>
+  </div>
+</pf-multi-user-or-email-picker>
+`;
+
+exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
+<pf-multi-user-or-email-picker
+  __ngContext__={[Function LRootView]}
+  companyApiService={[Function Object]}
+  emailAlreadyAdded="false"
+  identity$={[Function Store]}
+  identitySubscription={[Function Subscriber]}
+  pickerArea={[Function ElementRef]}
+  searchFailed={[Function Boolean]}
+  searchValue=""
+  searching="false"
+  selected={[Function EventEmitter_]}
+  selectedEmailsChange={[Function EventEmitter_]}
+  selectedListHash={[Function Object]}
+  selectedListSize="0"
+  userApiService={[Function Object]}
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control multi-search-bar ng-untouched ng-pristine ng-valid"
+      container="body"
+      id="multi-search-input"
+      placeholder="Enter email addresses"
+      role="combobox"
+      type="text"
+    />
+  </div><div
+    class="form-control-feedback"
+  >
+     Sorry, suggestions could not be loaded.
+  </div>
+</pf-multi-user-or-email-picker>
+`;

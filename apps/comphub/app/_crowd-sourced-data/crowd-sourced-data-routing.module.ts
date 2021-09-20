@@ -5,7 +5,7 @@ import { CrowdSourcedDataPageComponent } from './containers';
 import { CrowdSourcedDataPageGuard } from './guards';
 
 const routes: Routes = [
-  { path: '', canActivate: [CrowdSourcedDataPageGuard], component: CrowdSourcedDataPageComponent }
+  { path: '', canActivate: [CrowdSourcedDataPageGuard], component: CrowdSourcedDataPageComponent },
 ];
 
 @NgModule({

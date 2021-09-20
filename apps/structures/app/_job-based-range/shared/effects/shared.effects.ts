@@ -61,38 +61,6 @@ export class SharedEffects {
         }
       ));
 
-  @Effect()
-  removeRange$: Observable<Action> = this.actions$
-    .pipe(
-      ofType(fromSharedJobBasedRangeActions.REMOVING_RANGE),
-      withLatestFrom(
-        this.store.pipe(select(fromSharedStructuresReducer.getMetadata)),
-        this.store.pipe(select(fromPfDataGridReducer.getGridConfig)),
-        this.store.pipe(select(fromPfDataGridReducer.getData)),
-        this.store.pipe(select(fromPfDataGridReducer.getPagingOptions)),
-        (action: fromSharedStructuresActions.RecalculateRangesWithoutMid, metadata: RangeGroupMetadata, gridConfig: GridConfig, gridData: GridDataResult,
-         pagingOptions: PagingOptions) => {
-          return { action, metadata, gridConfig, gridData, pagingOptions };
-        }
-      ),
-      switchMap((data: any) => {
-        return this.structureModelingApiService.removeRange(data.action.payload).pipe(
-          mergeMap(() => {
-            const actions = [];
-            const modelPageViewId =
-              PagesHelper.getModelPageViewIdByRangeTypeAndRangeDistributionType(data.metadata.RangeTypeId, data.metadata.RangeDistributionTypeId);
-
-            actions.push(new fromSharedJobBasedRangeActions.RemovingRangeSuccess());
-            actions.push(new pfDataGridActions.ClearSelections(modelPageViewId, [data.action.payload]));
-            actions.push(GridDataHelper.getLoadDataAction(modelPageViewId, data.gridData, data.gridConfig, data.pagingOptions));
-
-            return actions;
-          }),
-          catchError(error => of(new fromSharedJobBasedRangeActions.RemovingRangeError(error)))
-        );
-      })
-    );
-
   // We want to remove filterQuery param otherwise Saved filter won't be applied
   @Effect({ dispatch: false })
   handleSavedViewClicked$: Observable<Action> = this.actions$

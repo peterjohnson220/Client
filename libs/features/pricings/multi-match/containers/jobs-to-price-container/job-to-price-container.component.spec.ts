@@ -47,7 +47,7 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
   it('should get job match cuts when load cuts clicked', () => {
     const job = generateMockJobToPrice();
     const expectedAction = new fromJobsToPriceActions.GetMatchJobCuts(job);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadDataCuts(job);
     fixture.detectChanges();
@@ -61,7 +61,7 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
     const job = generateMockJobToPrice();
     job.TotalDataCuts = 0;
     const expectedAction = new fromJobsToPriceActions.GetMatchJobCuts(job);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadDataCuts(job);
     fixture.detectChanges();
@@ -75,7 +75,7 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
     const job = generateMockJobToPrice();
     job.JobMatchCuts = [generateMockJobMatchCut()];
     const expectedAction = new fromJobsToPriceActions.GetMatchJobCuts(job);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleLoadDataCuts(job);
     fixture.detectChanges();
@@ -87,7 +87,7 @@ describe('Project - MultiMatch - JobToPrice Container Component', () => {
     const job = generateMockJobToPrice();
     job.JobMatchCuts = [generateMockJobMatchCut()];
     const expectedAction = new fromJobsToPriceActions.RemoveJobCut({JobId: job.Id, DataCut: job.JobMatchCuts[0]});
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleCutDeleted({jobCut: job.JobMatchCuts[0], job: job });
     fixture.detectChanges();

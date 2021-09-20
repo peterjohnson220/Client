@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBar is true 1`] = `
-<ng-component>
+<ng-component
+  __ngContext__={[Function LRootView]}
+>
   <pf-layout-wrapper>
     <div
       class="wrapper"
@@ -22,10 +24,8 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
         <div
           class="center-content"
         >
-          
           I am the main content
         </div>
-        
       </main>
     </div>
   </pf-layout-wrapper>\` 
@@ -33,7 +33,9 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
 `;
 
 exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar is false 1`] = `
-<ng-component>
+<ng-component
+  __ngContext__={[Function LRootView]}
+>
   <pf-layout-wrapper>
     <div
       class="wrapper"
@@ -54,10 +56,8 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
         <div
           class="center-content"
         >
-          
           I am the main content
         </div>
-        
       </main>
     </div>
   </pf-layout-wrapper>\` 
@@ -65,7 +65,9 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
 `;
 
 exports[`Layout Wrapper should transclude 1`] = `
-<ng-component>
+<ng-component
+  __ngContext__={[Function LRootView]}
+>
   <pf-layout-wrapper>
     <div
       class="wrapper"
@@ -86,10 +88,8 @@ exports[`Layout Wrapper should transclude 1`] = `
         <div
           class="center-content"
         >
-          
           I am the main content
         </div>
-        
       </main>
     </div>
   </pf-layout-wrapper>\` 

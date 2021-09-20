@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockEntity, BaseDataView, generateMockBaseDataView } from 'libs/ui/formula-editor';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import * as fromSharedReducer from '../../../_shared/reducers';
 
@@ -41,6 +42,10 @@ describe('Data Insights - Create Data View Modal', () => {
           useValue: { open: jest.fn(), dismissAll: jest.fn() }
         },
         {
+          provide: AbstractFeatureFlagService,
+          useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
           provide: FormBuilder,
           useValue: { group: jest.fn(), reset: jest.fn(), patchValue: jest.fn() }
         }
@@ -52,14 +57,15 @@ describe('Data Insights - Create Data View Modal', () => {
     instance.baseDataViewForm = new FormGroup({
       entity: new FormControl(''),
       name: new FormControl(''),
-      summary: new FormControl('')
+      summary: new FormControl(''),
+      scope: new FormControl('')
     });
     ngbModal = TestBed.inject(NgbModal);
     store = TestBed.inject(Store);
   });
 
   it('should open modal using modalService when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
 
     instance.open();
 
@@ -67,13 +73,14 @@ describe('Data Insights - Create Data View Modal', () => {
   });
 
   it('should dispatch SaveUserReport action when save is called', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const baseDataView: BaseDataView = generateMockBaseDataView();
     instance.baseDataViewForm.patchValue({
       entity: generateMockEntity(),
       name: baseDataView.Name,
-      summary: baseDataView.Summary
+      summary: baseDataView.Summary,
+      scope: baseDataView.Scope
     });
     const expectedAction = new fromDataViewActions.SaveUserReport(baseDataView);
 

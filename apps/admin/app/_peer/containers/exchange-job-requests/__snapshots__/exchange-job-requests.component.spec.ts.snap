@@ -2,6 +2,7 @@
 
 exports[`Exchange Job Requests should match snapshot 1`] = `
 <pf-exchange-job-requests
+  __ngContext__={[Function LRootView]}
   approveRequestModalOpen$={[Function Store]}
   approveRequestModalTitle={[Function String]}
   approvingJobRequest$={[Function Store]}
@@ -42,13 +43,11 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
             field="JobTitle"
             title="Job Title"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="JobFamily"
             title="Job Family"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="JobLevel"
@@ -62,13 +61,11 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
             field="RequestCompany"
             title="Request Company"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             field="RequestDate"
             title="Request Date"
           >
-            
           </kendo-grid-column>
           <kendo-grid-column
             class="text-center"
@@ -76,12 +73,10 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
             title="Request Type"
             width="104"
           >
-            
           </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
-    
     <pf-deny-request-modal />
     <pf-approve-request-modal />
   </div>

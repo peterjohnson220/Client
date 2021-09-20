@@ -2,6 +2,7 @@ import { TilePreviewBase } from './tile-preview-base.model';
 import { Tile } from './tile.model';
 import { TilePreviewTypes } from './tile-preview-types';
 import { convertToFaIconFormat } from 'libs/core/functions';
+import { TileTypes } from 'libs/models';
 
 export interface TilePreviewIcon extends TilePreviewBase {
   IconClass: string;
@@ -14,8 +15,22 @@ export interface TilePreviewIcon extends TilePreviewBase {
   DetailData?: Object;
 }
 
-export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
-  const faIconClass = convertToFaIconFormat(tile.IconClass);
+export function generateTilePreviewIconFromTile(tile: Tile, payscaleBrandingFeatureFlag: boolean): TilePreviewIcon {
+  let faIconClass = convertToFaIconFormat(tile.IconClass);
+  if (payscaleBrandingFeatureFlag) {
+    switch (tile.Type) {
+      case TileTypes.DataDiagnostics:
+        faIconClass = ['far', 'ambulance'];
+        break;
+      case TileTypes.DataInsights:
+        faIconClass = ['far', 'chart-pie'];
+        break;
+      case TileTypes.PayMarkets:
+        faIconClass = ['far', 'house'];
+        break;
+    }
+  }
+
   if (tile.TilePreviewData === undefined ||
     tile.TilePreviewData === null ||
     tile.TilePreviewData.length === 0 ||
@@ -25,7 +40,7 @@ export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
       ContainsDetailData: false,
       faIconClass: faIconClass,
       IconClass: tile.IconClass,
-      IconSize: '10x',
+      IconSize: payscaleBrandingFeatureFlag ? '8x' : '10x',
       CssClassName: 'preview-tile-icon'
     };
   }

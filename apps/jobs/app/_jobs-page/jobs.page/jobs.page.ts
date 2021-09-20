@@ -23,14 +23,16 @@ import {
 } from 'libs/features/grids/pf-data-grid/models';
 import { AsyncStateObj, CompanySettingsEnum, GroupedListItem } from 'libs/models';
 import { GetPricingsToModifyRequest } from 'libs/features/pricings/multi-match/models';
-import { ChangeJobStatusRequest, CreateProjectRequest, ExportJobsRequest, MatchedSurveyJob, ViewField } from 'libs/models/payfactors-api';
+import { ChangeJobStatusRequest, CreateProjectRequest, ExportJobsRequest, MatchedSurveyJob, ModifyPricingMatchesResponse, ViewField } from 'libs/models/payfactors-api';
 import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from 'libs/features/surveys/survey-search/data';
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { SettingsService } from 'libs/state/app-context/services';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 import { AppNotification, NotificationLevel } from 'libs/features/infrastructure/app-notifications';
+import { ExportOptions } from 'libs/features/export-popover/models/export-options.model';
 import * as fromRootState from 'libs/state/state';
 import * as fromModifyPricingsActions from 'libs/features/pricings/multi-match/actions';
+import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import * as fromModifyPricingsReducer from 'libs/features/pricings/multi-match/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
@@ -87,6 +89,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   getNotificationSubscription: Subscription;
   leftSidebarOpenSubscription: Subscription;
   selectedRecordIdSubscription: Subscription;
+  exportJobOptionsSubscription: Subscription;
 
   selectedRecordId$: Observable<number>;
   canEditJobCompanySetting$: Observable<boolean>;
@@ -182,6 +185,8 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
   exportEventId: string;
   leftSidebarOpen: boolean;
   selectedRecordId: number;
+  exportOptions: ExportOptions[];
+  exportInProgress = false;
 
   @ViewChild('gridRowActionsTemplate') gridRowActionsTemplate: ElementRef;
   @ViewChild('jobTitleColumn') jobTitleColumn: ElementRef;
@@ -323,9 +328,12 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.multiMatchSaveChangesSubscription = this.actionsSubject
-      .pipe(ofType(fromModifyPricingsActions.MODIFY_PRICINGS_SUCCESS))
-      .subscribe((action: fromModifyPricingsActions.ModifyPricingSuccess) => {
-        const payMarketGridAttentionGrabKeys = action.payload.map(x => {
+      .pipe(ofType(
+        fromModifyPricingsActions.MODIFY_PRICINGS_SUCCESS,
+        fromAddDataActions.ADD_PRICING_MATCHES_SUCCESS
+        ))
+      .subscribe((action: any) => {
+        const payMarketGridAttentionGrabKeys = action.payload.map((x: ModifyPricingMatchesResponse) => {
           return `${x.CompanyJobId}_${x.PaymarketId}`;
         });
 
@@ -340,6 +348,13 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
       ShowColumnChooser: true,
       ShowFilterChooser: true
     };
+
+    this.exportJobOptionsSubscription = this.store.select(fromJobsPageReducer.getExportOptions).subscribe(exportData => {
+      if (exportData) {
+        this.exportOptions = exportData;
+        this.exportInProgress = exportData.some(d => d.Exporting.loading);
+      }
+    });
 
     this.store.dispatch(new fromJobsPageActions.SetJobsPageId(this.pageViewId));
     this.store.dispatch(new fromJobsPageActions.LoadCompanyPayMarkets());
@@ -451,6 +466,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getNotificationSubscription.unsubscribe();
     this.leftSidebarOpenSubscription.unsubscribe();
     this.selectedRecordIdSubscription.unsubscribe();
+    this.exportJobOptionsSubscription.unsubscribe();
   }
 
   closeSplitView() {

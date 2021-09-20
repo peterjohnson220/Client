@@ -84,7 +84,7 @@ describe('Project - Survey Search - Job Result', () => {
 
     const getSurveyDataResultsAction = new fromSurveySearchResultsActions.GetSurveyDataResults(instance.job);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture.detectChanges();
     instance.toggleDataCutsDisplay();
@@ -97,7 +97,7 @@ describe('Project - Survey Search - Job Result', () => {
     instance.showDataCuts = true;
     const getSurveyDataResultsAction = new fromSurveySearchResultsActions.GetSurveyDataResults(instance.job);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.toggleDataCutsDisplay();
     fixture.detectChanges();
@@ -109,14 +109,14 @@ describe('Project - Survey Search - Job Result', () => {
     instance.job = generateMockPayfactorsJobResult();
     const mouseEnterEvent: MouseEvent = new MouseEvent('mouseenter');
 
-    spyOn(instance.matchesMouseEnter, 'emit');
+    jest.spyOn(instance.matchesMouseEnter, 'emit');
     instance.handleMatchesMouseEnter(mouseEnterEvent);
 
     expect(instance.matchesMouseEnter.emit).toHaveBeenCalled();
   });
 
   it('should emit matchesMouseLeave event when mouse leave Matches field', fakeAsync(() => {
-    spyOn(instance.matchesMouseLeave, 'emit');
+    jest.spyOn(instance.matchesMouseLeave, 'emit');
 
     instance.handleMatchesMouseLeave();
     tick(100);
@@ -131,7 +131,7 @@ describe('Project - Survey Search - Job Result', () => {
       MatchesDetails: ['Administrative Assistant (25) - *Denver']
     };
 
-    spyOn(instance.matchesMouseEnter, 'emit');
+    jest.spyOn(instance.matchesMouseEnter, 'emit');
     instance.handleDataCutMatchesMouseEnter(matchesDetailsTooltipData);
 
     expect(instance.matchesMouseEnter.emit).toHaveBeenCalled();
@@ -140,7 +140,7 @@ describe('Project - Survey Search - Job Result', () => {
   it('should emit loadDataCuts event when Load More clicked', () => {
     instance.job = generateMockSurveyJobResult();
 
-    spyOn(instance.loadDataCuts, 'emit');
+    jest.spyOn(instance.loadDataCuts, 'emit');
     instance.handleLoadDataCuts();
 
     expect(instance.loadDataCuts.emit).toHaveBeenCalled();

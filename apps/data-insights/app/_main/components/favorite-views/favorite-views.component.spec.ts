@@ -22,7 +22,7 @@ describe('Data Insights - Favorite Views Component', () => {
   });
 
   it('should emit favoriteClicked with workbookId and view object when handling favorite clicked', () => {
-    spyOn(instance.favoriteClicked, 'emit');
+    jest.spyOn(instance.favoriteClicked, 'emit');
     const eventObj = {
       workbookId: '123',
       view: generateMockView()

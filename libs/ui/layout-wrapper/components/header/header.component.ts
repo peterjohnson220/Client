@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 import { NavigationLink, UserContext, HomePageLink } from 'libs/models';
 import { AbstractFeatureFlagService, FeatureFlags, RealTimeFlag } from 'libs/core';
+import { SystemUserGroupNames } from 'libs/constants';
 
 @Component({
   selector: 'pf-layout-wrapper-header',
@@ -20,6 +21,10 @@ export class HeaderComponent implements OnDestroy {
 
   payscaleBrandingFeatureFlag: RealTimeFlag = { key: FeatureFlags.PayscaleBranding, value: false };
   unsubscribe$ = new Subject<void>();
+
+  get showNotificationsBadge(): boolean {
+    return !this.userContext.IsPublic || this.userContext.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness;
+  }
 
   constructor(private featureFlagService: AbstractFeatureFlagService) {
     this.featureFlagService.bindEnabled(this.payscaleBrandingFeatureFlag, this.unsubscribe$);

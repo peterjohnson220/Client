@@ -9,6 +9,8 @@ import {
   RecalcAndSaveRangeMinMaxResponse,
   StructureRangeGroupResponse,
   AddJobRangesRequest,
+  AddGradeRangeRequest,
+  AddGradeRangeResponse,
   JobSearchRequestStructuresRangeGroup,
   RemoveRangeRequest,
   DuplicateModelResponse,
@@ -59,8 +61,16 @@ export class StructureModelingApiService {
     return this.payfactorsApiService.post<boolean>(`${this.endpoint}/RemoveRange`, request);
   }
 
+  removeGrade(request: RemoveRangeRequest): Observable<boolean> {
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}/RemoveGrade`, request)
+  }
+
   addJobsToRangeGroup(request: AddJobRangesRequest): Observable<CompanyStructureRange[]> {
     return this.payfactorsApiService.post<CompanyStructureRange[]>(`${this.endpoint}/AddJobRanges`, request);
+  }
+
+  addGrade(request: AddGradeRangeRequest): Observable<AddGradeRangeResponse> {
+    return this.payfactorsApiService.post<AddGradeRangeResponse>(`${this.endpoint}/AddGradeRange`, request);
   }
 
   addJobsFromSearchToRangeGroup(request: JobSearchRequestStructuresRangeGroup): Observable<CompanyStructureRange[]> {

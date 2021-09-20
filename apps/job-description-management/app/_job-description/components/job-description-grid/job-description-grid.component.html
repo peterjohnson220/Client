@@ -25,6 +25,10 @@
         <fa-icon [icon]="['fas', 'download']"></fa-icon>
         Export
       </button>
+      <button *ngIf="showShareButton()" type="button" class="btn btn-secondary pf-btn-borderless mr-3" [disabled]="selectedJobDescriptions?.size === 0 || !canShareJobDescriptions()" (click)="handleShareJobDescriptionClick()">
+        <fa-icon [icon]="['fas', 'share']"></fa-icon>
+        Share <span *ngIf="selectedJobDescriptions?.size > 0 && canShareJobDescriptions()">({{selectedJobDescriptions?.size}})</span>
+      </button>
       <!--<div *ngIf="hasDeleteJobDescriptionPermission" 
         [ngbTooltip]="bulkDeleteTooltip"  placement="bottom">
         <button type="button" class="btn btn-secondary pf-btn-borderless mr-3" 

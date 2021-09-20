@@ -69,7 +69,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should dispatch a PriceNewJob action, when handling a Price New Job click', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSummaryCardActions.PriceNewJob();
 
     instance.handlePriceNewJobClicked();
@@ -98,7 +98,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should call saveAs on the pdf export view child when handleDownloadPdfClicked clicked and enableFileDownloadSecurityWarning is false', () => {
-    spyOn(instance.pdf, 'saveAs');
+    jest.spyOn(instance.pdf, 'saveAs').mockImplementation(jest.fn());
     instance.jobData = generateFakeJobData();
 
     instance.handleDownloadPdfClicked();
@@ -107,7 +107,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should call saveAs with the correct fileName on the pdf export view child when handleDownloadPdfClicked clicked', () => {
-    spyOn(instance.pdf, 'saveAs');
+    jest.spyOn(instance.pdf, 'saveAs').mockImplementation(jest.fn());
     instance.jobData = {...generateFakeJobData(), JobTitle: 'This is a job title with spaces'};
     const expectedFileName = 'PricingSummaryForThisisajobtitlewithspaces.pdf';
 
@@ -117,7 +117,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should remove periods from job title when saving pdf', () => {
-    spyOn(instance.pdf, 'saveAs');
+    jest.spyOn(instance.pdf, 'saveAs').mockImplementation(jest.fn());
     instance.jobData = {...generateFakeJobData(), JobTitle: 'Job.Title.III.Boy'};
     const expectedFileName = 'PricingSummaryForJobTitleIIIBoy.pdf';
 
@@ -127,7 +127,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should dispatch OpenShareModal when Share button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSummaryCardActions.OpenShareModal();
 
     instance.handleShareClicked();
@@ -136,7 +136,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should dispatch CloseShareModal when Cancel button from share modal clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSummaryCardActions.CloseShareModal();
 
     instance.handleShareModalCancelClicked();
@@ -145,7 +145,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should dispatch CreateProject when create project button clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromSummaryCardActions.CreateProject();
 
     instance.handleCreateProjectClicked();
@@ -154,7 +154,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should hide create project button when no access to projects tile', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(false);
@@ -166,7 +166,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should show create project button when has access to projects tile', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(true);
@@ -178,7 +178,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should hide create project button has access to projects tile but no paymarketId', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.paymarket.CompanyPayMarketId = null;
@@ -191,7 +191,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should dispatch load job trend chart when selected page is Summary and job data has been changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedJobData$ = of({...generateFakeJobData(), JobId: 3});
     instance.lastJobData = generateFakeJobData();
@@ -207,7 +207,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
   });
 
   it('should NOT dispatch load job trend chart when selected page is Summary and job data has NOT been changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedJobData$ = of(generateFakeJobData());
     instance.lastJobData = generateFakeJobData();
@@ -224,7 +224,7 @@ describe('Comphub - Shared - Summary Card Component', () => {
 
   it('should NOT dispatch load job trend chart and add new completed pricing record ' +
   'when selected page is NOT Summary and job data has been changed', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.selectedJobData$ = of({...generateFakeJobData(), JobId: 3});
     instance.lastJobData = generateFakeJobData();

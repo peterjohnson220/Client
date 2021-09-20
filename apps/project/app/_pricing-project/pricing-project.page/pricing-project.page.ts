@@ -5,8 +5,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription} from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { ActionBarConfig, getDefaultActionBarConfig, GridConfig } from 'libs/features/grids/pf-data-grid/models';
-import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
+import {
+  ActionBarConfig,
+  ColumnChooserType,
+  getDefaultActionBarConfig,
+  GridConfig,
+  ViewConfigurationStrategy
+} from 'libs/features/grids/pf-data-grid/models';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common/file-download-security-warning';
 import { DataGridState } from 'libs/features/grids/pf-data-grid/reducers/pf-data-grid.reducer';
 import { Permissions } from 'libs/constants';
@@ -15,15 +20,18 @@ import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType} from 'lib
 import { SearchFeatureIds } from 'libs/features/search/search/enums/search-feature-ids';
 import { UserContext } from 'libs/models';
 import { PricingProjectHelperService } from 'libs/core';
+import { ProjectFieldManagementFeatureImplementations } from 'libs/features/projects/project-template-management/constants';
+import { ViewConfigurationStrategyType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromCompanySettingsReducer from 'libs/state/state';
-import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromRootState from 'libs/state/state';
+import * as fromPfDataGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromPfDataGridActions from 'libs/features/grids/pf-data-grid/actions';
 import * as fromSearchPageActions from 'libs/features/search/search/actions/search-page.actions';
 import * as fromSearchFeatureActions from 'libs/features/search/search/actions/search-feature.actions';
 
 import { PageViewIds } from '../../shared/constants';
 import * as fromPricingProjectReducer from '../reducers';
+import * as fromPricingProjectActions from '../actions';
 
 @Component({
   selector: 'pf-pricing-project',
@@ -32,20 +40,23 @@ import * as fromPricingProjectReducer from '../reducers';
 })
 export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('jobTitle') jobTitle: ElementRef;
-  @ViewChild('gridGlobalActions', {static: true}) gridGlobalActionsTemplate: ElementRef;
-  @ViewChild('fileDownloadSecurityWarningModal', {static: true}) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
-  @ViewChild('compColumn', {static: false}) compColumn: ElementRef;
-  @ViewChild('percentageColumn', {static: false}) percentageColumn: ElementRef;
-  @ViewChild('companyColumn', {static: false}) companyColumn: ElementRef;
+  @ViewChild('gridGlobalActions', { static: true }) gridGlobalActionsTemplate: ElementRef;
+  @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
+  @ViewChild('compColumn', { static: false }) compColumn: ElementRef;
+  @ViewChild('percentageColumn', { static: false }) percentageColumn: ElementRef;
+  @ViewChild('companyColumn', { static: false }) companyColumn: ElementRef;
+  @ViewChild('customColumnChooser', {static: false}) customColumnChooser: ElementRef;
+  @ViewChild('mrpColumnHeader', { static: false }) mrpColumnHeader: ElementRef;
+
   permissions = Permissions;
   viewingJobSummary: boolean;
-  project$: Observable<any>;
   projectSubscription: Subscription;
-  projectRate: 'Annual';
+  projectContext: any;
   projectId: number;
   pageViewId = PageViewIds.ProjectJobs;
   filter = [];
-  colTemplates = {};
+  columnDataTemplates = {};
+  columnHeaderTemplates = {};
   gridConfig: GridConfig;
   actionBarConfig: ActionBarConfig;
   defaultSort: SortDescriptor[] = [{
@@ -53,7 +64,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     field: 'vw_ProjectJobPayMarketMetadata_Job_Title'
   }, {
     dir: 'asc',
-    field: 'vw_ProjectJobPayMarketMetadata_Paymarket'
+    field: 'vw_ProjectJobPayMarketMetadata_PayMarket'
   }];
 
   companySettingsSubscription: Subscription;
@@ -89,6 +100,15 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     'Company TGP',
   ];
 
+  projectFieldFeatureImplementations = ProjectFieldManagementFeatureImplementations;
+
+  // Projects page does not allow users to create/save filters. View name for the config will always be null.
+  projectViewConfigurationStrategy: ViewConfigurationStrategy = {
+    Type: ViewConfigurationStrategyType.PricingProject,
+    ViewName: null,
+    ReferenceId: 0
+  };
+
   constructor(private route: ActivatedRoute,
               private store: Store<fromPricingProjectReducer.State>,
               private pricingProjectHelperService: PricingProjectHelperService) {
@@ -110,9 +130,8 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
 
   ngOnInit(): void {
     this.initRouterParams();
-    this.project$ = this.store.select(fromPricingProjectReducer.getPricingProject);
-    this.projectSubscription = this.project$.subscribe(p => {
-      this.projectRate = p.Rate;
+    this.projectSubscription = this.store.select(fromPricingProjectReducer.getPricingProject).subscribe(p => {
+      this.projectContext = p;
     });
     this.filter = [{
       SourceName: 'UserSession_ID',
@@ -144,15 +163,23 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngAfterViewInit() {
-    this.colTemplates = {
+    this.columnDataTemplates = {
       'Job_Title': {Template: this.jobTitle},
       'comp': {Template: this.compColumn},
       'percentage': {Template: this.percentageColumn}
     };
 
+    this.columnHeaderTemplates = {
+      'MRP': {Template: this.mrpColumnHeader}
+    };
+
     this.actionBarConfig = {
       ...this.actionBarConfig,
-      GlobalActionsTemplate: this.gridGlobalActionsTemplate
+      GlobalActionsTemplate: this.gridGlobalActionsTemplate,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Custom,
+        ColumnChooserTemplate: this.customColumnChooser
+      }
     };
 
     this.companyFieldGroups.forEach(group => {
@@ -196,7 +223,11 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   private initRouterParams(): void {
-    this.projectId = this.route.snapshot.params.projectId;
+    this.projectId = parseFloat(this.route.snapshot.params.projectId);
+    this.projectViewConfigurationStrategy = {
+      ...this.projectViewConfigurationStrategy,
+      ReferenceId: this.projectId
+    };
   }
 
   jobSummaryClickHandler(): void {
@@ -204,7 +235,6 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   openAddDataModal(event, dataRows): void {
-
     const jobContext = {
       JobTitle: dataRows['vw_ProjectJobPayMarketMetadata_Job_Title'],
       JobPayMarketId: dataRows['vw_ProjectJobPayMarketMetadata_Paymarket'],
@@ -217,7 +247,7 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
       ProjectId: dataRows['vw_ProjectJobPayMarketMetadata_UserSession_ID'],
       CountryCode: dataRows['vw_ProjectJobPayMarketMetadata_Country_Code'],
       RestrictToCountryCode: this.restrictSearchToPayMarketCountry,
-      Rate: this.projectRate
+      Rate: this.projectContext.Project.Rate
     };
 
     this.store.dispatch(new fromSearchFeatureActions.SetSearchFeatureId(SearchFeatureIds.AddSurveyData));
@@ -226,5 +256,26 @@ export class PricingProjectPageComponent implements OnInit, AfterViewInit, OnDes
     this.pricingProjectHelperService.SetAddDataModalContext(jobContext, searchContext);
 
     event.stopPropagation();
+  }
+
+  handleColumnChooserClicked(columnChooserElement) {
+    columnChooserElement.blur();
+    this.store.dispatch(new fromPricingProjectActions.GetProjectFieldsForColumnChooser({
+      ProjectId: this.projectId,
+      PageViewId: this.pageViewId
+    }));
+  }
+
+  addJobClickHandler() {
+    if (this.viewingJobSummary) {
+      this.viewingJobSummary = false;
+      return;
+    }
+    const payload = {
+      PayMarketId: this.projectContext.ProjectPayMarket.Id,
+      ProjectId: this.projectId
+    };
+
+    this.pricingProjectHelperService.SetAddJobsModalContext(payload);
   }
 }

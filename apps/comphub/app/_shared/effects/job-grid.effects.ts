@@ -5,19 +5,22 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { ComphubApiService } from 'libs/data/payfactors-api';
+import { ComphubApiService, ComphubCrowdSourcedApiService } from 'libs/data/payfactors-api';
 import { ExchangeExplorerContextService } from 'libs/features/peer/exchange-explorer/services';
 import { QuickPriceExchangeDataSearchRequest } from 'libs/models/payfactors-api/peer/exchange-data-search';
 import * as fromExchangeExplorerActions from 'libs/features/peer/exchange-explorer/actions/exchange-filter-context.actions';
-import { JobGridData } from 'libs/models/comphub';
+import { ExportData, JobGridData } from 'libs/models/comphub';
+import { GetCrowdSourcedJobPricingRequest } from 'libs/models/payfactors-api';
 
 import * as fromComphubMainReducer from '../reducers';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromJobGridActions from '../actions/job-grid.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
+import * as fromExportDataActions from '../../_crowd-sourced-data/actions/export-data.actions';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
 import { WorkflowContext } from '../models';
+
 
 @Injectable()
 export class JobGridEffects {
@@ -121,7 +124,7 @@ export class JobGridEffects {
         (action: fromJobGridActions.SearchCrowdSourcedJobsByTitle) => ({action})
       ),
       switchMap((data) => {
-          return this.comphubApiService.searchCrowdSourcedJobs(data.action.payload)
+          return this.csdApiService.searchCrowdSourcedJobs(data.action.payload)
             .pipe(
               mergeMap(response => {
                 const actions = [];
@@ -147,12 +150,15 @@ export class JobGridEffects {
       ),
       mergeMap((data) => {
         const actions = [];
+
         data.action.payload.Data.forEach((job) => {
-          actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing({
-            jobTitle: job.JobTitle,
-            country: data.workflowContext.activeCountryDataSet.CountryName,
-            paymarketId: null
-          }));
+          const request: GetCrowdSourcedJobPricingRequest = {
+            JobTitle: job.JobTitle,
+            Country: data.workflowContext.activeCountryDataSet.CountryName,
+            PaymarketId: null,
+            SelectedFactors: null
+          };
+          actions.push(new fromJobGridActions.GetCrowdSourcedJobPricing(request));
         });
 
         return actions;
@@ -167,14 +173,27 @@ export class JobGridEffects {
         (action: fromJobGridActions.GetCrowdSourcedJobPricing) => ({action})
       ),
       mergeMap((data) => {
-          return this.comphubApiService.getCrowdSourcedJobPricing(data.action.payload.jobTitle, data.action.payload.country, data.action.payload.paymarketId)
+          return this.csdApiService.getCrowdSourcedJobPricing(data.action.payload)
             .pipe(
-              map(response => {
+              mergeMap((response) => {
+                const actions = [];
+
                 const jobData = PayfactorsApiModelMapper.mapGetCrowdSourcedJobPricingResponseToJobData(response);
-                return new fromJobGridActions.GetCrowdSourcedJobPricingSuccess(jobData);
+                actions.push(new fromJobGridActions.GetCrowdSourcedJobPricingSuccess(jobData));
+
+                if (data.action.payload.IncludeExportData) {
+                  const exportData: ExportData = {
+                    JsonAnswer: JSON.stringify(data.action.payload),
+                    JsonReport: JSON.stringify(response)
+                  };
+                  actions.push(new fromExportDataActions.SetExportDataSuccess(exportData));
+                }
+
+                return actions;
               }),
-              catchError((error) => of(
+              catchError(error => of(
                 new fromJobGridActions.GetCrowdSourcedJobPricingError(),
+                new fromExportDataActions.SetExportDataError(),
                 new fromComphubPageActions.HandleApiError(error)))
             );
         }
@@ -184,6 +203,7 @@ export class JobGridEffects {
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private comphubApiService: ComphubApiService,
+    private csdApiService: ComphubCrowdSourcedApiService,
     private exchangeExplorerContextService: ExchangeExplorerContextService
   ) {}
 }

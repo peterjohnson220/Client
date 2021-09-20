@@ -20,11 +20,19 @@ import { JobResultComponent } from './components';
 import { JobSearchUserFilterType, SearchFilterMappingData } from './data';
 import { SavedFiltersHelper } from './helpers';
 import { reducers } from './reducers';
-import { JobSearchUserFilterEffects, PaymarketEffects } from './effects';
+import {
+  AddJobsPageEffects,
+  JobSearchUserFilterEffects,
+  PaymarketEffects,
+  SearchFiltersEffects,
+  SearchResultsEffects,
+  SingledFilterEffects
+} from './effects';
 import { PaymarketsComponent } from './containers/paymarkets';
 import { JobLimitCounterComponent } from '../../../ui/job-limit-counter/job-limit-counter';
 import { SearchResultsComponent } from './containers/search-results';
 import { AddJobsPageComponent } from './containers/pages/add-jobs';
+
 
 @NgModule({
   imports: [
@@ -35,7 +43,11 @@ import { AddJobsPageComponent } from './containers/pages/add-jobs';
     StoreModule.forFeature('addJobs_reducers', reducers),
     EffectsModule.forFeature([
       PaymarketEffects,
-      JobSearchUserFilterEffects
+      JobSearchUserFilterEffects,
+      AddJobsPageEffects,
+      SearchFiltersEffects,
+      SearchResultsEffects,
+      SingledFilterEffects
     ]),
     InfiniteScrollModule,
     DropDownsModule,

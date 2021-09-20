@@ -43,7 +43,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a SetSelectedSurvey action with a data list item, when handling a survey clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const dataListItem = generateMockDataListItem();
     const expectedAction = new fromDefaultScopesPageActions.SetSelectedSurvey(dataListItem);
 
@@ -53,7 +53,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a SetSelectedMatchResult action with a match result, when handling a match result selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const matchResult = generateMockMatchResult();
     const expectedAction = new fromDefaultScopesPageActions.SetSelectedMatchResult(matchResult);
 
@@ -63,7 +63,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a FilterMatchResults action with a type, when handling a filter match results clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const type = 'Exact';
     const expectedAction = new fromDefaultScopesPageActions.FilterMatchResults({ type });
 
@@ -73,7 +73,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a SetSelectedSurveyScope action with a survey scope, when handling a survey scope selected', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const surveyScope = generateMockSurveyScope();
     const expectedAction = new fromDefaultScopesPageActions.SetSelectedSurveyScope(surveyScope);
 
@@ -83,7 +83,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch an ApplyMatch action with a match result, when handling an apply exact match clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const matchResult = generateMockMatchResult();
     const expectedAction = new fromDefaultScopesPageActions.ApplyMatch(matchResult);
 
@@ -93,7 +93,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch an ApplyMatch action with no payload, when handling an apply scope clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromDefaultScopesPageActions.ApplyMatch();
 
     instance.handleApplyScopeClicked();
@@ -102,7 +102,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a Reset action, upon Init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromDefaultScopesPageActions.Reset();
 
     fixture.detectChanges();
@@ -111,7 +111,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a Load Company action with the route id as the company Id, upon Init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const routeId = activatedRoute.snapshot.params.id;
     const expectedAction = new fromDefaultScopesPageActions.LoadCompany({ companyId: routeId });
 
@@ -121,7 +121,7 @@ describe('Pf-Admin - Utilities - YoY Default Scopes Page', () => {
   });
 
   it('Should dispatch a Load Default Scope Surveys action with the route id as the company Id, upon Init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const routeId = activatedRoute.snapshot.params.id;
     const expectedAction = new fromDefaultScopesPageActions.LoadDefaultScopeSurveys({ companyId: routeId});
 

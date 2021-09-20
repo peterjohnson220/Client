@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 
 import { UserDataView } from 'libs/ui/formula-editor';
+import { AbstractFeatureFlagService } from 'libs/core';
+import { DataViewScope } from 'libs/models/payfactors-api';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';
@@ -24,9 +26,10 @@ export class DuplicateDataViewModalComponent extends AbstractBaseDataViewModal i
     protected modalService: NgbModal,
     protected formBuilder: FormBuilder,
     sharedStore: Store<fromSharedReducer.State>,
-    private dataViewPageStore: Store<fromDataViewMainReducer.State>
+    private dataViewPageStore: Store<fromDataViewMainReducer.State>,
+    protected featureFlagService: AbstractFeatureFlagService
   ) {
-    super(modalService, formBuilder, sharedStore);
+    super(modalService, formBuilder, sharedStore, featureFlagService);
     this.saving$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getDuplicatingUserReport));
     this.savingError$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getDuplicateUserReportError));
     this.savingConflict$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getDuplicateUserReportConflict));
@@ -49,7 +52,8 @@ export class DuplicateDataViewModalComponent extends AbstractBaseDataViewModal i
       this.baseDataViewForm.patchValue({
         entity: this.userDataView.Entity,
         name: `Copy of ${this.userDataView.Name}`,
-        summary: this.userDataView.Summary
+        summary: this.userDataView.Summary,
+        scope: DataViewScope.Personal
       });
     }
   }
@@ -62,7 +66,8 @@ export class DuplicateDataViewModalComponent extends AbstractBaseDataViewModal i
     return {
       ...this.userDataView,
       Name: this.baseDataViewForm.value.name,
-      Summary: this.baseDataViewForm.value.summary
+      Summary: this.baseDataViewForm.value.summary,
+      Scope: this.baseDataViewForm.value.scope
     };
   }
 

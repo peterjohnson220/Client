@@ -33,14 +33,14 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.open();
 
     expect(ngbModal.open).toHaveBeenCalled();
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
 
     instance.close();
 
@@ -59,7 +59,7 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
   });
 
   it('should emit saveClicked when save is called', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
 
     instance.report = generateMockStandardReportDetails();
     instance.updateForm();
@@ -77,7 +77,7 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
   });
 
   it('should send form data with updated name when report name changed', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
 
     instance.report = generateMockStandardReportDetails();
     instance.updateForm();
@@ -97,7 +97,7 @@ describe('Data Insights Management - Edit Report Modal Component', () => {
   });
 
   it('should send form data with updated thumbnail when thumbnail uploaded', () => {
-    spyOn(instance.saveClicked, 'emit');
+    jest.spyOn(instance.saveClicked, 'emit');
 
     instance.report = generateMockStandardReportDetails();
     instance.updateForm();

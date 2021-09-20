@@ -193,12 +193,15 @@ export class ModifyPricingsEffects {
     paymarketsGridState: DataGridState,
     idsForModifiedVisiblePricings: any[]): Observable<[any, any]> {
 
+    const matchGridModifiedDataRows = modifiedMatchGridState
+      ? this.getModifiedDataRows([action.request.MatchId], 'CompanyJobs_PricingsMatches', 'CompanyJobPricingMatch_ID',
+      modifiedMatchGridState.baseEntity.Id, modifiedMatchGridState.fields, modifiedMatchGridState.sortDescriptor)
+      : of(null);
     return forkJoin([
       this.getModifiedDataRows(idsForModifiedVisiblePricings, 'CompanyJobs_Pricings', 'CompanyJobPricing_ID',
         paymarketsGridState.baseEntity.Id, paymarketsGridState.fields, paymarketsGridState.sortDescriptor),
-      this.getModifiedDataRows([action.request.MatchId], 'CompanyJobs_PricingsMatches', 'CompanyJobPricingMatch_ID',
-        modifiedMatchGridState.baseEntity.Id, modifiedMatchGridState.fields, modifiedMatchGridState.sortDescriptor)]
-    );
+        matchGridModifiedDataRows
+    ]);
   }
 
   private getUpdatePricingMatchActions(matchesGridPageViewId: string, modifiedMatchGridState: DataGridState,
@@ -210,8 +213,10 @@ export class ModifyPricingsEffects {
     let actions: Action[] = [new fromModifyPricingsActions.UpdatingPricingMatchSuccess()];
 
     // Update Match Action
-    actions = actions.concat(this.getActionsToUpdateRows(updatedMatchesData, modifiedMatchGridState.data,
-      'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID', matchesGridPageViewId, true));
+    if (modifiedMatchGridState) {
+      actions = actions.concat(this.getActionsToUpdateRows(updatedMatchesData, modifiedMatchGridState.data,
+        'CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID', matchesGridPageViewId, true));
+    }
 
     // Update Pricings Action
     actions = actions.concat(this.getUpdatePricingActions(paymarketsGridState, updatedPricingData, false));

@@ -72,10 +72,10 @@ export class SurveyDataFieldsComponent implements OnChanges {
     this.fields.forEach(field => {
       const isAgingFactorField = field.EntitySourceName === 'CompanySurveys' && field.SourceName === 'Aging_Factor';
       if (isAgingFactorField) {
-        field.Group = 'Aging Factor';
+        field.Group = 'Survey Aging Factor';
         this.tabsConfiguration['Basic'] = {};
-        this.tabsConfiguration['Basic']['Aging Factor'] = { Fields: [field] };
-        allAccordionIds.push('Basic_Aging Factor');
+        this.tabsConfiguration['Basic']['Survey Aging Factor'] = { Fields: [field] };
+        allAccordionIds.push('Basic_Survey Aging Factor');
         this.configureCurrentFields(field);
       } else {
         const tab = this.modalConfig.groupTabConfig[field.Group];
@@ -88,10 +88,17 @@ export class SurveyDataFieldsComponent implements OnChanges {
         }
       }
     });
-    if (!this.activeAccordionIds.length) {
-      this.activeAccordionIds = allAccordionIds;
-    }
+
     this.modalTabs = this.getKeys(this.tabsConfiguration);
+
+    if (!this.activeAccordionIds.length) {
+      this.modalTabs.map((mt, tabIndex) => {
+        this.getKeys(this.tabsConfiguration[mt]).map((p, panelIndex) => {
+          this.activeAccordionIds.push(`panel-${tabIndex}-${panelIndex}`);
+        });
+      });
+    }
+
     this.activeTab = this.modalTabs[0];
   }
 

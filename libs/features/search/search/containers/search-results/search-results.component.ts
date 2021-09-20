@@ -39,6 +39,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreResults$ = this.store.select(fromSearchReducer.getLoadingMoreResults);
     this.numberOfResultsOnServer$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.error$ = this.store.select(fromSearchReducer.getSearchResultsError);
+    this.spinnerType = this.useAsync ? 'SVG' : 'GIF';
   }
 
   // Events

@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './../../services/job-description-sharing.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -48,6 +49,10 @@ describe('Job Description Management - Job Description - Job Description Grid', 
         {
           provide: AbstractFeatureFlagService,
           useValue: { enabled: jest.fn(), bindEnabled: jest.fn() }
+        },
+        {
+          provide: JobDescriptionSharingService,
+          useValue: { allowSharing: () => true, init: () => {}, destroy: () => {}}
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -62,7 +67,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   });
 
   it('should emit companyJobViewListItem found at specified rowIndex, when calling onCellClick', () => {
-    spyOn(instance.navigateToJobDescription, 'emit');
+    jest.spyOn(instance.navigateToJobDescription, 'emit');
 
     const mockedCompanyJobViewListItem1 = generateMockCompanyJobViewListItem(1);
     const mockedCompanyJobViewListItem2 = generateMockCompanyJobViewListItem(2);
@@ -75,7 +80,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   });
 
   it('should emit job description data, when calling handleJobDescriptionHistoryClick', () => {
-    spyOn(instance.openJobDescriptionHistoryModal, 'emit');
+    jest.spyOn(instance.openJobDescriptionHistoryModal, 'emit');
 
     const mockedJobDescriptionId = 1;
     const mockedJobTitle = 'Test Job Title';
@@ -88,7 +93,7 @@ describe('Job Description Management - Job Description - Job Description Grid', 
   });
 
   it('should emit company job view list item data, when calling handleNewJobDescriptionClick', () => {
-    spyOn(instance.openNewJobDescriptionModal, 'emit');
+    jest.spyOn(instance.openNewJobDescriptionModal, 'emit');
 
     const mockedCompanyJobViewListItem = generateMockCompanyJobViewListItem();
 

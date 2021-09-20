@@ -1,0 +1,38 @@
+@import 'assets/scss/_colors';
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 10px;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.control-btns {
+  float: right;
+}
+
+.warning-container {
+  height: 5%;
+
+  .warning-message {
+    margin-right: auto;
+    margin-left: auto;
+    background: $data-grid-filter-pills-background-color;
+    color: $data-grid-filter-pills-color;
+    padding: .45rem .75rem;
+    align-content: center;
+  }
+}
+

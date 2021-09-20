@@ -19,6 +19,7 @@ export interface State {
   savingListAreaColumnsSuccess: boolean;
   searchTerm: string;
   selectedJobDescriptions: Map<number, any>;
+  createWorkflowError: boolean;
 }
 
 export const initialState: State = {
@@ -33,7 +34,8 @@ export const initialState: State = {
   savingListAreaColumnsError: false,
   savingListAreaColumnsSuccess: false,
   searchTerm: '',
-  selectedJobDescriptions: new Map<number, any>()
+  selectedJobDescriptions: new Map<number, any>(),
+  createWorkflowError: false
 };
 
 export function reducer(state = initialState, action: fromJobDescriptionGridActions.Actions): State {
@@ -177,6 +179,27 @@ export function reducer(state = initialState, action: fromJobDescriptionGridActi
         };
       }
 
+      case fromJobDescriptionGridActions.REMOVE_ROUTING_JOB_TO_DRAFT: {
+        const gridDataResultCopy = cloneDeep(state.gridDataResult);
+        gridDataResultCopy.data.forEach( jd => {
+          if (action.payload === jd['JobDescriptionId']) {
+            jd['JobDescriptionStatus'] = 'Draft';
+          }
+        });
+        return {
+          ...state,
+          gridDataResult: gridDataResultCopy,
+          createWorkflowError: false
+        };
+      }
+
+      case fromJobDescriptionGridActions.CREATE_WORKFLOW_ERROR: {
+        return {
+          ...state,
+          createWorkflowError: true
+        };
+      }
+
       case fromJobDescriptionGridActions.ADD_DELETING_JOBS: {
         const gridDataResultCopy = cloneDeep(state.gridDataResult);
         gridDataResultCopy.data.forEach( jd => {
@@ -209,3 +232,4 @@ export const getListAreaColumnsSavingError = (state: State) => state.savingListA
 export const getListAreaColumnsSavingSuccess = (state: State) => state.savingListAreaColumnsSuccess;
 export const getSearchTerm = (state: State) => state.searchTerm;
 export const getSelectedJobDescriptions = (state: State) => state.selectedJobDescriptions;
+export const getCreateWorkflowError = (state: State) => state.createWorkflowError;

@@ -2,6 +2,7 @@
 
 exports[`EmployeeResultComponent should display employee info when available 1`] = `
 <pf-employee-result
+  __ngContext__={[Function LRootView]}
   employee={[Function Object]}
   employeeClicked={[Function EventEmitter_]}
 >
@@ -18,7 +19,6 @@ exports[`EmployeeResultComponent should display employee info when available 1`]
         <h4
           class="d-flex"
         >
-          
           <span
             class="employee-name font-weight-bold pr-2"
           >

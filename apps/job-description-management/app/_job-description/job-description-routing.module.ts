@@ -12,7 +12,8 @@ import {
   JobDescriptionVersionComparePageComponent,
   JobDescriptionPageComponent,
   JobDescriptionWorkflowComparePageComponent,
-  JobDescriptionInboxPageComponent
+  JobDescriptionInboxPageComponent,
+  JobDescriptionCollaborationPageComponent,
 } from './containers';
 import { ResolveHistoryListGuard } from './guards';
 
@@ -52,6 +53,12 @@ const routes: Routes = [
   {
     path: 'inbox',
     component: JobDescriptionInboxPageComponent,
+    canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
+  },
+  {
+    path: 'collaboration',
+    component: JobDescriptionCollaborationPageComponent,
     canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.JOB_DESCRIPTIONS, Permissions.CAN_VIEW_JOB_DESCRIPTION], Check: PermissionCheckEnum.Any}
   },

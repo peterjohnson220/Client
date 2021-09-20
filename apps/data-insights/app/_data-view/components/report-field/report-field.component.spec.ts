@@ -24,7 +24,7 @@ describe('Data-Insights Report Field Component', () => {
 
 
   it('should emit the removed field when handling field removal', () => {
-    spyOn(instance.fieldRemoved, 'emit');
+    jest.spyOn(instance.fieldRemoved, 'emit');
     instance.field = generateMockField();
 
     instance.handleFieldRemoved();

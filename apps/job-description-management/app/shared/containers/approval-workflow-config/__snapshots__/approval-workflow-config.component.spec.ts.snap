@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApprovalWorkflowConfigComponent should show workflow setup modal 1`] = `
+<pf-approval-workflow-config
+  __ngContext__={[Function LRootView]}
+  appNotificationStore={[Function Store]}
+  attachments$={[Function Store]}
+  displayNameThreshold={[Function Number]}
+  dragulaService={[Function DragulaService]}
+  dragulaSub={[Function Subscription]}
+  formBuilder={[Function FormBuilder]}
+  getNotification$={[Function Store]}
+  hasForbiddenUsers$={[Function Store]}
+  identity$={[Function Store]}
+  maxFileCount={[Function Number]}
+  onShowNameFormClicked={[Function EventEmitter_]}
+  removeAttachmentUrl={[Function String]}
+  saveAttachmentUrl={[Function String]}
+  sharedJdmStore={[Function Store]}
+  showAttachmentsUpload="false"
+  showFileCountWarning="false"
+  uploadRestrictions={[Function Object]}
+  uploadWidget={[Function ElementRef]}
+  uploadedFiles={[Function Array]}
+  userContextStore={[Function Store]}
+  workflowAttachmentUploadStatus={[Function Object]}
+  workflowSteps$={[Function Store]}
+  workflowUserOrEmail$={[Function Store]}
+>
+  <pf-async-container>
+    <p
+      class="m-3"
+    >
+    </p>
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Browse"
+      />
+    </kendo-upload>
+  </pf-async-container>
+</pf-approval-workflow-config>
+`;

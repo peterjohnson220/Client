@@ -71,8 +71,15 @@
                   [width]="selectedRecordId && allowSplitView ? null : col.Width"
                   [minResizableWidth]="30">
 
-                  <ng-template kendoGridHeaderTemplate let-column>
-                    <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+                  <ng-template kendoGridHeaderTemplate let-column="column">
+                    <pf-grid-column-header
+                      [columnHeaderTemplates]="columnHeaderTemplates"
+                      [fieldName]="col | mappedFieldName"
+                      [field]="col"
+                      [column]="column"
+                    >
+
+                    </pf-grid-column-header>
                   </ng-template>
 
                   <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -103,7 +110,14 @@
             [minResizableWidth]="30">
 
             <ng-template kendoGridHeaderTemplate let-column>
-              <ng-container [ngTemplateOutlet]="columnHeaderTemplate" [ngTemplateOutletContext]="{column: column}"></ng-container>
+              <pf-grid-column-header
+                [columnHeaderTemplates]="columnHeaderTemplates"
+                [fieldName]="col | mappedFieldName"
+                [field]="col"
+                [column]="column"
+              >
+
+              </pf-grid-column-header>
             </ng-template>
 
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -159,18 +173,5 @@
   </ng-container>
   <ng-template #defaultGroupedColumnHeader>
     <div pfEllipsisActive class="ellipsis-text">{{column.title}}</div>
-  </ng-template>
-</ng-template>
-
-<ng-template #columnHeaderTemplate let-column="column">
-  <ng-container *ngIf="columnHeaderTemplates && columnHeaderTemplates[column.field]; else defaultColumnHeader"
-                [ngTemplateOutlet]="columnHeaderTemplates[column.field].Template"
-                [ngTemplateOutletContext]="{column: column}">
-
-  </ng-container>
-  <ng-template #defaultColumnHeader>
-    <div *ngIf="column" pfEllipsisActive [class.default-cursor]="!column.sortable" class="ellipsis-text k-column-title">
-      {{column.title}}
-    </div>
   </ng-template>
 </ng-template>

@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockChartItem } from 'libs/models';
@@ -48,7 +47,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
     fixture = TestBed.createComponent(ExchangeJobCountComponent);
     instance = fixture.componentInstance;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should display the job count', () => {

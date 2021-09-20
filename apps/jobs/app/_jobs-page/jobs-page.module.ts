@@ -8,7 +8,7 @@ import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
 
-import { NgbTooltipModule, NgbTabsetModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import * as fromFaIcons from './fa-icons';
 
@@ -33,7 +33,10 @@ import { PricingDetailsModule } from 'libs/features/pricings/pricing-details';
 import { JobManagementModule } from 'libs/features/jobs/job-management';
 import { PricingsHistoryChartModule } from 'libs/features/pricings/pricings-history-chart';
 import { PfJobDescriptionManagementModule } from 'libs/features/jobs/job-description-management';
-
+import { JobPricingGraphModule } from 'libs/features/pricings/job-pricing-graph';
+import { AddDataModule } from 'libs/features/pricings/add-data';
+import { JobInsightsModule } from 'libs/features/jobs/job-insights';
+import { ExportPopoverModule } from 'libs/features/export-popover';
 import { JobsPageComponent } from './jobs.page/jobs.page';
 import { JobsPageRoutingModule } from './jobs-page-routing.module';
 import { MatchesModalModule } from '../_matches-modal/matches-modal.module';
@@ -47,7 +50,6 @@ import {
   PricingMatchesGridComponent,
   ProjectDetailsGridComponent,
   PricingHistoryGridComponent,
-  ExportListPopoverComponent,
   PricingDetailsMrpColumnComponent,
   PeerExchangeMatchesComponent,
   PricingMatchesJobTitleComponent,
@@ -56,15 +58,15 @@ import {
 } from './components';
 import {
   MarketDataComponent,
-  DeleteMatchModalComponent
+  DeleteMatchModalComponent,
+  WeightAdjustModalComponent
 } from './containers';
 import { reducers } from './reducers';
 import {
   JobsPageEffects,
   JobDescriptionEffects,
   JobPeerMatchesEffects,
-  ModifyPricingsEffects,
-  JobInsightsEffects
+  ModifyPricingsEffects
 } from './effects';
 import {
   ShowingActiveJobs,
@@ -88,14 +90,12 @@ import {
         SwitchModule,
         NgbModule,
         NgbTooltipModule,
-        NgbTabsetModule,
         StoreModule.forFeature('jobsPageMain', reducers),
         EffectsModule.forFeature([
             JobsPageEffects,
             ModifyPricingsEffects,
             JobDescriptionEffects,
-            JobPeerMatchesEffects,
-            JobInsightsEffects
+            JobPeerMatchesEffects
         ]),
         FontAwesomeModule,
         TooltipModule,
@@ -124,7 +124,11 @@ import {
         UpsertPeerDataCutModule,
         EmployeeDetailsModule,
         StructureDetailsModule,
-        PfJobDescriptionManagementModule
+        PfJobDescriptionManagementModule,
+        JobPricingGraphModule,
+        AddDataModule,
+        JobInsightsModule,
+        ExportPopoverModule
     ],
   declarations: [
     // Pages
@@ -142,6 +146,7 @@ import {
     JobInsightsComponent,
     MarketDataComponent,
     DeleteMatchModalComponent,
+    WeightAdjustModalComponent,
 
     // Column Templates
     PricingMatchesJobTitleComponent,
@@ -149,7 +154,6 @@ import {
 
     // Jobs Grid Components
     PeerExchangeMatchesComponent,
-    ExportListPopoverComponent,
 
     // Pipes
     ShowingActiveJobs,

@@ -4,6 +4,7 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
 <pf-standard-fields
   DEFAULT_MAX_LENGTH={[Function Number]}
   JOB_CODE_FLSA_MAX_LENGTH={[Function Number]}
+  __ngContext__={[Function LRootView]}
   actionsSubject={[Function ActionsSubject]}
   duplicateJobCodeError="false"
   duplicateJobCodeError$={[Function Store]}
@@ -52,14 +53,11 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             formcontrolname="JobCode"
             type="text"
           />
-          
           <span
             class="invalid-feedback"
           >
             Job Code is required
           </span>
-          
-          
         </div>
       </div>
       <div
@@ -84,13 +82,11 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             formcontrolname="JobTitle"
             type="text"
           />
-          
           <span
             class="invalid-feedback"
           >
             Job Title is required
           </span>
-          
         </div>
       </div>
       <div
@@ -109,7 +105,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             data-qa-id="ddm-job-form-job-family"
             formcontrolname="JobFamily"
           />
-          
         </div>
       </div>
       <div
@@ -129,7 +124,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             formcontrolname="JobLevel"
             type="text"
           />
-          
         </div>
       </div>
       <div
@@ -148,7 +142,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             data-qa-id="ddm-job-form-flsa-status"
             formcontrolname="FLSAStatus"
           />
-          
         </div>
       </div>
     </div>
@@ -164,7 +157,6 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
             <div
               class="pb-3"
             >
-              
               <div
                 class="d-flex"
               >
@@ -175,12 +167,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
                     Job Description
                   </b>
                 </div>
-                
               </div>
             </div>
           </div>
           <div>
-            
             <form
               autocomplete="nope"
               class="ng-untouched ng-pristine ng-valid"
@@ -194,14 +184,10 @@ exports[`Job Management Feature - Job Form Should display form 1`] = `
                 placeholder="There is no Job Description loaded for this Job."
                 rows="9"
               >
-                    
               </textarea>
             </form>
           </div>
         </div>
-        
-        
-        
       </pf-job-description-summary-editor>
     </div>
   </form>

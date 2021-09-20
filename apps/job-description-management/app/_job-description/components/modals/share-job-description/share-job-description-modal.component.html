@@ -1,0 +1,52 @@
+<ng-template #shareJobDescriptionModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Share Job Description</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pb-0">
+    <div class="form-group">Share {{selectedJobDescriptions.size}} job description{{selectedJobDescriptions.size === 1 ? '' : 's'}}</div>
+    <label>Email</label>
+    <pf-multi-user-or-email-picker
+                             [requiresName]="showNameForm"
+                             (selectedEmailsChange)="handlePickerSelection($event)"
+                             [(selectedEmails)]="emailList"
+                             [workflow]="true">
+    </pf-multi-user-or-email-picker>
+  </div>
+  <div class="p-3" [style.display]="showNameForm ? 'block' : 'none'">
+    <form [formGroup]="addNonPfUserForm" (ngSubmit)="nonPfUserFormSubmit()">
+      <label>{{currentEmail.EmailAddress}}</label>
+      <div class="form-group" [class.has-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
+        <input   
+          id="showNameFormFirstName"       
+          type="text"
+          class="form-control"
+          formControlName="firstname"
+          placeholder="First Name"
+          [class.form-control-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted"/>
+      </div>
+      <div class="form-group" [class.has-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lastname"
+          placeholder="Last Name"
+          [class.form-control-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted"/>
+      </div>
+      <div class="form-group text-right">
+        <button class="btn btn-secondary" type="button" (click)="cancelNonPfUserAdd()">Cancel</button>
+        <button class="btn btn-secondary ml-2" type="submit">Add</button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary"
+            [disabled]="emailList.length < 1"
+            (click)="shareEmailList()">
+      <span>Share</span>
+    </button>
+  </div>
+</ng-template>

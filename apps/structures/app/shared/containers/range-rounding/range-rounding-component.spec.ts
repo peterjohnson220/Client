@@ -79,7 +79,7 @@ describe('Job Based Ranges - Rounding Settings', () => {
   });
 
   it ('should dispatch UpdateRoundingSettings on init', () => {
-    spyOn(instance.store, 'dispatch');
+    jest.spyOn(instance.store, 'dispatch');
     const expectedAction = new fromSharedStructuresActions.UpdateRoundingSettings(generateMockRoundingSettingsDataObj());
 
     instance.ngOnInit();

@@ -56,7 +56,7 @@ describe('Add Tag Categories Modal', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.parent.snapshot.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(AddTagCategoriesModalComponent);
     instance = fixture.componentInstance;

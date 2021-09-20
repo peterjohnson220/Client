@@ -27,6 +27,7 @@
         (exportClicked)="handleExportClickedFromActions($event)"
         (acknowledgedClicked)="openEmployeeAcknowledgementModal()"
         (viewSelected)="handleViewSelected($event)"
+        (sharePermissionsClicked)="showSharePermissionsPanel = true"
         [isInSystemWorkflow]="isInSystemWorkflow"
         [isSystemWorkflowComplete]="(inSystemWorkflowStepCompletionModalOpen$ | async)">
       </pf-job-description-actions>
@@ -45,8 +46,8 @@
 
         <div *ngIf="!!jobDescription" class="column-scroll-container"
             [class.col-8]="(jobDescription.JobDescriptionStatus == 'In Review' && !showLibrary) || showRoutingHistory"
-            [class.col-7]="showLibrary"
-            [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
+            [class.col-7]="showLibrary || showWorkflow"
+            [class.col-12]="jobDescriptionIsFullscreen || (identity$ | async)?.IsPublic || (!showLibrary && !showWorkflow && !identityInWorkflow && jobDescription.JobDescriptionStatus != 'In Review' && !showRoutingHistory)">
           <div class="scroll-y column-scroll-inner">
 
             <div [class.card]="jobDescription.JobDescriptionStatus === 'In Review'">
@@ -104,6 +105,24 @@
           </div>
         </div>
 
+        <div *ngIf="showWorkflow" class="column-scroll-container col-5 p-2">
+          <div class="scroll-y column-scroll-inner">
+            <pf-job-description-workflow-panel
+              [jobDescription]="jobDescription"
+              (closed)="handleShowWorkflowPanel(false)">
+            </pf-job-description-workflow-panel>
+          </div>
+        </div>
+
+        <div *ngIf="showSharePermissionsPanel" class="col-4 column-scroll-container">
+          <pf-share-permissions-panel
+            [jobDescriptionId]="jobDescriptionId"
+            [companyId]="companyId"
+            (onClose)="showSharePermissionsPanel = false"
+            (onShare)="openShareJobDescriptionModal()" >
+          </pf-share-permissions-panel>
+        </div>
+        
         <div *ngIf="showLibrary" class="column-scroll-container col-5">
           <div class="scroll-y column-scroll-inner">
             <pf-job-description-library
@@ -111,6 +130,7 @@
               [buckets]="(jobDescriptionLibraryBuckets$ | async)?.obj"
               [results]="(jobDescriptionLibraryResults$ | async)?.obj"
               [loadingBuckets]="(jobDescriptionLibraryBuckets$ | async)?.loading"
+              [showSkillsTab]="jdmLibrarySkillsFeatureFlag.value"
               (searchChanged)="handleLibrarySearchChange($event)"
               (tabChanged)="handleLibraryTabChange($event)"
               (pageChanged)="handleLibraryPageChange($event)"
@@ -130,7 +150,6 @@
             <div class="scroll-y column-scroll-inner">
               <pf-workflow-sidebar
                   [workflowStepInfo]="!isInSystemWorkflow ? (identity$ | async)?.WorkflowStepInfo : (workflowStepInfo$ | async)"
-                  [workflowStepCompleted]="completedStep"
                   [isInSystemWorkflow]="isInSystemWorkflow"
                   [enableFileDownloadSecurityWarning]="enableFileDownloadSecurityWarning"
                   [workflowId]="(jobDescriptionExtendedInfo$ | async)?.WorkflowId"
@@ -226,7 +245,9 @@
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>
 
-
+<pf-share-job-description-modal
+[selectedJobDescriptions]="this.jobDescriptionAsMap">
+</pf-share-job-description-modal>
 
 <!-- <pf-conflict-error-modal
     #conflictErrorModal

@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IntlService } from '@progress/kendo-angular-intl';
 
 import { BaseDataView, Entity, EntityData, FieldDataType } from 'libs/ui/formula-editor';
+import { AbstractFeatureFlagService } from 'libs/core';
+import { DataViewScope } from 'libs/models/payfactors-api';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';
@@ -27,9 +29,10 @@ export class CreateDataViewModalComponent extends AbstractBaseDataViewModal impl
     protected formBuilder: FormBuilder,
     sharedStore: Store<fromSharedReducer.State>,
     private dataInsightsPageStore: Store<fromDataInsightsMainReducer.State>,
-    private intlService: IntlService
+    private intlService: IntlService,
+    protected featureFlagService: AbstractFeatureFlagService
   ) {
-    super(modalService, formBuilder, sharedStore);
+    super(modalService, formBuilder, sharedStore, featureFlagService);
     this.saving$ = this.dataInsightsPageStore.pipe(select(fromDataInsightsMainReducer.getSavingUserReport));
     this.savingError$ = this.dataInsightsPageStore.pipe(select(fromDataInsightsMainReducer.getSaveUserReportError));
     this.savingConflict$ = this.dataInsightsPageStore.pipe(select(fromDataInsightsMainReducer.getSaveUserReportConflict));
@@ -70,7 +73,8 @@ export class CreateDataViewModalComponent extends AbstractBaseDataViewModal impl
     this.baseDataViewForm.patchValue({
       entity: this.defaultEntity,
       name: '',
-      summary: ''
+      summary: '',
+      scope: DataViewScope.Personal
     });
     this.onEntityChanged(this.defaultEntity);
   }

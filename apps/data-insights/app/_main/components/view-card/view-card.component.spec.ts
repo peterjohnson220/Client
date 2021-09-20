@@ -34,7 +34,7 @@ describe('Data Insights - View Card Component', () => {
   });
 
   it('should emit favoriteClicked when clicking on star icon', () => {
-    spyOn(instance.favoriteClicked, 'emit');
+    jest.spyOn(instance.favoriteClicked, 'emit');
 
     instance.handleFavoriteClicked();
 

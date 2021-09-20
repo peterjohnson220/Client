@@ -2,6 +2,7 @@
 
 exports[`TransferScheduleCronComponent should have a good default state if a daily expression is passed 1`] = `
 <pf-transfer-schedule-cron
+  __ngContext__={[Function LRootView]}
   cronArray={[Function Array]}
   cronExpression={[Function String]}
   cronExpressionChanges={[Function EventEmitter_]}
@@ -18,10 +19,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
     <div
       class="summary text-center"
     >
-      
-      
       <div>
-        
         <div>
           <h4
             class="font-weight-light"
@@ -31,11 +29,6 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
             </b>
           </h4>
         </div>
-        
-        
-        
-        
-        
         <div
           class="sync-info"
         >
@@ -53,6 +46,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a dai
 
 exports[`TransferScheduleCronComponent should have a good default state if a monthly expression is passed 1`] = `
 <pf-transfer-schedule-cron
+  __ngContext__={[Function LRootView]}
   cronArray={[Function Array]}
   cronExpression={[Function String]}
   cronExpressionChanges={[Function EventEmitter_]}
@@ -73,12 +67,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
     <div
       class="summary text-center"
     >
-      
-      
       <div>
-        
-        
-        
         <div>
           <h4
             class="font-weight-light"
@@ -91,9 +80,6 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
              of the month
           </h4>
         </div>
-        
-        
-        
         <div
           class="sync-info"
         >
@@ -111,6 +97,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a mon
 
 exports[`TransferScheduleCronComponent should have a good default state if a weekly expression is passed 1`] = `
 <pf-transfer-schedule-cron
+  __ngContext__={[Function LRootView]}
   cronArray={[Function Array]}
   cronExpression={[Function String]}
   cronExpressionChanges={[Function EventEmitter_]}
@@ -128,11 +115,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
     <div
       class="summary text-center"
     >
-      
-      
       <div>
-        
-        
         <div>
           <h4
             class="font-weight-light"
@@ -143,10 +126,6 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
             </b>
           </h4>
         </div>
-        
-        
-        
-        
         <div
           class="sync-info"
         >
@@ -164,6 +143,7 @@ exports[`TransferScheduleCronComponent should have a good default state if a wee
 
 exports[`TransferScheduleCronComponent should have a good default state if no expression is passed 1`] = `
 <pf-transfer-schedule-cron
+  __ngContext__={[Function LRootView]}
   cronArray={[Function Array]}
   cronExpressionChanges={[Function EventEmitter_]}
   dailyChecked="false"
@@ -178,15 +158,7 @@ exports[`TransferScheduleCronComponent should have a good default state if no ex
     <div
       class="summary text-center"
     >
-      
-      
       <div>
-        
-        
-        
-        
-        
-        
         <div
           class="sync-info"
         >

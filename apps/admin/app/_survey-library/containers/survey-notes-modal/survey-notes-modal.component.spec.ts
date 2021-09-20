@@ -88,27 +88,27 @@ describe('SurveyNotesModalComponent', () => {
     });
 
     it('should use modal service to open modal when open is called', () => {
-        spyOn(ngbModal, 'open');
+        jest.spyOn(ngbModal, 'open');
         component.open(note);
         expect(ngbModal.open).toHaveBeenCalled();
     });
 
     it('should use modal service to dismiss modal when close is called', () => {
-        spyOn(ngbModal, 'dismissAll');
+        jest.spyOn(ngbModal, 'dismissAll');
         component.noteInfo = generateMockSurveyGridItem();
         component.close();
         expect(ngbModal.dismissAll).toHaveBeenCalled();
     });
 
     it('should dispatch LoadSurveyNotes action on open', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromSurveyNotesActions.LoadSurveyNotes({ surveyId: 1});
         component.open(note);
         expect(component.store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
     it('should dispatch ResetSurveyNotes action on close', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         const expectedAction = new fromSurveyNotesActions.ResetSurveyNotes();
         component.noteInfo = generateMockSurveyGridItem();
         component.close();
@@ -116,7 +116,7 @@ describe('SurveyNotesModalComponent', () => {
     });
 
     it('should dispatch SaveCompanyNote action on submit', () => {
-        spyOn(component.store, 'dispatch');
+        jest.spyOn(component.store, 'dispatch');
         note.CreateDate = new Date(Date.now());
         const expectedAction = new fromSurveyNotesActions.SaveSurveyNote({note: note, actionType: 'Insert'});
         component.noteInfo = generateMockSurveyGridItem();
