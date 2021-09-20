@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
@@ -47,7 +46,7 @@ describe('ValidateRegistrationPage', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should show the loading message when the page is loading', () => {

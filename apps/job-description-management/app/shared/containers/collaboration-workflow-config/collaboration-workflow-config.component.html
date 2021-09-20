@@ -1,0 +1,62 @@
+<div class="p-3" *ngIf="showNonPFUserNameForm">
+  <form [formGroup]="addNonPfUserForm" (ngSubmit)="nonPfUserFormSubmit()">
+    <label>{{currentEmail}}</label>
+    <div class="form-group" [class.has-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="firstname"
+        placeholder="First Name"
+        [class.form-control-danger]="addNonPfUserForm.controls.firstname.errors && nonPfUserFormSubmitted">
+    </div>
+    <div class="form-group" [class.has-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="lastname"
+        placeholder="Last Name"
+        [class.form-control-danger]="addNonPfUserForm.controls.lastname.errors && nonPfUserFormSubmitted">
+    </div>
+    <div class="form-group text-right">
+      <button class="btn btn-secondary" (click)="cancelNonPfUserAdd()">Cancel</button>
+      <button class="btn btn-secondary ml-2" type="submit">Add</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="duplicateCollaborationEmail" class="text-danger text-center">
+  Collaboration Group email addresses must be unique
+</div>
+<div class="config-container p-1" *ngIf="collaborationWorkflowUsers.length > 0">
+  <div id="workflow-user-list-section">
+
+    <div class="card card-block m-3">
+
+        <div class="row-container">
+          <div class="user-container"  *ngFor="let collaborationUser of collaborationWorkflowUsers; let idx = index">
+            <label class="badge badge-pill avatar-chip mx-1 mt-2"
+                   [ngClass]="{'workflow-user-forbidden' : collaborationUser.Permissions?.length === 0}">
+              <ng-container *ngIf="isUserImg(collaborationUser); then userImg; else userDefault"></ng-container>
+              <ng-template #userImg>
+                <img class="avatar ml-n2" [src]="avatarUrl + collaborationUser.UserPicture"
+                     src-fallback="{{ avatarUrl + 'default_user.png' }}">
+              </ng-template>
+              <ng-template #userDefault>
+                <span *ngIf="collaborationUser.UserId"
+                      class="user-initials ml-n2">{{getUserInitials(collaborationUser)}}</span>
+                <span *ngIf="!collaborationUser.UserId" class="at-sign ml-n2">@</span>
+              </ng-template>
+
+              <span class="user-name text-muted mx-2" [autoClose]="false" triggers="manual"
+                    #displayNameTooltip="ngbTooltip"
+                    ngbTooltip="{{getDisplayName(collaborationUser)}}"
+                    (mouseover)="showDisplayNameTooltip(collaborationUser, displayNameTooltip)"
+                    (mouseleave)="hideDisplayNameTooltip(displayNameTooltip)">{{getDisplayName(collaborationUser) | TruncateAfter: displayNameThreshold}}</span>
+
+              <span class="remove-icon text-muted mx-1" aria-hidden="true"
+                    (click)="handleRemoveClicked(collaborationUser)">&times;</span>
+            </label>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

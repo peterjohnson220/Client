@@ -17,8 +17,6 @@ export class SalaryBarChartComponent {
   constructor() { }
 
   calculateDataByRate(value: number): number {
-    return this.isHourly
-      ? DataCardHelper.calculateDataByHourlyRate(value)
-      : value / 1000;
+    return DataCardHelper.calculateDataByRate(value, this.isHourly, true);
   }
 }

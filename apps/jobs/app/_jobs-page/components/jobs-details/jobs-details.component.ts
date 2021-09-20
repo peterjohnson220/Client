@@ -8,6 +8,7 @@ import { Subscription, Observable, Subject } from 'rxjs';
 import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import * as fromMultiMatchActions from 'libs/features/pricings/multi-match/actions';
+import * as fromAddDataActions from 'libs/features/pricings/add-data/actions/add-data.actions';
 import * as fromNotificationActions from 'libs/features/infrastructure/app-notifications/actions';
 import * as fromRootReducer from 'libs/state/state';
 import { Permissions } from 'libs/constants';
@@ -98,7 +99,8 @@ export class JobsDetailsComponent implements OnDestroy, OnInit, OnChanges {
       ofType(fromJobsPageActions.UPDATING_PRICING_MATCH_SUCCESS, // re scope survey data, weight/adj text boxes
         fromJobsPageActions.DELETING_PRICING_MATCH_SUCCESS,
         fromJobsPageActions.UPDATING_PRICING_SUCCESS, // composite adjustment text box on parent pricing
-        fromMultiMatchActions.MODIFY_PRICINGS_SUCCESS) // multi match tool edits
+        fromMultiMatchActions.MODIFY_PRICINGS_SUCCESS, // multi match tool edits
+        fromAddDataActions.ADD_PRICING_MATCHES_SUCCESS) // add data in Job Insights tab
     ).subscribe(data => {
       this.tabStatusLoaded[PageViewIds.PricingHistory] = false;
     });

@@ -19,6 +19,14 @@
   }
 }
 
+::ng-deep{
+  .dashboards-header {
+    .top-bar {
+      padding-left: 75px;;
+    }
+  }
+}
+
 @media (max-width: 767.98px) {
   .dashboard-actions {
     justify-content: space-between !important;

@@ -20,5 +20,5 @@
 </div>
 <!--Hidden Cell for Drag/Drop Re-Order-->
 <div class="gu-mirror-show">
-      selected <strong>{{activeFieldsCount}}</strong> field<ng-container *ngIf="activeFieldsCount > 1">s</ng-container> for reordering
+      selected <strong>{{activeFieldsCount || 1}}</strong> field<ng-container *ngIf="activeFieldsCount > 1">s</ng-container> for reordering
 </div>

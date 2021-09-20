@@ -2,6 +2,7 @@
 
 exports[`Approve Request Modal modal and text area should match the snapshot 1`] = `
 <pf-approve-request-modal
+  __ngContext__={[Function LRootView]}
   approveClicked={[Function EventEmitter_]}
   approveForm={[Function FormGroup]}
   closeClicked={[Function EventEmitter_]}
@@ -12,8 +13,6 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
     class="ng-untouched ng-pristine ng-invalid"
     title="undefined"
   >
-    
-    
     <p />
     <div
       class="flex-grow-1 d-flex flex-column form-group mb-0"

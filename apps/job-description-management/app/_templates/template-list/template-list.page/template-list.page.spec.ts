@@ -94,14 +94,14 @@ describe('Job Description Management - Job Description - Template List Page', ()
   });
 
   it('should show add template modal', () => {
-    spyOn(instance.newTemplateModal, 'open');
+    jest.spyOn(instance.newTemplateModal, 'open').mockImplementation(jest.fn());
 
     instance.showAddTemplateModal();
     expect(instance.newTemplateModal.open).toBeCalled();
   });
 
   it('should load copy modal with ID of template passed in', () => {
-    spyOn(instance.copyTemplateModal, 'open');
+    jest.spyOn(instance.copyTemplateModal, 'open').mockImplementation(jest.fn());
     const mockTemplateListItem = generateMockTemplateListItem(123);
 
     instance.showCopyModal(mockTemplateListItem);
@@ -109,7 +109,7 @@ describe('Job Description Management - Job Description - Template List Page', ()
   });
 
   it('should load delete template modal with passed in template', () => {
-    spyOn(instance.deleteTemplateModal, 'open');
+    jest.spyOn(instance.deleteTemplateModal, 'open');
     const mockTemplateListItem = generateMockTemplateListItem(456);
 
     instance.showDeleteModal(mockTemplateListItem);
@@ -117,14 +117,14 @@ describe('Job Description Management - Job Description - Template List Page', ()
   });
 
   it('should load template list on initialization', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.ngOnInit();
     const expectedAction = new fromTemplateListActions.LoadTemplateList();
     expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
   });
 
   it('should save template on create template complete', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const temp = new Template();
     temp.TemplateName = 'Tester Template';
     instance.handleCreateTemplateComplete(temp.TemplateName);

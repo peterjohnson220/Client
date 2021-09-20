@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { RangeGroupMetadata } from 'libs/models/structures';
 import { PfDataGridFilter } from 'libs/features/grids/pf-data-grid/models';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import * as fromAddJobsPageActions from 'libs/features/jobs/add-jobs/actions/add-jobs-page.actions';
 import { PermissionCheckEnum, Permissions } from 'libs/constants';
 import { PermissionService } from 'libs/core/services';

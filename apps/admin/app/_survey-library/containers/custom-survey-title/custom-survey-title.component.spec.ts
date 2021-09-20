@@ -40,7 +40,7 @@ describe('Custom Survey Title Component', () => {
     component.SurveyTitleId = 1;
     fixture.detectChanges();
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
   });
 
   it('should dispatch a SaveCustomTitle action when a new title has been entered', () => {

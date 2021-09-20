@@ -94,6 +94,7 @@
               (openJobDescriptionHistoryModal)="openJobDescriptionHistoryModal($event)"
               (openNewJobDescriptionModal)="openNewJobDescModal($event)"
               (openDeleteJobDescriptionModal)="openDeleteJobDescModal($event)"
+              (openShareJobDescriptionModal)="openShareJobDescriptionModal($event)"
               (pageChanged)="handlePageChanged($event)"
               (sortChanged)="handleSortChanged($event)"
               (publicViewChanged)="handlePublicViewChanged($event)"
@@ -154,6 +155,9 @@
       (saved)="saveFilterHandler($event)"
       (opened)="handleSaveFilterModalOpened()">
     </pf-save-filter-modal>
+    <pf-share-job-description-modal
+      [selectedJobDescriptions]="selectedJobDescriptions">
+    </pf-share-job-description-modal>
 
     <pf-workflow-setup-modal
       [workflowSetupModalInput]="workflowSetupModalInput">

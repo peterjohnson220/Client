@@ -36,21 +36,28 @@
               (click)="handleExportClicked()">
         <fa-icon icon="download"></fa-icon>
       </button>
-      <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
-                         [dataFields]="dataFields$ | async"
-                         [columnChooserType]="actionBarConfig.ColumnChooserType"
-                         [reorderable]="reorderable"
-                         (saveColumns)="updateFields($event)"
-                         [selectAllEnabled]="actionBarConfig.EnableGroupSelectAll"
-                         [showSelectAllColumns]="actionBarConfig.ShowSelectAllColumns"
-                         [disabled] = "disableActions"
-                         [submitButtonText]="actionBarConfig.ColumnChooserSubmitText">
-      </pf-column-chooser>
+      <ng-container *ngIf="actionBarConfig.ColumnChooserConfig.ColumnChooserTemplate &&
+       actionBarConfig.ColumnChooserConfig.ColumnChooserType === columnChooserTypes.Custom; else standardColumnChooser"
+                    [ngTemplateOutlet]="actionBarConfig.ColumnChooserConfig.ColumnChooserTemplate"
+      >
+      </ng-container>
+      <ng-template #standardColumnChooser>
+        <pf-column-chooser *ngIf="actionBarConfig.ShowColumnChooser"
+                           [dataFields]="dataFields$ | async"
+                           [columnChooserType]="actionBarConfig.ColumnChooserConfig.ColumnChooserType"
+                           [reorderable]="reorderable"
+                           (saveColumns)="updateFields($event)"
+                           [selectAllEnabled]="actionBarConfig.EnableGroupSelectAll"
+                           [showSelectAllColumns]="actionBarConfig.ShowSelectAllColumns"
+                           [disabled] = "disableActions"
+                           [submitButtonText]="actionBarConfig.ColumnChooserSubmitText">
+        </pf-column-chooser>
+      </ng-template>
     </div>
   </div>
 </ng-container>
 
-<pf-file-download-security-warning-modal 
+<pf-file-download-security-warning-modal
   #fileDownloadSecurityWarningModal
   (securityWarningConfirmed)="handleSecurityWarningConfirmed($event)">
 </pf-file-download-security-warning-modal>

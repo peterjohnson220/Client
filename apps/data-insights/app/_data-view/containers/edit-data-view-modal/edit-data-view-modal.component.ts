@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
 
 import { UserDataView } from 'libs/ui/formula-editor';
+import { DataViewAccessLevel } from 'libs/models/payfactors-api';
+import { AbstractFeatureFlagService } from 'libs/core';
 
 import { AbstractBaseDataViewModal } from '../../../_shared/containers';
 import * as fromSharedReducer from '../../../_shared/reducers';
@@ -20,13 +22,15 @@ export class EditDataViewModalComponent extends AbstractBaseDataViewModal implem
 
   @ViewChild('editDataViewModal', { static: true }) public editDataViewModal: any;
 
+  canChangeScope: boolean;
   constructor(
     protected modalService: NgbModal,
     protected formBuilder: FormBuilder,
     sharedStore: Store<fromSharedReducer.State>,
-    private dataViewPageStore: Store<fromDataViewMainReducer.State>
+    private dataViewPageStore: Store<fromDataViewMainReducer.State>,
+    protected featureFlagService: AbstractFeatureFlagService
   ) {
-    super(modalService, formBuilder, sharedStore);
+    super(modalService, formBuilder, sharedStore, featureFlagService);
     this.saving$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getEditingUserReport));
     this.savingError$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getEditUserReportError));
     this.savingConflict$ = this.dataViewPageStore.pipe(select(fromDataViewMainReducer.getEditUserReportConflict));
@@ -46,10 +50,12 @@ export class EditDataViewModalComponent extends AbstractBaseDataViewModal implem
     if (!!this.userDataView && !!this.baseDataViewForm) {
       this.reportName = this.userDataView.Name;
       this.summary = this.userDataView.Summary;
+      this.canChangeScope = this.userDataView.AccessLevel === DataViewAccessLevel.Owner;
       this.baseDataViewForm.patchValue({
         entity: this.userDataView.Entity,
         name: this.userDataView.Name,
-        summary: this.userDataView.Summary
+        summary: this.userDataView.Summary,
+        scope: this.userDataView.Scope
       });
     }
   }
@@ -62,7 +68,8 @@ export class EditDataViewModalComponent extends AbstractBaseDataViewModal implem
     return {
       ...this.userDataView,
       Name: this.baseDataViewForm.value.name,
-      Summary: this.baseDataViewForm.value.summary
+      Summary: this.baseDataViewForm.value.summary,
+      Scope: this.baseDataViewForm.value.scope
     };
   }
 

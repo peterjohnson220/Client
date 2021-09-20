@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import spyOn = jest.spyOn;
 
 import { TilePreviewChartWithCalendarComponent } from './tile-preview-chart-with-calendar.component';
 import * as fromRootState from 'libs/state/state';
@@ -36,7 +35,7 @@ describe('Tile Preview Chart With Calendar', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(TilePreviewChartWithCalendarComponent);
     instance = fixture.componentInstance;
@@ -76,7 +75,7 @@ describe('Tile Preview Chart With Calendar', () => {
   });
 
   it('should call reloadTile on SavingUiPersistenceSettingSuccess', () => {
-    spyOn(instance, 'reloadTile');
+    jest.spyOn(instance, 'reloadTile');
     instance.model = getInstanceModel();
     instance.datePickerValueChanged();
     const clientSettingRequest = {
@@ -126,7 +125,7 @@ describe('Tile Preview Chart With Calendar', () => {
    const detailValue = 55;
    const selectedDate = new Date('01/01/2010');
    const chartComponentData =
-     generateMockTilePreviewChartWithCalendarData(categoryName, 0, selectedDate, detailKey, detailValue);
+     generateMockTilePreviewChartWithCalendarData(categoryName, '0', selectedDate, detailKey, detailValue);
 
    return {
      TileId: 1,

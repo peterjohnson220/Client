@@ -29,21 +29,21 @@ describe('Data Insights - Delete User FOrmula Modal Component', () => {
 
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     instance.open();
 
     expect(ngbModal.open).toHaveBeenCalled();
   });
 
   it('should use the modal service to dismiss the modal, when close is called', () => {
-    spyOn(ngbModal, 'dismissAll');
+    jest.spyOn(ngbModal, 'dismissAll');
     instance.close();
 
     expect(ngbModal.dismissAll).toHaveBeenCalled();
   });
 
   it('should emit deleteClicked when delete button clicked', () => {
-    spyOn(instance.deleteClicked, 'emit');
+    jest.spyOn(instance.deleteClicked, 'emit');
     instance.delete();
 
     expect(instance.deleteClicked.emit).toHaveBeenCalled();

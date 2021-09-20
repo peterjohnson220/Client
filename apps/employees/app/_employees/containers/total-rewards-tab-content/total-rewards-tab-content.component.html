@@ -1,0 +1,24 @@
+<pf-async-container [loading]="(employeeInsightsAsync$ | async)?.loading">
+  <ng-container *ngIf="!showPaidTotalRewardsVersion && hasTotalRewardsAccess">
+    <div class="blue-banner">
+      <span pfEllipsisActive class="ellipsis-overflowing-text-wrap d-inline-block title">{{employeeName}}</span> has not been assigned to a custom Total Rewards Statement. To assign, go to
+      <a href="/client/total-rewards/" target="_blank"><u> Total Rewards</u></a>.
+    </div>
+  </ng-container>
+  <div class="tab-content-container">
+    <div class="mx-auto pb-1 pt-4 total-rewards-statement">
+      <ng-container *ngIf="showPaidTotalRewardsVersion && hasTotalRewardsAccess; else liteVersion">
+        <pf-total-rewards-statement
+          [statement]="statement"
+          [employeeRewardsData]="employeeRewardsData"
+          [mode]="totalRewardsStatementMode"
+          [loadingData]="(employeeInsightsAsync$ | async)?.loading"
+          [isAdditionalPageEnabled]="totalRewardsAdditionalPageFeatureFlag?.value">
+        </pf-total-rewards-statement>
+      </ng-container>
+      <ng-template #liteVersion>
+      <pf-total-rewards-statement-lite [employeeTotalRewardsLite]="employeeTotalRewardsLite"></pf-total-rewards-statement-lite>
+      </ng-template>
+    </div>
+  </div>
+</pf-async-container>

@@ -2,7 +2,9 @@
 
 exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarket is selected 1`] = `
 <pf-paymarkets
+  __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Store]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -27,9 +29,6 @@ exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarke
       class="paymarket-results"
     >
       <pf-async-container>
-        
-        
-        
         <div>
           <div
             class="paymarket-result"
@@ -44,12 +43,9 @@ exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarke
               />
               New Paymarket 
             </div>
-            
           </div>
         </div>
-        
       </pf-async-container>
-      
     </div>
   </div>
 </pf-paymarkets>
@@ -57,7 +53,9 @@ exports[`Project - Add Jobs - Paymarkets Component should be checked if paymarke
 
 exports[`Project - Add Jobs - Paymarkets Component should not show default badge when paymarket is not default 1`] = `
 <pf-paymarkets
+  __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -82,9 +80,6 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
       class="paymarket-results"
     >
       <pf-async-container>
-        
-        
-        
         <div>
           <div
             class="paymarket-result"
@@ -99,7 +94,6 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
               />
               New Paymarket 
             </div>
-            
             <div
               class="badge badge-info default-badge"
             >
@@ -107,9 +101,7 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
             </div>
           </div>
         </div>
-        
       </pf-async-container>
-      
     </div>
   </div>
 </pf-paymarkets>
@@ -117,7 +109,9 @@ exports[`Project - Add Jobs - Paymarkets Component should not show default badge
 
 exports[`Project - Add Jobs - Paymarkets Component should show default badge on default paymarket 1`] = `
 <pf-paymarkets
+  __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Observable]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -142,9 +136,6 @@ exports[`Project - Add Jobs - Paymarkets Component should show default badge on 
       class="paymarket-results"
     >
       <pf-async-container>
-        
-        
-        
         <div>
           <div
             class="paymarket-result"
@@ -159,7 +150,6 @@ exports[`Project - Add Jobs - Paymarkets Component should show default badge on 
               />
               New Paymarket 
             </div>
-            
             <div
               class="badge badge-info default-badge"
             >
@@ -167,9 +157,7 @@ exports[`Project - Add Jobs - Paymarkets Component should show default badge on 
             </div>
           </div>
         </div>
-        
       </pf-async-container>
-      
     </div>
   </div>
 </pf-paymarkets>
@@ -177,8 +165,10 @@ exports[`Project - Add Jobs - Paymarkets Component should show default badge on 
 
 exports[`Project - Add Jobs - Paymarkets Component should show no data message when no paymarkets match filter 1`] = `
 <pf-paymarkets
+  __ngContext__={[Function LRootView]}
   defaultPaymarket$={[Function Store]}
   filterString={[Function String]}
+  implementation={[Function String]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -203,9 +193,6 @@ exports[`Project - Add Jobs - Paymarkets Component should show no data message w
       class="paymarket-results"
     >
       <pf-async-container>
-        
-        
-        
         <div>
           <div
             class="paymarket-result hidden"
@@ -220,12 +207,9 @@ exports[`Project - Add Jobs - Paymarkets Component should show no data message w
               />
               New Paymarket 
             </div>
-            
           </div>
         </div>
-        
       </pf-async-container>
-      
       <div>
         <div
           class="no-data"

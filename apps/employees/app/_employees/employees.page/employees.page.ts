@@ -116,16 +116,17 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
       AllowExport: true,
       AllowSaveFilter: true,
       ExportSourceName: 'Employees',
-      ColumnChooserType: ColumnChooserType.ColumnGroup
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.ColumnGroup
+      }
     };
     this.gridConfig = {
       PersistColumnWidth: true,
       EnableInfiniteScroll: true,
       ScrollToTop: true,
       SelectAllPanelItemName: 'employees',
-      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(500, 70, true)
+      SplitViewColumnsWidth: GridConfigHelper.getSplitViewColumnsWidth(400, 70, true)
     };
-
     this.featureFlagService.bindEnabled(this.totalRewardsAdditionalPageFeatureFlag, this.unsubscribe$);
   }
 
@@ -299,7 +300,7 @@ export class EmployeesPageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.store.dispatch(
       new fromEmployeesPageActions.GenerateStatement(
         { statementId: this.totalRewardsStatement.StatementId, companyEmployeeIds: [this.selectedCompanyEmployeeId] }
-        ));
+      ));
   }
 
   private handlePricingJobsStatusChanged(value: boolean): void {

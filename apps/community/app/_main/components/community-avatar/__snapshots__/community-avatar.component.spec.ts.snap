@@ -5,6 +5,7 @@ exports[`CommunityAvatarComponent should display CompanyLogoSource if AvatarSour
   AvatarSource={[Function String]}
   CompanyLogoSource={[Function String]}
   IsReply="false"
+  __ngContext__={[Function LRootView]}
 >
   <img
     alt="avatar"
@@ -19,12 +20,11 @@ exports[`CommunityAvatarComponent should display default avatar if AvatarSource 
   AvatarSource={[Function String]}
   CompanyLogoSource="null"
   IsReply="false"
+  __ngContext__={[Function LRootView]}
 >
   <div
     class="float-left pf-avatar default-post-avatar"
   >
-     
-  
   </div>
 </pf-community-avatar>
 `;
@@ -32,6 +32,7 @@ exports[`CommunityAvatarComponent should display default avatar if AvatarSource 
 exports[`CommunityAvatarComponent should display post-size avatar if IsReply === false  1`] = `
 <pf-community-avatar
   IsReply="false"
+  __ngContext__={[Function LRootView]}
 >
   <img
     alt="avatar"
@@ -44,6 +45,7 @@ exports[`CommunityAvatarComponent should display post-size avatar if IsReply ===
 exports[`CommunityAvatarComponent should display reply-size avatar if IsReply === true  1`] = `
 <pf-community-avatar
   IsReply={[Function Boolean]}
+  __ngContext__={[Function LRootView]}
 >
   <img
     alt="avatar"
@@ -56,6 +58,7 @@ exports[`CommunityAvatarComponent should display reply-size avatar if IsReply ==
 exports[`CommunityAvatarComponent should show avatar component 1`] = `
 <pf-community-avatar
   IsReply="false"
+  __ngContext__={[Function LRootView]}
 >
   <img
     alt="avatar"

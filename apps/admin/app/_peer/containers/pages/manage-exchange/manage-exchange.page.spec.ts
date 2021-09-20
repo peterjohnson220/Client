@@ -65,7 +65,7 @@ describe('Manage Exchange Page', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.snapshot.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ManageExchangePageComponent);
     instance = fixture.componentInstance;
@@ -75,13 +75,13 @@ describe('Manage Exchange Page', () => {
   it('should dispatch a loadExchangeJobs, loadExchangeCompanies, loadExchangeAccessRequests,' +
     'loadPayfactorsCompanyExchangeInvitations and loadNewCompanyExchangeInvitations action with exchange id on init', () => {
     instance.exchange$ = of(generateMockExchange());
-    spyOn(gridHelperService, 'loadExchangeJobs');
-    spyOn(gridHelperService, 'loadExchangeCompanies');
-    spyOn(gridHelperService, 'loadExchangeAccessRequests');
-    spyOn(gridHelperService, 'loadPayfactorsCompanyExchangeInvitations');
-    spyOn(gridHelperService, 'loadNewCompanyExchangeInvitations');
-    spyOn(gridHelperService, 'loadExchangeJobRequests');
-    spyOn(gridHelperService, 'loadExchangeFilters');
+    jest.spyOn(gridHelperService, 'loadExchangeJobs');
+    jest.spyOn(gridHelperService, 'loadExchangeCompanies');
+    jest.spyOn(gridHelperService, 'loadExchangeAccessRequests');
+    jest.spyOn(gridHelperService, 'loadPayfactorsCompanyExchangeInvitations');
+    jest.spyOn(gridHelperService, 'loadNewCompanyExchangeInvitations');
+    jest.spyOn(gridHelperService, 'loadExchangeJobRequests');
+    jest.spyOn(gridHelperService, 'loadExchangeFilters');
 
     fixture.detectChanges();
 

@@ -27,7 +27,7 @@ html, body {
   animation: show 1.25s;
 }
 
-.loading-logo img {
+.loading-logo img, .ps-loading-logo {
   animation: show 1.25s;
 }
 

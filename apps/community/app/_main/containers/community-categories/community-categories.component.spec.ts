@@ -47,7 +47,7 @@ describe('CommunityCategoriesComponent', () => {
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityCategoriesComponent);
     instance = fixture.componentInstance;
@@ -66,7 +66,7 @@ describe('CommunityCategoriesComponent', () => {
   });
 
   it('should navigate to the job postings if job postings category clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.onClick(CommunityCategoryEnum.JobPostings);
 

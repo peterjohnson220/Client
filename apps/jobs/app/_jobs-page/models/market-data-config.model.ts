@@ -1,16 +1,6 @@
 import { BasicDataViewField, DataViewFieldDataType, DataViewFilter } from 'libs/models/payfactors-api';
 
-export interface MarketDataJobPricing {
-  Id: number;
-  Rate: string;
-  JobTitle: string;
-  JobCode: string;
-  JobId: number;
-  PayMarket: string;
-  PayMarketId: number;
-  JobPricingEffectiveDate: Date;
-  LinkedPayMarketId: number;
-}
+import { MarketDataJobPricingMatch } from './market-data-job-pricing.model';
 
 export class MarketDataConfig {
   static marketDataGridId = 'jobs-job-insights-market-data';
@@ -165,6 +155,13 @@ export class MarketDataConfig {
       KendoGridField: 'CompanyJobs_PricingsMatches_Slotted_CompanyJob_ID'
     },
     {
+      EntitySourceName: 'CompanyJobs_PricingsMatches',
+      SourceName: 'Match_Adjustment',
+      DisplayName: 'Adj',
+      DataType: DataViewFieldDataType.Float,
+      KendoGridField: 'CompanyJobs_PricingsMatches_Match_Adjustment'
+    },
+    {
       EntitySourceName: 'ExchangeDataCut',
       SourceName: 'FilterGUID',
       DisplayName: 'FilterGUID',
@@ -182,5 +179,18 @@ export class MarketDataConfig {
         Values: [jobPricingId?.toString()]
       }
     ];
+  }
+
+  static buildMarketDataJobPricingMatch(pricingMatch: any): MarketDataJobPricingMatch {
+    return {
+      PricingMatchId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricingMatch_ID'],
+      JobTitle: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Title'],
+      JobCode: pricingMatch['vw_PricingMatchesJobTitlesMerged_Job_Code'],
+      EffectiveDate: pricingMatch['vw_PricingMatchesJobTitlesMerged_Effective_Date'],
+      Source: pricingMatch['vw_PricingMatchesJobTitlesMerged_Source'],
+      Weight: pricingMatch['CompanyJobs_PricingsMatches_Match_Weight'],
+      Adjustment: pricingMatch['CompanyJobs_PricingsMatches_Match_Adjustment'],
+      PricingId: pricingMatch['CompanyJobs_PricingsMatches_CompanyJobPricing_ID']
+    };
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
@@ -11,36 +11,44 @@ import { TilePreviewPeer } from '../../../models';
   templateUrl: './tile-preview-peer.component.html',
   styleUrls: [ './tile-preview-peer.component.scss' ]
 })
-export class TilePreviewPeerComponent  implements OnInit {
+export class TilePreviewPeerComponent  implements OnInit, OnChanges {
   @ViewChild(NgbCarousel) carousel: NgbCarousel;
   @Input() model: TilePreviewPeer;
+  @Input() payscaleBrandingFeatureFlag = false;
 
   exchangePreviewModels: any[];
-
-  public seriesItemHighlightStyle: any = {
-    opacity: 1,
-    color: '#fff',
-    border: '#000'
-  };
-  public legendLabelStyle: any = {
-    padding: 3,
-    font: 'bold 1rem',
-    color: '#fff'
-  };
-  public limitLabelText: any = {
-    padding: 3,
-    font: 'bold 1rem',
-    color: '#fff',
-    content: function(e) {
-      if (e.text.length > 17) {
-        return e.text.substring(0, 14) + '...';
-      }
-      return e.text;
-    }
-  };
+  seriesItemHighlightStyle: any;
+  legendLabelStyle: any;
+  limitLabelText: any;
 
   ngOnInit() {
     this.exchangePreviewModels = cloneDeep(this.model.ExchangePreviewModels);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.payscaleBrandingFeatureFlag) {
+      this.seriesItemHighlightStyle = {
+        opacity: 1,
+        color: this.payscaleBrandingFeatureFlag ? '#261636' : '#fff',
+        border: '#000'
+      };
+      this.legendLabelStyle = {
+        padding: 3,
+        font: 'bold 1rem',
+        color: this.payscaleBrandingFeatureFlag ? '#312B36' : '#fff'
+      };
+      this.limitLabelText = {
+        padding: 3,
+        font: 'bold 1rem',
+        color: this.payscaleBrandingFeatureFlag ? '#312B36' : '#fff',
+        content: function(e) {
+          if (e.text.length > 17) {
+            return e.text.substring(0, 14) + '...';
+          }
+          return e.text;
+        }
+      };
+    }
   }
 
   trackById(index: number, exchangeMetrics: any): number {

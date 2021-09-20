@@ -123,6 +123,12 @@ export class JobDescriptionGridEffects {
               actions.push(new fromJobDescriptionGridActions.RemoveRoutingJob(action.payload.Payload?.JobDescriptionId));
             }
         }
+        else if (action.payload.From === NotificationSource.JDMRouting
+          && action.payload.Level === NotificationLevel.Error)
+          {
+            actions.push(new fromJobDescriptionGridActions.CreateWorkflowError());
+            actions.push(new fromJobDescriptionGridActions.RemoveRoutingJobToDraft(action.payload.Payload?.JobDescriptionId));
+          }
         return actions;
       })
   );

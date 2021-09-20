@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockJobDescriptionWorkflowAttachment, KendoUploadStatus } from 'libs/models';
+import {  KendoUploadStatus } from 'libs/models';
 import * as fromWorkflowConfigActions from 'libs/features/jobs/job-description-management/actions/workflow-config.actions';
 import { WorkflowSetupModalComponent } from './workflow-setup-modal.component';
 import * as fromJobDescriptionManagementReducer from '../../reducers';
+import { generateMockJobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 
 describe('WorkflowSetupModalComponent', () => {
   let fixture: ComponentFixture<WorkflowSetupModalComponent>;
@@ -37,7 +38,7 @@ describe('WorkflowSetupModalComponent', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(WorkflowSetupModalComponent);
     instance = fixture.componentInstance;

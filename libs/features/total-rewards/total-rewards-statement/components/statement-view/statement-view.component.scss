@@ -58,4 +58,8 @@
   .mobile-btn{
     width: 75%;
   }
+  
+  ::ng-deep .center-content {
+    background: white; // keep bg color from being different above main page content and below top header bar
+  }
 }

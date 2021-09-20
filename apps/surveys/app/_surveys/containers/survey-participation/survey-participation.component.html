@@ -7,7 +7,7 @@
   [showSubmit]="false"
   (onDismiss)="handleSurveyParticipationDismissed()">
   <ng-container basic-content>
-    
+
     <div class="d-flex flex-row-reverse mb-3">
       <pf-input-debounce style="width: 45%;"
                          [value]="searchValue"
@@ -20,25 +20,25 @@
     <ng-container *ngIf="filteredGroupedSurveys?.length; else noSurveys">
       <div class="d-flex flex-column survey-participation-container">
         <ngb-accordion #surveysAccordion #surveysAcc="ngbAccordion">
-          <ngb-panel *ngFor="let survey of filteredGroupedSurveys; trackBy: trackByPublisher" [id]="'Publisher_' + survey.value">
+          <ngb-panel *ngFor="let survey of filteredGroupedSurveys; let i = index; trackBy: trackByPublisher">
             <ng-template ngbPanelHeader>
               <div class="group-header w-100 d-flex align-items-center">
-              <span (click)="surveysAcc.toggle('Publisher_' + survey.value)" class="cursor-pointer">
-                <fa-icon icon="caret-down" *ngIf="surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
-                <fa-icon icon="caret-right" *ngIf="!surveysAcc.isExpanded('Publisher_' + survey.value)"></fa-icon>
+              <span (click)="surveysAcc.toggle('ngb-panel-'+(i+1))" class="cursor-pointer">
+                <fa-icon icon="caret-down" *ngIf="surveysAcc.isExpanded('ngb-panel-'+(i+1))"></fa-icon>
+                <fa-icon icon="caret-right" *ngIf="!surveysAcc.isExpanded('ngb-panel-'+(i+1))"></fa-icon>
                 <span pfEllipsisActive class="col ml-3 font-weight-bold flex-fill ellipsis-overflowing-text report-name">
                   {{survey.value}}
                 </span>
               </span>
               </div>
             </ng-template>
-    
+
             <ng-template ngbPanelContent>
               <div class=" d-flex flex-row-reverse">
                   <fa-icon
                     [icon]="['far', 'times']"
                     class="close-btn cursor-pointer mb-1"
-                    (click)="surveysAcc.collapse('Publisher_' + survey.value)">
+                    (click)="surveysAcc.collapse('ngb-panel-'+(i+1))">
                   </fa-icon>
               </div>
               <div class="d-flex flex-column gray-border">

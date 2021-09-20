@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { Observable, Subscription } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { ActionsSubject, select, Store } from '@ngrx/store';
+import { ofType } from '@ngrx/effects';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -15,8 +16,9 @@ import {
   GridRowActionsConfig,
   PfDataGridFilter
 } from 'libs/features/grids/pf-data-grid/models';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { AsyncStateObj } from 'libs/models/state';
 import { PagingOptions } from 'libs/models/payfactors-api/search/request';
 import { CompanyStructureRangeOverride, GradeBasedPageViewIds, RangeGroupMetadata, RoundingSettingsDataObj } from 'libs/models/structures';
 import { DataViewFilter } from 'libs/models/payfactors-api/reports/request';
@@ -33,6 +35,7 @@ import { StructuresPagesService } from '../../../../shared/services';
 import * as fromModelSettingsModalActions from '../../../../shared/actions/model-settings-modal.actions';
 import * as fromPublishModelModalActions from '../../../../shared/actions/publish-model-modal.actions';
 import * as fromDuplicateModelModalActions from '../../../../shared/actions/duplicate-model-modal.actions';
+import * as fromAddGradeModalActions from '../../actions/add-grade-modal.actions';
 import * as fromGradeBasedSharedReducer from '../../reducers';
 import * as fromGradeBasedSharedActions from '../../actions/shared.actions';
 import { ChartSvg } from '../../models';
@@ -71,6 +74,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   pfThemeType = PfThemeType;
   permissions = Permissions;
 
+  showRemoveRangeModal = new BehaviorSubject<boolean>(false);
+  showRemoveRangeModal$ = this.showRemoveRangeModal.asObservable();
+  removingRange$: Observable<AsyncStateObj<boolean>>;
+  removingRangeSuccessSubscription: Subscription;
+  rangeIdToRemove: number;
+
   metaData$: Observable<RangeGroupMetadata>;
   selectedRecordId$: Observable<number>;
 
@@ -96,6 +105,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
   selectedDropdown: NgbDropdown;
   filterTemplates = {};
   isNewModel: boolean;
+  singleGrade: boolean;
   dataSubscription: Subscription;
   data$: Observable<GridDataResult>;
   pageViewId: string;
@@ -118,7 +128,8 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     public store: Store<any>,
     private permissionService: PermissionService,
     private structuresPagesService: StructuresPagesService,
-    private featureFlagService: AbstractFeatureFlagService
+    private featureFlagService: AbstractFeatureFlagService,
+    private actionsSubject: ActionsSubject
   ) {
     this.hasStructuresPageFlagEnabled = this.featureFlagService.enabled(FeatureFlags.StructuresPage, false);
     this.metaData$ = this.store.pipe(select(fromSharedStructuresReducer.getMetadata));
@@ -142,7 +153,9 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
       AllowExport: true,
       ExportSourceName: 'Grade Range Structures',
       CustomExportType: 'GradeRangeStructures',
-      ColumnChooserType: ColumnChooserType.Hybrid,
+      ColumnChooserConfig: {
+        ColumnChooserType: ColumnChooserType.Hybrid
+      },
       EnableGroupSelectAll: true
     };
     this.gridConfig = {
@@ -250,6 +263,20 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.store.dispatch(new fromDuplicateModelModalActions.OpenModal());
   }
 
+  handleAddGradeClicked() {
+    this.store.dispatch(new fromAddGradeModalActions.OpenModal());
+  }
+
+  openRemoveRangeModal(rangeId: number) {
+    this.rangeIdToRemove = rangeId;
+    this.showRemoveRangeModal.next(true);
+    this.store.dispatch(new fromSharedStructuresActions.ShowRemoveRangeModal());
+  }
+
+  removeRange() {
+    this.store.dispatch(new fromSharedStructuresActions.RemovingRange({ StructuresRangeId: this.rangeIdToRemove, StructuresRangeGroupId: this.rangeGroupId, IsCurrent: this.metaData.IsCurrent, IsJobRange: false }));
+  }
+
   // Lifecycle
   ngAfterViewInit() {
     this.colTemplates = {
@@ -288,6 +315,7 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.dataSubscription = this.data$.subscribe(data => {
       if (data) {
         this.isNewModel = data.total < 1 ? true : false;
+        this.singleGrade = data.total == 1;
         // Open Model Settings modal only if it's a new model flow or create model flow
         if (this.isNewRangeFlow && this.isNewModel || this.isCreateModelFlow) {
           this.store.dispatch(new fromModelSettingsModalActions.OpenGradeModal());
@@ -319,6 +347,12 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.showHorizontalChartSub = this.showHorizontalChart$.subscribe(svc => {
       this.showHorizontalChart = svc;
     });
+    this.removingRange$ = this.store.select(fromSharedStructuresReducer.getRemovingRange);
+    this.removingRangeSuccessSubscription = this.actionsSubject
+      .pipe(ofType(fromSharedStructuresActions.REMOVING_RANGE_SUCCESS))
+      .subscribe(data => {
+        this.showRemoveRangeModal.next(false);
+    });
     this.initPermissions();
     window.addEventListener('scroll', this.scroll, true);
   }
@@ -332,5 +366,6 @@ export class ModelGridComponent implements AfterViewInit, OnInit, OnDestroy {
     this.horizontalChartSvgSub.unsubscribe();
     this.summaryChartSvgSub.unsubscribe();
     this.showHorizontalChartSub.unsubscribe();
+    this.removingRangeSuccessSubscription.unsubscribe();
   }
 }

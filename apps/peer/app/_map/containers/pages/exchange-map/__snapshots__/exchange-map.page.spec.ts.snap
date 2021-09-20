@@ -3,6 +3,7 @@
 exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5 1`] = `
 <pf-exchange-map-page
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
@@ -23,9 +24,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Mock Exchange 
-    
     <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
@@ -41,7 +40,6 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     >
        Export Data Cuts 
     </button>
-    
     <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>
@@ -50,6 +48,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
 exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfSelections$ is  0 1`] = `
 <pf-exchange-map-page
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
@@ -70,9 +69,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Mock Exchange 
-    
     <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
@@ -88,7 +85,6 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     >
        Export Data Cuts 
     </button>
-    
     <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>
@@ -97,6 +93,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
 exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when exchangeJobIdsInScope$ is empty or null 1`] = `
 <pf-exchange-map-page
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
@@ -117,9 +114,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Mock Exchange 
-    
     <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
@@ -134,7 +129,6 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
     >
        Export Data Cuts 
     </button>
-    
     <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>
@@ -143,6 +137,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
 exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5 1`] = `
 <pf-exchange-map-page
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
@@ -163,9 +158,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Mock Exchange 
-    
     <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
@@ -180,7 +173,6 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
     >
        Export Data Cuts 
     </button>
-    
     <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>
@@ -189,6 +181,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
 exports[`Peer - Map - Exchange Map Page should show the exchange name as the page title 1`] = `
 <pf-exchange-map-page
   StatusEnum={[Function Object]}
+  __ngContext__={[Function LRootView]}
   exchange$={[Function Store]}
   exchangeExplorer={[Function Object]}
   exchangeExplorerContextService={[Function Object]}
@@ -209,9 +202,7 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
   store={[Function Store]}
 >
   <pf-page-with-title-bar>
-    
      Mock Exchange 
-    
     <pf-exchange-scope-selector />
     <button
       class="btn btn-secondary"
@@ -226,7 +217,6 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
     >
        Export Data Cuts 
     </button>
-    
     <pf-exchange-explorer />
   </pf-page-with-title-bar><pf-save-exchange-scope-modal /><pf-export-data-cuts-modal />
 </pf-exchange-map-page>

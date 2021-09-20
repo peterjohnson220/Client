@@ -16,6 +16,7 @@ export interface State {
   tagWorkbookModalOpen: boolean;
   activeWorkbook: Workbook;
   allViewsLoadedAsync: AsyncStateObj<boolean>;
+  scopeFilter: string;
 }
 
 const initialState: State = {
@@ -26,7 +27,8 @@ const initialState: State = {
   dashboardView: DashboardView.All,
   tagWorkbookModalOpen: false,
   activeWorkbook: null,
-  allViewsLoadedAsync: generateDefaultAsyncStateObj<boolean>(false)
+  allViewsLoadedAsync: generateDefaultAsyncStateObj<boolean>(false),
+  scopeFilter: null
 };
 
 export function reducer(state = initialState, action: fromDashboardsActions.Actions): State {
@@ -99,7 +101,8 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
       return {
         ...state,
         dashboardView: action.payload,
-        tagFilter: null
+        tagFilter: null,
+        scopeFilter: null
       };
     }
     case fromDashboardsActions.SAVE_WORKBOOK_ORDER_SUCCESS: {
@@ -247,6 +250,12 @@ export function reducer(state = initialState, action: fromDashboardsActions.Acti
         allViewsLoadedAsync: allViewsAsyncClone
       };
     }
+    case fromDashboardsActions.SET_SCOPE_FILTER: {
+      return {
+        ...state,
+        scopeFilter: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -258,13 +267,22 @@ export const getSavingTag = (state: State) => state.savingTag;
 export const getSavingTagError = (state: State) => state.savingTagError;
 export const getDashboardView = (state: State) => state.dashboardView;
 export const getFilteredCompanyWorkbooks = (state: State) => {
-  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter);
+  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter, state.scopeFilter);
   return workbooks;
 };
 
 export const getDistinctTagsByView  = (state: State) => {
-  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView);
+  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView, null, state.scopeFilter);
   const sortedTags = Array.from(new Set(workbooks.filter(cw => !!cw.Tag || cw.DefaultTag).map(cw => cw.Tag || cw.DefaultTag)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+  return sortedTags;
+};
+
+export const getDistinctScopesByView  = (state: State) => {
+  const workbooks = DashboardsHelper.getCompanyWorkbooksByView(state.companyWorkbooksAsync.obj, state.dashboardView, state.tagFilter);
+  const sortedTags = Array.from(new Set(workbooks.filter(cw => !!cw.Scope).map(cw => cw.Scope)))
     .sort(function( a, b) {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     });
@@ -277,7 +295,14 @@ export const getDistinctTags = (state: State) => {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     });
 };
+export const getDistinctScopes = (state: State) => {
+  return Array.from(new Set(state.companyWorkbooksAsync.obj.filter(cw => !!cw.Scope).map(cw => cw.Scope)))
+    .sort(function( a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+};
 export const getTagFilter = (state: State) => state.tagFilter;
+export const getScopeFilter = (state: State) => state.scopeFilter;
 export const getTagWorkbookModalOpen = (state: State) => state.tagWorkbookModalOpen;
 export const getActiveWorkbook = (state: State) => state.activeWorkbook;
 export const getAllViewsLoadedAsync = (state: State) => state.allViewsLoadedAsync;

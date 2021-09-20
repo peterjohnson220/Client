@@ -8,8 +8,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
+  <style>
+    .ie-warning {
+      display: none;
+    }
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      .ie-warning {
+        background: #ffffff;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px;
+        height: 150px;
+        text-align: left;
+        padding: 20px;
+      }
+
+      pf-auth-root {
+        display: none
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="ie-warning">
+    <h4 style="color:red;">Attention: Unsupported Browser Detected</h4>
+    <p>
+      It looks like you are trying to access the product with an unsupported browser.
+      As of August 1, 2021, Payscale has discontinued support for all versions of <strong>Internet Explorer</strong>.
+      Please refer to our <a href="https://resources.payfactors.com/docs/Content/Resources/PDFs/Supported%20Browsers.pdf">Browser Support Policy</a>
+      for a full list of supported browsers, including Chrome, Firefox, and Microsoft Edge.
+    </p>
+  </div>
   <pf-auth-root></pf-auth-root>
 </body>
 </html>

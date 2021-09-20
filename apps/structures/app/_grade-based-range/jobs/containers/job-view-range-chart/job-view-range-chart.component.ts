@@ -9,6 +9,7 @@ import { GridDataResult, ContentScrollEvent } from '@progress/kendo-angular-grid
 import { RangeGroupMetadata } from 'libs/models/structures';
 import * as fromPfGridReducer from 'libs/features/grids/pf-data-grid/reducers';
 import { RangeDistributionTypeIds } from 'libs/constants/structures/range-distribution-type-ids';
+import { FormattersService } from 'libs/core/services/formatters.service';
 
 import { DataPointSeries, SalaryRangeSeries } from '../../../../shared/models';
 import { RangeDistributionDataPointTypeIds } from '../../../../shared/constants/range-distribution-data-point-type-ids';
@@ -290,14 +291,13 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
       avgPositionInRange: currentRow.CompanyJobs_Structures_GradeBased_Job_AveragePositionInRange,
       avgPay: `
         ${this.controlPointDisplay}:
-        ${StructuresHighchartsService
-        .formatCurrency(value, this.chartLocale, this.currency, this.rate, true)}
+        ${FormattersService.formatCurrency(value, this.chartLocale, this.currency, this.rate, true)}
       `
     });
   }
 
   private formatSalary(salary: number) {
-    return `Average ${this.controlPointDisplay}: ${StructuresHighchartsService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
+    return `Average ${this.controlPointDisplay}: ${FormattersService.formatCurrency(salary, this.chartLocale, this.currency, this.rate, true)}`;
   }
 
   private formatOutlierCount(min: boolean, count: number) {
@@ -305,7 +305,7 @@ export class JobViewRangeChartComponent implements OnInit, OnDestroy {
   }
 
   private formatDelta(min: boolean, delta: number) {
-    return StructuresHighchartsService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
+    return FormattersService.formatCurrency(delta, this.chartLocale, this.currency, this.rate, true)
       + (min ? ' to bring all to minimum' : ' above the maximum');
   }
 

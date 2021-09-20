@@ -33,7 +33,7 @@ describe('AutoShareModalComponent', () => {
     });
     store = TestBed.inject(Store);
     formBuilder = new FormBuilder();
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(AutoShareModalComponent);
     instance = fixture.componentInstance;

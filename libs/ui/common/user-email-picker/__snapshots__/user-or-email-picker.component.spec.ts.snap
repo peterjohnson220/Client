@@ -2,6 +2,7 @@
 
 exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -24,17 +25,17 @@ exports[`UserOrEmailPickerComponent should not show a spinner when no search is 
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
-    
-    
   </div>
 </pf-user-or-email-picker>
 `;
 
 exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -57,10 +58,10 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
-    
     <div
       class="picker-searching-icon"
     >
@@ -69,13 +70,13 @@ exports[`UserOrEmailPickerComponent should show a spinner when a search is in pr
         icon="circle-notch"
       />
     </div>
-    
   </div>
 </pf-user-or-email-picker>
 `;
 
 exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
 <pf-user-or-email-picker
+  __ngContext__={[Function LRootView]}
   companyApiService={[Function Object]}
   identity$={[Function Store]}
   identitySubscription={[Function Subscriber]}
@@ -98,11 +99,10 @@ exports[`UserOrEmailPickerComponent should show an error message when a search f
       autocorrect="off"
       class="form-control ng-untouched ng-pristine ng-valid"
       placeholder="Search by name or email"
+      placement="bottom-left"
       role="combobox"
       type="text"
     />
-    
-    
     <div
       class="form-control-feedback"
     >

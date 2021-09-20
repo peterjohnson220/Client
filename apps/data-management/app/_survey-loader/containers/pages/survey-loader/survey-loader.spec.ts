@@ -30,7 +30,7 @@ describe('SurveyLoaderComponent', () => {
     store = TestBed.inject(Store);
     fixture = TestBed.createComponent(SurveyLoaderComponent);
     instance = fixture.componentInstance;
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     instance.userContextSubscription = of(mockUserContext).subscribe();
     instance.processingSuccessSubscription = of(true).subscribe();
     instance.processingErrorSubscription = of(false).subscribe();
@@ -49,7 +49,7 @@ describe('SurveyLoaderComponent', () => {
   });
 
   it('should call uploadExcelFile when success is true', function () {
-    spyOn(instance, 'uploadExcelFile');
+    jest.spyOn(instance, 'uploadExcelFile');
     instance.handleSavingConfigGroupSuccess(true);
     expect(instance.uploadExcelFile).toBeCalled();
   });

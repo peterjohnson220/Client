@@ -23,7 +23,7 @@ describe('Data Insights - View All Fields Component', () => {
 
   it('should emit fieldAdded when IsSelected property of the selected field is false ', () => {
     const field = generateMockField();
-    spyOn(instance.fieldAdded, 'emit');
+    jest.spyOn(instance.fieldAdded, 'emit');
 
     instance.handleFieldSelected(field);
 
@@ -32,7 +32,7 @@ describe('Data Insights - View All Fields Component', () => {
 
   it('should emit fieldRemoved when IsSelected property of the selected field is true ', () => {
     const field = { ...generateMockField(), IsSelected: true };
-    spyOn(instance.fieldRemoved, 'emit');
+    jest.spyOn(instance.fieldRemoved, 'emit');
 
     instance.handleFieldSelected(field);
 
@@ -40,7 +40,7 @@ describe('Data Insights - View All Fields Component', () => {
   });
 
   it('should emit backButtonClicked when clicking on back button', () => {
-    spyOn(instance.backButtonClicked, 'emit');
+    jest.spyOn(instance.backButtonClicked, 'emit');
 
     instance.handleBackButtonClicked();
 

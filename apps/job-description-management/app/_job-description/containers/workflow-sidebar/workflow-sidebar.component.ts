@@ -30,7 +30,6 @@ import { WorkflowLogEntry, WorkflowStepSummaryItem } from '../../models';
 export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('fileDownloadSecurityWarningModal', { static: true }) fileDownloadSecurityWarningModal: FileDownloadSecurityWarningModalComponent;
   @Input() workflowStepInfo: WorkflowStepInfo;
-  @Input() workflowStepCompleted: boolean;
   @Input() isInSystemWorkflow: boolean;
   @Input() enableFileDownloadSecurityWarning: boolean;
   @Input() workflowId: number;
@@ -80,7 +79,7 @@ export class WorkflowSidebarComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(filter(jd => jd.obj !== null && jd.obj !== undefined),
         distinctUntilChanged((previous, current) => previous.obj.JobDescriptionId === current.obj.JobDescriptionId))
       .subscribe( jd => {
-        if (jd.obj.JobDescriptionId !== null && !this.workflowStepCompleted) {
+        if (jd.obj.JobDescriptionId !== null) {
           if (!!jd.obj.Attachments) {
             this.attachments = cloneDeep(jd.obj.Attachments);
             this.attachments.forEach(attachment => { this.setAttachmentIcons(attachment); });

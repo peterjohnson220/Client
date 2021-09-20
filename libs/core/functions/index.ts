@@ -14,3 +14,4 @@ export * from './add-jwt-auth-interceptor-header';
 export * from './array-move';
 export * from './append-ordinal-suffix';
 export * from './format-bytes';
+export * from './array-functions';

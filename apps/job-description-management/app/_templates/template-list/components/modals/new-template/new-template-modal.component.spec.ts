@@ -70,7 +70,7 @@ describe('Job Description Management - Templates - Template List - New Template 
   });
 
   it('should emit createTemplateComplete if template name valid', () => {
-    spyOn(instance.createTemplateComplete, 'emit');
+    jest.spyOn(instance.createTemplateComplete, 'emit');
     fixture.detectChanges();
     instance.templateNameForm.controls.templateName.setValue('Test2');
     instance.templateName = 'Test2';

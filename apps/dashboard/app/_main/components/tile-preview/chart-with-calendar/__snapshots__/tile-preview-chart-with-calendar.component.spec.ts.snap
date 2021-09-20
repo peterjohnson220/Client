@@ -2,13 +2,13 @@
 
 exports[`Tile Preview Chart With Calendar should not show chart without model.component data 1`] = `
 <pf-tile-preview-calendar-with-chart
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
   savingSetting$={[Function Store]}
   savingSettingName="null"
   savingSettingName$={[Function Store]}
   savingSettingSuccess$={[Function Store]}
   savingSettingSuccessSubscription={[Function Subscriber]}
-  seriesItemHighlightStyle={[Function Object]}
   store={[Function Store]}
 >
   <span
@@ -16,15 +16,13 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
   /><div
     class="flex-container"
   >
-    
-    
-    
   </div>
 </pf-tile-preview-calendar-with-chart>
 `;
 
 exports[`Tile Preview Chart With Calendar should show kendo chart when model.ChartComponentData.length > 0 1`] = `
 <pf-tile-preview-calendar-with-chart
+  __ngContext__={[Function LRootView]}
   model={[Function Object]}
   savingSetting$={[Function Store]}
   savingSettingName="null"
@@ -32,7 +30,6 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
   savingSettingSuccess$={[Function Store]}
   savingSettingSuccessSubscription={[Function Subscriber]}
   selectedDate={[Function Date]}
-  seriesItemHighlightStyle={[Function Object]}
   shouldGetPricingsBeforeEffectiveDate="false"
   store={[Function Store]}
 >
@@ -41,7 +38,6 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
   /><div
     class="flex-container"
   >
-    
     <div
       class="left-tile-area pt-5"
     >
@@ -56,7 +52,6 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
          0 
       </span>
     </div>
-    
     <div
       class="middle-tile-area"
     >
@@ -105,7 +100,6 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
         </span>
       </div>
     </div>
-    
     <div
       class="right-tile-area"
     >
@@ -119,10 +113,8 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
             field="Value"
           >
             <kendo-chart-series-item-tooltip>
-              
             </kendo-chart-series-item-tooltip>
           </kendo-chart-series-item>
-          
         </kendo-chart-series>
         <kendo-chart-legend />
       </kendo-chart>

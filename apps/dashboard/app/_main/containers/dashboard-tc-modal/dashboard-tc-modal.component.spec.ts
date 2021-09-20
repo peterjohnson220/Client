@@ -4,12 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store} from '@ngrx/store';
 
-import { generateMockTermsConditionsSubmissionModel, generateMockUserContext } from 'libs/models';
+import { generateMockTermsConditionsSubmissionModel } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import { DashboardTCModalComponent } from './dashboard-tc-modal.component';
 import * as fromDashboardTCActions from '../../actions/dashboard-tc-modal.actions';
+import { of } from 'rxjs';
 
 describe('Dashboard TC Modal', () => {
   let fixture: ComponentFixture<DashboardTCModalComponent>;
@@ -27,7 +27,9 @@ describe('Dashboard TC Modal', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: new ActivatedRouteStub()
+          useValue: {
+            queryParams: of({})
+          }
         }
     ],
       declarations: [
@@ -39,14 +41,14 @@ describe('Dashboard TC Modal', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(DashboardTCModalComponent);
     instance = fixture.componentInstance;
   });
 
   it('should call loadTCIfFromLogin upon Init', () => {
-    spyOn(instance, 'loadTCIfFromLogin');
+    jest.spyOn(instance, 'loadTCIfFromLogin');
 
     instance.ngOnInit();
 

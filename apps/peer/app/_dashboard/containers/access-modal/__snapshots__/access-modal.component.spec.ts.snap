@@ -2,6 +2,7 @@
 
 exports[`Peer - Exchange Request - Access Modal should provide correct values to the pf-modal-form component 1`] = `
 <pf-access-exchange-request-modal
+  __ngContext__={[Function LRootView]}
   accessExchangeRequestModalOpen$={[Function Store]}
   accessExchangeRequestModalOpenSubscription={[Function Subscriber]}
   accessExchangeRequesting$={[Function Store]}
@@ -28,9 +29,7 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
     class="ng-untouched ng-pristine ng-invalid"
     title="Request Access to an Exchange"
   >
-    
     <pf-card-selector>
-      
       <div
         class="filter"
       >
@@ -66,7 +65,6 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
         value=""
       />
     </div>
-    
   </pf-modal-form>
 </pf-access-exchange-request-modal>
 `;

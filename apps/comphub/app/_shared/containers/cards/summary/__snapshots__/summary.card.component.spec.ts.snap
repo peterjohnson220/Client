@@ -2,6 +2,7 @@
 
 exports[`Comphub - Shared - Summary Card Component should display - as the min wage when there is no wage data 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
@@ -56,15 +57,12 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -96,8 +94,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -128,7 +124,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -144,7 +139,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               data-qa-id="cnt-payMarketName"
             >
                National 
-              
             </div>
           </div>
           <div
@@ -199,8 +193,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -211,7 +203,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -225,7 +216,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -248,9 +238,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -264,7 +251,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -306,8 +292,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -348,7 +332,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -402,8 +385,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -446,15 +427,12 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="v"
                     >
                        National 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -473,10 +451,9 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -500,10 +477,9 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -512,8 +488,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -521,7 +495,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -533,7 +506,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -560,14 +532,12 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -599,8 +569,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -631,7 +599,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -647,7 +614,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       data-qa-id="cnt-payMarketName"
                     >
                        National 
-                      
                     </div>
                   </div>
                   <div
@@ -702,8 +668,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -714,7 +678,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -728,7 +691,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -751,9 +713,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -767,7 +726,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -809,8 +767,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -851,7 +807,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -905,8 +860,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -949,15 +902,12 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                               class="v"
                             >
                                National 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -976,10 +926,9 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -1003,10 +952,9 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -1015,8 +963,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -1024,7 +970,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -1036,7 +981,6 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -1048,13 +992,11 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -1067,6 +1009,7 @@ exports[`Comphub - Shared - Summary Card Component should display - as the min w
 
 exports[`Comphub - Shared - Summary Card Component should display CAD for currency when active market data is Canada 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
@@ -1121,15 +1064,12 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -1161,8 +1101,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -1193,7 +1131,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -1209,7 +1146,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               data-qa-id="cnt-payMarketName"
             >
                National 
-              
             </div>
           </div>
           <div
@@ -1264,8 +1200,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -1276,7 +1210,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -1290,7 +1223,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -1313,9 +1245,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -1329,7 +1258,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -1371,8 +1299,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -1413,7 +1339,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -1467,8 +1392,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -1511,15 +1434,12 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="v"
                     >
                        National 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -1538,10 +1458,9 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -1565,10 +1484,9 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -1577,8 +1495,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -1586,7 +1502,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -1598,7 +1513,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -1625,14 +1539,12 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -1664,8 +1576,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -1696,7 +1606,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -1712,7 +1621,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       data-qa-id="cnt-payMarketName"
                     >
                        National 
-                      
                     </div>
                   </div>
                   <div
@@ -1767,8 +1675,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -1779,7 +1685,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -1793,7 +1698,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -1816,9 +1720,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -1832,7 +1733,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -1874,8 +1774,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -1916,7 +1814,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -1970,8 +1867,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -2014,15 +1909,12 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                               class="v"
                             >
                                National 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -2041,10 +1933,9 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -2068,10 +1959,9 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -2080,8 +1970,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -2089,7 +1977,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -2101,7 +1988,6 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -2113,13 +1999,11 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -2132,6 +2016,7 @@ exports[`Comphub - Shared - Summary Card Component should display CAD for curren
 
 exports[`Comphub - Shared - Summary Card Component should display USD for currency when active market data is USA 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
@@ -2186,15 +2071,12 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -2226,8 +2108,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -2258,7 +2138,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -2274,7 +2153,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               data-qa-id="cnt-payMarketName"
             >
                National 
-              
             </div>
           </div>
           <div
@@ -2329,8 +2207,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -2341,7 +2217,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -2355,7 +2230,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -2378,9 +2252,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -2394,7 +2265,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -2436,8 +2306,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -2478,7 +2346,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -2532,8 +2399,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -2576,15 +2441,12 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="v"
                     >
                        National 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -2603,10 +2465,9 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -2630,10 +2491,9 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -2642,8 +2502,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -2651,7 +2509,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -2663,7 +2520,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -2690,14 +2546,12 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -2729,8 +2583,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -2761,7 +2613,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -2777,7 +2628,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       data-qa-id="cnt-payMarketName"
                     >
                        National 
-                      
                     </div>
                   </div>
                   <div
@@ -2832,8 +2682,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -2844,7 +2692,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -2858,7 +2705,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -2881,9 +2727,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -2897,7 +2740,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -2939,8 +2781,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -2981,7 +2821,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -3035,8 +2874,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -3079,15 +2916,12 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                               class="v"
                             >
                                National 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -3106,10 +2940,9 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -3133,10 +2966,9 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -3145,8 +2977,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -3154,7 +2984,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -3166,7 +2995,6 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -3178,13 +3006,11 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -3197,6 +3023,7 @@ exports[`Comphub - Shared - Summary Card Component should display USD for curren
 
 exports[`Comphub - Shared - Summary Card Component should display min wage range if min and max are different 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
@@ -3251,15 +3078,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -3291,8 +3115,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -3323,7 +3145,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -3339,7 +3160,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               data-qa-id="cnt-payMarketName"
             >
                National 
-              
             </div>
           </div>
           <div
@@ -3394,8 +3214,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -3406,7 +3224,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -3420,7 +3237,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -3443,9 +3259,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -3459,7 +3272,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -3501,8 +3313,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -3543,7 +3353,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -3597,8 +3406,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -3641,15 +3448,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="v"
                     >
                        National 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -3668,10 +3472,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -3695,10 +3498,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -3707,8 +3509,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -3716,7 +3516,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -3728,7 +3527,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -3755,14 +3553,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -3794,8 +3590,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -3826,7 +3620,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -3842,7 +3635,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       data-qa-id="cnt-payMarketName"
                     >
                        National 
-                      
                     </div>
                   </div>
                   <div
@@ -3897,8 +3689,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -3909,7 +3699,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -3923,7 +3712,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -3946,9 +3734,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -3962,7 +3747,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -4004,8 +3788,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -4046,7 +3828,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -4100,8 +3881,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -4144,15 +3923,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                               class="v"
                             >
                                National 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -4171,10 +3947,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -4198,10 +3973,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -4210,8 +3984,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -4219,7 +3991,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -4231,7 +4002,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -4243,13 +4013,11 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -4262,6 +4030,7 @@ exports[`Comphub - Shared - Summary Card Component should display min wage range
 
 exports[`Comphub - Shared - Summary Card Component should display min wage when available 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
@@ -4316,15 +4085,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -4356,8 +4122,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -4388,7 +4152,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -4404,7 +4167,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               data-qa-id="cnt-payMarketName"
             >
                National 
-              
             </div>
           </div>
           <div
@@ -4459,8 +4221,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -4471,7 +4231,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -4485,7 +4244,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -4508,9 +4266,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -4524,7 +4279,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -4566,8 +4320,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -4608,7 +4360,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -4662,8 +4413,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -4706,15 +4455,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="v"
                     >
                        National 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -4733,10 +4479,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -4760,10 +4505,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -4772,8 +4516,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -4781,7 +4523,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -4793,7 +4534,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -4820,14 +4560,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -4859,8 +4597,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -4891,7 +4627,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -4907,7 +4642,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       data-qa-id="cnt-payMarketName"
                     >
                        National 
-                      
                     </div>
                   </div>
                   <div
@@ -4962,8 +4696,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -4974,7 +4706,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -4988,7 +4719,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -5011,9 +4741,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -5027,7 +4754,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -5069,8 +4795,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -5111,7 +4835,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -5165,8 +4888,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -5209,15 +4930,12 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                               class="v"
                             >
                                National 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -5236,10 +4954,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -5263,10 +4980,9 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -5275,8 +4991,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -5284,7 +4998,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -5296,7 +5009,6 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -5308,13 +5020,11 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -5327,6 +5037,7 @@ exports[`Comphub - Shared - Summary Card Component should display min wage when 
 
 exports[`Comphub - Shared - Summary Card Component should hide create project button has access to projects tile but no paymarketId 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
@@ -5381,15 +5092,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -5421,8 +5129,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -5453,7 +5159,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -5469,7 +5174,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               data-qa-id="cnt-payMarketName"
             >
                Boston 
-              
             </div>
           </div>
           <div
@@ -5524,8 +5228,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -5536,7 +5238,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -5550,7 +5251,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -5573,9 +5273,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -5589,7 +5286,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -5631,8 +5327,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -5673,7 +5367,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -5727,8 +5420,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -5771,15 +5462,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -5798,10 +5486,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -5825,10 +5512,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -5837,8 +5523,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -5846,7 +5530,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -5858,7 +5541,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -5885,14 +5567,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -5924,8 +5604,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -5956,7 +5634,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -5972,7 +5649,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       data-qa-id="cnt-payMarketName"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                   <div
@@ -6027,8 +5703,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -6039,7 +5713,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -6053,7 +5726,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -6076,9 +5748,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -6092,7 +5761,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -6134,8 +5802,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -6176,7 +5842,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -6230,8 +5895,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -6274,15 +5937,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                               class="v"
                             >
                                Boston 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -6301,10 +5961,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -6328,10 +5987,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -6340,8 +5998,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -6349,7 +6005,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -6361,7 +6016,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -6373,13 +6027,11 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -6392,6 +6044,7 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
 
 exports[`Comphub - Shared - Summary Card Component should hide create project button when no access to projects tile 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
@@ -6446,15 +6099,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -6486,8 +6136,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -6518,7 +6166,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -6534,7 +6181,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               data-qa-id="cnt-payMarketName"
             >
                Boston 
-              
             </div>
           </div>
           <div
@@ -6589,8 +6235,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -6601,7 +6245,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -6615,7 +6258,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -6638,9 +6280,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                   icon="share"
                 />
               </button>
-              
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -6654,7 +6293,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -6696,8 +6334,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -6738,7 +6374,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -6792,8 +6427,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -6836,15 +6469,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -6863,10 +6493,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -6890,10 +6519,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -6902,8 +6530,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -6911,7 +6537,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -6923,7 +6548,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -6950,14 +6574,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -6989,8 +6611,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -7021,7 +6641,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -7037,7 +6656,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       data-qa-id="cnt-payMarketName"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                   <div
@@ -7092,8 +6710,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -7104,7 +6720,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -7118,7 +6733,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -7141,9 +6755,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                           icon="share"
                         />
                       </button>
-                      
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -7157,7 +6768,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -7199,8 +6809,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -7241,7 +6849,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -7295,8 +6902,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -7339,15 +6944,12 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                               class="v"
                             >
                                Boston 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -7366,10 +6968,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -7393,10 +6994,9 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -7405,8 +7005,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -7414,7 +7012,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -7426,7 +7023,6 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -7438,13 +7034,11 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
@@ -7457,6 +7051,7 @@ exports[`Comphub - Shared - Summary Card Component should hide create project bu
 
 exports[`Comphub - Shared - Summary Card Component should show create project button when has access to projects tile 1`] = `
 <pf-summary-card
+  __ngContext__={[Function LRootView]}
   calculatingJobData$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
@@ -7511,15 +7106,12 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
     pagesubtitle="Let's review a summary of your pricing activity"
     pagetitle="Summary"
   >
-    
-    
     <div
       class="h-100 summary-container"
     >
       <div
         class="d-flex"
       >
-        
         <div
           class="info-sidebar h-100"
         >
@@ -7551,8 +7143,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               class="v"
               data-qa-id="cnt-effectiveDate"
             >
-              
-              
                03/01/2019 
             </div>
           </div>
@@ -7583,7 +7173,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               class="v"
               data-qa-id="cnt-currency"
             >
-                
             </div>
           </div>
           <div
@@ -7599,7 +7188,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               data-qa-id="cnt-payMarketName"
             >
                Boston 
-              
             </div>
           </div>
           <div
@@ -7654,8 +7242,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               class="h"
             >
               Size 
-              
-              
               (Employees)
             </div>
             <div
@@ -7666,7 +7252,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
             </div>
           </div>
         </div>
-        
         <div
           class="summary"
         >
@@ -7680,7 +7265,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               class="job-title"
               data-qa-id="cnt-jobTitle"
             >
-                
             </div>
             <div
               class="actions"
@@ -7703,7 +7287,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                   icon="share"
                 />
               </button>
-              
               <button
                 class="btn btn-secondary"
                 data-qa-id="btn-create-project"
@@ -7713,8 +7296,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                   icon="file-plus"
                 />
               </button>
-              
-              
               <button
                 class="btn btn-secondary glossary-btn"
                 data-qa-id="btn-open-glossary"
@@ -7728,7 +7309,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               </button>
             </div>
           </div>
-          
           <div
             class="info-horizontal"
           >
@@ -7770,8 +7350,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                     <div
                       class="v"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -7812,7 +7390,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                     <div
                       class="v"
                     >
-                      
                     </div>
                   </div>
                 </div>
@@ -7866,8 +7443,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -7910,15 +7485,12 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="v"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
           <div
             class="graphs"
           >
@@ -7937,10 +7509,9 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -7964,10 +7535,9 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                 <span
                   class="currency"
                 >
-                  
                 </span>
                 <span>
-                  
+                  0
                 </span>
               </div>
               <div
@@ -7976,8 +7546,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                 <pf-salary-bar-chart />
               </div>
             </div>
-            
-            
             <div
               class="g"
             >
@@ -7985,7 +7553,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                 class="h"
               >
                  Salary Trend 
-                
               </div>
               <div
                 class="gr"
@@ -7997,7 +7564,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
           <div
             class="job-description-wrapper"
           >
-            
             <div
               class="job-description"
             >
@@ -8024,14 +7590,12 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            
             <div
               class="h-100 summary-container"
             >
               <div
                 class="d-flex"
               >
-                
                 <div
                   class="info-sidebar h-100"
                 >
@@ -8063,8 +7627,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="v"
                       data-qa-id="cnt-effectiveDate"
                     >
-                      
-                      
                        03/01/2019 
                     </div>
                   </div>
@@ -8095,7 +7657,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="v"
                       data-qa-id="cnt-currency"
                     >
-                        
                     </div>
                   </div>
                   <div
@@ -8111,7 +7672,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       data-qa-id="cnt-payMarketName"
                     >
                        Boston 
-                      
                     </div>
                   </div>
                   <div
@@ -8166,8 +7726,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="h"
                     >
                       Size 
-                      
-                      
                       (Employees)
                     </div>
                     <div
@@ -8178,7 +7736,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                     </div>
                   </div>
                 </div>
-                
                 <div
                   class="summary"
                 >
@@ -8192,7 +7749,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       class="job-title"
                       data-qa-id="cnt-jobTitle"
                     >
-                        
                     </div>
                     <div
                       class="actions"
@@ -8215,7 +7771,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                           icon="share"
                         />
                       </button>
-                      
                       <button
                         class="btn btn-secondary"
                         data-qa-id="btn-create-project"
@@ -8225,8 +7780,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                           icon="file-plus"
                         />
                       </button>
-                      
-                      
                       <button
                         class="btn btn-secondary glossary-btn"
                         data-qa-id="btn-open-glossary"
@@ -8240,7 +7793,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                       </button>
                     </div>
                   </div>
-                  
                   <div
                     class="info-horizontal"
                   >
@@ -8282,8 +7834,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                             <div
                               class="v"
                             >
-                              
-                              
                                03/01/2019 
                             </div>
                           </div>
@@ -8324,7 +7874,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                             <div
                               class="v"
                             >
-                              
                             </div>
                           </div>
                         </div>
@@ -8378,8 +7927,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                               class="h"
                             >
                               Size 
-                              
-                              
                               (Employees)
                             </div>
                             <div
@@ -8422,15 +7969,12 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                               class="v"
                             >
                                Boston 
-                              
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
                   <div
                     class="graphs"
                   >
@@ -8449,10 +7993,9 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -8476,10 +8019,9 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                         <span
                           class="currency"
                         >
-                          
                         </span>
                         <span>
-                          
+                          0
                         </span>
                       </div>
                       <div
@@ -8488,8 +8030,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                         <pf-salary-bar-chart />
                       </div>
                     </div>
-                    
-                    
                     <div
                       class="g"
                     >
@@ -8497,7 +8037,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                         class="h"
                       >
                          Salary Trend 
-                        
                       </div>
                       <div
                         class="gr"
@@ -8509,7 +8048,6 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                   <div
                     class="job-description-wrapper"
                   >
-                    
                     <div
                       class="job-description"
                     >
@@ -8521,13 +8059,11 @@ exports[`Comphub - Shared - Summary Card Component should show create project bu
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </kendo-pdf-export>
     </div>
     <pf-glossary-of-terms />
-    
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"

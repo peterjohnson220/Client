@@ -3,19 +3,25 @@
 exports[`Project - Add Jobs - Jobs Page should not display GUI features related to job count in non small biz companies, and should display the "normal" result count  1`] = `
 <pf-add-jobs-page
   _Permissions={[Function Function]}
+  __ngContext__={[Function LRootView]}
   addJobsConfig={[Function Object]}
   addingData$={[Function Store]}
   addingDataError$={[Function Store]}
   addingDataErrorMessage$={[Function Store]}
   currentJobCountSetting="0"
+  display={[Function String]}
   injectedAddJobsConfig="null"
+  isAddJobsModalOpen$={[Function Store]}
   isSmallBiz="false"
+  legacyImplementation={[Function Boolean]}
+  loadingResults$={[Function Store]}
   maxAllowedJobsSetting="0"
   numberOfResults$={[Function Observable]}
   numberOfSearchResults$={[Function Store]}
   pageShown$={[Function Observable]}
   route={[Function Object]}
   router={[Function Object]}
+  searchError$={[Function Store]}
   searchFeatureId={[Function String]}
   searchFilterMappingDataObj={[Function Object]}
   searchingChildFilters$={[Function Store]}
@@ -29,8 +35,6 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
   userFilterTypeData={[Function Object]}
 >
   <pf-search-layout>
-    
-    
     <div
       class="create-new-job"
       data-qa-id="btn-createNewJobNav"
@@ -43,15 +47,9 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       </div>
     </div>
     <pf-search-filters />
-    
-    
     <pf-results-header />
     <pf-job-search-results />
-    
     <pf-paymarkets />
-    
-    
-    
     <span>
       <button
         class="btn btn-sm btn-secondary mr-3 clear-selections"
@@ -64,11 +62,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
         data-qa-id="btn-addJobs"
         disabled=""
       >
-        
-        
          Add 
-        
-        
       </button>
       <button
         class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
@@ -76,9 +70,7 @@ exports[`Project - Add Jobs - Jobs Page should not display GUI features related 
       >
          Cancel 
       </button>
-      
     </span>
-    
   </pf-search-layout>
 </pf-add-jobs-page>
 `;

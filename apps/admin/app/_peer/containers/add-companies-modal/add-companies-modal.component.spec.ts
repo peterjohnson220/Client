@@ -64,7 +64,7 @@ describe('Add Companies Modal', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     routeIdParam = activatedRoute.parent.snapshot.params.id;
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(AddCompaniesModalComponent);
     instance = fixture.componentInstance;
@@ -82,7 +82,7 @@ describe('Add Companies Modal', () => {
   });
 
   it('should call loadAvailableCompanies onInit when the modal is opened', () => {
-    spyOn(instance, 'loadAvailableCompanies');
+    jest.spyOn(instance, 'loadAvailableCompanies');
 
     instance.addCompaniesModalOpen$ = of(true);
 
@@ -93,7 +93,7 @@ describe('Add Companies Modal', () => {
 
   it('should call selectionsControl.setErrors when addingCompaniesError$ is true', () => {
     const error = {'error': 'There was an error adding the selected companies.'};
-    spyOn(instance.selectionsControl, 'setErrors');
+    jest.spyOn(instance.selectionsControl, 'setErrors');
 
     instance.addingCompaniesError$ = of(true);
 
@@ -183,7 +183,7 @@ describe('Add Companies Modal', () => {
       GridTypeEnum.AvailableCompanies,
       {columnName: 'CompanyName', value: newSearchTerm}
     );
-    spyOn(instance, 'loadAvailableCompanies');
+    jest.spyOn(instance, 'loadAvailableCompanies');
 
     fixture.detectChanges();
 
@@ -214,7 +214,7 @@ describe('Add Companies Modal', () => {
   event is triggered`, () => {
     const pageChangeEvent = {skip: 20, take: 10};
     const expectedAction = new fromGridActions.PageChange(GridTypeEnum.AvailableCompanies, pageChangeEvent);
-    spyOn(instance, 'loadAvailableCompanies');
+    jest.spyOn(instance, 'loadAvailableCompanies');
 
     fixture.detectChanges();
 
@@ -230,7 +230,7 @@ describe('Add Companies Modal', () => {
    event is triggered`, () => {
     const sortDescriptors: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
     const expectedAction = new fromGridActions.SortChange(GridTypeEnum.AvailableCompanies, sortDescriptors);
-    spyOn(instance, 'loadAvailableCompanies');
+    jest.spyOn(instance, 'loadAvailableCompanies');
 
     fixture.detectChanges();
 
@@ -286,7 +286,7 @@ describe('Add Companies Modal', () => {
   });
   // TODO: Was unable to get the subscription to fire the second time, preventing the text from appearing (JP)
 /*  it('should show error message when addingCompaniesError$ is true and a submit has been attempted', () => {
-    spyOn(instance, 'addingCompaniesError$').and.returnValue(of(true));
+    jest.spyOn(instance, 'addingCompaniesError$').and.returnValue(of(true));
     instance.selectionsControl.setValue([1]);
     instance.selectionsControl.markAsDirty();
     instance.selectionsControl.markAsTouched();

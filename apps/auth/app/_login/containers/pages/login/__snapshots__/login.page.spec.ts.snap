@@ -2,6 +2,7 @@
 
 exports[`Auth - Login should disable and show correct login button text when logging in 1`] = `
 <pf-login-page
+  __ngContext__={[Function LRootView]}
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   featureFlagService={[Function Object]}
@@ -41,15 +42,10 @@ exports[`Auth - Login should disable and show correct login button text when log
       <div
         class="image-container"
       >
-        
-        
-        
         <img
           class="image-container"
-          src="null"
+          src=""
         />
-        
-        
       </div>
     </div>
     <div
@@ -65,10 +61,7 @@ exports[`Auth - Login should disable and show correct login button text when log
           <div
             class="error-spacer"
           >
-            
-            
           </div>
-          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -97,6 +90,7 @@ exports[`Auth - Login should disable and show correct login button text when log
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -113,8 +107,6 @@ exports[`Auth - Login should disable and show correct login button text when log
               id="Login"
               type="submit"
             >
-              
-              
               <span>
                 LOGGING IN...
               </span>
@@ -131,7 +123,6 @@ exports[`Auth - Login should disable and show correct login button text when log
           </div>
         </div>
       </form>
-      
       <div
         class="mt-5 mb-2 d-flex flex-column justify-content-center"
       >
@@ -152,6 +143,7 @@ exports[`Auth - Login should disable and show correct login button text when log
 
 exports[`Auth - Login should show error notification on submitError 1`] = `
 <pf-login-page
+  __ngContext__={[Function LRootView]}
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   featureFlagService={[Function Object]}
@@ -191,15 +183,10 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
       <div
         class="image-container"
       >
-        
-        
-        
         <img
           class="image-container"
-          src="null"
+          src=""
         />
-        
-        
       </div>
     </div>
     <div
@@ -215,10 +202,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           <div
             class="error-spacer"
           >
-            
-            
           </div>
-          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -247,6 +231,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -263,11 +248,9 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
               id="Login"
               type="submit"
             >
-              
               <span>
                 LOG IN
               </span>
-              
             </button>
           </div>
           <div
@@ -281,7 +264,6 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           </div>
         </div>
       </form>
-      
       <div
         class="mt-5 mb-2 d-flex flex-column justify-content-center"
       >
@@ -302,6 +284,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
 
 exports[`Auth - Login should show login when page is loaded 1`] = `
 <pf-login-page
+  __ngContext__={[Function LRootView]}
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   featureFlagService={[Function Object]}
@@ -341,15 +324,10 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
       <div
         class="image-container"
       >
-        
-        
-        
         <img
           class="image-container"
-          src="null"
+          src=""
         />
-        
-        
       </div>
     </div>
     <div
@@ -365,10 +343,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           <div
             class="error-spacer"
           >
-            
-            
           </div>
-          
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -397,6 +372,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -413,11 +389,9 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
               id="Login"
               type="submit"
             >
-              
               <span>
                 LOG IN
               </span>
-              
             </button>
           </div>
           <div
@@ -431,7 +405,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           </div>
         </div>
       </form>
-      
       <div
         class="mt-5 mb-2 d-flex flex-column justify-content-center"
       >
@@ -452,6 +425,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
 
 exports[`Auth - Login should show password expired notification on submitError 1`] = `
 <pf-login-page
+  __ngContext__={[Function LRootView]}
   allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   featureFlagService={[Function Object]}
@@ -491,15 +465,10 @@ exports[`Auth - Login should show password expired notification on submitError 1
       <div
         class="image-container"
       >
-        
-        
-        
         <img
           class="image-container"
-          src="null"
+          src=""
         />
-        
-        
       </div>
     </div>
     <div
@@ -515,8 +484,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
           <div
             class="error-spacer"
           >
-            
-            
             <p
               class="alert-danger error-container text-center p-3 position-absolute"
               id="passwordExpiredMessage"
@@ -524,7 +491,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
                The email and password combination has expired, please select Reset Password below. 
             </p>
           </div>
-          
           <br />
           <label
             class="text-uppercase font-weight-bold"
@@ -554,6 +520,7 @@ exports[`Auth - Login should show password expired notification on submitError 1
             class="form-group pb-4"
           >
             <input
+              autocomplete="off"
               class="form-control login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="password"
               id="password"
@@ -570,11 +537,9 @@ exports[`Auth - Login should show password expired notification on submitError 1
               id="Login"
               type="submit"
             >
-              
               <span>
                 LOG IN
               </span>
-              
             </button>
           </div>
           <div
@@ -588,7 +553,6 @@ exports[`Auth - Login should show password expired notification on submitError 1
           </div>
         </div>
       </form>
-      
       <div
         class="mt-5 mb-2 d-flex flex-column justify-content-center"
       >

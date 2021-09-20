@@ -29,7 +29,7 @@ describe('Data Insights - Data View - Formula Editor', () => {
   });
 
   it('should emit formulaChanged when handling input value changed', () => {
-    spyOn(instance.formulaChanged, 'emit');
+    jest.spyOn(instance.formulaChanged, 'emit');
 
     instance.handleInputValueChanged('[Employee.Base]');
 

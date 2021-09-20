@@ -90,7 +90,7 @@ export class HospitalitySignupPageComponent implements OnInit, OnDestroy {
       CompanyId: ['', PfValidators.required],
       PropertyType: ['', PfValidators.required],
       AccessCode: ['', PfValidators.required],
-      PaymentOption: ['', PfValidators.required],
+      PaymentOption: ['now'],
       Captcha: ['', PfValidators.required]
     });
   }

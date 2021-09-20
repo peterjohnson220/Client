@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import {
   YoyDsSurveysResponse, YoyDsToMapResponse, YoySurveyScopesResponse, YoyDsMapRequest,
-  GetCompanySurveysRequest, GetCompanySurveysResponse, GetJobMatchesRequest
+  GetCompanySurveysRequest, GetCompanySurveysResponse, GetJobMatchesRequest, ExportSurveySummaryRequest
 } from '../../../models/payfactors-api';
 import { UdfDataResponse } from '../../../models/payfactors-api/survey/response/udf-data-response.model';
 import { CombinedScopeViewModel, SurveyDataCountryAccessDto, SurveyInfoByCompanyDto, SurveyJobDetails, SurveyParticipation } from 'libs/models';
@@ -82,5 +82,9 @@ export class SurveyApiService {
   getJobMatches(request: GetJobMatchesRequest): Observable<string[]> {
     return this.payfactorsApiService.post<string[]>(`${this.endpoint}/Default.GetJobMatches`,
       {JobMatchesRequest: request});
+  }
+
+  exportSurveySummaryReport(): Observable<string> {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}/Default.ExportSurveySummaryReport`);
   }
 }

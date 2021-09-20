@@ -4,10 +4,12 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromEmployeesPageReducer from './employees-page.reducer';
+import * as fromEmployeeInsightsReducer from './employee-insights.reducer';
 
 // Feature area state
 export interface EmployeesMainState {
   employeesPage: fromEmployeesPageReducer.State;
+  employeeInsights: fromEmployeeInsightsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -17,7 +19,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  employeesPage: fromEmployeesPageReducer.reducer
+  employeesPage: fromEmployeesPageReducer.reducer,
+  employeeInsights: fromEmployeeInsightsReducer.reducer
 };
 
 // Select Feature Area
@@ -29,6 +32,11 @@ export const selectEmployeesPageState = createSelector(
   (state: EmployeesMainState) => state.employeesPage
 );
 
+export const selectEmployeesInsightsState = createSelector(
+  selectFeatureAreaState,
+  (state: EmployeesMainState) => state.employeeInsights
+);
+
 // Employees Page
 export const getPricingJobs = createSelector(
   selectEmployeesPageState,
@@ -38,4 +46,16 @@ export const getPricingJobs = createSelector(
 export const getPricingsJobsError = createSelector(
   selectEmployeesPageState,
   fromEmployeesPageReducer.getPricingsJobsError
+);
+
+// Employees Insights
+
+export const getEmployeeInsights = createSelector(
+  selectEmployeesInsightsState,
+  fromEmployeeInsightsReducer.getEmployeeInsights
+);
+
+export const getCustomEmployeeFields = createSelector(
+  selectEmployeesInsightsState,
+  fromEmployeeInsightsReducer.getCustomEmployeeFields
 );

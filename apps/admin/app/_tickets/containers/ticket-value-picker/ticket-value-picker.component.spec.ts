@@ -39,7 +39,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
   }));
 
   it('should dispatch update ticket action when a field value is changed', () => {
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
 
     component.pickerType = TicketFieldType.STATUS;
     component.ticketId = 1;
@@ -56,7 +56,7 @@ describe('Admin - Tickets - Ticket Value Picker', () => {
   });
 
   it('should not dispatch update ticket action if picker type doesnt exist', () => {
-    const spy = spyOn(store, 'dispatch');
+    const spy = jest.spyOn(store, 'dispatch');
 
     component.pickerType = TicketFieldType.CREATED;
 

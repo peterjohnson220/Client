@@ -13,14 +13,14 @@
   (onDismiss)="onCancelChanges()"
   (onSubmit)="onSubmit()">
   <ng-container form-content>
-    <div class="container" [style.max-height]="'600px'" [style.overflow]="'auto'">
+    <div class="container project-field-form-container">
       <pf-async-container
         [loading]="(templateFieldsAsync$ | async)?.loading || (saving$ | async)"
         [loadingError]="(templateFieldsAsync$ | async)?.loadingError"
         [loadingErrorMessage]="'Error Loading Template'">
         <form id="template-form" [formGroup]="projectTemplateForm" autocomplete="nope">
           <input type="hidden" formControlName="CompositeFieldIds" />
-          <div class="form-group">
+          <div class="form-group" *ngIf="featureImplementation === featureImplementations.PROJECT_TEMPLATES">
             <label class="col-form-label">Template Name <span class="text-danger">*</span></label>
             <div class="d-flex">
               <input data-qa-id="txt-template-form-template-name" type="text" class="form-control col-6"
@@ -37,19 +37,30 @@
           <ul ngbNav #nav="ngbNav" class="nav-tabs"
               [destroyOnHide]="false"
               [activeId]="activeTab">
-            <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs">
+            <li [ngbNavItem]="tab" *ngFor="let tab of modalTabs;let tabIndex = index;">
               <a ngbNavLink class="tab-title">
                 {{ tab }}
               </a>
               <ng-template ngbNavContent>
                 <ng-container *ngIf="!!templateConfiguration && templateConfiguration[tab]">
                   <ngb-accordion #accordion class="w-100" #acc="ngbAccordion" [activeIds]="activeAccordionIds">
-                    <ngb-panel *ngFor="let category of getKeys(templateConfiguration[tab]);trackBy: trackByCategory" [id]="tab + '_' + category">
+                    <ngb-panel *ngFor="let category of getKeys(templateConfiguration[tab]);trackBy: trackByCategory;let panelIndex = index;" [id]="'panel-'+ tabIndex + '-' + panelIndex">
                       <ng-template ngbPanelHeader>
-                        <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle(tab + '_' + category)">
-                          <h5>{{category}}</h5>
-                          <fa-icon icon="caret-down" *ngIf="acc.isExpanded(tab + '_' + category)"></fa-icon>
-                          <fa-icon icon="caret-right" *ngIf="!acc.isExpanded(tab + '_' + category)"></fa-icon>
+                        <div class="group-header w-100 d-flex align-items-center justify-content-between" (click)="acc.toggle('panel-'+ tabIndex + '-' + panelIndex)">
+                          <div class="row align-items-center category-header pl-2">
+                            <input
+                              type="checkbox"
+                              class="select-all-checkbox mr-2"
+                              [attr.data-qa-id]="'au-chk-select-all-' + category"
+                              (click)="$event.stopPropagation()"
+                              (change)="handleSelectAllClicked($event, category)"
+                              [checked]="templateConfiguration[tab][category]?.Fields | selectAllStatus : 'All'"
+                              [indeterminate]="templateConfiguration[tab][category]?.Fields | selectAllStatus : 'Indeterminate'"
+                            >
+                            <h5>{{category}}</h5>
+                          </div>
+                          <fa-icon icon="caret-down" *ngIf="acc.isExpanded('panel-'+ tabIndex + '-' + panelIndex)"></fa-icon>
+                          <fa-icon icon="caret-right" *ngIf="!acc.isExpanded('panel-'+ tabIndex + '-' + panelIndex)"></fa-icon>
                         </div>
                       </ng-template>
                       <ng-template ngbPanelContent>
@@ -65,6 +76,10 @@
                                      (change)="handleSelectionChanged(field)"/>
                               {{field.DisplayName}}
                             </label>
+                            <!--
+                              The numeric textbox should only be formatted for decimal display if a decimal exists
+                              Display 50 instead of 50.00 all the time. Need to get the current value off of the form to check
+                            -->
                             <kendo-numerictextbox
                               [formControlName]="getMrpControl(field)"
                               (valueChange)="updateMrpValues()"
@@ -73,7 +88,9 @@
                               [autoCorrect]="true"
                               [min]="1"
                               [max]="99"
-                              [format]="'n0'">
+                              [format]="projectTemplateForm?.getRawValue()[getMrpControl(field)]?.toString().indexOf('.') > - 1
+                              ? 'n2'
+                              : 'n0'">
                             </kendo-numerictextbox>
                           </div>
                         </div>

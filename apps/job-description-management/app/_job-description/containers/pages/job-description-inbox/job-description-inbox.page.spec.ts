@@ -35,7 +35,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   });
 
   it('should dispatch a LoadInbox action upon ngOnInit', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.LoadInbox();
 
@@ -45,7 +45,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   });
 
   it('should dispatch a GetUnreadInboxCount action upon ngOnInit', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.GetUnreadInboxCount();
 
@@ -55,7 +55,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   });
 
   it('should dispatch an UnselectAll action upon onClearSelections clicked ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UnselectAll();
 
@@ -65,7 +65,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   });
 
   it('should dispatch an UpdateInboxReadBulk action upon onMarkRead clicked ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxReadBulk();
 
@@ -75,7 +75,7 @@ describe('Job Description Manager - Job Description Inbox Page', () => {
   });
 
   it('should dispatch an UpdateInboxReadBulk action upon onMarkUnread clicked ', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     const expectedAction = new fromJobDescriptionInboxActions.UpdateInboxUnreadBulk();
 

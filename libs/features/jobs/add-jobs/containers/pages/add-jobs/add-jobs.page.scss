@@ -40,8 +40,19 @@ pf-paymarkets {
   position: absolute;
   left: 0;
   margin-left: 1rem;
+  top: 0;
 }
 
 .error-adding-jobs {
   font-weight: bold;
 }
+
+
+.add-jobs-modal-container{
+  height: calc(100vh - 200px);
+}
+
+:host ::ng-deep .loading-blanket {
+  right: 32.5% !important;
+}
+

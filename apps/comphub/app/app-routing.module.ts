@@ -33,6 +33,13 @@ export const routes: Routes = [
       }
     ]
   },
+  {
+    path: '',
+    canActivate: [UserContextGuard],
+    children: [
+      { path: 'print', loadChildren: () => import('apps/comphub/app/_print/print.module').then(m => m.PrintModule) }
+    ]
+  },
   ...DEFAULT_ROUTES
 ];
 

@@ -2,6 +2,7 @@
 
 exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
 <pf-community-post-add-reply
+  __ngContext__={[Function LRootView]}
   addedRepliesCount="0"
   addedRepliesSubscription={[Function Subscriber]}
   addedReplyView$={[Function Store]}
@@ -30,7 +31,6 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
     class="pt-3 ng-untouched ng-pristine ng-invalid"
     novalidate=""
   >
-    
     <pf-community-text-area
       textplaceholder="Add Reply..."
     />
@@ -40,21 +40,16 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
       <div
         class="float-left"
       >
-        
         <button
           class="btn btn-secondary btn-sm attachment-button"
         >
-          
           <fa-icon
             class="icon community-paperclip"
             icon="paperclip"
             size="lg"
           />
-          
            Attachments 
-          
         </button>
-        
       </div>
       <button
         class="btn btn-secondary btn-sm float-right ml-2"
@@ -67,10 +62,8 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
         data-qa-id="btn-reply"
       >
         Reply 
-        
       </button>
     </div>
-    
   </form>
 </pf-community-post-add-reply>
 `;

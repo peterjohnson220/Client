@@ -21,7 +21,7 @@ describe('ExportSchedulesModalComponent', () => {
       providers: [
         {
           provide: NgbModal,
-          useValue: {open: generateMockJobDescriptionViewListGridItem()},
+          useValue: {open: generateMockJobDescriptionViewListGridItem},
         }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -37,13 +37,13 @@ describe('ExportSchedulesModalComponent', () => {
   });
 
   it('should use the modal service to open the modal when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     component.open(generateMockJobDescriptionViewListGridItem());
     expect(ngbModal.open).toHaveBeenCalled();
   });
 
   it('should filter ExportSchedules into scheduledExports and oneTimeExports when open is called', () => {
-    spyOn(ngbModal, 'open');
+    jest.spyOn(ngbModal, 'open');
     component.open(generateMockJobDescriptionViewListGridItem());
 
     const isScheduledExportsOnly = component.scheduledExports.filter(s => s.Frequency === 'One-time').length === 0;

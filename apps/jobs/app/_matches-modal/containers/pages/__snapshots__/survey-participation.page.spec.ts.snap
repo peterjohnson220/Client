@@ -2,6 +2,7 @@
 
 exports[`SurveyParticipationPageComponent should show survey participation modal page 1`] = `
 <pf-survey-participation-page
+  __ngContext__={[Function LRootView]}
   companyJob$={[Function Store]}
   companyJobLoading$={[Function Store]}
   dragEnd$={[Function AnonymousSubject]}
@@ -16,15 +17,12 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
   route={[Function Object]}
 >
   <pf-async-container>
-    
     <div
       class="matches-modal-container"
     >
       <div
         class="matches-modal-content matches-modal-title"
       >
-        
-        
       </div>
       <div
         class="matches-modal-content"
@@ -41,8 +39,6 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
         dragula="matches-bag"
         id="includeInParticipation"
       >
-        
-        
       </div>
       <div
         class="matches-modal-content font-weight-bold"
@@ -54,8 +50,6 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
         dragula="matches-bag"
         id="excludeFromParticipation"
       >
-        
-        
       </div>
     </div>
   </pf-async-container>

@@ -33,7 +33,7 @@ describe('Pf-Admin - Navigation - Navigation Page', () => {
     });
 
     it('Should dispatch a LoadNavigationLinks Action when the page is loaded', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
         const expectedAction = new fromNavigationActions.LoadNavigationLinks('site-admin');
         fixture.detectChanges();
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

@@ -54,4 +54,8 @@ export class JobsApiService {
   getJobInsights(request: GetJobInsightsRequest): Observable<JobInsights> {
     return this.payfactorsApiService.post<JobInsights>(`${this.endpoint}/GetJobInsights`, request);
   }
+
+  getJobInsightsForPrint(request: GetJobInsightsRequest): Observable<JobInsights> {
+    return this.payfactorsApiService.post<JobInsights>(`${this.endpoint}/GetJobInsightsForPrint`, request);
+  }
 }

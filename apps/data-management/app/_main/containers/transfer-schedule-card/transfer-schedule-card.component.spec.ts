@@ -58,7 +58,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should dispatch a disable action correctly', () => {
-    spyOn(component.scheduleDisableSubmitted, 'emit');
+    jest.spyOn(component.scheduleDisableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -80,7 +80,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should dispatch an enable action correctly', () => {
-    spyOn(component.scheduleEnableSubmitted, 'emit');
+    jest.spyOn(component.scheduleEnableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -102,7 +102,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should dispatch a save when disabling a schedule that does not exist yet', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -126,9 +126,9 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should not dispatch an action when enabling a junk schedule', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
-    spyOn(component.scheduleEnableSubmitted, 'emit');
-    spyOn(component.scheduleDisableSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleEnableSubmitted, 'emit');
+    jest.spyOn(component.scheduleDisableSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -149,7 +149,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should not save if no changes were made', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.save();
 
@@ -172,7 +172,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should not save if a new expression was not set', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -196,7 +196,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should save if a new expression was set', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
 
     component.transferSchedule = {
       entityMappingType_ID: 1,
@@ -224,7 +224,7 @@ describe('TransferScheduleCardComponent', () => {
   });
 
   it('should create a junk schedule if we disable with no real schedule', () => {
-    spyOn(component.scheduleSaveSubmitted, 'emit');
+    jest.spyOn(component.scheduleSaveSubmitted, 'emit');
     component.transferSchedule = {
       entityMappingType_ID: 1,
       entityMappingTypeCode: OrgDataEntityType.Employees,

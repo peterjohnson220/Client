@@ -4,12 +4,12 @@ import {
 import { SortDescriptor } from '@progress/kendo-data-query';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig } from 'libs/features/grids/pf-data-grid/models';
-import { PfDataGridColType } from 'libs/features/grids/pf-data-grid/enums';
+import { PfDataGridFilter, ActionBarConfig, getDefaultActionBarConfig, ViewConfigurationStrategy } from 'libs/features/grids/pf-data-grid/models';
+import { PfDataGridColType, ViewConfigurationStrategyType } from 'libs/features/grids/pf-data-grid/enums';
 import { PagingOptions } from 'libs/models/payfactors-api';
 import { PermissionCheckEnum, Permissions } from 'libs/constants/permissions';
 import { PermissionService } from 'libs/core/services';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { MrpFormatterService } from 'libs/core/services/mrp-formatter.service';
 
 import { PageViewIds } from '../../../../constants';
@@ -60,12 +60,15 @@ export class PricingMatchesGridComponent implements OnInit, AfterViewInit, OnCha
     From: 0,
     Count: 500
   };
+
   actionBarConfig: ActionBarConfig;
   hasModifyPricingPemission: boolean;
+  viewConfigurationStrategy: ViewConfigurationStrategy = {
+    Type: ViewConfigurationStrategyType.UserDefaultCompensationFields,
+    ViewName: null
+  };
 
-  constructor(
-    private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService
-  ) {
+  constructor(private permissionService: PermissionService, private mrpFormatterService: MrpFormatterService) {
     this.hasModifyPricingPemission = this.permissionService.CheckPermission([Permissions.MODIFY_PRICINGS],
       PermissionCheckEnum.Single);
   }

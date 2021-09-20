@@ -1,0 +1,31 @@
+<ng-template #saveGroupTemplateModal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{editing ? "Edit" : "Create"}} Collaboration Group</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="groupTemplateForm">
+      <div class="form-group" [class.has-danger]="!groupName.pristine && groupName.errors">
+        <label for="group-name" class="control-label">Group Name: </label>
+        <input id="group-name" class="form-control" type="text" formControlName="groupName" [autofocus]="true" [class.form-control-danger]="!groupName.pristine && groupName.errors">
+        <span *ngIf="!groupName.pristine && groupName.hasError('required')" class="text-danger d-flex justify-content-end">Required</span>
+        <span *ngIf="groupName.errors?.notBlackListed" class="text-danger d-flex justify-content-end">Group Name is required and must be unique.</span>
+      </div>
+    </form>
+    <pf-user-or-email-picker
+      (selected)="handlePickerSelection($event)"
+      [workflow]="true">
+    </pf-user-or-email-picker>
+    <pf-collaboration-workflow-config></pf-collaboration-workflow-config>
+  </div>
+  <div class="modal-footer">
+    <span *ngIf="groupTemplateForm.errors?.error" class="text-danger d-flex justify-content-end">{{groupTemplateForm.errors.error}}</span>
+    <button type="button" [disabled]="(saving$ | async)" class="btn btn-secondary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="(!editing && !stepsDirty) || (editing && !stepsDirty && !groupTemplateForm.dirty) || (saving$ | async) || !groupTemplateForm.valid || groupName.value === ''" (click)="saveGroupTemplate()">
+      <span *ngIf="(saving$ | async)"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+      <span *ngIf="!(saving$ | async)">Save</span>
+    </button>
+  </div>
+</ng-template>

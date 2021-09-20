@@ -249,9 +249,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   calculateDataByRate(value: number): number {
-    return this.isHourly
-      ? DataCardHelper.calculateDataByHourlyRate(value)
-      : value;
+    return DataCardHelper.calculateDataByRate(value, this.isHourly, false);
   }
 
   private loadJobTrendChart() {

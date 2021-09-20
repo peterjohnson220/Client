@@ -1,0 +1,25 @@
+<ng-container *ngIf="mode === editMode">
+  <div class="font-size-16 font-weight-600">Job Summary</div>
+  <ng-container *ngIf="jobSummary !== multipleJobDescriptions; else multipleJobDescriptionsTemplate">
+    <pf-ellipsis-view-more [copy]="true" [content]="jobSummary" [maxLength]="600"></pf-ellipsis-view-more>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="mode === printMode">
+  <div class="section-title font-weight-600 pb-2">Job Summary</div>
+  <ng-container *ngIf="jobSummary?.length; else noJobSummary">
+    <ng-container *ngIf="jobSummary !== multipleJobDescriptions; else multipleJobDescriptionsTemplate">
+      <div class="section-text">{{jobSummary}}</div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #noJobSummary>
+  <div>
+    <span class="section-text">No job summary to display</span>
+  </div>
+</ng-template>
+
+<ng-template #multipleJobDescriptionsTemplate>
+  <span [class.section-text]="printMode">{{multipleJobDescriptions}}</span>
+</ng-template>

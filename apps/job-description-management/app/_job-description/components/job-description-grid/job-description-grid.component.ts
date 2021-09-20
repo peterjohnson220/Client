@@ -1,3 +1,4 @@
+import { JobDescriptionSharingService } from './../../services/job-description-sharing.service';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -6,12 +7,18 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { GridDataResult, RowArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
+import { filter, takeUntil } from 'rxjs/operators';
+
 import { AbstractFeatureFlagService, FeatureFlags, PermissionService, RealTimeFlag } from 'libs/core';
 import { ListAreaColumn } from 'libs/models/common';
 import { Permissions, PermissionCheckEnum } from 'libs/constants';
-
+import * as fromAppNotificationsActions from 'libs/features/infrastructure/app-notifications/actions/app-notifications.actions';
+import {
+  AppNotification, NotificationLevel, NotificationPayload, NotificationSource, NotificationType
+} from 'libs/features/infrastructure/app-notifications/models';
+import * as fromAppNotificationsMainReducer from 'libs/features/infrastructure/app-notifications/reducers';
 import { CompanyJobViewListItem } from '../../models';
-import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating, getSelectedJobDescriptions } from '../../reducers';
+import { JobDescriptionManagementJobDescriptionState, getJobDescriptionCreating, getSelectedJobDescriptions, getCreateWorkflowError } from '../../reducers';
 import { JobDescriptionColumn } from '../../constants/job-description-column.constants';
 
 import * as jobDescriptionGridActions from '../../actions/job-description-grid.actions';
@@ -38,6 +45,7 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
   @Output() sortChanged = new EventEmitter();
   @Output() publicViewChanged = new EventEmitter();
   @Output() openDeleteJobDescriptionModal = new EventEmitter();
+  @Output() openShareJobDescriptionModal = new EventEmitter();
   @Output() bulkRouteJobDescriptions = new EventEmitter();
   @Output() bulkExportJobDescriptions = new EventEmitter();
 
@@ -62,14 +70,40 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   private getSelectedJobDescriptions$: Observable<Map<number, any>>;
   private getSelectedJobDescriptionsSubscription: Subscription;
+  
+  private getCreateWorkflowError$: Observable<boolean>;
 
   private selectedJobDescriptions: Map<number, any>;
   private unsubscribe$ = new Subject<void>();
 
+  notification: { error: AppNotification<NotificationPayload> };
+
+  notificationMessageInit() {
+    this.notification = {
+      error: {
+        NotificationId: '',
+        Level: NotificationLevel.Error,
+        From: NotificationSource.GenericNotificationMessage,
+        Payload: {
+          Title: 'Job Description Routing Workflow',
+          Message: 'An error occured routing your Job Description. It has been set back to Draft. Please route again.'
+        },
+        EnableHtml: true,
+        Type: NotificationType.Event
+      }
+    };
+  }
+
+  setNewStart(notification) {
+    this.notificationStore.dispatch(new fromAppNotificationsActions.AddNotification(notification));
+  }
+
   constructor(
     private store: Store<JobDescriptionManagementJobDescriptionState>,
+    private notificationStore: Store<fromAppNotificationsMainReducer.State>,
     private permissionService: PermissionService,
     private featureFlagService: AbstractFeatureFlagService,
+    private jobDescriptionSharingService: JobDescriptionSharingService
   ) {
     this.creatingJobDescription$ = this.store.select(getJobDescriptionCreating);
     this.getSelectedJobDescriptions$ = this.store.select(getSelectedJobDescriptions);
@@ -78,6 +112,16 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.hasCanRouteJobDescriptionPermission = this.permissionService.CheckPermission([Permissions.CAN_ROUTE_JOB_DESCRIPTION_FOR_APPROVAL],
       PermissionCheckEnum.Single);
     this.featureFlagService.bindEnabled(this.jdmCheckboxesFeatureFlag, this.unsubscribe$);
+    this.getCreateWorkflowError$ = this.store.select(getCreateWorkflowError)
+    this.notificationMessageInit()
+    this.getCreateWorkflowError$.pipe(
+      filter(uc => !!uc),
+      takeUntil(this.unsubscribe$)
+    ).subscribe(f => {
+      if (f) {
+        this.setNewStart(this.notification.error);
+      }
+    });
   }
 
   isRowSelected = (e: RowArgs) => this.isSelectedJobDescription(e.dataItem.JobDescriptionId);
@@ -104,12 +148,15 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
     this.getSelectedJobDescriptionsSubscription = this.getSelectedJobDescriptions$.subscribe((selectedJobDescriptions) => {
       this.selectedJobDescriptions = selectedJobDescriptions;
     });
+
+    this.jobDescriptionSharingService.init();
   }
 
   ngOnDestroy() {
     this.creatingJobDescriptionSubscription.unsubscribe();
     this.getSelectedJobDescriptionsSubscription.unsubscribe();
     this.unsubscribe$.next();
+    this.jobDescriptionSharingService.destroy();
   }
 
   handleSelectionChange(selection: any): void {
@@ -155,6 +202,11 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
 
   handleDeleteJobDescriptionClick(jobDescriptionId) {
     this.openDeleteJobDescriptionModal.emit([jobDescriptionId]);
+  }
+
+  // Needs a check somewhere to see if only published jobs were selected
+  handleShareJobDescriptionClick() {
+    this.openShareJobDescriptionModal.emit();
   }
 
   hideCurrentReviewerTooltip(ngbTooltip: NgbTooltip) {
@@ -340,6 +392,21 @@ export class JobDescriptionGridComponent implements OnInit, OnDestroy {
       }
     });
     return canExport;
+  }
+
+  showShareButton(): boolean {
+    return this.jobDescriptionSharingService.allowSharing();
+  }
+
+  canShareJobDescriptions(): boolean {
+    let canShare = true;
+    this.selectedJobDescriptions?.forEach(jobDescription => {
+      if (jobDescription.JobDescriptionStatus !== 'Published') {
+        canShare = false;
+        return;
+      }
+    });
+    return canShare;
   }
 
   getSelectAllState(): SelectAllCheckboxState {

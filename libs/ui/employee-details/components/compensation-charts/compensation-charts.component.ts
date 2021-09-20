@@ -28,21 +28,21 @@ export class CompensationChartsComponent implements OnChanges {
 
       // Total Cash Compensation
       this.populateChart(this.tccChart, newEmployeeDetails.BaseSalary, newEmployeeDetails.Bonus,
-        newEmployeeDetails.STI, newEmployeeDetails.TCC_Override, newEmployeeDetails.LTI);
+        newEmployeeDetails.STI, newEmployeeDetails.TCC_Override, newEmployeeDetails.LTI, newEmployeeDetails.Rate);
 
       // Total Direct Compensation
       this.populateChart(this.tdcChart, newEmployeeDetails.BaseSalary, newEmployeeDetails.Bonus, newEmployeeDetails.STI,
-        newEmployeeDetails.TDC_Override, newEmployeeDetails.LTI, true);
+        newEmployeeDetails.TDC_Override, newEmployeeDetails.LTI, newEmployeeDetails.Rate, true);
 
       this.currencyCode = changes['employeeDetails'].currentValue.CurrencyCode;
     }
   }
 
   populateChart(chartData: ChartDataModel[], baseSalary: number, bonus: number, sti: number, compensationValue: number,
-                lti: number, isTdcChart: boolean = false): void {
+                lti: number, rate: String, isTdcChart: boolean = false): void {
     
     chartData.push({ category: 'Base Salary',
-      value: baseSalary,
+      value: rate === "Annual" ? baseSalary : baseSalary * 2080,
       colorField: '#3c89c3'});
 
     if (compensationValue !== 0 && compensationValue !== null && compensationValue !== undefined) {

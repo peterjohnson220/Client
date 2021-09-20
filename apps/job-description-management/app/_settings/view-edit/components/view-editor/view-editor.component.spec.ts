@@ -20,7 +20,7 @@ describe('Job Description Management - Settings - View Editor', () => {
   });
 
   it('should stop emit a add hidden element id event with a toggle obj, when handling a control click, and the control is not hidden', () => {
-    spyOn(instance.addHiddenElementId, 'emit');
+    jest.spyOn(instance.addHiddenElementId, 'emit');
     const controlId = 123;
     const mockJobDescriptionView = generateMockJobDescriptionView();
     const expectedToggleObj = {
@@ -37,7 +37,7 @@ describe('Job Description Management - Settings - View Editor', () => {
   });
 
   it('should stop emit a remove hidden element id event with a toggle obj, when handling a control click, and the control is hidden', () => {
-    spyOn(instance.removeHiddenElementId, 'emit');
+    jest.spyOn(instance.removeHiddenElementId, 'emit');
     const controlId = 123;
     const mockJobDescriptionView = {...generateMockJobDescriptionView(), HiddenElementIds: [controlId]};
     const expectedToggleObj = {

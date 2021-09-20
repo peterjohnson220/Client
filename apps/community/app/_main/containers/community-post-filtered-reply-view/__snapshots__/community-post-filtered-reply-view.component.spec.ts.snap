@@ -2,10 +2,10 @@
 
 exports[`CommunityPostFilteredReplyViewComponent should show community filter reply view 1`] = `
 <pf-community-post-filtered-reply-view
+  __ngContext__={[Function LRootView]}
   filteredRepliesSubscription={[Function Subscriber]}
   filteredReplyView$={[Function Store]}
   store={[Function Store]}
 >
-  
 </pf-community-post-filtered-reply-view>
 `;

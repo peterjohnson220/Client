@@ -28,14 +28,16 @@ import {
   WorkflowStepCompletionPageComponent,
   WorkflowStepMessagePageComponent,
   DeleteJobDescriptionModalComponent,
-  CopyTemplateModalComponent
+  CopyTemplateModalComponent,
 } from './components';
 import {
-  WorkflowConfigComponent
+  ApprovalWorkflowConfigComponent,
+  CollaborationWorkflowConfigComponent
 } from './containers';
 
 import { JobDescriptionAppliesToDisplayNamePipe } from './pipes';
 import { PeditorAutoFocusFixDirective } from './directives';
+import { UserPillComponent } from './components/user-pill/user-pill.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 @NgModule({
@@ -76,7 +78,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
     UserRoutingSelectorComponent,
     WorkflowStepCompletionPageComponent,
     WorkflowStepMessagePageComponent,
-    WorkflowConfigComponent,
+    ApprovalWorkflowConfigComponent,
+    CollaborationWorkflowConfigComponent,
     DeleteJobDescriptionModalComponent,
     CopyTemplateModalComponent
   ],
@@ -96,13 +99,15 @@ import { UploadModule } from '@progress/kendo-angular-upload';
     CopyTemplateModalComponent,
 
     // Containers
-    WorkflowConfigComponent,
+    ApprovalWorkflowConfigComponent,
+    CollaborationWorkflowConfigComponent,
 
     // Pipes
     JobDescriptionAppliesToDisplayNamePipe,
 
     // Directives
-    PeditorAutoFocusFixDirective
+    PeditorAutoFocusFixDirective,
+    UserPillComponent
   ]
 })
 export class SharedModule {

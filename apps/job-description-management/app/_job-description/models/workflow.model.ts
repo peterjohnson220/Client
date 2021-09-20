@@ -1,5 +1,5 @@
 import { WorkflowStep } from 'libs/features/jobs/job-description-management';
-import { JobDescriptionWorkflowAttachment } from 'libs/models';
+import { JobDescriptionWorkflowAttachment } from 'libs/models/jdm/job-description-workflow-attachment';
 
 export interface Workflow {
   EntityType: string;

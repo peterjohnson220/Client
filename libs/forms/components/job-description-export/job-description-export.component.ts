@@ -1,7 +1,7 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 
 import { Permissions } from 'libs/constants';
-import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums/pf-theme-type.enum';
+import { PfThemeType } from 'libs/features/grids/pf-data-grid/enums';
 import { JobDescriptionExportRequest } from 'libs/models/payfactors-api';
 import { FileDownloadSecurityWarningModalComponent } from 'libs/ui/common';
 

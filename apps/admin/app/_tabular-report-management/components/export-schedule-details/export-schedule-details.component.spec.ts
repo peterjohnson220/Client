@@ -34,7 +34,7 @@ describe('ExportScheduleDetailsComponent', () => {
   });
 
   it('should emit deleteClicked when handleDeleteClicked', () => {
-    spyOn(instance.deleteClicked, 'emit');
+    jest.spyOn(instance.deleteClicked, 'emit');
 
     instance.handleDeleteClicked(instance.schedule);
 

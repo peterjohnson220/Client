@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Exchange Scope Selector Component should disable scope selector button when there are no scopes 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -33,69 +34,38 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-        
-        
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should display "No Selection" message when there is no exchange scope selected 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -127,69 +97,38 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-        
-        
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should display the currently selected exchange scope 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -221,69 +160,38 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-        
-        
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should load the exchange scope selector popover when there are exchange scopes 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -314,68 +222,37 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   <div
     class="scope-selector-container custom-map-popover custom-map-arrow scope-selector-no-padding"
   >
-    
-    
     <button
       class="btn btn-secondary selector big-map-min-width"
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-down"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should load the exchange scope selector with default options 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -406,69 +283,38 @@ exports[`Features - Peer - Exchange Scope Selector Component should load the exc
   <div
     class="scope-selector-container custom-map-popover custom-map-arrow scope-selector-no-padding"
   >
-    
-    
     <button
       class="btn btn-secondary selector big-map-min-width"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-down"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should match snapshot when in add data cuts modal 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -500,69 +346,38 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   <div
     class="scope-selector-container custom-modal-popover custom-modal-arrow"
   >
-    
-    
     <button
       class="btn btn-secondary selector"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-right"
         />
-        
-        
-        
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;
 
 exports[`Features - Peer - Exchange Scope Selector Component should match snapshot when on big exchange-explorer-map 1`] = `
 <pf-exchange-scope-selector
+  __ngContext__={[Function LRootView]}
   defaultExchangeScopeId="undefined"
   defaultExchangeScopeId$={[Function Observable]}
   defaultExchangeScopeIdSubscription={[Function Subscriber]}
@@ -594,63 +409,31 @@ exports[`Features - Peer - Exchange Scope Selector Component should match snapsh
   <div
     class="scope-selector-container custom-map-popover custom-map-arrow scope-selector-no-padding"
   >
-    
-    
     <button
       class="btn btn-secondary selector big-map-min-width"
       disabled=""
       popovertitle="Select a Scope"
       type="button"
     >
-      
-  
-      
       <span
         class="selector-caret"
       >
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <fa-icon
           icon="caret-down"
         />
-        
-      
       </span>
-      
-  
-      
       <span
         class="selector-label text-muted"
       >
         Exchange Scope:
       </span>
-      
-  
-      
       <span
         class="selection no-selection"
         title=""
       >
-        
         No Selection
-      
       </span>
-      
-    
     </button>
-    
-  
-  
   </div>
-  
-  
-  
 </pf-exchange-scope-selector>
 `;

@@ -8,6 +8,7 @@ import { PfDataGridCustomFilterDisplayOptions } from 'libs/features/grids/pf-dat
 
 import * as fromSurveysPageActions from '../actions/surveys-page.actions';
 import { SurveyDataGrid, SurveysPageConfig } from '../models';
+import { ExportOptions } from 'libs/features/export-popover/models/export-options.model';
 
 // Define our feature state
 export interface State {
@@ -20,6 +21,7 @@ export interface State {
   openedSurveyDataGrids: SurveyDataGrid[];
   surveyJobMatches: AsyncStateObj<string[]>;
   surveyDataMatches: AsyncStateObj<string[]>;
+  surveyExportOptions: ExportOptions[];
 }
 
 // Define our initial state
@@ -32,7 +34,27 @@ const initialState: State = {
   surveyYears: generateDefaultAsyncStateObj<PfDataGridCustomFilterDisplayOptions[]>([]),
   openedSurveyDataGrids: [],
   surveyJobMatches: generateDefaultAsyncStateObj<string[]>([]),
-  surveyDataMatches: generateDefaultAsyncStateObj<string[]>([])
+  surveyDataMatches: generateDefaultAsyncStateObj<string[]>([]),
+  surveyExportOptions: [{
+    Display: 'Download Survey Report',
+    Name: 'Survey Report',
+    Description: 'Report of current tabular view',
+    Endpoint: 'SurveyJobs',
+    ValidExtensions: ['xlsx'],
+    Custom: false,
+    Exporting: generateDefaultAsyncStateObj<boolean>(false),
+    ExportedReportExtension: undefined,
+    RequiresSelection: true
+  }, {
+    Display: 'Download Survey Summary Report',
+    Name: 'Survey Summary Report',
+    Description: 'High level report of survey titles with vendor, survey code, effective date and matches',
+    Endpoint: 'ExportSurveySummaryReport',
+    ValidExtensions: ['xlsx'],
+    Custom: false,
+    Exporting: generateDefaultAsyncStateObj<boolean>(false),
+    ExportedReportExtension: undefined
+  }]
 };
 
 // Reducer function
@@ -205,6 +227,26 @@ export function reducer(state = initialState, action: fromSurveysPageActions.Act
         surveyJobDetails: surveyJobDetailsClone
       };
     }
+    case fromSurveysPageActions.EXPORT_SURVEY_SUMMARY_REPORT: {
+      const surveyExportOptionsClone = cloneDeep(state.surveyExportOptions);
+      const summaryOption = surveyExportOptionsClone.find(x => x.Name === 'Survey Summary Report');
+      summaryOption.Exporting.loading = true;
+
+      return {
+        ...state,
+        surveyExportOptions: surveyExportOptionsClone
+      };
+    }
+    case fromSurveysPageActions.EXPORT_SURVEY_SUMMARY_REPORT_SUCCESS: {
+      const surveyExportOptionsClone = cloneDeep(state.surveyExportOptions);
+      const summaryOption = surveyExportOptionsClone.find(x => x.Name === 'Survey Summary Report');
+      summaryOption.Exporting.loading = false;
+
+      return {
+        ...state,
+        surveyExportOptions: surveyExportOptionsClone
+      };
+    }
     default: {
       return state;
     }
@@ -220,3 +262,4 @@ export const getOpenedSurveyDataGrids = (state: State) => state.openedSurveyData
 export const getSurveyJobDetails = (state: State) => state.surveyJobDetails;
 export const getSurveyJobMatches = (state: State) => state.surveyJobMatches;
 export const getSurveyDataMatches = (state: State) => state.surveyDataMatches;
+export const getSurveyExportOptions = (state: State) => state.surveyExportOptions;

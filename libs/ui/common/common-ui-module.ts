@@ -35,6 +35,7 @@ import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { AfterIfDirective, ClickElsewhereDirective, EllipsisActiveDirective, PfScrollSpyDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
+import { MultiUserOrEmailPickerComponent } from './multi-user-email-picker/multi-user-or-email-picker.component';
 import { MultiSelectComponent } from './content/multi-select';
 import { PeerAssociationColorBlockComponent } from './content/peer-association-color-block';
 import { SimpleYesNoModalComponent } from './simple-yes-no';
@@ -44,6 +45,7 @@ import { JobTitleCodeComponent } from './job-title-code/job-title-code.component
 import { FileDownloadSecurityWarningModalComponent } from './file-download-security-warning';
 import { ButtonIconComponent } from './content/icons/button-icon';
 import { GridColumnTooltipComponent } from './tooltips/grid-column-tooltip/grid-column-tooltip.component';
+import { GlobalFooterComponent } from './global-footer';
 
 const components = [
   // Content
@@ -51,6 +53,7 @@ const components = [
   CardComponent,
   CardSelectorComponent,
   UserOrEmailPickerComponent,
+  MultiUserOrEmailPickerComponent,
   MultiSelectComponent,
   PeerAssociationColorBlockComponent,
   SimpleYesNoModalComponent,
@@ -60,6 +63,7 @@ const components = [
   TreeViewMultiSelectComponent,
   GridColumnTooltipComponent,
   RadialTextCounterComponent,
+  GlobalFooterComponent,
 
   // Directives
   ClickElsewhereDirective, AfterIfDirective, EllipsisActiveDirective, TreeViewCheckDirective, PfScrollSpyDirective,

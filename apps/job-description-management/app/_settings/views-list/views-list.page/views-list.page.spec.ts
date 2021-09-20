@@ -60,7 +60,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should dispatch an action to the store to load the views upon init', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromViewListActions.LoadJobDescriptionSettingsViews();
 
     // Init
@@ -70,7 +70,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should filterViewsByTemplateId when handleTemplateChanged', () => {
-    spyOn(instance, 'filterViewsByTemplateId');
+    jest.spyOn(instance, 'filterViewsByTemplateId');
 
     const event = { TemplateId: 'mockId' };
     instance.handleTemplateChanged(event);
@@ -83,7 +83,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should filter by ViewName when search value changes', () => {
-    spyOn(instance.arrayFilter, 'transform');
+    jest.spyOn(instance.arrayFilter, 'transform');
 
     instance.handleSearchValueChanged('Not a blank string');
 
@@ -91,7 +91,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should dispatch an action to the store to delete the view with the name, when handling a delete confirmation', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const deletedViewName = 'View To Be Deleted';
     const expectedAction = new fromViewListActions.DeleteView({ viewName: deletedViewName });
 
@@ -101,7 +101,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should dispatch an action to the store to edit the view with the name, when handling a view clicked', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const viewToEdit = 'View To Be Edited';
     const expectedAction = new fromViewEditActions.EditView({ viewName: viewToEdit });
 
@@ -111,7 +111,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   });
 
   it('should tell the router to navigate to the edit page relative to this route, when handling a view clicked', () => {
-    spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     instance.handleViewClicked('View To Be Edited');
 
@@ -120,7 +120,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
 
   it('should stop propagation on the mouse event, when handling a delete view click', () => {
     const mouseEvent = new MouseEvent('click');
-    spyOn(mouseEvent, 'stopPropagation');
+    jest.spyOn(mouseEvent, 'stopPropagation');
 
     instance.handleDeleteViewClicked('Default', mouseEvent);
 
@@ -131,7 +131,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
     const mouseEvent = new MouseEvent('click');
     const viewToDelete = 'View To Be Delete';
     const expectedBodyMessage = `You are about to delete the <strong>${viewToDelete}</strong> view. This cannot be undone. Would you like to continue?`;
-    spyOn(instance.deleteViewConfirmationModal, 'open');
+    jest.spyOn(instance.deleteViewConfirmationModal, 'open');
 
     instance.handleDeleteViewClicked(viewToDelete, mouseEvent);
 
@@ -141,7 +141,7 @@ describe('Job Description Management - Settings - Views List Page', () => {
   it('should open the delete confirmation modal with the view name as context, when handling a delete view click', () => {
     const mouseEvent = new MouseEvent('click');
     const viewToDelete = 'View To Be Deleted';
-    spyOn(instance.deleteViewConfirmationModal, 'open');
+    jest.spyOn(instance.deleteViewConfirmationModal, 'open');
 
     instance.handleDeleteViewClicked(viewToDelete, mouseEvent);
 

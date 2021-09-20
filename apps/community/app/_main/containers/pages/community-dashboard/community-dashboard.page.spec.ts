@@ -42,7 +42,7 @@ describe('CommunityDashboardPageComponent', () => {
 
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CommunityDashboardPageComponent);
     instance = fixture.componentInstance;

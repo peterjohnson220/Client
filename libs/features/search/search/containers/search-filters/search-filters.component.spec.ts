@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
@@ -43,7 +42,7 @@ describe('Search Feature - Search Filters', () => {
   it('should dispatch a UpdateFilterValue action, when handling a value changed', () => {
     const filterValueObj = { filterId: 'jobTitleCode', value: 'New Value'};
     const expectedAction = new fromSearchFiltersActions.UpdateFilterValue(filterValueObj);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleValueChanged(filterValueObj.filterId, filterValueObj.value);
 
@@ -61,7 +60,7 @@ describe('Search Feature - Search Filters', () => {
   it('should dispatch a ToggleMultiSelectOption action, when handling a multi select option selected', () => {
     const idObj = { filterId: '329048', option: generateMockMultiSelectOption()};
     const expectedAction = new fromSearchFiltersActions.ToggleMultiSelectOption(idObj);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleMultiSelectOptionSelected(idObj);
 
@@ -79,7 +78,7 @@ describe('Search Feature - Search Filters', () => {
   it('should should dispatch a ClearFilter action with the filterId, when handling a clear section', () => {
     const filterId = 'iAmAFilterId';
     const expectedAction = new fromSearchFiltersActions.ClearFilter({filterId: filterId});
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     instance.handleClearSection(filterId);
 

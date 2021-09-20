@@ -18,8 +18,15 @@ import * as fromTileGridActions from '../../../actions/tile-grid.actions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewChartWithCalendarComponent implements OnInit {
-
   @Input() model: TilePreviewChartWithCalendar;
+  @Input() set payscaleBrandingFeatureFlag(value: boolean) {
+    this.seriesItemHighlightStyle = {
+      opacity: 1,
+      color: value ? '#03394F' : '#585858',
+      border: '#000'
+    };
+  }
+
   selectedDate: any;
   savingSetting$: Observable<boolean>;
   savingSettingSuccess$: Observable<boolean>;
@@ -27,6 +34,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   savingSettingName: string;
   savingSettingSuccessSubscription: any;
   shouldGetPricingsBeforeEffectiveDate: boolean;
+  seriesItemHighlightStyle: any;
 
   constructor(public store: Store<fromFeatureReducer.State>) {
     this.savingSetting$ = this.store.select(fromRootState.getUiPersistenceSettingsSaving);
@@ -45,11 +53,10 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
     });
   }
 
-  public seriesItemHighlightStyle: any = {
-    opacity: 1,
-    color: '#585858',
-    border: '#000'
-  };
+  get isCategoryValuePartialPercentage(): boolean {
+    const categoryValue = parseInt(this.model.ComponentData.TileRightPart.CategoryValue, 10);
+    return categoryValue > 0 && categoryValue < 100;
+  }
 
   ngOnInit(): void {
     if (this.model.ComponentData && this.model.ComponentData.TileMiddlePart) {

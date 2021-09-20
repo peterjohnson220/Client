@@ -1,0 +1,50 @@
+<div #pickerArea class="form-group" [class.disabled]="requiresName" [class.has-danger]="emailAlreadyAdded" (click)="searchInput.focus()">
+  <ul *ngIf="selectedEmails && selectedEmails.length > 0" class="selected-emails-container">
+    <li class="selected-emails badge badge-pill avatar-chip" *ngFor="let selected of selectedEmails; let i = index">{{selected.EmailAddress}}<span class="remove-icon mx-1" aria-hidden="true" (click)="handleRemoveClicked(i)">&times;</span></li>
+  </ul>
+  <input  #searchInput
+          id="multi-search-input"
+          type="text"
+          class="form-control multi-search-bar"
+          placeholder="Enter email addresses"
+          container="body"
+          [(ngModel)]="model"
+          [ngbTypeahead]="userOrEmailTypeaheadFn"
+          [resultTemplate]="rt"
+          (selectItem)="handleItemSelected($event)"
+          (keyup)="handleSearchKeyUp($event)"
+          [class.disabled]="requiresName"
+          [disabled]="requiresName" />
+
+  <div *ngIf="searching" class="picker-searching-icon" >
+    <fa-icon icon="circle-notch" [spin]="true" aria-hidden="true"></fa-icon>
+  </div>
+</div>
+<div class="form-control-feedback text-danger" *ngIf="emailAlreadyAdded">
+  Email has already been added.
+</div>
+<div class="form-control-feedback" *ngIf="searchFailed">
+  Sorry, suggestions could not be loaded.
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+
+  <img class="user-picture" [src]="avatarUrl + r.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}">
+
+  <!--User/Employee-->
+  <ng-container *ngIf="r.FirstName && r.LastName && r.EmailAddress">
+    {{ r.FirstName }} {{ r.LastName }} - {{ r.EmailAddress }}
+    <span *ngIf="!r.UserId"> <i>(Employee)</i></span>
+  </ng-container>
+
+  <!--Non User/Non Employee-->
+  <ng-container *ngIf="r.EmailAddress && !r.LastName && !r.FirstName">
+    {{ r.EmailAddress }} <i>(Email address)</i>
+  </ng-container>
+
+  <!--No Match-->
+  <ng-container *ngIf="!r.EmailAddress && !r.LastName && !r.FirstName">
+    No Matches
+  </ng-container>
+
+</ng-template>

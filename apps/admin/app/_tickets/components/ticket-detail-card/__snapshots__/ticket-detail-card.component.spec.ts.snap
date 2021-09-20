@@ -2,6 +2,7 @@
 
 exports[`Admin - Tickets - Ticket Detail Card Should display details about a ticket 1`] = `
 <pf-ticket-detail-card
+  __ngContext__={[Function LRootView]}
   ticketDetail={[Function Object]}
 >
   <div
@@ -42,9 +43,7 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
       <h4
         class="card-title"
       >
-        
         Description
-        
       </h4>
       <quill-view-html
         theme="snow"

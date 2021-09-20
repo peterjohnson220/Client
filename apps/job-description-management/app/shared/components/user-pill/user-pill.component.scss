@@ -1,0 +1,71 @@
+@import 'colors';
+$imageSize: 1.75rem;
+
+.badge {
+    background-color: $grey;
+  }
+  
+  .badge-pill {
+    border-radius: 10rem;
+    max-width: 23rem;
+  }
+
+  .avatar-chip {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-around;
+  }
+  
+  .avatar {
+    border-radius: 50%;
+    width: $imageSize;
+    height: $imageSize; 
+  }
+  
+  .user-name {
+    font-size: 0.85rem;
+  }
+  
+  .user-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: $imageSize;
+    height: $imageSize; 
+    color: #fff;
+    background-color: $inactive-button-color;
+    font-size: large;
+    font-weight: 400;
+  }
+
+  .at-sign {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width:$imageSize;
+    height:$imageSize;
+    color: #fff;
+    background-color: $pf-secondary-border;
+    font-size: large;
+    font-weight: 400;
+  }
+
+  .workflow-user-forbidden {
+    color: red;
+  }
+
+  .remove-icon {
+    font-size: medium;
+  }
+  
+  .remove-icon:hover {
+    cursor: pointer;
+  }
+  
+  
+  

@@ -2,6 +2,7 @@
 
 exports[`User Menu should show a divider for log out 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -23,7 +24,6 @@ exports[`User Menu should show a divider for log out 1`] = `
           class="text-white pr-1"
         >
           John Doe 
-          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -31,8 +31,6 @@ exports[`User Menu should show a divider for log out 1`] = `
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
-        
         <div
           class="dropdown-divider"
         />
@@ -41,7 +39,6 @@ exports[`User Menu should show a divider for log out 1`] = `
           href="logout"
           target=""
         >
-          
           <fa-icon
             icon="sign-out"
             size="lg"
@@ -56,6 +53,7 @@ exports[`User Menu should show a divider for log out 1`] = `
 
 exports[`User Menu should show a divider for referrals 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -77,7 +75,6 @@ exports[`User Menu should show a divider for referrals 1`] = `
           class="text-white pr-1"
         >
           John Doe 
-          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -85,8 +82,6 @@ exports[`User Menu should show a divider for referrals 1`] = `
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
-        
         <div
           class="dropdown-divider"
         />
@@ -95,7 +90,6 @@ exports[`User Menu should show a divider for referrals 1`] = `
           href="referrals"
           target=""
         >
-          
            Referrals 
         </a>
       </div>
@@ -106,6 +100,7 @@ exports[`User Menu should show a divider for referrals 1`] = `
 
 exports[`User Menu should show a list of dropdown navigation links, when provided 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -127,7 +122,6 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
           class="text-white pr-1"
         >
           John Doe 
-          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -135,32 +129,25 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
-        
         <a
           class="dropdown-item"
           href="https://www.payfactors.com"
           target=""
         >
-          
            I am a link 
         </a>
-        
         <a
           class="dropdown-item"
           href="https://www.google.com"
           target=""
         >
-          
            I am a Link 2 
         </a>
-        
         <a
           class="dropdown-item"
           href="https://www.angular.io"
           target=""
         >
-          
            I am a Link 3 
         </a>
       </div>
@@ -171,6 +158,7 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
 
 exports[`User Menu should show an icon for log out 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -192,7 +180,6 @@ exports[`User Menu should show an icon for log out 1`] = `
           class="text-white pr-1"
         >
           John Doe 
-          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -200,8 +187,6 @@ exports[`User Menu should show an icon for log out 1`] = `
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
-        
         <div
           class="dropdown-divider"
         />
@@ -210,7 +195,6 @@ exports[`User Menu should show an icon for log out 1`] = `
           href="logout"
           target=""
         >
-          
           <fa-icon
             icon="sign-out"
             size="lg"
@@ -225,6 +209,7 @@ exports[`User Menu should show an icon for log out 1`] = `
 
 exports[`User Menu should show the app users name 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -246,7 +231,6 @@ exports[`User Menu should show the app users name 1`] = `
           class="text-white pr-1"
         >
           John Doe 
-          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -254,7 +238,6 @@ exports[`User Menu should show the app users name 1`] = `
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
       </div>
     </li>
   </ul>
@@ -263,6 +246,7 @@ exports[`User Menu should show the app users name 1`] = `
 
 exports[`User Menu should show the app users name with client name if user is impersonated 1`] = `
 <pf-layout-wrapper-user-menu
+  __ngContext__={[Function LRootView]}
   dropdownNavigationLinks={[Function Array]}
   dropdownNavigationLinksWithDivider={[Function Array]}
   userContext={[Function Object]}
@@ -284,7 +268,6 @@ exports[`User Menu should show the app users name with client name if user is im
           class="text-white pr-1"
         >
           John Doe 
-          
           <span>
             (Company Name)
           </span>
@@ -295,7 +278,6 @@ exports[`User Menu should show the app users name with client name if user is im
         class="dropdown-menu"
         ngbdropdownmenu=""
       >
-        
       </div>
     </li>
   </ul>

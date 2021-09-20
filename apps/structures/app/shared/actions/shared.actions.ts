@@ -38,6 +38,10 @@ export const GET_CURRENT_RANGE_GROUP_ERROR = '[Structures - Shared] Get Current 
 export const GET_GRADE_RANGE_DETAILS = '[Structures - Grade Based Range - Shared] Get Grade Range Details';
 export const GET_GRADE_RANGE_DETAILS_SUCCESS = '[Structures - Grade Based Range - Shared] Get Grade Range Details Success';
 export const GET_GRADE_RANGE_DETAILS_ERROR = '[Structures - Grade Based Range - Shared] Get Grade Range Details Error';
+export const SHOW_REMOVE_RANGE_MODAL = '[Structures - Shared] Show Remove Range Modal';
+export const REMOVING_RANGE = '[Structures - Shared] Removing Range';
+export const REMOVING_RANGE_SUCCESS = '[Structures - Shared] Removing Range Success';
+export const REMOVING_RANGE_ERROR = '[Structures - Shared] Removing Range Error';
 
 export class SetMetadata implements Action {
   readonly type = SET_METADATA;
@@ -231,6 +235,29 @@ export class GetGradeRangeDetailsError implements Action {
   constructor(public payload: any) {}
 }
 
+export class ShowRemoveRangeModal implements Action {
+  readonly type = SHOW_REMOVE_RANGE_MODAL;
+
+  constructor() {}
+}
+
+export class RemovingRange implements Action {
+  readonly type = REMOVING_RANGE;
+  constructor(public payload: { StructuresRangeId: number; StructuresRangeGroupId?: number; IsCurrent: boolean; IsJobRange: boolean }) {}
+}
+
+export class RemovingRangeSuccess implements Action {
+  readonly type = REMOVING_RANGE_SUCCESS;
+
+  constructor() {}
+}
+
+export class RemovingRangeError implements Action {
+  readonly type = REMOVING_RANGE_ERROR;
+
+  constructor(public error: any) {}
+}
+
 export type SharedActions
   = SetMetadata
   | UpdateRoundingType
@@ -262,5 +289,9 @@ export type SharedActions
   | GetGradeRangeDetails
   | GetGradeRangeDetailsSuccess
   | GetGradeRangeDetailsError
-  | SetMetadataFromRangeGroupId;
+  | SetMetadataFromRangeGroupId
+  | RemovingRange
+  | RemovingRangeSuccess
+  | RemovingRangeError
+  | ShowRemoveRangeModal;
 

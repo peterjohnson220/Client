@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {NgbDropdownModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {DropDownListModule} from '@progress/kendo-angular-dropdowns';
+import { DropDownListModule } from '@progress/kendo-angular-dropdowns';
 import { HighchartsChartModule } from 'highcharts-angular';
 
 import { PfDataGridModule } from 'libs/features/grids/pf-data-grid';
@@ -14,8 +14,10 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { MultiMatchModule } from 'libs/features/pricings/multi-match';
-import {OrdinalNumberPipe} from 'libs/core/pipes';
-import {AddDataModule} from 'libs/features/pricings/add-data';
+import { OrdinalNumberPipe } from 'libs/core/pipes';
+import { AddDataModule } from 'libs/features/pricings/add-data';
+import { ProjectTemplateManagementModule } from 'libs/features/projects/project-template-management';
+import {PfAddJobsModule} from 'libs/features/jobs/add-jobs';
 
 import { ProjectExportModule } from '../_project-export-manager';
 import { JobSummaryComponent } from './components/analyze/job-summary/job-summary.component';
@@ -57,6 +59,8 @@ import * as fromFaIcons from './fa-icons';
         ProjectExportModule,
         MultiMatchModule,
         AddDataModule,
+        ProjectTemplateManagementModule,
+        PfAddJobsModule
     ],
   declarations: [
     // Pages

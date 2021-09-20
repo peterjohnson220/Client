@@ -19,6 +19,13 @@ export const routes: Routes = [
     path: 'matches-modal', loadChildren: () => import('apps/jobs/app/_matches-modal/matches-modal.module')
       .then(m => m.MatchesModalModule)
   },
+  {
+    path: 'job-insights-print',
+    canActivate: [UserContextGuard],
+    children: [
+      { path: '', loadChildren: () => import('apps/jobs/app/_job-insights-print/job-insights-print.module').then(m => m.JobInsightsPrintModule) }
+    ]
+  },
   ...DEFAULT_ROUTES
 ];
 

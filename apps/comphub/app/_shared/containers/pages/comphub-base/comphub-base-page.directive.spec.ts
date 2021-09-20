@@ -31,7 +31,7 @@ describe('Comphub - Shared - Comphub Base Page Directive', () => {
   });
 
   it('should dispatch a NavigateToCard action, when handling a card change and the page is enabled', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.Markets});
 
     service.enabledPages = [ComphubPages.Jobs, ComphubPages.Markets];
@@ -41,7 +41,7 @@ describe('Comphub - Shared - Comphub Base Page Directive', () => {
   });
 
   it('should NOT dispatch a NavigateToCard action, when handling a card change and the page is not enabled', () => {
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
     const expectedAction = new fromComphubPageActions.NavigateToCard({cardId: ComphubPages.Markets});
 
     service.enabledPages = [ComphubPages.Jobs];

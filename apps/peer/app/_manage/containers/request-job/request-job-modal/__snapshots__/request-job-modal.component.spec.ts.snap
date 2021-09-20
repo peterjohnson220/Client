@@ -2,6 +2,7 @@
 
 exports[`Peer - Manage - Request Job Modal should render job selection form component and a 'New Job' link when newFormEnabled is false 1`] = `
 <pf-request-job-modal
+  __ngContext__={[Function LRootView]}
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeJobRequestForm={[Function FormGroup]}
@@ -17,12 +18,7 @@ exports[`Peer - Manage - Request Job Modal should render job selection form comp
     class="ng-untouched ng-pristine ng-valid"
     title="Request Exchange Job"
   >
-    
-    
-    
-    
     <pf-payfactors-job-selection-form />
-    
     <a
       href="javascript:void(0)"
     >
@@ -34,6 +30,7 @@ exports[`Peer - Manage - Request Job Modal should render job selection form comp
 
 exports[`Peer - Manage - Request Job Modal should render new job form component and an 'Existing Jobs' link when newFormEnabled is true 1`] = `
 <pf-request-job-modal
+  __ngContext__={[Function LRootView]}
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeJobRequestForm={[Function FormGroup]}
@@ -49,12 +46,7 @@ exports[`Peer - Manage - Request Job Modal should render new job form component 
     class="ng-untouched ng-pristine ng-valid"
     title="Request Exchange Job"
   >
-    
-    
-    
     <pf-new-job-form />
-    
-    
     <a
       href="javascript:void(0)"
     >

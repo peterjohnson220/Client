@@ -2,6 +2,7 @@
 
 exports[`ExchangeDetailComponent should hide the approve/reject buttons when a company job with a pending match is selected 1`] = `
 <pf-exchange-job-detail
+  __ngContext__={[Function LRootView]}
   approveClick={[Function EventEmitter_]}
   createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
@@ -24,12 +25,9 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
         >
           Exchange Job
         </h5>
-        
-        
         <div
           class="button-container"
         >
-          
           <button
             class="unmatch"
           >
@@ -67,7 +65,6 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
                       Title:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -79,7 +76,6 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
                       Family:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -91,7 +87,6 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
                       Level:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                 </div>
@@ -113,13 +108,11 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
           >
-            
             <p
               class="font-italic"
             >
                No Job Description Available 
             </p>
-            
           </div>
         </pf-async-container>
       </div>
@@ -130,6 +123,7 @@ exports[`ExchangeDetailComponent should hide the approve/reject buttons when a c
 
 exports[`ExchangeDetailComponent should render the selected exchange jobs props 1`] = `
 <pf-exchange-job-detail
+  __ngContext__={[Function LRootView]}
   approveClick={[Function EventEmitter_]}
   createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
@@ -152,8 +146,6 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
         >
           Exchange Job
         </h5>
-        
-        
       </div>
       <div
         class="position-relative exchange-job-information-body"
@@ -228,13 +220,11 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
           >
-            
             <p
               class="font-italic"
             >
                No Job Description Available 
             </p>
-            
           </div>
         </pf-async-container>
       </div>
@@ -245,6 +235,7 @@ exports[`ExchangeDetailComponent should render the selected exchange jobs props 
 
 exports[`ExchangeDetailComponent should show the approve/reject buttons when a company job with a pending match is selected 1`] = `
 <pf-exchange-job-detail
+  __ngContext__={[Function LRootView]}
   approveClick={[Function EventEmitter_]}
   createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
@@ -267,7 +258,6 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
         >
           Exchange Job
         </h5>
-        
         <div>
           <button
             class="approve mr-2"
@@ -290,7 +280,6 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
             </span>
           </button>
         </div>
-        
       </div>
       <div
         class="position-relative exchange-job-information-body"
@@ -319,7 +308,6 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
                       Title:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -331,7 +319,6 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
                       Family:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -343,7 +330,6 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
                       Level:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                 </div>
@@ -365,13 +351,11 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
           >
-            
             <p
               class="font-italic"
             >
                No Job Description Available 
             </p>
-            
           </div>
         </pf-async-container>
       </div>
@@ -382,6 +366,7 @@ exports[`ExchangeDetailComponent should show the approve/reject buttons when a c
 
 exports[`ExchangeDetailComponent should show the unmatch button when a matched company job is selected 1`] = `
 <pf-exchange-job-detail
+  __ngContext__={[Function LRootView]}
   approveClick={[Function EventEmitter_]}
   createProjectClick={[Function EventEmitter_]}
   exchangeJob={[Function Object]}
@@ -404,12 +389,9 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
         >
           Exchange Job
         </h5>
-        
-        
         <div
           class="button-container"
         >
-          
           <button
             class="unmatch"
           >
@@ -447,7 +429,6 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
                       Title:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -459,7 +440,6 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
                       Family:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                   <div
@@ -471,7 +451,6 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
                       Level:
                     </label>
                     <span>
-                      
                     </span>
                   </div>
                 </div>
@@ -493,13 +472,11 @@ exports[`ExchangeDetailComponent should show the unmatch button when a matched c
           <div
             class="info-row border-0 pr-3 exchange-job-description-container"
           >
-            
             <p
               class="font-italic"
             >
                No Job Description Available 
             </p>
-            
           </div>
         </pf-async-container>
       </div>

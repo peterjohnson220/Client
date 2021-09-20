@@ -102,6 +102,10 @@ export class JobsToPriceContainerComponent implements OnDestroy {
   }
 
   private initializeScroll() {
+    const jobsToPriceContainer = document.querySelector('.jobs-to-price-container');
+    if (!jobsToPriceContainer) {
+      return;
+    }
     const that = this;
     this.scroll = autoScroll(
       document.querySelector('.jobs-to-price-container'),

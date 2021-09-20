@@ -29,7 +29,7 @@ describe('Comphub - Accordion Card Layout', () => {
     instance.cardIndex = 1;
     instance.selectedCardIndex = 0;
 
-    spyOn(instance.cardHeaderClick, 'emit');
+    jest.spyOn(instance.cardHeaderClick, 'emit');
 
     instance.handleCardHeaderClick();
 
@@ -43,7 +43,7 @@ describe('Comphub - Accordion Card Layout', () => {
     instance.cardIndex = 1;
     instance.selectedCardIndex = 2;
 
-    spyOn(instance.cardHeaderClick, 'emit');
+    jest.spyOn(instance.cardHeaderClick, 'emit');
 
     instance.handleCardHeaderClick();
 
